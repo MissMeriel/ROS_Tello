@@ -1,0 +1,2 @@
+dronet_tello
+-DCATKIN_DEVEL_PREFIX=/home/meriel/ros_workspace_clean.2018.09.24/devel -DCMAKE_INSTALL_PREFIX=/home/meriel/ros_workspace_clean.2018.09.24/install -G Unix Makefiles
