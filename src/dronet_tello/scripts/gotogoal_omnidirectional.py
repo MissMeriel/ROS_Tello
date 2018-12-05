@@ -21,6 +21,7 @@ def vicon_data(data):
 	curr_x = data.transform.translation.x
 	curr_y = data.transform.translation.y
 	#curr_angle = data.transform.rotation.z
+	#curr_angle = math.tan(curr_y/curr_x)
 	#curr_angle = math.atan2(math.sin(curr_angle), math.cos(curr_angle))
 	siny_cosp = +2.0 * (data.transform.rotation.w * data.transform.rotation.z + data.transform.rotation.x * data.transform.rotation.y);
 	cosy_cosp = +1.0 - 2.0 * (data.transform.rotation.y * data.transform.rotation.y + data.transform.rotation.z * data.transform.rotation.z);  
@@ -81,6 +82,11 @@ def main():
 			print("curr_x, curr_y: "+str(curr_x)+", "+str(curr_y))
 			print("curr_angle: " + str(curr_angle))
 			print("x_vel, y_vel: "+ str(x_vel)+", "+ str(y_vel))
+
+			vel.linear.x = -math.cos(curr_angle) * x_vel
+			vel.linear.y = -math.sin(curr_angle) * y_vel
+
+			print("vel.linear.x, vel.linear.y: "+ str(vel.linear.x)+", "+ str(vel.linear.y))
 
 			previous_error = error
 

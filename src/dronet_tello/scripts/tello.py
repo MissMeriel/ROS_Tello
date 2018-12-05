@@ -18,7 +18,11 @@ def velocity_handler(velocity_cmd):
     # )
     TELLO.pitch = velocity_cmd.linear.x
     TELLO.yaw = velocity_cmd.angular.z
-    TELLO.throttle = velocity_cmd.linear.z
+    TELLO.roll = velocity_cmd.linear.y
+    if(velocity_cmd.linear.z < -100):
+	TELLO.land()
+    else:
+	TELLO.throttle = velocity_cmd.linear.z
 
 
 def build_msg(flight_data):
