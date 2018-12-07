@@ -1,2 +1,2 @@
-dronet_tello
+dronet_tello:vicon_bridge
 -DCATKIN_DEVEL_PREFIX=/home/meriel/ros_workspace_clean.2018.09.24/devel -DCMAKE_INSTALL_PREFIX=/home/meriel/ros_workspace_clean.2018.09.24/install -G Unix Makefiles
