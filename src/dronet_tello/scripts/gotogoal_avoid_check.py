@@ -10,7 +10,7 @@ from geometry_msgs.msg import Twist
 from geometry_msgs.msg import TransformStamped
 from std_msgs.msg import Bool
 from std_msgs.msg import String
-#from vicon_bridge import Marker
+#from vicon_bridge import Markers
 
 
 goal_x = 1
@@ -34,7 +34,7 @@ def vicon_data(data):
 	global publishing
 	curr_x = data.transform.translation.x
 	curr_y = data.transform.translation.y
-	# quaternions to radians
+	#curr_angle = data.transform.rotation.z
 	siny_cosp = +2.0 * (data.transform.rotation.w * data.transform.rotation.z + data.transform.rotation.x * data.transform.rotation.y);
 	cosy_cosp = +1.0 - 2.0 * (data.transform.rotation.y * data.transform.rotation.y + data.transform.rotation.z * data.transform.rotation.z);  
 	curr_angle = math.atan2(siny_cosp, cosy_cosp);
@@ -78,8 +78,7 @@ def main():
 	obstacle_publisher = rospy.Publisher("/obstacle_detector", Bool, queue_size=10)
 	position_subscriber = rospy.Subscriber("/vicon/TELLO/TELLO", TransformStamped, vicon_data, queue_size=10)
 	obstacle_subscriber = rospy.Subscriber("vicon/OBSTACLE/OBSTACLE", TransformStamped, vicon_obstacle, queue_size=10)
-	#http://docs.ros.org/jade/api/vicon_bridge/html/msg/Marker.html
-	#obstacle_markers_subscriber = rospy.Subscriber("vicon/markers", Marker, obstacle_markers, queue_size=10)
+	#obstacle_markers_subscriber = rospy.Subscriber("vicon/markers", Markers, obstacle_markers, queue_size=10)
 	input_subscriber = rospy.Subscriber("/user_input", String, user_input, queue_size=10)
 
 	vel = Twist()
@@ -114,7 +113,7 @@ def main():
 		#obstacle in path if angle of approach == angle of path btwn obstacle & goal
 		#and obstacle points are between drone & goal
 		#angle_to_goal handles drone orientation -- adjust x&y velocity
-		angle_to_goal = math.atan2(goal_y-curr_y, goal_x-curr_x) - curr_angle
+		angle_to_goal = math.atan2(goal_y, goal_x) - curr_angle
 
 		angle_obs_to_goal = math.atan2((goal_y - obs_y), (goal_x - obs_x))
 		angle_drone_to_obs = math.atan2(obs_y-curr_y, obs_x-curr_x)

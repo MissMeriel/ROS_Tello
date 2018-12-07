@@ -5,6 +5,7 @@ import Queue
 import traceback
 import math
 import time
+import numpy as np
 from std_msgs.msg import String
 from geometry_msgs.msg import Twist
 from geometry_msgs.msg import TransformStamped
@@ -36,8 +37,8 @@ def main():
 	global publishing
 	rospy.init_node("gotogoal", anonymous=True)
 	velocity_publisher = rospy.Publisher("/velocity", Twist, queue_size=1)
-	position_subscriber = rospy.Subscriber("/vicon/TELLO/TELLO", TransformStamped, vicon_data, queue_size=10)
 	state_publisher = rospy.Publisher("/state", String, queue_size=10)
+	position_subscriber = rospy.Subscriber("/vicon/TELLO/TELLO", TransformStamped, vicon_data, queue_size=10)
 	p_publisher = rospy.Publisher("/p", String, queue_size=10)
 	i_publisher = rospy.Publisher("/i", String, queue_size=10)
 	d_publisher = rospy.Publisher("/d", String, queue_size=10)
@@ -61,19 +62,19 @@ def main():
 	while not rospy.is_shutdown():
 
 		distance_to_goal = math.sqrt((goal_x - curr_x)**2 + (goal_y - curr_y)**2)
-		print("")		
+		print("")
 		print("distance to goal: "+ str(distance_to_goal))
-		angle_to_goal = math.atan2(goal_y, goal_x) - curr_angle
-		print("angle_to_goal: "+ str(angle_to_goal))
+		angle_to_goal = math.atan2(goal_y-curr_y, goal_x-curr_y) - curr_angle
+		#print("angle_to_goal: "+ str(angle_to_goal))
 		if (distance_to_goal < threshold):
 			vel.linear.x = 0
 			vel.linear.y = 0
 			vel.linear.z = -200
-			print("")
+			print("Goal reached within threshold: " + str(distance_to_goal))
 			state_publisher.publish("Goal reached within threshold: " + str(distance_to_goal))
 		else:
 			error = distance_to_goal
-			error = error * math.sin(angle_to_goal)
+			error = error * np.sign(math.sin(angle_to_goal))
 			derivative = (error - previous_error) / dt
 			p_publisher.publish(str(Kp*error))
 			i_publisher.publish(str(Ki*integral))
@@ -81,8 +82,9 @@ def main():
 			integral = integral + (error * dt)
 			w = Kp*error + Ki*integral + Kd*derivative
 
-			vel.linear.x = math.cos(angle_to_goal) * w
-			vel.linear.y = -math.sin(angle_to_goal) * w
+			vel.linear.x = math.cos(curr_angle) * w
+			#negative sin due to how Tello interprets roll (right = pos)
+			vel.linear.y = -math.sin(curr_angle) * w
 
 			previous_error = error
 
