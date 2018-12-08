@@ -117,8 +117,8 @@ endif()
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for each subdirectory.
   include("/home/meriel/ros_workspace_clean.2018.09.24/build/gtest/cmake_install.cmake")
-  include("/home/meriel/ros_workspace_clean.2018.09.24/build/dronet_tello/cmake_install.cmake")
   include("/home/meriel/ros_workspace_clean.2018.09.24/build/vicon_bridge/cmake_install.cmake")
+  include("/home/meriel/ros_workspace_clean.2018.09.24/build/dronet_tello/cmake_install.cmake")
 
 endif()
 

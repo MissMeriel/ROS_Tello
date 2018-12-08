@@ -396,7 +396,7 @@ gtest_force_shared_crt:BOOL=OFF
 gtest_main_LIB_DEPENDS:STATIC=general;-lpthread;general;gtest;
 
 //Path to a library.
-lib:FILEPATH=/opt/ros/kinetic/lib/libtf2.so
+lib:FILEPATH=/opt/ros/kinetic/lib/libdynamic_reconfigure_config_init_mutex.so
 
 //The directory containing a CMake configuration file for message_filters.
 message_filters_DIR:PATH=/opt/ros/kinetic/share/message_filters/cmake
@@ -457,6 +457,9 @@ tf_DIR:PATH=/opt/ros/kinetic/share/tf/cmake
 
 //Value Computed by CMake
 vicon_bridge_BINARY_DIR:STATIC=/home/meriel/ros_workspace_clean.2018.09.24/build/vicon_bridge
+
+//The directory containing a CMake configuration file for vicon_bridge.
+vicon_bridge_DIR:PATH=/home/meriel/ros_workspace_clean.2018.09.24/devel/share/vicon_bridge/cmake
 
 //Value Computed by CMake
 vicon_bridge_SOURCE_DIR:STATIC=/home/meriel/ros_workspace_clean.2018.09.24/src/vicon_bridge
