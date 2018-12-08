@@ -114,9 +114,9 @@ def main():
 				goal_x = hover_point_x
 				goal_y = hover_point_y
 				print("goal set to hover_point: "+str(hover_point_x)+", "+str(hover_point_y))
-				error = 0
-				integral = 0
-				previous_error = 0
+				#error = 0
+				#integral = 0
+				#previous_error = 0
 				#avoid = True
 
 			else:
@@ -161,7 +161,7 @@ def main():
 
 		plot_x()
 
-		time.sleep(0.2)
+		time.sleep(0.02)
 
 	
 if __name__ == "__main__":

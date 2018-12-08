@@ -2,18 +2,19 @@
 <launch>
   <arg name="namespace" default="" />
   <arg name="bag_name" default="1" />
-  
 
-  <!-- <node name="tello" pkg="dronet_tello" type="tello.py" output="screen"/> -->
+ <!--<param name="param" value="$(arg hoge)"/> -->
+
+
+  <node name="tello" pkg="dronet_tello" type="tello.py" output="screen"/>
   <!-- <node name="tello_camera" pkg="dronet_tello" type="camera.py"/> -->
-
   <!-- <node name="tello_key_vel" pkg="dronet_tello" type="key_vel.py" args="$(arg no_input)"/> -->
   
-  <node name="user_input" pkg="dronet_tello" type="user_input.py" output="screen"/>
-
-  <node name="obstacle_detector" pkg="dronet_tello" type="obstacle_detector_test.py" output="screen"/>
+  <!--<node name="user_input" pkg="dronet_tello" type="user_input.py" output="screen"/>-->
+  <node name="tello_gotogoal" pkg="dronet_tello" type="gotogoal_omni_autoavoid.py"  output="screen" args="$(arg x) $(arg y)"/>
+  <!--<node name="obstacle_detector" pkg="dronet_tello" type="obstacle_detector_test.py" output="screen"/>-->
   
-  <node pkg="rosbag" type="record" name="rosbag_record" args="record -o $(find dronet_tello)/../../test_gotogoal_avoid /rosout /velocity /obstacle_detector" />
+  <!-- <node pkg="rosbag" type="record" name="rosbag_record" args="record -o $(find dronet_tello)/../../gotogoal_avoid_test /rosout /velocity /obstacle_detector" /> -->
 
 </launch>
 

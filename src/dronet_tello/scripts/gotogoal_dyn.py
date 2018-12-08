@@ -26,6 +26,9 @@ curr_y = 0
 curr_angle = 0
 publishing = True
 avoid = False
+prev_data = TransformStamped
+obstacle_dyn = False
+obs_angle_prev = obs_angle
 
 
 def vicon_data(data):
@@ -41,10 +44,13 @@ def vicon_data(data):
 
 
 def vicon_obstacle(data):
-	global obs_x, obs_y, obs_z, obs_angle
+	global obs_x, obs_y, obs_z, obs_angle, obstacle_dyn
+	if(abs(obs_x - data.transform.translation.x) > 0.2 or abs(obs_y - data.transform.translation.y) > 0.2 or abs(obs_z - data.transform.translation.z) > 0.2 or abs(obs_angle - data.transform.rotation.z) > 0.2):
+		obstacle_dyn = True
 	obs_x = data.transform.translation.x
 	obs_y = data.transform.translation.y
 	obs_z = data.transform.translation.z
+	obs_angle_prev = obs_angle
 	obs_angle = data.transform.rotation.z
 
 
@@ -60,12 +66,20 @@ def user_input(data):
 		avoid = True
 
 
+def obstacle_markers(data):
+	#get peripheral points of obstacle and decide which is nearest to current position
+	if(data.subject_name == "OBSTACLE"):
+		print("OBSTACLE Marker data:")
+		print(data.translation)
+		print("")
+
+
 def main():
 	global goal_x, goal_y
 	global threshold
 	global obs_x, obs_y, obs_z, obs_angle
 	global curr_x, curr_y, curr_angle
-	global publishing, avoid
+	global publishing, avoid, dynamic_obstacle
 	rospy.init_node("gotogoal", anonymous=True)
 	velocity_publisher = rospy.Publisher("/velocity", Twist, queue_size=10)
 	state_publisher = rospy.Publisher("/state", String, queue_size=10)
@@ -73,7 +87,8 @@ def main():
 	position_subscriber = rospy.Subscriber("/vicon/TELLO/TELLO", TransformStamped, vicon_data, queue_size=10)
 	obstacle_subscriber = rospy.Subscriber("vicon/OBSTACLE/OBSTACLE", TransformStamped, vicon_obstacle, queue_size=10)
 	#http://docs.ros.org/jade/api/vicon_bridge/html/msg/Marker.html
-	#obstacle_markers_subscriber = rospy.Subscriber("vicon/markers", Marker, obstacle_markers, queue_size=10)
+	obstacle_markers_subscriber = rospy.Subscriber("/vicon/markers", Marker, obstacle_markers, queue_size=10)
+	key_vel_publisher = rospy.Publisher("/key_vel_enable", Bool, queue_size=1)
 	#input_subscriber = rospy.Subscriber("/user_input", String, user_input, queue_size=10)
 
 	vel = Twist()
@@ -109,6 +124,12 @@ def main():
 	hover_count = 0
 
 	while not rospy.is_shutdown():
+		if(obstacle_in_path and obstacle_dyn):
+			key_vel_publisher.publish(True)
+			avoid = False
+			print("Key vel enabled")
+		else:
+			key_vel_publisher.publish(False)
 
 		print("")
 		distance_to_goal = math.sqrt((goal_x - curr_x)**2 + (goal_y - curr_y)**2)
@@ -172,8 +193,6 @@ def main():
 				print("OBSTACLE NO LONGER IN PATH")
 				print("OBSTACLE NO LONGER IN PATH")
 				count = 0
-
-
 		else:
 			print("NOT AVOID")
 			if(obstacle_in_path):

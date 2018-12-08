@@ -59,7 +59,7 @@ def main():
 	dt = 0.200
 	rate = rospy.Rate(dt)
 	velocity_publisher = rospy.Publisher("/velocity", Twist, queue_size=5)
-	obstacle_subscriber = rospy.Subscriber("/obstacle_detector", Bool, obstacle_callback, queue_size=10)
+	obstacle_subscriber = rospy.Subscriber("/obstacle_detector", Bool, obstacle_callback, queue_size=1)
 	user_input_publisher = rospy.Publisher("/user_input", String, queue_size=10)
 	vel = Twist()
 	while not rospy.is_shutdown():
@@ -72,11 +72,8 @@ def main():
 				sent += 1
 			#user input
 			#TODO: test threading + timeout
-			#answer = raw_input("Avoid obstacle? y/n")
-			#time.sleep(3)
 			answer = readInputSelect()
 
-			#print("answer: "+answer)
 			sent = 0
 			while(sent < 5):
 				user_input_publisher.publish(answer)

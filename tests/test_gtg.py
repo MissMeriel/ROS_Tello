@@ -38,6 +38,7 @@ def main():
 
 	# Defaults: Kp = 0.045; Ki = 0.08; Kd = 0.075
 	# Super-slow debug mode:  Kp = 0.03; Ki = 0.003; Kd = 0.006
+	# Sim values:  Kp = 0.01; Ki = 0.00003; Kd = 0.003
 	Kp = 0.01
 	Ki = 0.00003
 	Kd = 0.003
@@ -51,7 +52,6 @@ def main():
 		print("")
 		print("distance to goal: "+ str(distance_to_goal))
 		angle_to_goal = math.atan2(goal_y-curr_y, goal_x-curr_x)# - curr_angle
-#		print("angle_to_goal with offset: "+str(math.degrees(math.atan2(goal_y-curr_y, goal_x-curr_y)- curr_angle)))
 		print("angle_to_goal: "+str(math.degrees(angle_to_goal)))
 		#print("angle_to_goal: "+ str(angle_to_goal))
 		if (distance_to_goal < threshold):
@@ -64,7 +64,6 @@ def main():
 			#time.sleep(10)
 		else:
 			error = distance_to_goal
-			#error = error * np.sign(math.sin(angle_to_goal))
 			derivative = (error - previous_error) / dt
 			print("p: "+str(Kp*error))
 			print("i: "+str(Ki*integral))

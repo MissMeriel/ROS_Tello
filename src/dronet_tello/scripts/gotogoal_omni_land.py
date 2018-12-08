@@ -15,7 +15,7 @@ goal_y = 1
 curr_x = 0
 curr_y = 0
 curr_angle = 0
-threshold = 0.18
+threshold = 0.1
 publishing = True
 
 def vicon_data(data):
@@ -23,8 +23,7 @@ def vicon_data(data):
 	global publishing
 	curr_x = data.transform.translation.x
 	curr_y = data.transform.translation.y
-	#curr_angle = data.transform.rotation.z
-	# convert quaternions to radians
+	# quaternions to radians
 	siny_cosp = +2.0 * (data.transform.rotation.w * data.transform.rotation.z + data.transform.rotation.x * data.transform.rotation.y);
 	cosy_cosp = +1.0 - 2.0 * (data.transform.rotation.y * data.transform.rotation.y + data.transform.rotation.z * data.transform.rotation.z);  
 	curr_angle = math.atan2(siny_cosp, cosy_cosp);
@@ -39,9 +38,6 @@ def main():
 	velocity_publisher = rospy.Publisher("/velocity", Twist, queue_size=1)
 	state_publisher = rospy.Publisher("/state", String, queue_size=10)
 	position_subscriber = rospy.Subscriber("/vicon/TELLO/TELLO", TransformStamped, vicon_data, queue_size=10)
-	p_publisher = rospy.Publisher("/p", String, queue_size=10)
-	i_publisher = rospy.Publisher("/i", String, queue_size=10)
-	d_publisher = rospy.Publisher("/d", String, queue_size=10)
 	vel = Twist()
 	vel.linear.x = 0
 	vel.angular.z = 0
@@ -54,44 +50,48 @@ def main():
 	previous_error = 0
 
 	# Defaults: Kp = 0.045; Ki = 0.08; Kd = 0.075
-	Kp = 0.03 
+	# Super-slow debug mode: Kp = 0.03; Ki = 0.003; Kd = 0.006
+	Kp = 0.08
 	Ki = 0.003
 	Kd = 0.006
 	publishing_count = 0
-
+	exit_count = 0
 	while not rospy.is_shutdown():
 
 		distance_to_goal = math.sqrt((goal_x - curr_x)**2 + (goal_y - curr_y)**2)
 		print("")
 		print("distance to goal: "+ str(distance_to_goal))
-		angle_to_goal = math.atan2(goal_y-curr_y, goal_x-curr_y) - curr_angle
-		#print("angle_to_goal: "+ str(angle_to_goal))
+		angle_to_goal = math.atan2(goal_y-curr_y, goal_x-curr_x) - curr_angle
 		if (distance_to_goal < threshold):
 			vel.linear.x = 0
 			vel.linear.y = 0
 			vel.linear.z = -200
-			print("Goal reached within threshold: " + str(distance_to_goal))
-			state_publisher.publish("Goal reached within threshold: " + str(distance_to_goal))
+			print("GOAL REACHED within threshold: " + str(distance_to_goal))
+			state_publisher.publish("GOAL REACHED within threshold: " + str(distance_to_goal))
+			exit_count += 1
+			if(exit_count > 5):
+				state_publisher.publish("Finished behavior")
+				exit()
 		else:
 			error = distance_to_goal
-			error = error * np.sign(math.sin(angle_to_goal))
+			#error = error * np.sign(math.sin(angle_to_goal))
 			derivative = (error - previous_error) / dt
-			p_publisher.publish(str(Kp*error))
-			i_publisher.publish(str(Ki*integral))
-			d_publisher.publish(str(Kd*derivative))
+			#p_publisher.publish(str(Kp*error))
+			#i_publisher.publish(str(Ki*integral))
+			#d_publisher.publish(str(Kd*derivative))
 			integral = integral + (error * dt)
 			w = Kp*error + Ki*integral + Kd*derivative
 
-			vel.linear.x = math.cos(curr_angle) * w
+			vel.linear.x = math.cos(angle_to_goal) * w
 			#negative sin due to how Tello interprets roll (right = pos)
-			vel.linear.y = -math.sin(curr_angle) * w
+			vel.linear.y = -math.sin(angle_to_goal) * w
 
 			previous_error = error
 
 			print("w: "+str(w))
 			print("curr_x, curr_y: "+str(curr_x)+", "+str(curr_y))
 			print("curr_angle: " + str(curr_angle))
-			print("angle_to_goal: " + str(angle_to_goal))
+			print("angle_to_goal: " + str(math.degrees(angle_to_goal)))
 			print("actual vel.x, vel.y: "+ str(vel.linear.x)+", "+ str(vel.linear.y))
 			
 			# max tello speed is +-1
