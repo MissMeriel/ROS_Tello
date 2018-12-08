@@ -64,8 +64,6 @@ def main():
 	vel = Twist()
 	while not rospy.is_shutdown():
 		if(obstacle_detected):
-			vel.linear.x = 0
-			vel.linear.y = 0
 			sent = 0
 			while(sent < 5):
 				velocity_publisher.publish(vel)
@@ -78,7 +76,7 @@ def main():
 			while(sent < 5):
 				user_input_publisher.publish(answer)
 				sent += 1
-
+		obtstacle_detected=False
 		rate.sleep()
 
 
