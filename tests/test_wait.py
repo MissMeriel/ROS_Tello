@@ -71,7 +71,6 @@ def main():
 
 		paths_align = abs(angle_drone_to_goal - angle_obs_to_goal) < angle_threshold
 		obstacle_in_path = paths_align and distance_drone_to_obstacle < detection_distance
-		avoid = obstacle_in_path and distance_drone_to_obstacle <= obstacle_threshold
 		print("angle_drone_to_goal: "+str(math.degrees(angle_drone_to_goal)))
 		print("angle_obs_to_goal: "+str(math.degrees(angle_obs_to_goal)))
 		print("obstacle_in_path: "+str(obstacle_in_path))
@@ -82,28 +81,9 @@ def main():
 			#Hover then land
 			print("GOAL REACHED within threshold: " + str(distance_to_goal))
 			time.sleep(10)
-		elif(avoid):
-			print("OBSTACLE_IN_PATH; AVOID")
-			#interpolated goal offset from obstacle radius
-			avoid_angle = angle_drone_to_obs + math.radians(45)
-			
-			goal_x = curr_x + 10 * math.cos(avoid_angle)
-			goal_y = curr_y + 10 * math.sin(avoid_angle)
-			
-			angle_drone_to_goal = math.atan2(goal_y-curr_y, goal_x-curr_x)
 
-			vel_x = math.cos(angle_drone_to_goal) * dt
-			vel_y = math.sin(angle_drone_to_goal) * dt
-
-			print("new avoid goal: "+str(goal_x)+", "+str(goal_y))
-			count += 1 #dt
-			if(not obstacle_in_path and count > 5):
-				avoid = False
-				print("OBSTACLE NO LONGER IN PATH")
-				count = 0
-
-		else: #if(not avoid):
-			print("NOT AVOID")
+		else:
+			print("NOT @ FINAL GOAL")
 			if(obstacle_in_path):
 				print("AND OBS IIN PATH")
 				angle_obs_to_drone = math.atan2(curr_y-obs_y, curr_x-obs_x)
@@ -118,7 +98,7 @@ def main():
 				print("GOAL @ HOVER POINT: "+str(hover_point_x)+", "+str(hover_point_y))
 				print("GOAL @ HOVER POINT: "+str(hover_point_x)+", "+str(hover_point_y))
 				print("GOAL @ HOVER POINT: "+str(hover_point_x)+", "+str(hover_point_y))
-				
+
 				#error = 0
 				#integral = 0
 				#previous_error = 0

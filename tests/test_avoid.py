@@ -93,16 +93,8 @@ def main():
 			#interpolated goal offset from obstacle radius
 			avoid_angle = angle_drone_to_goal + math.radians(45)
 			#obs radius + distance threshold *2
-			#goal_x = 3 * math.cos(avoid_angle)
-			#goal_y = 3 * math.sin(avoid_angle)
-
-			goal_x = obs_x #+ math.cos(angle_obs_to_goal) * 10
-			goal_y = obs_y + 2 #math.sin(angle_obs_to_goal) * 10
-			#if(curr_angle < 0):
-			#	goal_x = math.cos(curr_angle-threshold) * 3
-			#else:
-			#	goal_x = math.cos(curr_angle+threshold) * 3
-			#goal_y = curr_y
+			goal_x = 3 * math.cos(avoid_angle)
+			goal_y = 3 * math.sin(avoid_angle)
 
 			
 		elif(not avoid):

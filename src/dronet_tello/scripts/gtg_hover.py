@@ -48,25 +48,13 @@ def vicon_obstacle(data):
 	obs_angle = data.transform.rotation.z
 
 
-def user_input(data):
-	global avoid
-	if(len(data) == 0 or "y" not in data):
-		avoid = False
-		vel.linear.x = 0
-		vel.linear.y = 0
-		vel.linear.z = -200
-		print("Landing")
-	else:
-		avoid = True
-
-
 def main():
 	global goal_x, goal_y
 	global threshold
 	global obs_x, obs_y, obs_z, obs_angle
 	global curr_x, curr_y, curr_angle
 	global publishing, avoid
-	rospy.init_node("gotogoal", anonymous=True)
+	rospy.init_node("gtg_hover", anonymous=True)
 	velocity_publisher = rospy.Publisher("/velocity", Twist, queue_size=10)
 	state_publisher = rospy.Publisher("/state", String, queue_size=10)
 	obstacle_publisher = rospy.Publisher("/obstacle_detector", Bool, queue_size=1)
@@ -98,16 +86,32 @@ def main():
 	final_goal_x = goal_x
 	final_goal_y = goal_y
 	threshold = 0.1
-	obstacle_threshold = 0.275
-	angle_threshold = 0.5
-	detection_distance = 0.5
+	obstacle_threshold = 0.5
+	angle_threshold = math.degrees(45)#0.55 #31deg
+	detection_distance = 1
 	count = 0.0
 	sent = 0
 	vel_x = 0
 	vel_y = 0
-	hover_count = 0
+	hover_count = 0.0
 
 	while not rospy.is_shutdown():
+
+		#check for lapse in vicon data
+		if(not publishing):
+			publishing = False
+			publishing_count += 1
+		else:
+			publishing_count = 0
+			publishing = True
+		if(publishing_count > 5):
+			vel.linear.x = 0
+			vel.linear.y = 0
+			vel.linear.z = -500
+			print("NO VICON DATA; LANDING")
+			str_msg = "NO VICON DATA; LANDING"
+			velocity_publisher.publish(vel)
+			break
 
 		print("")
 		distance_to_goal = math.sqrt((goal_x - curr_x)**2 + (goal_y - curr_y)**2)
@@ -116,102 +120,74 @@ def main():
 		distance_obs_to_goal = math.sqrt((obs_x - final_goal_x)**2 + (obs_y - final_goal_y)**2)
 
 		angle_drone_to_obs = math.atan2(obs_y-curr_y, obs_x-curr_x)
-		angle_obs_to_goal = math.atan2((goal_y - obs_y), (goal_x - obs_x))
+		angle_obs_to_goal = math.atan2((final_goal_y - obs_y), (final_goal_x - obs_x))
 		angle_obs_to_drone = math.atan2(curr_y-obs_y, curr_x-obs_x)
 		angle_drone_to_goal = math.atan2(final_goal_y-curr_y, final_goal_x-curr_x) - curr_angle
-
-		paths_align = abs(angle_obs_to_drone - angle_obs_to_goal) < angle_threshold
-		obstacle_in_path = paths_align and distance_drone_to_obstacle < detection_distance and distance_to_final_goal >  distance_obs_to_goal
-
-		print("global angle_drone_to_goal: "+str(math.degrees(math.atan2(goal_y-curr_y, goal_x-curr_x))))
-		print("angle_obs_to_goal: "+str(math.degrees(angle_obs_to_goal)))
-		#print("distance to goal: "+ str(distance_to_goal))
-		#print("distance to obstacle: "+ str(distance_drone_to_obstacle))
+		angle_dronepos_to_goal = math.atan2(final_goal_y-curr_y, final_goal_x-curr_x)
+		paths_align = abs(angle_dronepos_to_goal - angle_obs_to_goal) < angle_threshold
+		obstacle_in_path = paths_align and distance_drone_to_obstacle <= detection_distance and distance_to_final_goal >  distance_obs_to_goal
+		print("start goal: "+str(goal_x)+", "+str(goal_y))
 		print("obstacle_in_path: "+str(obstacle_in_path))
+		print("\tpaths_align: "+str(paths_align))
+		print("\tdistance_drone_to_obstacle <= detection_distance: "+str(distance_drone_to_obstacle <= detection_distance))
+		print("\tdistance_to_final_goal >  distance_obs_to_goal: "+str(distance_to_final_goal >  distance_obs_to_goal))
+		#print("\tangle_obs_to_drone: "+str(math.degrees(angle_obs_to_drone)))
+		print("\tangle_dronepos_to_goal: "+str(math.degrees(angle_dronepos_to_goal)))
+		print("\tangle_obs_to_goal: "+str(math.degrees(angle_obs_to_goal)))
+		
+		print("\tdistance to final goal: "+ str(distance_to_final_goal))
+		print("\tdistance to curr goal: "+ str(distance_to_goal))
+		print("\tdistance to obstacle: "+ str(distance_drone_to_obstacle))
+		print("\tdistance from obstacle to goal: "+ str(distance_obs_to_goal))
 		str_msg = "distance to goal: "+ str(distance_to_goal)
 		obstacle_publisher.publish(Bool(obstacle_in_path))
 
 		if (distance_to_final_goal < threshold):
 			if(hover_count < 5):
-				print("GOAL REACHED with threshold "+str(distance_to_goal))
-				str_msg = "GOAL REACHED with threshold "+str(distance_to_goal)
+				print("GOAL REACHED with threshold "+str(distance_to_final_goal))
+				str_msg = "GOAL REACHED with threshold "+str(distance_to_final_goal)
 				vel.linear.x = 0
 				vel.linear.y = 0
 				vel.linear.z = -200
 				hover_count += 1
 			else:
 				exit()
-		elif(avoid):
-			print("OBSTACLE_IN_PATH; AVOID")
-			print("OBSTACLE_IN_PATH; AVOID")
-			print("OBSTACLE_IN_PATH; AVOID")
-			print("OBSTACLE_IN_PATH; AVOID")
-			print("OBSTACLE_IN_PATH; AVOID")
-			print("OBSTACLE_IN_PATH; AVOID")
-
-			#interpolated goal offset from obstacle radius
-			avoid_angle = angle_drone_to_obs + math.radians(60)
-			
-			goal_x = curr_x + 5 * math.cos(avoid_angle)
-			goal_y = curr_y + 5 * math.sin(avoid_angle) #obs_y + 2
-			
-			angle_drone_to_goal = math.atan2(goal_y-curr_y, goal_x-curr_x)-curr_angle
-
-			vel_x = math.cos(angle_drone_to_goal) * dt
-			vel_y = math.sin(angle_drone_to_goal) * dt
-
-			print("new avoid goal: "+str(goal_x)+", "+str(goal_y))
-			count += dt
-			if(not obstacle_in_path and count > 3):
-				avoid = False
-				print("OBSTACLE NO LONGER IN PATH")
-				print("OBSTACLE NO LONGER IN PATH")
-				print("OBSTACLE NO LONGER IN PATH")
-				print("OBSTACLE NO LONGER IN PATH")
-				print("OBSTACLE NO LONGER IN PATH")
-				print("OBSTACLE NO LONGER IN PATH")
-				count = 0
-
 
 		else:
-			print("NOT AVOID")
+			print("NOT @ FINAL GOAL")
 			if(obstacle_in_path):
 				print("AND OBS IIN PATH")
-				angle_obs_to_drone = math.pi + angle_drone_to_obs #math.atan2(curr_y-obs_y, curr_x-obs_x)
-				#print("angle_obs_to_drone: "+str(math.degrees(angle_obs_to_drone)))
-				hover_point_x = obs_x + math.cos(angle_obs_to_drone)
-				hover_point_y = obs_y + math.sin(angle_obs_to_drone)
-				goal_x = hover_point_x
-				goal_y = hover_point_y
-				print("goal set to hover_point: "+str(hover_point_x)+", "+str(hover_point_y))
-				error = 0
-				integral = 0
-				previous_error = 0
+				if(abs(distance_drone_to_obstacle - detection_distance) < threshold):
+					angle_obs_to_drone = math.pi + angle_drone_to_obs #math.atan2(curr_y-obs_y, curr_x-obs_x)
+					#print("angle_obs_to_drone: "+str(math.degrees(angle_obs_to_drone)))
+					hover_point_x = obs_x + obstacle_threshold * math.cos(math.pi + angle_obs_to_goal)
+					hover_point_y = obs_y + obstacle_threshold * math.sin(math.pi + angle_obs_to_goal)
+					goal_x = hover_point_x
+					goal_y = hover_point_y
+					print("goal set to hover_point: "+str(hover_point_x)+", "+str(hover_point_y))
+					error = 0
+					integral = 0
+					previous_error = 0
 
 				distance_to_goal = math.sqrt((goal_x - curr_x)**2 + (goal_y - curr_y)**2)
-				if(distance_to_goal < threshold):
+				if(distance_to_goal <= 0.5):
 					vel.linear.x = 0
 					vel.linear.y = 0
 					while(sent < 5):
 						obstacle_publisher.publish(Bool(True))
 						sent += 1
+					if(hover_count > 20):
+						vel.linear.x = 0
+						vel.linear.y = 0
+						vel.linear.z = -200
+						print("LANDING NOW")
+					elif(hover_count > 50):
+						exit()
+					print("HOVERED "+str(hover_count)+" seconds")
+					hover_count += dt
 					velocity_publisher.publish(vel)
 					rate.sleep()
-					break
-				if(avoid):
-					print("PREPARING TO AVOID")
-					print("PREPARING TO AVOID")
-					print("PREPARING TO AVOID")
-					print("PREPARING TO AVOID")
-					print("PREPARING TO AVOID")
-					print("PREPARING TO AVOID")
-					str_msg = "PREPARING TO AVOID"
-					break
-				hover_count += dt
-				if(hover_count > 6):
-					vel.linear.x = 0
-					vel.linear.y = 0
-					vel.linear.z = -200
+					continue
 			else:
 				goal_x = final_goal_x
 				goal_y = final_goal_y
@@ -256,22 +232,7 @@ def main():
 			#elif(abs(vel.linear.y) < 0.01):
 			#	vel.linear.y *= 9
 
-
-		#check for lapse in vicon data
-		if(not publishing):
-			publishing = False
-			publishing_count += 1
-		else:
-			publishing_count = 0
-			publishing = True
-		if(publishing_count > 5):
-			vel.linear.x = 0
-			vel.linear.y = 0
-			vel.linear.z = -500
-			print("NO VICON DATA; LANDING")
-			str_msg = "NO VICON DATA; LANDING"
-
-		#print("vel.x, vel.y: "+ str(vel.linear.x)+", "+ str(vel.linear.y))
+		print("vel.x, vel.y: "+ str(vel.linear.x)+", "+ str(vel.linear.y))
 		print("goal: "+str(goal_x)+", "+str(goal_y))
 		velocity_publisher.publish(vel)
 		state_publisher.publish(str_msg)

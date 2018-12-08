@@ -8,7 +8,7 @@
   <!-- <node name="tello_camera" pkg="dronet_tello" type="camera.py"/> -->
   <!-- <node name="tello_key_vel" pkg="dronet_tello" type="key_vel.py" args="$(arg no_input)"/> -->
   
-  <node name="tello_gotogoal" pkg="dronet_tello" type="gotogoal_omni_land_avoid.py" output="screen" args="$(arg x) $(arg y)"/>
+  <node name="gtg_hover" pkg="dronet_tello" type="gtg_hover.py" output="screen" args="$(arg x) $(arg y)"/>
 
 
   <!-- <node name="user_input" pkg="dronet_tello" type="user_input.py" output="screen"/> -->
