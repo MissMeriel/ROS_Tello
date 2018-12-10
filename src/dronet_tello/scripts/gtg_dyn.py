@@ -10,7 +10,6 @@ from geometry_msgs.msg import Twist
 from geometry_msgs.msg import TransformStamped
 from std_msgs.msg import Bool
 from std_msgs.msg import String
-from std_msgs.msg import Int64
 #from vicon_bridge import Marker
 
 
@@ -18,8 +17,11 @@ goal_x = int(sys.argv[1])
 goal_y = int(sys.argv[2])
 obs_x = -20
 obs_y = -20
+obs_z = -20
+obs_angle = -20
 obs_corner_x = 0
 obs_corner_y = 0
+
 obs_angle = 0
 curr_x = 0
 curr_y = 0
@@ -27,7 +29,8 @@ curr_y = 0
 curr_angle = 0
 publishing = True
 avoid = False
-
+init=True
+obstacle_dyn = False
 
 def vicon_data(data):
 	global curr_x, curr_y, curr_z, curr_angle
@@ -42,26 +45,41 @@ def vicon_data(data):
 
 
 def vicon_obstacle(data):
-	global obs_x, obs_y, obs_z, obs_angle
+	global obs_x, obs_y, obs_z, obs_angle, obstacle_dyn
+	x_change = abs(obs_x - data.transform.translation.x) > 0.0025
+	y_change = abs(obs_y - data.transform.translation.y) > 0.0025
+	z_change = abs(obs_z - data.transform.translation.z) > 0.001
+	rot_change = abs(obs_angle - data.transform.rotation.z) > 0.025
+	if(x_change or y_change or z_change or rot_change):
+		obstacle_dyn = True
+	else:
+		obstacle_dyn = False
+	#print("x_change: "+str(x_change))
+	#print("y_change: "+str(y_change))
+	#print("z_change: "+str(z_change))
+	#print("rot_change: "+str(rot_change))
+	#print("obstacle_dyn: "+str(obstacle_dyn))
+	#print("")
 	obs_x = data.transform.translation.x
 	obs_y = data.transform.translation.y
 	obs_z = data.transform.translation.z
 	obs_angle = data.transform.rotation.z
-
+	
 
 def main():
 	global goal_x, goal_y
 	global threshold
 	global obs_x, obs_y, obs_z, obs_angle
 	global curr_x, curr_y, curr_angle
-	global publishing, avoid
-	rospy.init_node("gtg_hover", anonymous=True)
+	global publishing, avoid, obstacle_dyn
+	rospy.init_node("gtg_dyn", anonymous=True)
 	velocity_publisher = rospy.Publisher("/velocity", Twist, queue_size=10)
 	state_publisher = rospy.Publisher("/state", String, queue_size=10)
-	obstacle_publisher = rospy.Publisher("/obstacle_detector", Int64, queue_size=1)
+	obstacle_publisher = rospy.Publisher("/obstacle_detector", Bool, queue_size=1)
+	key_enabler = rospy.Publisher("/keys_enabled", Bool, queue_size=1)
 	position_subscriber = rospy.Subscriber("/vicon/TELLO/TELLO", TransformStamped, vicon_data, queue_size=10)
 	obstacle_subscriber = rospy.Subscriber("vicon/OBSTACLE/OBSTACLE", TransformStamped, vicon_obstacle, queue_size=10)
-	#obstacle_markers_subscriber = rospy.Subscriber("vicon/markers", Marker, obstacle_markers, queue_size=10)
+	process_killer = rospy.Publisher("/killswitch", Bool, queue_size=5)
 	#input_subscriber = rospy.Subscriber("/user_input", String, user_input, queue_size=10)
 
 	vel = Twist()
@@ -78,7 +96,7 @@ def main():
 	previous_error = 0
 	# Defaults: Kp=0.045; Ki=0.08; Kd=0.075
 	# Moderate speed: Kp=0.008; Ki=0.03; Kd=0.06
-	Kp = 0.1 
+	Kp = 0.1
 	Ki = 0.003
 	Kd = 0.006
 
@@ -88,7 +106,7 @@ def main():
 	final_goal_y = goal_y
 	threshold = 0.075
 	obstacle_threshold = 0.5
-	angle_threshold = math.degrees(10)#0.55 #31deg
+	angle_threshold = math.degrees(10)
 	detection_distance = 1
 	count = 0.0
 	sent = 0
@@ -96,6 +114,7 @@ def main():
 	vel_y = 0
 	hover_count = 0.0
 	avoid_count = 0.0
+	control_count = 0.0
 
 	while not rospy.is_shutdown():
 
@@ -113,8 +132,11 @@ def main():
 			print("NO VICON DATA; LANDING")
 			str_msg = "NO VICON DATA; LANDING"
 			velocity_publisher.publish(vel)
+			process_killer.publish(True)
 			continue
-
+		if(publishing_count > 10):
+			exit()
+			print("publishing_count: "+str(publishing_count))
 		print("")
 		distance_to_goal = math.sqrt((goal_x - curr_x)**2 + (goal_y - curr_y)**2)
 		distance_to_final_goal = math.sqrt((final_goal_x - curr_x)**2 + (final_goal_y - curr_y)**2)
@@ -142,7 +164,23 @@ def main():
 		print("\tdistance to obstacle: "+ str(distance_drone_to_obstacle))
 		print("\tdistance from obstacle to goal: "+ str(distance_obs_to_goal))
 		str_msg = "distance to goal: "+ str(distance_to_goal)
-		obstacle_publisher.publish(Bool(obstacle_in_path))
+
+		if(obstacle_in_path and obstacle_dyn):
+			print("DYNAMIC OBSTACLE IN PATH")
+			vel.linear.x = 0
+			vel.linear.y = 0
+			velocity_publisher.publish(vel)
+			
+			if(control_count < 4):
+				key_enabler.publish(True)
+			else:
+				print("USER INPUT TIMEOUT; LANDING")
+				vel.linear.x = 0
+				vel.linear.y = 0
+				velocity_publisher.publish(vel)
+		elif(obstacle_in_path and not obstacle_dyn):
+			control_count = 0
+			obstacle_publisher.publish(Bool(obstacle_in_path))
 
 		if (distance_to_final_goal < threshold):
 			if(hover_count < 5):
@@ -153,6 +191,7 @@ def main():
 				vel.linear.z = -200
 				hover_count += 1
 			else:
+				process_killer.publish(True)
 				exit()
 		elif(avoid):
 			print("OBSTACLE_IN_PATH; AVOID")

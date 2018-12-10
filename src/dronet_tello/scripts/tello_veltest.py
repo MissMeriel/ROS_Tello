@@ -16,6 +16,8 @@ from std_msgs.msg import Int64
 
 goal_x = int(sys.argv[1])
 goal_y = int(sys.argv[2])
+final_goal_x = int(sys.argv[1])
+final_goal_y = int(sys.argv[2])
 obs_x = -20
 obs_y = -20
 obs_corner_x = 0
@@ -27,7 +29,7 @@ curr_y = 0
 curr_angle = 0
 publishing = True
 avoid = False
-
+landing = False
 
 def vicon_data(data):
 	global curr_x, curr_y, curr_z, curr_angle
@@ -48,21 +50,37 @@ def vicon_obstacle(data):
 	obs_z = data.transform.translation.z
 	obs_angle = data.transform.rotation.z
 
+def user_input(data):
+	global goal_x, goal_y, final_goal_x, final_goal_y
+	global landing
+	if("," in data):
+		result = [x.strip() for x in data.split(',')]
+	try:
+		goal_x = float(result[0])
+		goal_y = float(result[1])
+		ultimate_goal_x = goal_x
+		ultimate_goal_y = goal_y
+		print("NEW GOAL: "+str(goal_x)+", "+str(goal_y))
+		
+	except Exception as e:
+		print("Invalid goal from user input. Landing.")
+		landing = True
 
 def main():
-	global goal_x, goal_y
+	global goal_x, goal_y, ultimate_goal_x, ultimate_goal_y
 	global threshold
 	global obs_x, obs_y, obs_z, obs_angle
 	global curr_x, curr_y, curr_angle
-	global publishing, avoid
+	global publishing, avoid, landing
 	rospy.init_node("gtg_hover", anonymous=True)
 	velocity_publisher = rospy.Publisher("/velocity", Twist, queue_size=10)
 	state_publisher = rospy.Publisher("/state", String, queue_size=10)
 	obstacle_publisher = rospy.Publisher("/obstacle_detector", Int64, queue_size=1)
+	process_killer = rospy.Publisher("/killswitch", Bool, queue_size=5)
 	position_subscriber = rospy.Subscriber("/vicon/TELLO/TELLO", TransformStamped, vicon_data, queue_size=10)
 	obstacle_subscriber = rospy.Subscriber("vicon/OBSTACLE/OBSTACLE", TransformStamped, vicon_obstacle, queue_size=10)
+	input_subscriber = rospy.Subscriber("/user_input", String, user_input, queue_size=10)
 	#obstacle_markers_subscriber = rospy.Subscriber("vicon/markers", Marker, obstacle_markers, queue_size=10)
-	#input_subscriber = rospy.Subscriber("/user_input", String, user_input, queue_size=10)
 
 	vel = Twist()
 	vel.linear.x = 0
@@ -88,7 +106,7 @@ def main():
 	final_goal_y = goal_y
 	threshold = 0.075
 	obstacle_threshold = 0.5
-	angle_threshold = math.degrees(10)#0.55 #31deg
+	angle_threshold = math.degrees(10)#0.55~31deg
 	detection_distance = 1
 	count = 0.0
 	sent = 0
@@ -96,6 +114,7 @@ def main():
 	vel_y = 0
 	hover_count = 0.0
 	avoid_count = 0.0
+	landing_count = 0.0
 
 	while not rospy.is_shutdown():
 
@@ -113,6 +132,27 @@ def main():
 			print("NO VICON DATA; LANDING")
 			str_msg = "NO VICON DATA; LANDING"
 			velocity_publisher.publish(vel)
+			continue
+		if(publishing_count > 7):
+			process_killer.publish(True)
+			process_killer.publish(True)
+			process_killer.publish(True)
+			process_killer.publish(True)
+			process_killer.publish(True)
+			exit()
+
+		#force landing
+		if(landing):
+			print("LANDING")
+			vel.linear.x = 0
+			vel.linear.y = 0
+			vel.linear.z = -500
+			velocity_publisher.publish(vel)
+			landing_count += dt
+			if(landing_count > 3):
+				process_killer.publish(True)
+			if(landing_count > 5):
+				exit()
 			continue
 
 		print("")
@@ -141,18 +181,29 @@ def main():
 		print("\tdistance to curr goal: "+ str(distance_to_goal))
 		print("\tdistance to obstacle: "+ str(distance_drone_to_obstacle))
 		print("\tdistance from obstacle to goal: "+ str(distance_obs_to_goal))
-		str_msg = "distance to goal: "+ str(distance_to_goal)
+		str_msg = "GO TO GOAL; distance to goal: "+ str(distance_to_goal)
 		obstacle_publisher.publish(Bool(obstacle_in_path))
 
 		if (distance_to_final_goal < threshold):
 			if(hover_count < 5):
-				print("GOAL REACHED with threshold "+str(distance_to_final_goal))
-				str_msg = "GOAL REACHED with threshold "+str(distance_to_final_goal)
+				print("GO TO GOAL; GOAL REACHED with threshold "+str(distance_to_final_goal))
+				str_msg = "GO TO GOAL; GOAL REACHED with threshold "+str(distance_to_final_goal)
+				print("Waiting for user input")
+				vel.linear.x = 0
+				vel.linear.y = 0
+				hover_count += 1
+			elif(hover_count < 15):
+				print("Timeout reached; Landing now")
 				vel.linear.x = 0
 				vel.linear.y = 0
 				vel.linear.z = -200
 				hover_count += 1
 			else:
+				process_killer.publish(True)
+				process_killer.publish(True)
+				process_killer.publish(True)
+				process_killer.publish(True)
+				process_killer.publish(True)
 				exit()
 		elif(avoid):
 			print("OBSTACLE_IN_PATH; AVOID")

@@ -2,4 +2,4 @@
 source_root_dir = "/home/meriel/ros_workspace_clean.2018.09.24/src"
 whitelisted_packages = "".split(';') if "" != "" else []
 blacklisted_packages = "".split(';') if "" != "" else []
-underlay_workspaces = "/home/meriel/ros_workspace_clean.2018.09.24/devel;/opt/ros/kinetic".split(';') if "/home/meriel/ros_workspace_clean.2018.09.24/devel;/opt/ros/kinetic" != "" else []
+underlay_workspaces = "/opt/ros/kinetic".split(';') if "/opt/ros/kinetic" != "" else []

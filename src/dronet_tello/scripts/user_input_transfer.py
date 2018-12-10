@@ -13,19 +13,10 @@ from threading import Thread
 from geometry_msgs.msg import Twist
 from std_msgs.msg import String
 from std_msgs.msg import Bool
+from std_msgs.msg import Int64
 
 obstacle_detected = False
 obstacle_dyn = False
-
-def obstacle_callback(data):
-	global obstacle_detected, obstacle_dyn
-	switch 0:
-		obstacle_detected = True
-	switch 1:
-		obstacle_detected = False
-	switch 2:
-		obstacle_dyn = True
-
 
 def readInput( caption, default, timeout = 5):
 	start_time = time.time()
@@ -58,6 +49,40 @@ def readInputSelect():
 		s = "no"
 	return s
 
+def obstacle_callback(data):
+	global obstacle_detected
+	obstacle_detected=data
+
+def readInputBehavior():
+	timeout = 5
+	print("Manual or go to goal?")
+	rlist, _, _ = select([sys.stdin], [], [], timeout)
+	if rlist:
+		s = sys.stdin.readline()
+	else:
+		print("Unreadable; try again:")
+		rlist, _, _ = select([sys.stdin], [], [], timeout)
+		if rlist:
+			s = sys.stdin.readline()
+		else:
+			s = "invalid"
+	if("man" in s):
+		print("Enable user 1 or user 2? user1 / user2")
+		rlist, _, _ = select([sys.stdin], [], [], timeout)
+		if rlist:
+			s = sys.stdin.readline()
+		else:
+			s="invalid"
+	elif("go" in s):
+		print("Enter goal coordinates: x,y")
+		rlist, _, _ = select([sys.stdin], [], [], timeout)
+		if rlist:
+			s = sys.stdin.readline()
+		else:
+			s="invalid"
+	return s
+
+
 
 def main():
 	global obstacle_detected, obstacle_dyn
@@ -65,7 +90,7 @@ def main():
 	dt = 0.200
 	rate = rospy.Rate(dt)
 	velocity_publisher = rospy.Publisher("/velocity", Twist, queue_size=5)
-	obstacle_subscriber = rospy.Subscriber("/obstacle_detector", Int64, obstacle_callback, queue_size=1)
+	obstacle_subscriber = rospy.Subscriber("/obstacle_detector", Bool, obstacle_callback, queue_size=1)
 	user_input_publisher = rospy.Publisher("/user_input", String, queue_size=10)
 	vel = Twist()
 	while not rospy.is_shutdown():
@@ -76,13 +101,14 @@ def main():
 				sent += 1
 			#user input
 			#TODO: test threading + timeout
-			answer = readInputSelect()
-
-			sent = 0
-			while(sent < 5):
-				user_input_publisher.publish(answer)
-				sent += 1
-		obtstacle_detected=False
+			answer = readInputBehavior()
+			if("invalid" not in answer):
+				sent = 0
+				while(sent < 5):
+					user_input_publisher.publish(answer)
+					sent += 1
+			else:
+				print("Invalid user input; not publishing.")
 		rate.sleep()
 
 

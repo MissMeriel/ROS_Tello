@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<launch>
+  <arg name="namespace" default="" />
+  <arg name="bag_name" default="1" />
+  
+
+  <node name="tello" pkg="dronet_tello" type="tello.py" output="screen"/>
+  <!-- <node name="gtg_transfer" pkg="dronet_tello" type="gtg_transfer.py" args="$(arg x) $(arg y)"/> -->
+  <node name="gtg_transfer" pkg="dronet_tello" type="gtg_transfer.py" args="-200 -200"/>
+  <!-- Run these in separate terminals: -->
+  <!-- <node name="tello_key_vel" pkg="dronet_tello" type="key_vel_dual.py"/> -->
+  <!--<node name="user_input" pkg="dronet_tello" type="user_input_transfer.py" output="screen"/> -->
+
+</launch>
+
