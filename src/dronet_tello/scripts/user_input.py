@@ -19,15 +19,21 @@ obstacle_dyn = False
 
 def obstacle_callback(data):
 	global obstacle_detected, obstacle_dyn
-	switch 0:
-		obstacle_detected = True
-	switch 1:
-		obstacle_detected = False
-	switch 2:
-		obstacle_dyn = True
+	obstacle_detected=data
+#	switch 0:
+#		obstacle_detected = True
+#	switch 1:
+#		obstacle_detected = False
+#	switch 2:
+#		obstacle_dyn = True
 
 
-def readInput( caption, default, timeout = 5):
+def obstacle_dyn_callback(data):
+	global obstacle_dyn
+	obstacle_dyn=data
+
+
+def readInputWindows( caption, default, timeout = 5):
 	start_time = time.time()
 	sys.stdout.write('%s(%s):'%(caption, default));
 	input = ''
@@ -48,7 +54,7 @@ def readInput( caption, default, timeout = 5):
 		return default
 
 
-def readInputSelect():
+def readInput():
 	timeout = 5
 	print("Avoid obstacle?")
 	rlist, _, _ = select([sys.stdin], [], [], timeout)
@@ -65,24 +71,25 @@ def main():
 	dt = 0.200
 	rate = rospy.Rate(dt)
 	velocity_publisher = rospy.Publisher("/velocity", Twist, queue_size=5)
-	obstacle_subscriber = rospy.Subscriber("/obstacle_detector", Int64, obstacle_callback, queue_size=1)
+	obstacle_subscriber = rospy.Subscriber("/obstacle_detector", Bool, obstacle_callback, queue_size=1)
+	obstacle_dyn_subscriber = rospy.Publisher("/obstacle_dyn", Bool, obstacle_dyn_callback, queue_size=1)
 	user_input_publisher = rospy.Publisher("/user_input", String, queue_size=10)
+	
 	vel = Twist()
 	while not rospy.is_shutdown():
 		if(obstacle_detected and not obstacle_dyn):
-			sent = 0
-			while(sent < 5):
-				velocity_publisher.publish(vel)
-				sent += 1
-			#user input
-			#TODO: test threading + timeout
-			answer = readInputSelect()
+			#sent = 0
+			#while(sent < 5):
+			#	velocity_publisher.publish(vel)
+			#	sent += 1
+			#TODO: test threading
+			answer = readInput()
 
 			sent = 0
 			while(sent < 5):
 				user_input_publisher.publish(answer)
 				sent += 1
-		obtstacle_detected=False
+		obstacle_detected=False
 		rate.sleep()
 
 

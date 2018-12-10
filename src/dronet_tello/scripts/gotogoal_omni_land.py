@@ -10,8 +10,8 @@ from std_msgs.msg import String
 from geometry_msgs.msg import Twist
 from geometry_msgs.msg import TransformStamped
 
-goal_x = 1
-goal_y = 1
+goal_x = float(sys.argv[1])
+goal_y = float(sys.argv[2])
 curr_x = 0
 curr_y = 0
 curr_angle = 0
@@ -51,7 +51,7 @@ def main():
 
 	# Defaults: Kp = 0.045; Ki = 0.08; Kd = 0.075
 	# Super-slow debug mode: Kp = 0.03; Ki = 0.003; Kd = 0.006
-	Kp = 0.08
+	Kp = 0.3
 	Ki = 0.003
 	Kd = 0.006
 	publishing_count = 0

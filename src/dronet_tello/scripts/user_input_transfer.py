@@ -17,6 +17,7 @@ from std_msgs.msg import Int64
 
 obstacle_detected = False
 obstacle_dyn = False
+gtg = False
 
 def readInput( caption, default, timeout = 5):
 	start_time = time.time()
@@ -53,6 +54,14 @@ def obstacle_callback(data):
 	global obstacle_detected
 	obstacle_detected=data
 
+def process_state(data):
+	global gtg
+	strdata = str(data)
+	if("GO TO GOAL" in strdata):
+		gtg=True
+	else:
+		gtg=False
+
 def readInputBehavior():
 	timeout = 5
 	print("Manual or go to goal?")
@@ -85,30 +94,33 @@ def readInputBehavior():
 
 
 def main():
-	global obstacle_detected, obstacle_dyn
+	global obstacle_detected, obstacle_dyn, gtg
 	rospy.init_node("user_input", anonymous=True)
 	dt = 0.200
 	rate = rospy.Rate(dt)
 	velocity_publisher = rospy.Publisher("/velocity", Twist, queue_size=5)
 	obstacle_subscriber = rospy.Subscriber("/obstacle_detector", Bool, obstacle_callback, queue_size=1)
 	user_input_publisher = rospy.Publisher("/user_input", String, queue_size=10)
+	state_subscriber = rospy.Subscriber("/state", String, process_state, queue_size=10)
 	vel = Twist()
 	while not rospy.is_shutdown():
+		#TODO: test threading + timeout
 		if(obstacle_detected and not obstacle_dyn):
+			answer = readInputSelect()
+		if(not gtg):
+			answer = readInputBehavior()
+		if("invalid" not in answer):
+			user_input_publisher.publish(answer)
+			user_input_publisher.publish(answer)
+			user_input_publisher.publish(answer)
+			user_input_publisher.publish(answer)
+			user_input_publisher.publish(answer)
 			sent = 0
 			while(sent < 5):
-				velocity_publisher.publish(vel)
+				user_input_publisher.publish(answer)
 				sent += 1
-			#user input
-			#TODO: test threading + timeout
-			answer = readInputBehavior()
-			if("invalid" not in answer):
-				sent = 0
-				while(sent < 5):
-					user_input_publisher.publish(answer)
-					sent += 1
-			else:
-				print("Invalid user input; not publishing.")
+		else:
+			print("Invalid user input; not publishing.")
 		rate.sleep()
 
 

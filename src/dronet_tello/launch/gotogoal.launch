@@ -9,7 +9,7 @@
 
   <node name="tello_key_vel" pkg="dronet_tello" type="key_vel.py" args="$(arg no_input)"/> -->
   
-  <node name="tello_gotogoal" pkg="dronet_tello" type="gotogoal_omni_land.py" output="screen"/>
+  <node name="tello_gotogoal" pkg="dronet_tello" type="gotogoal_omni_land.py" output="screen" args="$(arg x) $(arg y)"/>
   
   <!--<node pkg="rosbag" type="record" name="rosbag_record" args="record -o $(find dronet_tello)/../../dronet /rosout /velocity /flight_data /distance_to_goal">
   </node> -->
@@ -17,7 +17,7 @@
   <!--<node name="plot"
         pkg="rqt_plot"
         type="rqt_plot"
-        args="/velocity /distance_to_goal /p /i /d" /> -->
+        args="/velocity /distance_to_goal" /> -->
 
 </launch>
 

@@ -10,6 +10,10 @@
   
   <node name="gtg_hoveravoid" pkg="dronet_tello" type="gtg_hoveravoiduser.py" output="screen" args="$(arg x) $(arg y)"/>
 
+  <!-- Launch in separate terminals:
+	key_vel_toggle.py
+	
+	-->
 
   <!--<node name="user_input" pkg="dronet_tello" type="user_input.py" output="screen"/> -->
 
