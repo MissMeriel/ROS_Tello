@@ -32,6 +32,7 @@ avoid = False
 landing = False
 hover_count = 0
 manual = False
+testing=True
 
 def vicon_data(data):
 	global curr_x, curr_y, curr_z, curr_angle
@@ -87,7 +88,7 @@ def main():
 	global threshold
 	global obs_x, obs_y, obs_z, obs_angle
 	global curr_x, curr_y, curr_angle
-	global publishing, avoid, landing, manual
+	global publishing, avoid, landing, manual,testing
 	rospy.init_node("gtg_hover", anonymous=True)
 	velocity_publisher = rospy.Publisher("/velocity", Twist, queue_size=10)
 	state_publisher = rospy.Publisher("/state", String, queue_size=10)
@@ -219,16 +220,14 @@ def main():
 		obstacle_in_path = paths_align and distance_drone_to_obstacle <= detection_distance and distance_to_final_goal >  distance_obs_to_goal
 		if(testing):
 			print("obstacle_in_path: "+str(obstacle_in_path))
-			print("\tpaths_align: "+str(paths_align))
-			print("\tdistance_drone_to_obstacle <= detection_distance: "+str(distance_drone_to_obstacle <= detection_distance))
-			print("\tdistance_to_final_goal >  distance_obs_to_goal: "+str(distance_to_final_goal >  distance_obs_to_goal))
-			print("\tangle_dronepos_to_goal: "+str(math.degrees(angle_dronepos_to_goal)))
-			print("\tangle_obs_to_goal: "+str(math.degrees(angle_obs_to_goal)))
+			#print("\tpaths_align: "+str(paths_align))
+			#print("\tdistance_drone_to_obstacle <= detection_distance: "+str(distance_drone_to_obstacle <= detection_distance))
+			#print("\tdistance_to_final_goal >  distance_obs_to_goal: "+str(distance_to_final_goal >  distance_obs_to_goal))
+			#print("\tangle_dronepos_to_goal: "+str(math.degrees(angle_dronepos_to_goal)))
+			#print("\tangle_obs_to_goal: "+str(math.degrees(angle_obs_to_goal)))
 		
 			print("\tdistance to final goal: "+ str(distance_to_final_goal))
-			print("\tdistance to curr goal: "+ str(distance_to_goal))
 			print("\tdistance to obstacle: "+ str(distance_drone_to_obstacle))
-			print("\tdistance from obstacle to goal: "+ str(distance_obs_to_goal))
 		str_msg = "GO TO GOAL; distance to goal: "+ str(distance_to_goal)
 		obstacle_publisher.publish(Bool(obstacle_in_path))
 

@@ -17,6 +17,7 @@ tty.setraw(sys.stdin)
 
 enabled = False
 obstacle_detected = False
+obstacle_dyn = False
 kill = False
 
 def key_presses():
@@ -34,14 +35,17 @@ def key_presses():
             break
         yield Key.make(x)
 
-def process_user_input(data):
+def process_key_enable(data):
 	global enabled
 	enabled=data
-
 
 def obstacle_detected(data):
 	global obstacle_detected
 	obstacle_detected=data
+
+def process_obstacle_dyn(data):
+	global obstacle_dyn
+	obstacle_dyn=data
 
 def killswitch(data):
 	global kill
@@ -81,14 +85,15 @@ def sign(value):
 
 
 def main():
-    global enabled
+    global enabled, obstacle_dyn
     rospy.init_node("key_vel", anonymous=True)
-    velocity_publisher = rospy.Publisher("velocity", Twist, queue_size=10)
+    velocity_publisher = rospy.Publisher("velocity", Twist, queue_size=1)
     #input_subscriber = rospy.Subscriber("/user_input", String, process_user_input, queue_size=5)
     input_subscriber = rospy.Subscriber("/obstacle_detector", Bool, obstacle_detected, queue_size=5)
-    input_subscriber = rospy.Subscriber("/keys_enabled", Bool, process_user_input, queue_size=5)
+    input_subscriber = rospy.Subscriber("/keys_enabled", Bool, process_key_enable, queue_size=5)
     process_killer = rospy.Subscriber("/killswitch", Bool, killswitch, queue_size=5)
     state_publisher = rospy.Publisher("/state", String, queue_size=5)
+    obstacle_dyn_subscriber = rospy.Subscriber("/obstacle_dyn", Bool, process_obstacle_dyn, queue_size=1)
     linear_vel_x = 0.0
     linear_vel_y = 0.0
     linear_vel_z = 0.0
@@ -104,11 +109,11 @@ def main():
     while kp_thread.is_alive():
 	if(kill):
 		exit()
-	#print("enabled: "+str(enabled))
-	if(enabled):
+	#if(enabled and obstacle_dyn):
+	if(enabled or obstacle_dyn):
+  	        state_publisher.publish("manual control")
 		try:
 		    key_press = q.get(timeout=0.1)
-		    state_publisher.publish("manual control")
 		except Queue.Empty:
 		    key_press = None
 

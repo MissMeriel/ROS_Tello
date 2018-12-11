@@ -95,7 +95,7 @@ def main():
 	final_goal_y = goal_y
 	threshold = 0.1
 	obstacle_threshold = 0.7
-	angle_threshold = math.degrees(10)#0.55 #31deg
+	angle_threshold = math.radians(10)
 	detection_distance = 1
 	count = 0.0
 	sent = 0
@@ -136,20 +136,19 @@ def main():
 		paths_align = abs(angle_dronepos_to_goal - angle_obs_to_goal) < angle_threshold
 		obstacle_in_path = paths_align and distance_drone_to_obstacle <= detection_distance and distance_to_final_goal >  distance_obs_to_goal
 		if(testing):
-			print("start goal: "+str(goal_x)+", "+str(goal_y))
+			#print("start goal: "+str(goal_x)+", "+str(goal_y))
 			print("obstacle_in_path: "+str(obstacle_in_path))
-			print("\tpaths_align: "+str(paths_align))
-			print("\tdistance_drone_to_obstacle <= detection_distance: "+str(distance_drone_to_obstacle <= detection_distance))
-			print("\tdistance_to_final_goal >  distance_obs_to_goal: "+str(distance_to_final_goal >  distance_obs_to_goal))
+			#print("\tpaths_align: "+str(paths_align))
+			#print("\tdistance_drone_to_obstacle <= detection_distance: "+str(distance_drone_to_obstacle <= detection_distance))
+			#print("\tdistance_to_final_goal >  distance_obs_to_goal: "+str(distance_to_final_goal >  distance_obs_to_goal))
 			#print("\tangle_obs_to_drone: "+str(math.degrees(angle_obs_to_drone)))
-			print("\tangle_dronepos_to_goal: "+str(math.degrees(angle_dronepos_to_goal)))
-			print("\tangle_obs_to_goal: "+str(math.degrees(angle_obs_to_goal)))
+			print("\tangle_drone_to_goal: "+str(math.degrees(angle_dronepos_to_goal)))
 		
 			print("\tdistance to final goal: "+ str(distance_to_final_goal))
-			print("\tdistance to curr goal: "+ str(distance_to_goal))
-			print("\tdistance to obstacle: "+ str(distance_drone_to_obstacle))
-			print("\tdistance from obstacle to goal: "+ str(distance_obs_to_goal))
 
+			#print("\tdistance to obstacle: "+ str(distance_drone_to_obstacle))
+			#print("\tdistance from obstacle to goal: "+ str(distance_obs_to_goal))
+			#print("\tabs(angle_dronepos_to_goal - angle_obs_to_goal): "+str(math.degrees(abs(angle_dronepos_to_goal - angle_obs_to_goal))))
 		str_msg = "GO TO GOAL; distance to goal: "+ str(distance_to_goal)
 		obstacle_publisher.publish(Bool(obstacle_in_path))
 
@@ -173,17 +172,14 @@ def main():
 			#interpolated goal offset from obstacle radius
 			#goal_x = curr_x + 0.005 * math.cos(avoid_angle)
 			#goal_y = curr_y + 0.005 * math.sin(avoid_angle)
-			
-			avoid_angle = angle_drone_to_obs - math.radians(17.25) - curr_angle
-
-			vel.linear.x = math.cos(avoid_angle) * (0.23)
-			vel.linear.y = math.sin(avoid_angle) * (0.23)
+			avoid_angle = angle_drone_to_obs - math.radians(10) - curr_angle
+			vel.linear.x = math.sin(avoid_angle) * (0.23)
+			vel.linear.y = math.cos(avoid_angle) * (0.23)
 			if(testing):
-				print("new avoid goal: "+str(goal_x)+", "+str(goal_y))
-				print("new avoid angle: "+str(math.degrees(avoid_angle)))
+				print("Following avoid angle: "+str(math.degrees(avoid_angle)))
 				print("angle_drone_to_obs: "+str(math.degrees(angle_drone_to_obs)))
 			avoid_count += dt
-			if(not obstacle_in_path and avoid_count > 2):
+			if(not obstacle_in_path and avoid_count > 3.5):
 				avoid = False
 				print("OBSTACLE NO LONGER IN PATH; AVOID TERMINATED")
 				avoid_count = 0
@@ -210,7 +206,7 @@ def main():
 					while(sent < 4):
 						obstacle_publisher.publish(Bool(True))
 						sent += 1
-					if(hover_count > 5):
+					if(hover_count > 10):
 						vel.linear.z=-200
 						hover_count = 0
 					print("HOVERED "+str(hover_count)+" seconds")

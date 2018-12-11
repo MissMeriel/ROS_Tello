@@ -151,7 +151,7 @@ def main():
 			print("OBSTACLE_IN_PATH; AVOID")
 
 			#interpolated goal offset from obstacle radius
-			avoid_angle = angle_drone_to_obs + math.radians(60)
+			avoid_angle = angle_drone_to_obs + math.radians(65)
 			
 			goal_x = curr_x + 5 * math.cos(avoid_angle)
 			goal_y = curr_y + 5 * math.sin(avoid_angle) #obs_y + 2
@@ -209,7 +209,7 @@ def main():
 					str_msg = "PREPARING TO AVOID"
 					break
 				hover_count += dt
-				if(hover_count > 6):
+				if(hover_count > 10):
 					vel.linear.x = 0
 					vel.linear.y = 0
 					vel.linear.z = -200
@@ -249,17 +249,6 @@ def main():
 			vel.linear.x = vel_x
 			vel.linear.y = vel_y
 
-			# account for deadzone below 0.1
-			#if(abs(vel.linear.x) < 0.08):
-			#	vel.linear.x *= 1.5
-			#elif(abs(vel.linear.x) < 0.01):
-			#	vel.linear.x *= 9
-			#if(abs(vel.linear.y) < 0.08):
-			#	vel.linear.y *= 1.5
-			#elif(abs(vel.linear.y) < 0.01):
-			#	vel.linear.y *= 9
-
-
 		#check for lapse in vicon data
 		if(not publishing):
 			publishing = False
@@ -267,7 +256,7 @@ def main():
 		else:
 			publishing_count = 0
 			publishing = True
-		if(publishing_count > 5):
+		if(publishing_count > 10):
 			vel.linear.x = 0
 			vel.linear.y = 0
 			vel.linear.z = -500

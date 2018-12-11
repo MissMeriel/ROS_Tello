@@ -49,8 +49,8 @@ def vicon_data(data):
 def vicon_obstacle(data):
 	global testing
 	global obs_x, obs_y, obs_z, obs_angle, obstacle_dyn
-	x_change = abs(obs_x - data.transform.translation.x) > 0.0025
-	y_change = abs(obs_y - data.transform.translation.y) > 0.0025
+	x_change = abs(obs_x - data.transform.translation.x) > 0.0023
+	y_change = abs(obs_y - data.transform.translation.y) > 0.0023
 	z_change = abs(obs_z - data.transform.translation.z) > 0.001
 	rot_change = abs(obs_angle - data.transform.rotation.z) > 0.025
 	if(x_change or y_change or z_change or rot_change):
@@ -120,8 +120,8 @@ def main():
 	final_goal_x = goal_x
 	final_goal_y = goal_y
 	threshold = 0.075
-	obstacle_threshold = 0.5
-	angle_threshold = math.degrees(10)
+	obstacle_threshold = 0.72
+	angle_threshold = math.radians(15)
 	detection_distance = 1
 	count = 0.0
 	sent = 0
@@ -130,7 +130,7 @@ def main():
 	hover_count = 0.0
 	avoid_count = 0.0
 	control_count = 0.0
-
+	keys_enabled=False
 	while not rospy.is_shutdown():
 
 		#check for lapse in vicon data
@@ -166,30 +166,34 @@ def main():
 		obstacle_in_path = paths_align and distance_drone_to_obstacle <= detection_distance and distance_to_final_goal >  distance_obs_to_goal
 		if(testing):
 			print("")
-			print("start goal: "+str(goal_x)+", "+str(goal_y))
+			#print("start goal: "+str(goal_x)+", "+str(goal_y))
 			print("obstacle_in_path: "+str(obstacle_in_path))
-			print("\tpaths_align: "+str(paths_align))
-			print("\tdistance_drone_to_obstacle <= detection_distance: "+str(distance_drone_to_obstacle <= detection_distance))
-			print("\tdistance_to_final_goal >  distance_obs_to_goal: "+str(distance_to_final_goal >  distance_obs_to_goal))
-			print("\tangle_dronepos_to_goal: "+str(math.degrees(angle_dronepos_to_goal)))
-			print("\tangle_obs_to_goal: "+str(math.degrees(angle_obs_to_goal)))
-			print("\tangle_drone_to_obs: "+str(math.degrees(angle_drone_to_obs)))
-			print("\tdistance to final goal: "+ str(distance_to_final_goal))
-			print("\tdistance to curr goal: "+ str(distance_to_goal))
-			print("\tdistance to obstacle: "+ str(distance_drone_to_obstacle))
-			print("\tdistance from obstacle to goal: "+ str(distance_obs_to_goal))
+			#print("\tpaths_align: "+str(paths_align))
+			#print("\tdistance_drone_to_obstacle <= detection_distance: "+str(distance_drone_to_obstacle <= detection_distance))
+			#print("\tdistance_to_final_goal >  distance_obs_to_goal: "+str(distance_to_final_goal >  distance_obs_to_goal))
+			#print("\tangle_dronepos_to_goal: "+str(math.degrees(angle_dronepos_to_goal)))
+			#print("\tangle_obs_to_goal: "+str(math.degrees(angle_obs_to_goal)))
+			#print("\tangle_drone_to_obs: "+str(math.degrees(angle_drone_to_obs)))
+			print("\tDistance to final goal: "+ str(distance_to_final_goal))
+			print("\tDynamic obstacle?: "+str(obstacle_dyn))
+			#print("\tdistance to curr goal: "+ str(distance_to_goal))
+			#print("\tdistance to obstacle: "+ str(distance_drone_to_obstacle))
+			#print("\tdistance from obstacle to goal: "+ str(distance_obs_to_goal))
 		str_msg = "GO TO GOAL; distance to goal: "+ str(distance_to_goal)
 
-		if(obstacle_in_path and obstacle_dyn):
+		if(obstacle_dyn):
 			print("GO TO GOAL; DYNAMIC OBSTACLE IN PATH")
 			str_msg="GO TO GOAL; DYNAMIC OBSTACLE IN PATH; TRANSFERRING CONTROL TO USER 1"
+			obstacle_dyn_publisher.publish(True)
+			key_enabler.publish(True)
 			if(control_count < 4):
 				vel.linear.x = 0
 				vel.linear.y = 0
 				velocity_publisher.publish(vel)
 				obstacle_dyn_publisher.publish(True)
 				key_enabler.publish(True)
-			elif(control_count > 10 and not avoid and "manual" not in state):
+				keys_enabled=True
+			elif(control_count > 10 and not avoid and not keys_enabled):
 				print("USER INPUT TIMEOUT; LANDING")
 				vel.linear.x = 0
 				vel.linear.y = 0
@@ -218,13 +222,12 @@ def main():
 			print("OBSTACLE_IN_PATH; AVOID")
 			print("OBSTACLE_IN_PATH; AVOID")
 			#interpolated goal offset from obstacle radius			
-			avoid_angle = angle_drone_to_obs - math.radians(66) - curr_angle
-			vel.linear.x = math.cos(avoid_angle) * (0.22)
-			vel.linear.y = math.sin(avoid_angle) * (0.22)
+			avoid_angle = angle_drone_to_obs - curr_angle
+			vel.linear.x = math.sin(avoid_angle) * (0.22)
+			vel.linear.y = math.cos(avoid_angle) * (0.22)
 			if(testing):
-				print("new avoid goal: "+str(goal_x)+", "+str(goal_y))
-				print("new avoid angle: "+str(math.degrees(avoid_angle)))
-				print("angle_drone_to_obs: "+str(math.degrees(angle_drone_to_obs)))
+				print("Following avoid angle: "+str(math.degrees(avoid_angle)))
+				print("Angle from drone to obstacle: "+str(math.degrees(angle_drone_to_obs)))
 			avoid_count += dt
 			if(not obstacle_in_path and avoid_count > 3.5):
 				avoid = False
@@ -247,7 +250,7 @@ def main():
 					previous_error = 0
 
 				distance_to_goal = math.sqrt((goal_x - curr_x)**2 + (goal_y - curr_y)**2)
-				if(distance_to_goal <= 0.5 and "manual" not in state):
+				if(distance_to_goal <= 0.5 and not keys_enabled):
 					vel.linear.x = 0
 					vel.linear.y = 0
 					while(sent < 4):

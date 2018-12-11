@@ -130,6 +130,7 @@ def main():
 	    key_press = q.get(timeout=0.1)
 	except Queue.Empty:
 	    key_press = None
+	#if(enabled1 or obstacle_detected):
 	if(enabled1 or obstacle_detected):
 		sys.stdout.write("Pressed key: %s, %s\r\n" % (key_press, cnt))
 		if key_press == Key.A:

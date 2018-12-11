@@ -78,10 +78,6 @@ def main():
 	vel = Twist()
 	while not rospy.is_shutdown():
 		if(obstacle_detected and not obstacle_dyn):
-			#sent = 0
-			#while(sent < 5):
-			#	velocity_publisher.publish(vel)
-			#	sent += 1
 			#TODO: test threading
 			answer = readInput()
 
