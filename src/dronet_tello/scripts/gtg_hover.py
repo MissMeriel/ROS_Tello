@@ -13,8 +13,13 @@ from std_msgs.msg import String
 #from vicon_bridge import Marker
 
 
+<<<<<<< HEAD
 goal_x = float(sys.argv[1])
 goal_y = sys.argv[2]
+=======
+goal_x = int(sys.argv[1])
+goal_y = int(sys.argv[2])
+>>>>>>> 60b5fb2a3458a5dda8913c26cd99366274a52927
 obs_x = -20
 obs_y = -20
 obs_corner_x = 0

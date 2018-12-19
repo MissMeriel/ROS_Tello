@@ -9,6 +9,7 @@ import numpy as np
 from threading import Thread
 from matplotlib import pyplot as plt
 
+<<<<<<< HEAD
 curr_x = -10
 curr_y = -10
 curr_angle = 0#-0.7853981633974483
@@ -20,19 +21,40 @@ dt = 2
 
 def plot_x():
 	global curr_x, curr_y, goal_counter
+=======
+curr_x = -5
+curr_y = 0#-5
+curr_angle = 0#-0.7853981633974483
+goal_x = -5#1
+goal_y = 5#1
+counter = 0
+threshold = 0.1
+dt = 20
+
+def plot_x():
+	global curr_x, curr_y, counter
+>>>>>>> 60b5fb2a3458a5dda8913c26cd99366274a52927
 	plt.plot(goal_x, goal_y, '*')
 	#if counter % 10 == 0:
 	plt.plot(curr_x, curr_y, 'ro')
 	plt.axis("equal")
 	plt.draw()
 	plt.pause(0.00000000001)
+<<<<<<< HEAD
 
+=======
+	counter += 1
+>>>>>>> 60b5fb2a3458a5dda8913c26cd99366274a52927
 
 def main():
 	global goal_x, goal_y
 	global threshold
+<<<<<<< HEAD
 	global goal_counter
 	global curr_x, curr_y, curr_angle, dt
+=======
+	global curr_x, curr_y, curr_angle
+>>>>>>> 60b5fb2a3458a5dda8913c26cd99366274a52927
 
 	integral = 0
 	previous_error = 0
@@ -43,6 +65,7 @@ def main():
 	Kp = 0.01
 	Ki = 0.00003
 	Kd = 0.003
+<<<<<<< HEAD
 	goal_counter = 0
 	xvels = []
 	yvels = []
@@ -67,6 +90,28 @@ def main():
 			#print(yvels)
 			#print(ws)
 			time.sleep(3)
+=======
+
+	xvels = []
+	yvels = []
+	ws = []
+	while(True):
+		
+		distance_to_goal = math.sqrt((goal_x - curr_x)**2 + (goal_y - curr_y)**2)
+		print("")
+		print("distance to goal: "+ str(distance_to_goal))
+		angle_to_goal = math.atan2(goal_y-curr_y, goal_x-curr_x)# - curr_angle
+		print("angle_to_goal: "+str(math.degrees(angle_to_goal)))
+		#print("angle_to_goal: "+ str(angle_to_goal))
+		if (distance_to_goal < threshold):
+			#vel_x = 0
+			#vel_y = 0
+			print("Goal reached within threshold: " + str(distance_to_goal))
+			#print(xvels)
+			#print(yvels)
+			print(ws)
+			#time.sleep(10)
+>>>>>>> 60b5fb2a3458a5dda8913c26cd99366274a52927
 		else:
 			error = distance_to_goal
 			derivative = (error - previous_error) / dt
@@ -108,7 +153,11 @@ def main():
 
 		plot_x()
 
+<<<<<<< HEAD
 		time.sleep(0.002)
+=======
+		time.sleep(0.2)
+>>>>>>> 60b5fb2a3458a5dda8913c26cd99366274a52927
 
 	
 if __name__ == "__main__":

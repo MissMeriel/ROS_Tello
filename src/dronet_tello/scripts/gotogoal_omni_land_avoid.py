@@ -13,8 +13,13 @@ from std_msgs.msg import String
 #from vicon_bridge import Marker
 
 
+<<<<<<< HEAD
 goal_x = sys.argv[1]
 goal_y = sys.argv[2]
+=======
+goal_x = int(sys.argv[1])
+goal_y = int(sys.argv[2])
+>>>>>>> 60b5fb2a3458a5dda8913c26cd99366274a52927
 obs_x = -20
 obs_y = -20
 obs_corner_x = 0
@@ -27,6 +32,7 @@ curr_angle = 0
 publishing = True
 avoid = False
 
+<<<<<<< HEAD
 def process_sysargs():
 	global goal_x, goal_y
 	goal_x = goal_x.split(",")
@@ -34,6 +40,8 @@ def process_sysargs():
 	for i in range(0,len(goal_x)):
 		goal_x[i] = float(goal_x[i])
 		goal_y[i] = float(goal_y[i])
+=======
+>>>>>>> 60b5fb2a3458a5dda8913c26cd99366274a52927
 
 def vicon_data(data):
 	global curr_x, curr_y, curr_z, curr_angle

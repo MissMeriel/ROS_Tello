@@ -156,9 +156,19 @@ def main():
 		distance_to_final_goal = math.sqrt((final_goal_x - curr_x)**2 + (final_goal_y - curr_y)**2)
 		distance_drone_to_obstacle = math.sqrt((obs_x - curr_x)**2 + (obs_y - curr_y)**2)
 		distance_obs_to_goal = math.sqrt((obs_x - final_goal_x)**2 + (obs_y - final_goal_y)**2)
+<<<<<<< HEAD
 		angle_obs_to_goal = math.atan2((final_goal_y - obs_y), (final_goal_x - obs_x))
 		angle_drone_to_goal = math.atan2(final_goal_y-curr_y, final_goal_x-curr_x)
 		paths_align = abs(angle_drone_to_goal - angle_obs_to_goal) < angle_threshold
+=======
+
+		angle_drone_to_obs = math.atan2(obs_y-curr_y, obs_x-curr_x)
+		angle_obs_to_goal = math.atan2((final_goal_y - obs_y), (final_goal_x - obs_x))
+		angle_obs_to_drone = math.atan2(curr_y-obs_y, curr_x-obs_x)
+		angle_drone_to_goal = math.atan2(final_goal_y-curr_y, final_goal_x-curr_x) - curr_angle
+		angle_dronepos_to_goal = math.atan2(final_goal_y-curr_y, final_goal_x-curr_x)
+		paths_align = abs(angle_dronepos_to_goal - angle_obs_to_goal) < angle_threshold
+>>>>>>> 60b5fb2a3458a5dda8913c26cd99366274a52927
 		obstacle_in_path = paths_align and distance_drone_to_obstacle <= detection_distance and distance_to_final_goal >  distance_obs_to_goal
 		if(testing):
 			print("")
@@ -167,7 +177,13 @@ def main():
 			#print("\tpaths_align: "+str(paths_align))
 			#print("\tdistance_drone_to_obstacle <= detection_distance: "+str(distance_drone_to_obstacle <= detection_distance))
 			#print("\tdistance_to_final_goal >  distance_obs_to_goal: "+str(distance_to_final_goal >  distance_obs_to_goal))
+<<<<<<< HEAD
 			#print("\tangle_obs_to_goal: "+str(math.degrees(angle_obs_to_goal)))
+=======
+			#print("\tangle_dronepos_to_goal: "+str(math.degrees(angle_dronepos_to_goal)))
+			#print("\tangle_obs_to_goal: "+str(math.degrees(angle_obs_to_goal)))
+			#print("\tangle_drone_to_obs: "+str(math.degrees(angle_drone_to_obs)))
+>>>>>>> 60b5fb2a3458a5dda8913c26cd99366274a52927
 			print("\tDistance to final goal: "+ str(distance_to_final_goal))
 			print("\tDynamic obstacle?: "+str(obstacle_dyn))
 			#print("\tdistance to curr goal: "+ str(distance_to_goal))
@@ -175,7 +191,11 @@ def main():
 			#print("\tdistance from obstacle to goal: "+ str(distance_obs_to_goal))
 		str_msg = "GO TO GOAL; distance to goal: "+ str(distance_to_goal)
 
+<<<<<<< HEAD
 		if(obstacle_dyn and obstacle_in_path):
+=======
+		if(obstacle_dyn):
+>>>>>>> 60b5fb2a3458a5dda8913c26cd99366274a52927
 			print("GO TO GOAL; DYNAMIC OBSTACLE IN PATH")
 			str_msg="GO TO GOAL; DYNAMIC OBSTACLE IN PATH; TRANSFERRING CONTROL TO USER 1"
 			obstacle_dyn_publisher.publish(True)
@@ -215,12 +235,19 @@ def main():
 			print("OBSTACLE_IN_PATH; AVOID")
 			print("OBSTACLE_IN_PATH; AVOID")
 			print("OBSTACLE_IN_PATH; AVOID")
+<<<<<<< HEAD
 			#interpolated goal offset from obstacle radius	
 			angle_drone_to_obs = math.atan2(obs_y-curr_y, obs_x-curr_x)		
 			#avoid_angle = angle_drone_to_obs - curr_angle
 			avoid_angle = angle_drone_to_obs - curr_angle + math.pi / 2.0
 			vel.linear.x = math.cos(avoid_angle) * (0.22)
 			vel.linear.y = math.sin(avoid_angle) * (0.22)
+=======
+			#interpolated goal offset from obstacle radius			
+			avoid_angle = angle_drone_to_obs - curr_angle
+			vel.linear.x = math.sin(avoid_angle) * (0.22)
+			vel.linear.y = math.cos(avoid_angle) * (0.22)
+>>>>>>> 60b5fb2a3458a5dda8913c26cd99366274a52927
 			if(testing):
 				print("Following avoid angle: "+str(math.degrees(avoid_angle)))
 				print("Angle from drone to obstacle: "+str(math.degrees(angle_drone_to_obs)))
@@ -235,8 +262,12 @@ def main():
 			if(obstacle_in_path):
 				print("AND OBS IIN PATH")
 				if(abs(distance_drone_to_obstacle - detection_distance) < threshold):
+<<<<<<< HEAD
 					#angle_obs_to_drone = math.pi + angle_drone_to_obs
 					angle_obs_to_drone = math.atan2(curr_y-obs_y, curr_x-obs_x)
+=======
+					angle_obs_to_drone = math.pi + angle_drone_to_obs
+>>>>>>> 60b5fb2a3458a5dda8913c26cd99366274a52927
 					hover_point_x = obs_x + obstacle_threshold * math.cos(math.pi + angle_obs_to_goal)
 					hover_point_y = obs_y + obstacle_threshold * math.sin(math.pi + angle_obs_to_goal)
 					goal_x = hover_point_x
@@ -273,9 +304,15 @@ def main():
 			integral = integral + (error * dt)
 			w = Kp*error + Ki*integral + Kd*derivative
 
+<<<<<<< HEAD
 			vel_x = math.cos(angle_drone_to_goal - curr_angle) * w
 			#negative sin due to how Tello interprets roll (right = pos)
 			vel_y = -math.sin(angle_drone_to_goal - curr_angle) * w
+=======
+			vel_x = math.cos(angle_drone_to_goal) * w
+			#negative sin due to how Tello interprets roll (right = pos)
+			vel_y = -math.sin(angle_drone_to_goal) * w
+>>>>>>> 60b5fb2a3458a5dda8913c26cd99366274a52927
 
 			previous_error = error
 

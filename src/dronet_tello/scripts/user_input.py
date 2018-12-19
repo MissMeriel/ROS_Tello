@@ -75,7 +75,10 @@ def main():
 	obstacle_dyn_subscriber = rospy.Publisher("/obstacle_dyn", Bool, obstacle_dyn_callback, queue_size=1)
 	user_input_publisher = rospy.Publisher("/user_input", String, queue_size=10)
 	
+<<<<<<< HEAD
 	
+=======
+>>>>>>> 60b5fb2a3458a5dda8913c26cd99366274a52927
 	vel = Twist()
 	while not rospy.is_shutdown():
 		if(obstacle_detected and not obstacle_dyn):

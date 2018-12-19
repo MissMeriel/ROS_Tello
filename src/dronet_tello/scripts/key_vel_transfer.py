@@ -75,13 +75,19 @@ class Key:
     A = 0x41
     S = 0x53
     D = 0x44
+<<<<<<< HEAD
     X = 0x58
+=======
+>>>>>>> 60b5fb2a3458a5dda8913c26cd99366274a52927
 
     I = 0x49
     J = 0x4A
     K = 0x4B
     L = 0x4C
+<<<<<<< HEAD
     M = 0x4D
+=======
+>>>>>>> 60b5fb2a3458a5dda8913c26cd99366274a52927
 
     @classmethod
     def make(cls, value):
@@ -150,11 +156,16 @@ def main():
 		    linear_vel_z = max(-1.0, linear_vel_z - 0.5)
 		elif key_press == Key.W:
 		    linear_vel_z = min(1.0, linear_vel_z + 0.5)
+<<<<<<< HEAD
 		if key_press == Key.X:
 			linear_vel_x = 0
 			linear_vel_y = 0
 			linear_vel_z = -200
 		if(key_press == Key.J or key_press == Key.K or key_press == Key.L or key_press == Key.I or key_press == Key.M):
+=======
+
+		if(key_press == Key.J or key_press == Key.K or key_press == Key.L or key_press == Key.I):
+>>>>>>> 60b5fb2a3458a5dda8913c26cd99366274a52927
 			sys.stdout.write("User 2 disabled; User 1 has control")
 		velocity = Twist()
 		velocity.linear.x = linear_vel_x
@@ -179,12 +190,16 @@ def main():
 		elif key_press == Key.I:
 		    linear_vel_z = min(1.0, linear_vel_z + 0.5)
 
+<<<<<<< HEAD
 		if key_press == Key.X:
 			linear_vel_x = 0
 			linear_vel_y = 0
 			linear_vel_z = -200
 
 		if(key_press == Key.A or key_press == Key.S or key_press == Key.D or key_press == Key.W or key_press == Key.X):
+=======
+		if(key_press == Key.A or key_press == Key.S or key_press == Key.D or key_press == Key.W):
+>>>>>>> 60b5fb2a3458a5dda8913c26cd99366274a52927
 			sys.stdout.write("User 2 disabled; User 1 has control")
 
 		velocity = Twist()

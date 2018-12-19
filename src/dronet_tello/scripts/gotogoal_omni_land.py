@@ -10,14 +10,20 @@ from std_msgs.msg import String
 from geometry_msgs.msg import Twist
 from geometry_msgs.msg import TransformStamped
 
+<<<<<<< HEAD
 #take in form of x1,x2,x3,x4
 goal_x = sys.argv[1]
 goal_y = sys.argv[2]
+=======
+goal_x = float(sys.argv[1])
+goal_y = float(sys.argv[2])
+>>>>>>> 60b5fb2a3458a5dda8913c26cd99366274a52927
 curr_x = 0
 curr_y = 0
 curr_angle = 0
 threshold = 0.1
 publishing = True
+<<<<<<< HEAD
 kill = False
 
 def process_sysargs():
@@ -27,6 +33,8 @@ def process_sysargs():
 	for i in range(0,len(goal_x)):
 		goal_x[i] = float(goal_x[i])
 		goal_y[i] = float(goal_y[i])
+=======
+>>>>>>> 60b5fb2a3458a5dda8913c26cd99366274a52927
 
 def vicon_data(data):
 	global curr_x, curr_y, curr_z, curr_angle
@@ -39,24 +47,34 @@ def vicon_data(data):
 	curr_angle = math.atan2(siny_cosp, cosy_cosp);
 	publishing = True
 
+<<<<<<< HEAD
 def process_user_input(data):
 	global kill
 	if("cancel" in str(data).lower()):
 		kill=True
 
+=======
+>>>>>>> 60b5fb2a3458a5dda8913c26cd99366274a52927
 def main():
 	global goal_x, goal_y
 	global threshold
 	global curr_x, curr_y, curr_angle
+<<<<<<< HEAD
 	global publishing, kill
 
 	process_sysargs()
 
+=======
+	global publishing
+>>>>>>> 60b5fb2a3458a5dda8913c26cd99366274a52927
 	rospy.init_node("gotogoal", anonymous=True)
 	velocity_publisher = rospy.Publisher("/velocity", Twist, queue_size=1)
 	state_publisher = rospy.Publisher("/state", String, queue_size=10)
 	position_subscriber = rospy.Subscriber("/vicon/TELLO/TELLO", TransformStamped, vicon_data, queue_size=10)
+<<<<<<< HEAD
 	input_subscriber = rospy.Subscriber("/user_input", String, process_user_input, queue_size=5)
+=======
+>>>>>>> 60b5fb2a3458a5dda8913c26cd99366274a52927
 	vel = Twist()
 	vel.linear.x = 0
 	vel.angular.z = 0
@@ -70,6 +88,7 @@ def main():
 
 	# Defaults: Kp = 0.045; Ki = 0.08; Kd = 0.075
 	# Super-slow debug mode: Kp = 0.03; Ki = 0.003; Kd = 0.006
+<<<<<<< HEAD
 	Kp = 0.5
 	Ki = 0.003
 	Kd = 0.006
@@ -120,6 +139,36 @@ def main():
 		else:
 			error = distance_to_goal
 			derivative = (error - previous_error) / dt
+=======
+	Kp = 0.3
+	Ki = 0.003
+	Kd = 0.006
+	publishing_count = 0
+	exit_count = 0
+	while not rospy.is_shutdown():
+
+		distance_to_goal = math.sqrt((goal_x - curr_x)**2 + (goal_y - curr_y)**2)
+		print("")
+		print("distance to goal: "+ str(distance_to_goal))
+		angle_to_goal = math.atan2(goal_y-curr_y, goal_x-curr_x) - curr_angle
+		if (distance_to_goal < threshold):
+			vel.linear.x = 0
+			vel.linear.y = 0
+			vel.linear.z = -200
+			print("GOAL REACHED within threshold: " + str(distance_to_goal))
+			state_publisher.publish("GOAL REACHED within threshold: " + str(distance_to_goal))
+			exit_count += 1
+			if(exit_count > 5):
+				state_publisher.publish("Finished behavior")
+				exit()
+		else:
+			error = distance_to_goal
+			#error = error * np.sign(math.sin(angle_to_goal))
+			derivative = (error - previous_error) / dt
+			#p_publisher.publish(str(Kp*error))
+			#i_publisher.publish(str(Ki*integral))
+			#d_publisher.publish(str(Kd*derivative))
+>>>>>>> 60b5fb2a3458a5dda8913c26cd99366274a52927
 			integral = integral + (error * dt)
 			w = Kp*error + Ki*integral + Kd*derivative
 
@@ -129,7 +178,11 @@ def main():
 
 			previous_error = error
 
+<<<<<<< HEAD
 			#print("w: "+str(w))
+=======
+			print("w: "+str(w))
+>>>>>>> 60b5fb2a3458a5dda8913c26cd99366274a52927
 			print("curr_x, curr_y: "+str(curr_x)+", "+str(curr_y))
 			print("curr_angle: " + str(curr_angle))
 			print("angle_to_goal: " + str(math.degrees(angle_to_goal)))
