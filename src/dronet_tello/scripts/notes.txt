@@ -5,10 +5,22 @@ gotogoal_omni_land.py -- multigtg, no avoidance, currently tuned for speed & med
 
 SCENARIO #2 (STATIC AVOID)
 gtg_hoveravoiduser.py -- single goal, user-approved avoidance
-gtg_hoveravoid.py -- single goal, autoavoidance
+user_input.py --  avoid obstacle? y/n
 
 SCENARIO #3
-
+gtg_dyn.py -- single goal, detect static & dynamic obstacles
+key_vel_toggle.py -- enable manual control when dynamic obstacle in path
 
 SCENARIO #4
-gtg_dyn.py
+gtg_transfer -- multigtg, can transfer user control while hovering at goal
+key_vel_transfer.py -- includes emergency land keys X and M for user1 and 2 resp.
+user_input_transfer.py -- transfer user control
+
+TESTS
+gotogoal_omnidirectional.py -- single goal, base code
+gtg_hover.py
+gtg_hoveravoid.py -- single goal, autoavoidance
+gotogoal_omni_land_avoid.py -- 
+obstacle_detector.py -- possibly break out obstacle detection into its own node? seems more appropriate to have it on the "robot" node
+dyn_test.py -- run with dynamic obstacle to test delta thresholds
+user_input_test.py

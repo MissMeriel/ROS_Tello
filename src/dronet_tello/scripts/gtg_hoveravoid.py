@@ -13,8 +13,8 @@ from std_msgs.msg import String
 #from vicon_bridge import Marker
 
 
-goal_x = int(sys.argv[1])
-goal_y = int(sys.argv[2])
+goal_x = float(sys.argv[1])
+goal_y = float(sys.argv[2])
 obs_x = -20
 obs_y = -20
 obs_corner_x = 0
@@ -22,6 +22,7 @@ obs_corner_y = 0
 obs_angle = 0
 curr_x = 0
 curr_y = 0
+curr_z = 0
 #curr_angle: yaw relative to global frame
 curr_angle = 0
 publishing = True
@@ -33,6 +34,7 @@ def vicon_data(data):
 	global publishing
 	curr_x = data.transform.translation.x
 	curr_y = data.transform.translation.y
+	curr_z = data.transform.translation.z
 	# quaternions to radians
 	siny_cosp = +2.0 * (data.transform.rotation.w * data.transform.rotation.z + data.transform.rotation.x * data.transform.rotation.y);
 	cosy_cosp = +1.0 - 2.0 * (data.transform.rotation.y * data.transform.rotation.y + data.transform.rotation.z * data.transform.rotation.z);  
@@ -52,7 +54,7 @@ def main():
 	global goal_x, goal_y
 	global threshold
 	global obs_x, obs_y, obs_z, obs_angle
-	global curr_x, curr_y, curr_angle
+	global curr_x, curr_y, curr_z, curr_angle
 	global publishing, avoid
 	rospy.init_node("gtg_hover", anonymous=True)
 	velocity_publisher = rospy.Publisher("/velocity", Twist, queue_size=10)
@@ -141,7 +143,13 @@ def main():
 		print("\tdistance to obstacle: "+ str(distance_drone_to_obstacle))
 		print("\tdistance from obstacle to goal: "+ str(distance_obs_to_goal))
 		str_msg = "distance to goal: "+ str(distance_to_goal)
+
 		obstacle_publisher.publish(Bool(obstacle_in_path))
+		pose = Pose()
+		pose.position.x = curr_x
+		pose.position.y = curr_y
+		pose.position.z = curr_z
+		loc_publisher.publish(pose)
 
 		if (distance_to_final_goal < threshold):
 			if(hover_count < 5):
