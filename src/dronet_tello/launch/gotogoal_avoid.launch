@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<launch>
+  <arg name="namespace" default="" />
+  <arg name="bag_name" default="1" />
+  
+
+  <node name="tello" pkg="dronet_tello" type="tello.py" output="screen"/>
+  <!-- <node name="tello_camera" pkg="dronet_tello" type="camera.py"/> -->
+  <!-- <node name="tello_key_vel" pkg="dronet_tello" type="key_vel.py" args="$(arg no_input)"/> -->
+  
+  <node name="tello_gotogoal" pkg="dronet_tello" type="gotogoal_omni_land_avoid.py" output="screen" args="$(arg x) $(arg y)"/>
+
+
+  <!-- <node name="user_input" pkg="dronet_tello" type="user_input.py" output="screen"/> -->
+  <node pkg="rosbag" type="record" name="rosbag_record" args="record -o $(find dronet_tello)/../../demo2 /rosout /velocity /flight_data /state /user_input /obstacle_detector /vicon/TELLO/TELLO /vicon/OBSTACLE/OBSTACLE /vicon/markers" />
+
+</launch>
+
