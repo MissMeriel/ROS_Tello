@@ -1,1 +1,14 @@
 camera.py -- raw image
+
+SCENARIO #1 (GTG)
+gotogoal_omni_land.py -- multigtg, no avoidance, currently tuned for speed & medium overshoot
+
+SCENARIO #2 (STATIC AVOID)
+gtg_hoveravoiduser.py -- single goal, user-approved avoidance
+gtg_hoveravoid.py -- single goal, autoavoidance
+
+SCENARIO #3
+
+
+SCENARIO #4
+gtg_dyn.py

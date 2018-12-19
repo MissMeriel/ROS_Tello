@@ -12,13 +12,9 @@
   <node name="tello_key_vel" pkg="dronet_tello" type="key_vel.py">
   </node>
 
-<<<<<<< HEAD
+
   <!--  <node pkg="rosbag" type="record" name="rosbag_record" args="record -o $(find dronet_tello)/../../dronet /rosout /image_raw /velocity /flight_data">
   </node> -->
-=======
-  <node pkg="rosbag" type="record" name="rosbag_record" args="record -o $(find dronet_tello)/../../dronet /rosout /image_raw /velocity /flight_data">
-  </node>
->>>>>>> 60b5fb2a3458a5dda8913c26cd99366274a52927
 
 </launch>
 
