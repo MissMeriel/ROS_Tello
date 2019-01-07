@@ -10,20 +10,14 @@ from std_msgs.msg import String
 from geometry_msgs.msg import Twist
 from geometry_msgs.msg import TransformStamped
 
-<<<<<<< HEAD
 #take in form of x1,x2,x3,x4
 goal_x = sys.argv[1]
 goal_y = sys.argv[2]
-=======
-goal_x = float(sys.argv[1])
-goal_y = float(sys.argv[2])
->>>>>>> 60b5fb2a3458a5dda8913c26cd99366274a52927
 curr_x = 0
 curr_y = 0
 curr_angle = 0
 threshold = 0.1
 publishing = True
-<<<<<<< HEAD
 kill = False
 
 def process_sysargs():
@@ -77,9 +71,9 @@ def main():
 
 	# Defaults: Kp = 0.045; Ki = 0.08; Kd = 0.075
 	# Super-slow debug mode: Kp = 0.03; Ki = 0.003; Kd = 0.006
-	Kp = 0.5
+	Kp = 0.41
 	Ki = 0.003
-	Kd = 0.006
+	Kd = 0.01
 	publishing_count = 0
 	hover_count = 0
 	goal_counter = 0

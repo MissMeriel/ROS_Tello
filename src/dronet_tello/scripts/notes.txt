@@ -1,4 +1,4 @@
-camera.py -- raw image
+
 
 SCENARIO #1 (GTG)
 gotogoal_omni_land.py -- multigtg, no avoidance, currently tuned for speed & medium overshoot
@@ -24,3 +24,9 @@ gotogoal_omni_land_avoid.py --
 obstacle_detector.py -- possibly break out obstacle detection into its own node? seems more appropriate to have it on the "robot" node
 dyn_test.py -- run with dynamic obstacle to test delta thresholds
 user_input_test.py
+
+BASE CODE
+camera.py -- raw image
+key_vel.py
+key_controller.py
+

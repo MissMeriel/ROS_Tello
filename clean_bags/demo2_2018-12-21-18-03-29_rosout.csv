@@ -1,0 +1,12 @@
+file,function,header_frame_id,header_seq,header_stamp_nsecs,header_stamp_secs,level,line,msg,name,topics
+"/tmp/binarydeb/ros-kinetic-rosbag-1.12.14/src/recorder.cpp","shared_ptr<ros::Subscriber> rosbag::Recorder::subscribe","",2,120962092,1545433409,2,212,"Subscribing to /rosout","/rosbag_record",/rosout
+"/tmp/binarydeb/ros-kinetic-rosbag-1.12.14/src/recorder.cpp","shared_ptr<ros::Subscriber> rosbag::Recorder::subscribe","",3,170205343,1545433409,2,212,"Subscribing to /state","/rosbag_record",/rosout
+"/tmp/binarydeb/ros-kinetic-rosbag-1.12.14/src/recorder.cpp","shared_ptr<ros::Subscriber> rosbag::Recorder::subscribe","",4,190425360,1545433409,2,212,"Subscribing to /user_input","/rosbag_record",/rosout
+"/tmp/binarydeb/ros-kinetic-rosbag-1.12.14/src/recorder.cpp","shared_ptr<ros::Subscriber> rosbag::Recorder::subscribe","",5,218120841,1545433409,2,212,"Subscribing to /velocity","/rosbag_record",/rosout
+"/tmp/binarydeb/ros-kinetic-rosbag-1.12.14/src/recorder.cpp","shared_ptr<ros::Subscriber> rosbag::Recorder::subscribe","",6,245163891,1545433409,2,212,"Subscribing to /vicon/OBSTACLE/OBSTACLE","/rosbag_record",/rosout
+"/tmp/binarydeb/ros-kinetic-rosbag-1.12.14/src/recorder.cpp","shared_ptr<ros::Subscriber> rosbag::Recorder::subscribe","",7,302034345,1545433409,2,212,"Subscribing to /vicon/TELLO/TELLO","/rosbag_record",/rosout
+"/home/autosoftlab/catkin_ws/src/vicon_bridge/src/vicon_bridge.cpp","process_subjects","",1516,33667500,1545433818,4,528,"TELLO occluded, not publishing... ","/vicon",/rosout``/diagnostics``/tf``/vicon/markers``/vicon/OBSTACLE/OBSTACLE``/vicon/TELLO/TELLO
+"/tmp/binarydeb/ros-kinetic-rosbag-1.12.14/src/recorder.cpp","shared_ptr<ros::Subscriber> rosbag::Recorder::subscribe","",8,341600399,1545433409,2,212,"Subscribing to /vicon/markers","/rosbag_record",/rosout
+"/tmp/binarydeb/ros-kinetic-rosbag-1.12.14/src/recorder.cpp","shared_ptr<ros::Subscriber> rosbag::Recorder::subscribe","",9,371730307,1545433409,2,212,"Subscribing to record","/rosbag_record",/rosout
+"/tmp/binarydeb/ros-kinetic-rosbag-1.12.14/src/recorder.cpp","Recorder::startWriting","",10,391861238,1545433409,2,396,"Recording to /home/meriel/ros_workspace_clean.2018.09.24/src/dronet_tello/../../demo2_2018-12-21-18-03-29.bag.","/rosbag_record",/rosout
+"tello.py","main","",1,993616104,1545433409,2,39,"Taking off.","/tello",/rosout

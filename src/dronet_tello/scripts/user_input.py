@@ -71,14 +71,11 @@ def main():
 	dt = 0.200
 	rate = rospy.Rate(dt)
 	velocity_publisher = rospy.Publisher("/velocity", Twist, queue_size=5)
-	obstacle_subscriber = rospy.Subscriber("/obstacle_detector", Bool, obstacle_callback, queue_size=1)
-	obstacle_dyn_subscriber = rospy.Publisher("/obstacle_dyn", Bool, obstacle_dyn_callback, queue_size=1)
 	user_input_publisher = rospy.Publisher("/user_input", String, queue_size=10)
+	obstacle_subscriber = rospy.Subscriber("/obstacle_detector", Bool, obstacle_callback, queue_size=1)
+	obstacle_dyn_subscriber = rospy.Subscriber("/obstacle_dyn", Bool, obstacle_dyn_callback, queue_size=1)
 	
-<<<<<<< HEAD
-	
-=======
->>>>>>> 60b5fb2a3458a5dda8913c26cd99366274a52927
+
 	vel = Twist()
 	while not rospy.is_shutdown():
 		if(obstacle_detected and not obstacle_dyn):
