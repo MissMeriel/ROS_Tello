@@ -14,13 +14,21 @@ message_types = []
 message_fields = {}
 bag_info = {}
 testing = False
-
+want_fields = False
+xml_topics = []
 
 MY_MACRO = """
 if testing:
 	print test_output            
 """
 
+FIELD_MACRO = """
+if want_fields:
+	print field_output
+"""
+
+def print_fields(field_output):
+	exec FIELD_MACRO in globals(),locals()
 
 def display_bag_info(bag_name):
 	global topics, message_types, message_fields, bag_info
@@ -32,7 +40,8 @@ def display_bag_info(bag_name):
 	for key in keys:
 		print(key+str(": ")+str(bag_info[key]))
 	#For every topic in the bag, display its fields.
-	sys.stdout.write("\nFIELDS FOR %u TOPICS\n" % len(bag_topics))
+	print_fields("\nFIELDS FOR "+str(len(bag_topics))+" TOPICS\n")
+	#sys.stdout.write("\nFIELDS FOR %u TOPICS\n" % len(bag_topics))
 	i = 0
 	bag = rosbag.Bag(bag_name)
 	for topic in bag_topics:
@@ -41,7 +50,7 @@ def display_bag_info(bag_name):
 		topics.append(topic['topic'])
 		for _, msg, _ in bag.read_messages(topics=topic['topic']):
 			print_topic_fields(topic['topic'], "",  msg, 0, i, topic['type'])
-			print('')
+			print_fields('')
 			break
 		i += 1
 	bag.close()
@@ -50,7 +59,7 @@ def display_bag_info(bag_name):
 def print_topic_fields(field_name, path, msg, depth, index, msg_type):
 	global message_types, message_fields
 	if hasattr(msg, '__slots__'):
-		print(' ' * (depth * 2) + field_name)
+		print_fields(' ' * (depth * 2) + field_name)
 		for slot in msg.__slots__:
 			if(path != ""):
 				new_path = path+"."+slot
@@ -59,7 +68,7 @@ def print_topic_fields(field_name, path, msg, depth, index, msg_type):
 			print_topic_fields(slot, new_path, getattr(msg, slot), depth + 1, index, msg_type)
 	elif isinstance(msg, list):
 		if (len(msg) > 0) and hasattr(msg[0], '__slots__'):
-		    print(' ' * (depth * 2) + field_name + '[]')
+		    print_fields(' ' * (depth * 2) + field_name + '[]')
 		    for slot in msg[0].__slots__:
 			if(path != ""):
 				new_path = path+"."+slot
@@ -67,10 +76,10 @@ def print_topic_fields(field_name, path, msg, depth, index, msg_type):
 				new_path = slot
 			print_topic_fields(slot, new_path, getattr(msg[0], slot), depth + 1, index, msg_type)
 	else:
-		print(' ' * (depth * 2) + field_name)
-		print(' ' * (depth * 2) + "path: "+path)
-		print(' ' * (depth * 2) + "type: "+str(type(msg)))
-		print(' ' * (depth * 2) + "addr: "+str(hex(id(msg))))
+		print_fields(' ' * (depth * 2) + field_name)
+		print_fields(' ' * (depth * 2) + "path: "+path)
+		print_fields(' ' * (depth * 2) + "type: "+str(type(msg)))
+		print_fields(' ' * (depth * 2) + "addr: "+str(hex(id(msg))))
 		message_fields[msg_type][path] = {'name': field_name, 'type': type(msg), 'addr': hex(id(msg))}
 
 
@@ -145,7 +154,7 @@ def enumerate_msg_fields(topic, msg, msg_type):
 
 
 def main():
-	global testing, topics, message_types, message_fields, bag_info
+	global testing, topics, message_types, message_fields, bag_info, xml_topics
 	start_time = time.time()
 
 	#handle CL args
@@ -160,6 +169,15 @@ def main():
 		#print(root.attrib)
 		for child in root:
 			print child.tag, child.attrib
+			print child.attrib['topics_in']
+			print type(child.attrib['topics_in'])
+			print child.attrib['topics_out']
+			print type(child.attrib['topics_out'])
+			xml_topics = child.attrib['topics_in'].split(" ")
+			print("xml_topics: "+str(xml_topics))
+			xml_topics.extend(child.attrib['topics_out'].split(" "))
+			print("xml_topics: "+str(xml_topics))
+	print("XML TOPICS: \n"+str(xml_topics))
 
 	#get bag info
 	print "displaying bag info..."
@@ -209,7 +227,8 @@ def main():
 	dtrace_file.write(dtrace_header)
 	call_counts=np.zeros(len(topics), dtype=int)
 	msg_count = 0
-	for topic, msg, t in bag.read_messages(topics=sys.argv[2:len(sys.argv)]):
+	for topic, msg, t in bag.read_messages(xml_topics):
+	#'''for topic, msg, t in bag.read_message(topics=sys.argv[2:len(sys.argv)]):'''
 		if(msg):
 			msg_count += 1
 			print("Processing message "+str(msg_count)+" out of "+str(bag_info['messages']))
