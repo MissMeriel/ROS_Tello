@@ -9,6 +9,8 @@ import numpy as np
 from std_msgs.msg import String
 from geometry_msgs.msg import Twist
 from geometry_msgs.msg import TransformStamped
+import rosgraph.impl.graph as rig
+
 
 #take in form of x1,x2,x3,x4
 goal_x = sys.argv[1]
@@ -58,6 +60,12 @@ def main():
 	state_publisher = rospy.Publisher("/state", String, queue_size=10)
 	position_subscriber = rospy.Subscriber("/vicon/TELLO/TELLO", TransformStamped, vicon_data, queue_size=10)
 	input_subscriber = rospy.Subscriber("/user_input", String, process_user_input, queue_size=5)
+
+	nodemap_file = open(os.path.basename(__file__), "w")
+	
+	nodemap_file.write(rig.topic_node('/velocity'))
+
+
 	vel = Twist()
 	vel.linear.x = 0
 	vel.angular.z = 0

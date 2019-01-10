@@ -5,6 +5,9 @@ import rosbag
 from sets import Set
 import numpy as np
 import subprocess, yaml
+import xml.etree.ElementTree as ET
+
+
 
 topics = []
 message_types = []
@@ -80,12 +83,32 @@ def python_to_daikon_type(python_type):
 	return field_type;
 
 
+def test_print(test_output):
+	#test_output="\nmessage_types:\n"+str(message_types)
+	exec MY_MACRO in globals(), locals()
+
+def traverse_msg_tree(val, levels, msg_type, key):
+	global message_fields
+	for level in levels:
+		if isinstance(val, list):
+			for v in val:
+				if level in str(v):
+					val = v
+		if not isinstance(val, list):
+			val = getattr(val, level)
+		test_print("\n\tlevel: "+str(level)+"\n\tval: "+str(val)+"\n\ttype: "+str(message_fields[msg_type][key]['type']))
+		'''if(testing):
+			print("\n\tlevel: "+str(level))
+			print("\tval: "+str(val))
+			print("\ttype: "+str(message_fields[msg_type][key]['type']))'''
+	return val
+
+
 def enumerate_msg_fields(topic, msg, msg_type):
 	global testing, message_fields
 	field_string = ""
 	keys = message_fields[msg_type].keys()
-	test_output = "\nPRINTING msg:\n"+str(msg) + "\n\nmsg keys for "+str(topic)+":\n"+str(keys)
-	exec MY_MACRO in globals(),locals()
+	test_print("\nPRINTING msg:\n"+str(msg) + "\n\nmsg keys for "+str(topic)+":\n"+str(keys))
 	'''if(testing):
 		print("\nPRINTING msg:\n"+str(msg))
 		print("\nmsg keys for "+str(topic)+":\n"+str(keys))'''
@@ -93,26 +116,13 @@ def enumerate_msg_fields(topic, msg, msg_type):
 		field = message_fields[msg_type][key]
 		field_string += "\nreturn."+key
 		levels = key.split(".")
-
+		test_print("\nRETRIEVING key: "+key+ "\nlevels: "+str(levels))
 		'''if(testing):
 			print("\nRETRIEVING key: "+key)
 		if(testing):
 			print("levels: "+str(levels))'''
-		test_output = "\nRETRIEVING key: "+key + "\nlevels: "+str(levels)
-		exec MY_MACRO in globals(),locals()
-
-		val = msg
-		for level in levels:
-			if isinstance(val, list):
-				for v in val:
-					if level in str(v):
-						val = v
-			if not isinstance(val, list):
-				val = getattr(val, level)
-			if(testing):
-				print("\tlevel: "+str(level))
-				print("\tval: "+str(val))
-				print("\ttype: "+str(message_fields[msg_type][key]['type']))
+		#val = msg
+		val = traverse_msg_tree(msg, levels, msg_type, key)
 		if message_fields[msg_type][key]['type'] == "string" or message_fields[msg_type][key]['type'] == "str":
 			field_string += "\n\""+str(val)+"\""
 		else:
@@ -125,10 +135,19 @@ def enumerate_msg_fields(topic, msg, msg_type):
 def main():
 	global testing, topics, message_types, message_fields, bag_info
 	start_time = time.time()
+
+	#handle CL args
 	bag = rosbag.Bag(sys.argv[1])
 	output_filename=sys.argv[1].split(".")
 	dtrace_filename=output_filename[0]+".dtrace"
 	decls_filename=output_filename[0]+".decls"
+	if(len(sys.argv) == 3):
+		tree = ET.parse(sys.argv[2])
+		root = tree.getroot()
+		print("XML INFO\n"+str(root.tag))
+		#print(root.attrib)
+		for child in root:
+			print child.tag, child.attrib
 
 	#get bag info
 	print "displaying bag info..."
@@ -142,10 +161,12 @@ def main():
 	decls_header += "\nppt ..main():::EXIT0\n\tppt-type subexit\n\tvariable return\n\t\tvar-kind variable\n\t\trep-type int\n\t\tdec-type int\n\t\tcomparability 1"
 	decls_file.write(decls_header)
 	index = 0
-	for topic in topics: 
-		if(testing):
+	for topic in topics:
+		test_output = "\n"+str(topic)+"\n"+str(type(topic))
+		exec MY_MACRO in globals(),locals()
+		'''if(testing):
 			print(str(topic))
-			print(type(topic))
+			print(type(topic))'''
 		topic=topic[1:len(topic)]
 		enter_string = "\n\nppt .."+topic+"():::ENTER\n\tppt-type enter\n"
 		exit_string = "\nppt .."+topic+"():::EXIT0" + "\n\tppt-type subexit" + "\n\tvariable return" + "\n\t\tvar-kind variable" + "\n\t\trep-type hashcode" + "\n\t\tdec-type "+str(message_types[index]) + "\n\t\tcomparability 1"
@@ -171,11 +192,17 @@ def main():
 	print "Writing dtrace to "+dtrace_filename
 	dtrace_file=open(dtrace_filename, "w")
 	dtrace_file.write("input-language C/C++\ndecl-version 2.0\nvar-comparability implicit\n\n")
-	if(testing):
-		print("\nmessage_types:\n"+str(message_types))
+	test_print("\nmessage_types:\n"+str(message_types))
+	'''if(testing):
+		print("\nmessage_types:\n"+str(message_types))'''
 	call_counts=np.zeros(len(topics), dtype=int)
 	dtrace_file.write("\n..main():::ENTER\n")
+	msg_count = 0
 	for topic, msg, t in bag.read_messages(topics=sys.argv[2:len(sys.argv)]):
+		if(msg):
+			msg_count += 1
+			print("Processing message "+str(msg_count)+" out of "+str(bag_info['messages']))
+			sys.stdout.write("\033[F") # Cursor up one line
 		index = topics.index(topic)
 		topic=topic.replace("/", "")
 		enter_string = "\n.."+topic+"():::ENTER\nthis_invocation_nonce\n"+str(call_counts[index])+"\n"
