@@ -27,14 +27,14 @@ def display_bag_info(bag_name):
 	#print "topics: "+str(bag.get_type_and_topic_info()[1].keys())
 	bag_info = yaml.load(subprocess.Popen(['rosbag', 'info', '--yaml', bag_name], stdout=subprocess.PIPE).communicate()[0])
 	bag_topics = bag_info['topics']
-	print("BAG INFO")
 	keys = bag_info.keys()
+	print("BAG INFO")
 	for key in keys:
 		print(key+str(": ")+str(bag_info[key]))
-	bag = rosbag.Bag(bag_name)
 	#For every topic in the bag, display its fields.
 	sys.stdout.write("\nFIELDS FOR %u TOPICS\n" % len(bag_topics))
 	i = 0
+	bag = rosbag.Bag(bag_name)
 	for topic in bag_topics:
 		message_fields.update({topic['type']: {}})
 		message_types.append(topic['type'])
@@ -82,6 +82,15 @@ def python_to_daikon_type(python_type):
 		field_type = "boolean"
 	return field_type;
 
+def python_to_daikon_literal(python_lit):
+	python_lit = str(python_lit)
+	if(python_lit == "True"):
+		daikon_lit = "0"
+	elif(python_lit == "False"):
+		daikon_lit = "1"
+	else:
+		daikon_lit = python_lit
+	return daikon_lit
 
 def test_print(test_output):
 	#test_output="\nmessage_types:\n"+str(message_types)
@@ -116,16 +125,19 @@ def enumerate_msg_fields(topic, msg, msg_type):
 		field = message_fields[msg_type][key]
 		field_string += "\nreturn."+key
 		levels = key.split(".")
+		#TODO: profile mem/bandwidth/wall clock time for test_print vs if(testing)
 		test_print("\nRETRIEVING key: "+key+ "\nlevels: "+str(levels))
 		'''if(testing):
 			print("\nRETRIEVING key: "+key)
 		if(testing):
 			print("levels: "+str(levels))'''
-		#val = msg
+
 		val = traverse_msg_tree(msg, levels, msg_type, key)
-		if message_fields[msg_type][key]['type'] == "string" or message_fields[msg_type][key]['type'] == "str":
+		#print(str(val) + str(field['type']))
+		if  "string" in str(message_fields[msg_type][key]['type']) or "str" in str(message_fields[msg_type][key]['type']):
 			field_string += "\n\""+str(val)+"\""
 		else:
+			val = python_to_daikon_literal(val)
 			field_string += "\n"+str(val)
 		field_string += "\n1"
 	field_string += "\n"
@@ -167,9 +179,10 @@ def main():
 		'''if(testing):
 			print(str(topic))
 			print(type(topic))'''
-		topic=topic[1:len(topic)]
-		enter_string = "\n\nppt .."+topic+"():::ENTER\n\tppt-type enter\n"
-		exit_string = "\nppt .."+topic+"():::EXIT0" + "\n\tppt-type subexit" + "\n\tvariable return" + "\n\t\tvar-kind variable" + "\n\t\trep-type hashcode" + "\n\t\tdec-type "+str(message_types[index]) + "\n\t\tcomparability 1"
+		#topic=topic[1:len(topic)]
+		function_name = topic.replace("/", "")
+		enter_string = "\n\nppt .."+function_name+"():::ENTER\n\tppt-type enter\n"
+		exit_string = "\nppt .."+function_name+"():::EXIT0" + "\n\tppt-type subexit" + "\n\tvariable return" + "\n\t\tvar-kind variable" + "\n\t\trep-type hashcode" + "\n\t\tdec-type "+str(message_types[index]) + "\n\t\tcomparability 1"
 		decls_file.write(enter_string)
 		decls_file.write(exit_string)
 		msg_type = message_types[index]
@@ -190,13 +203,11 @@ def main():
 
 	#make dtrace file
 	print "Writing dtrace to "+dtrace_filename
-	dtrace_file=open(dtrace_filename, "w")
-	dtrace_file.write("input-language C/C++\ndecl-version 2.0\nvar-comparability implicit\n\n")
 	test_print("\nmessage_types:\n"+str(message_types))
-	'''if(testing):
-		print("\nmessage_types:\n"+str(message_types))'''
+	dtrace_file=open(dtrace_filename, "w")
+	dtrace_header = "input-language C/C++\ndecl-version 2.0\nvar-comparability implicit\n\n" + "\n..main():::ENTER\n" 
+	dtrace_file.write(dtrace_header)
 	call_counts=np.zeros(len(topics), dtype=int)
-	dtrace_file.write("\n..main():::ENTER\n")
 	msg_count = 0
 	for topic, msg, t in bag.read_messages(topics=sys.argv[2:len(sys.argv)]):
 		if(msg):
@@ -206,18 +217,18 @@ def main():
 		index = topics.index(topic)
 		topic=topic.replace("/", "")
 		enter_string = "\n.."+topic+"():::ENTER\nthis_invocation_nonce\n"+str(call_counts[index])+"\n"
-		exit_string = "\n.."+topic+"():::EXIT0\nthis_invocation_nonce\n"+str(call_counts[index])+"\nreturn\n"+str(hex(id(msg)))+"\nreturn"+"\n"+str(hex(id(msg)))+"\n1"
-		dtrace_file.write(enter_string+exit_string)
+		exit_string = "\n.."+topic+"():::EXIT0\nthis_invocation_nonce\n"+str(call_counts[index])+"\nreturn"+"\n"+str(hex(id(msg)))+"\n1"
 		#enumerate msg fields
 		msg_type = message_types[index]
 		field_string = enumerate_msg_fields(topic, msg, msg_type)
-		dtrace_file.write(field_string)
+		dtrace_file.write(enter_string+exit_string+field_string)
 		if (topic):
 			call_counts[index] = call_counts[index] + 1
 	dtrace_file.write("\n..main():::EXIT0\nreturn\n0\n1\n")
 	dtrace_file.close()
 	bag.close()
-	print("--- %s seconds runtime ---" % (time.time() - start_time))
+	print("Processed "+str(msg_count)+" out of "+str(bag_info['messages'])+" messages")
+	print("----- %s seconds runtime -----" % (time.time() - start_time))
 
 
 
