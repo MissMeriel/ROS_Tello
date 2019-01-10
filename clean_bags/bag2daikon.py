@@ -12,10 +12,12 @@ message_fields = {}
 bag_info = {}
 testing = False
 
+
 MY_MACRO = """
 if testing:
 	print test_output            
 """
+
 
 def display_bag_info(bag_name):
 	global topics, message_types, message_fields, bag_info
@@ -119,6 +121,7 @@ def enumerate_msg_fields(topic, msg, msg_type):
 	field_string += "\n"
 	return field_string
 
+
 def main():
 	global testing, topics, message_types, message_fields, bag_info
 	start_time = time.time()
@@ -188,6 +191,7 @@ def main():
 	dtrace_file.close()
 	bag.close()
 	print("--- %s seconds runtime ---" % (time.time() - start_time))
+
 
 
 if __name__ == "__main__":
