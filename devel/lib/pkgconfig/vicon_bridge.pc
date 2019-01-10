@@ -1,8 +1,0 @@
-prefix=/home/meriel/ros_workspace_clean.2018.09.24/devel
-
-Name: vicon_bridge
-Description: Description of vicon_bridge
-Version: 1.0.1
-Cflags: -I/home/meriel/ros_workspace_clean.2018.09.24/devel/include
-Libs: -L/home/meriel/ros_workspace_clean.2018.09.24/devel/lib 
-Requires: dynamic_reconfigure geometry_msgs message_runtime roscpp
