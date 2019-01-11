@@ -211,27 +211,27 @@ def main():
 		#print(root.attrib)
 		for child in root:
 			io_topics[child.attrib['name']] = child.attrib
-			print child.tag, child.attrib
-			'''print type(child.attrib)
+			'''print child.tag, child.attrib
+			print type(child.attrib)
 			print child.attrib['topics_in']
 			print type(child.attrib['topics_in'])
 			print child.attrib['topics_out']
 			print type(child.attrib['topics_out'])'''
 			topics_in = child.attrib['topics_in'].split(" ")
-			print("\nTOPICS_IN: \n"+str(topics_in))
+			test_print("\nTOPICS_IN: \n"+str(topics_in))
 			xml_topics.extend(topics_in)
 			topics_out = child.attrib['topics_out'].split(" ")
 			xml_topics.extend(topics_out)
-			print("\nTOPICS_OUT: \n"+str(topics_out))
-	print("\nXML TOPICS: \n"+str(xml_topics))
+			test_print("\nTOPICS_OUT: \n"+str(topics_out))
+	test_print("\nXML TOPICS: \n"+str(xml_topics))
 	#print(""+str(io_topics))
 
 	#get bag info
 	print "displaying bag info..."
 	display_bag_info(sys.argv[1])
-	print("GLOBAL topics: \n"+str(topics))
-	print("MESSAGE_TYPES: \n"+str(message_types))
-	print("MESSAGE_FIELDS: \n"+str(message_fields))
+	test_print("GLOBAL topics: \n"+str(topics))
+	test_print("MESSAGE_TYPES: \n"+str(message_types))
+	test_print("MESSAGE_FIELDS: \n"+str(message_fields))
 
 	#make decls file
 	print "Writing decls to "+decls_filename
@@ -242,8 +242,7 @@ def main():
 	decls_file.write(decls_header)
 	index = 0
 	for topic in topics:
-		test_output = "\n"+str(topic)+"\n"+str(type(topic))
-		exec MY_MACRO in globals(),locals()
+		test_print("\n"+str(topic)+"\n"+str(type(topic)))
 		function_name = topic.replace("/", "")
 		enter_string = "\nppt .."+function_name+"("
 		signature_param_string = build_param_string(index)
@@ -310,31 +309,29 @@ def main():
 		index = topics.index(topic)
 		topic=topic.replace("/", "")
 		signature_param_string = build_param_string(index)
-		#print("signature_param_string: "+signature_param_string)
+		test_print("signature_param_string: "+signature_param_string)
 		#build ENTER string
 		enter_string = "\n.."+topic+"("+signature_param_string+"):::ENTER\nthis_invocation_nonce\n"+str(call_counts[index])
 		exit_string = exit_string = "\n.."+topic+"("+signature_param_string+"):::EXIT0\nthis_invocation_nonce\n"+str(call_counts[index])
 		i = 0
-		#print("last_msgs: "+str(last_msgs))
+		test_print("last_msgs: "+str(last_msgs))
 		param_string = ""
 		for t in topics_in:
 			param_topic_index = topics.index(t)
 			msg_type = message_types[param_topic_index]
 			last_msg = last_msgs[msg_type]
 			param_string += "\na"+str(i) + "\n"+last_msg['hash'] + "\n1"
-			#enter_string += param_string
-			#exit_string += param_string
 			keys = message_fields[msg_type].keys()
-			#print("\nFields for "+str(message_fields[msg_type])+"\nKeys:\n"+str(keys))
-			for key in keys:
+			test_print("\nFields for "+str(message_fields[msg_type])+"\nKeys:\n"+str(keys))
+			'''for key in keys:
 				field = message_fields[msg_type][key]
 				#enter_string += "\nvariable a"+str(i)+"."+key
-				'''print("Getting param fields for "+str(msg))
+				print("Getting param fields for "+str(msg))
 				print("\tt: "+str(t))
 				print("\tlast_msg: "+str(last_msg))
-				print("\tmsg_type: "+str(msg_type))'''
+				print("\tmsg_type: "+str(msg_type))
 				#enter_string += enumerate_msg_fields(t, last_msg, msg_type)
-				field_type = python_to_daikon_type(field['type'])
+				field_type = python_to_daikon_type(field['type'])'''
 			param_string += enumerate_param_msg_fields(t, last_msg['msg'], msg_type, i)
 			i += 1
 		enter_string += param_string + "\n"
