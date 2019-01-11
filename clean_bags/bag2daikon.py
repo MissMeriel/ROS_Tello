@@ -152,7 +152,7 @@ def enumerate_msg_fields(topic, msg, msg_type):
 			val = python_to_daikon_literal(val)
 			field_string += "\n"+str(val)
 		field_string += "\n1"
-	#field_string += "\n"
+	field_string += "\n"
 	return field_string
 
 
@@ -168,11 +168,10 @@ def enumerate_param_msg_fields(topic, msg, msg_type, i):
 		test_print("\nRETRIEVING key: "+key+ "\nlevels: "+str(levels))
 		val = traverse_msg_tree(msg, levels, msg_type, key)
 		if  "string" in str(message_fields[msg_type][key]['type']) or "str" in str(message_fields[msg_type][key]['type']):
-			field_string += "\n\""+str(val)+"\""
+			field_string += "\n\""+str(val)+"\"\n1"
 		else:
 			val = python_to_daikon_literal(val)
 			field_string += "\n"+str(val)+"\n1"
-	#field_string += "\n"
 	return field_string
 
 
@@ -180,11 +179,9 @@ def build_param_string(index):
 	global topics_in, topics, message_types
 	param_string = ""
 	msg_type = ""
-	#print("BUILD_PARAM_STRING")
 	for t in topics_in:
 		i = topics.index(t)
 		msg_type = message_types[i]
-		#print(str(t)+" "+str(msg_type))
 		if len(topics_in) == 1:
 			param_string += msg_type
 		elif i == 0 and len(topics_in) > 1:
@@ -241,38 +238,40 @@ def main():
 	decls_file=open(decls_filename, "w")
 	decls_header = "input-language C/C++\ndecl-version 2.0\nvar-comparability implicit\n\n"
 	decls_header += "\nppt ..main():::ENTER\n\tppt-type enter\n"
-	decls_header += "\nppt ..main():::EXIT0\n\tppt-type subexit\n\tvariable return\n\t\tvar-kind variable\n\t\trep-type int\n\t\tdec-type int\n\t\tcomparability 1"
+	decls_header += "\nppt ..main():::EXIT0\n\tppt-type subexit\n\tvariable return\n\t\tvar-kind variable\n\t\trep-type int\n\t\tdec-type int\n\t\tcomparability 1\n"
 	decls_file.write(decls_header)
 	index = 0
 	for topic in topics:
 		test_output = "\n"+str(topic)+"\n"+str(type(topic))
 		exec MY_MACRO in globals(),locals()
 		function_name = topic.replace("/", "")
-		enter_string = "\n\nppt .."+function_name+"("
-		param_string = build_param_string(index)
-		enter_string += param_string + "):::ENTER"
+		enter_string = "\nppt .."+function_name+"("
+		signature_param_string = build_param_string(index)
+		enter_string += signature_param_string + "):::ENTER"
 		enter_string += "\n\tppt-type enter"
 		i = 0
+		param_string = ""
 		for t in topics_in:
-			enter_string += "\n\tvariable a"+str(i)
-			enter_string += "\n\t\tvar-kind variable"
-			enter_string += "\n\t\trep-type hashcode"
-			msg_type = message_types[index]
-			enter_string += "\n\t\tdec-type "+ str(msg_type)
-			enter_string += "\n\t\tflags is_param"
+			topic_index = topics.index(t)
+			param_string += "\n\tvariable a"+str(i)
+			param_string += "\n\t\tvar-kind variable"
+			param_string += "\n\t\trep-type hashcode"
+			msg_type = message_types[topic_index]
+			param_string += "\n\t\tdec-type "+ str(msg_type)
+			param_string += "\n\t\tflags is_param"
 			keys = message_fields[msg_type].keys()
 			for key in keys:
 				field = message_fields[msg_type][key]
-				enter_string += "\n\tvariable a"+str(i)+"."+key
-				enter_string += "\n\t\tvar-kind field "+key
-				enter_string += "\n\t\tenclosing-var a"+str(i)
+				param_string += "\n\tvariable a"+str(i)+"."+key
+				param_string += "\n\t\tvar-kind field "+key
+				param_string += "\n\t\tenclosing-var a"+str(i)
 				field_type = python_to_daikon_type(field['type'])
-				enter_string += "\n\t\trep-type "+field_type
-				enter_string += "\n\t\tdec-type "+field_type
-				enter_string += "\n\t\tcomparability 1"
+				param_string += "\n\t\trep-type "+field_type
+				param_string += "\n\t\tdec-type "+field_type
+				param_string += "\n\t\tcomparability 1"
 			i += 1
-		enter_string += "\n"
-		exit_string = "\nppt .."+function_name+"("+param_string+"):::EXIT0" + "\n\tppt-type subexit" + "\n\tvariable return" + "\n\t\tvar-kind variable" + "\n\t\trep-type hashcode" + "\n\t\tdec-type "+str(message_types[index]) + "\n\t\tcomparability 1"
+		enter_string += param_string+ "\n"
+		exit_string = "\nppt .."+function_name+"("+signature_param_string+"):::EXIT0" + "\n\tppt-type subexit" + param_string +"\n\tvariable return" + "\n\t\tvar-kind variable" + "\n\t\trep-type hashcode" + "\n\t\tdec-type "+str(message_types[index]) + "\n\t\tcomparability 1"
 		decls_file.write(enter_string)
 		decls_file.write(exit_string)
 		msg_type = message_types[index]
@@ -307,40 +306,47 @@ def main():
 			last_msgs[msg_type] = {'msg': msg, 'hash': str(hex(id(msg)))}
 			msg_count += 1
 			print("Processing message "+str(msg_count)+" out of "+str(bag_info['messages']))
-			sys.stdout.write("\033[F") # Cursor up one line
+			#sys.stdout.write("\033[F") # Cursor up one line
 		index = topics.index(topic)
 		topic=topic.replace("/", "")
-		param_string = build_param_string(index)
-		enter_string = "\n.."+topic+"("+param_string+"):::ENTER\nthis_invocation_nonce\n"+str(call_counts[index])
+		signature_param_string = build_param_string(index)
+		print("signature_param_string: "+signature_param_string)
+		#build ENTER string
+		enter_string = "\n.."+topic+"("+signature_param_string+"):::ENTER\nthis_invocation_nonce\n"+str(call_counts[index])
+		exit_string = exit_string = "\n.."+topic+"("+signature_param_string+"):::EXIT0\nthis_invocation_nonce\n"+str(call_counts[index])
 		i = 0
-		#print("last_msgs: "+str(last_msgs))
+		print("last_msgs: "+str(last_msgs))
+		param_string = ""
 		for t in topics_in:
 			param_topic_index = topics.index(t)
 			msg_type = message_types[param_topic_index]
 			last_msg = last_msgs[msg_type]
-			enter_string += "\na"+str(i)
-			enter_string += "\n"+last_msg['hash']
-			enter_string += "\n1"
+			param_string += "\na"+str(i) + "\n"+last_msg['hash'] + "\n1"
+			#enter_string += param_string
+			#exit_string += param_string
 			keys = message_fields[msg_type].keys()
+			print("\nFields for "+str(message_fields[msg_type])+"\n"+str(keys))
 			for key in keys:
 				field = message_fields[msg_type][key]
 				#enter_string += "\nvariable a"+str(i)+"."+key
-				'''print("Getting param fields for "+str(msg))
+				print("Getting param fields for "+str(msg))
 				print("\tt: "+str(t))
 				print("\tlast_msg: "+str(last_msg))
-				print("\tmsg_type: "+str(msg_type))'''
-				enter_string += enumerate_param_msg_fields(t, last_msg['msg'], msg_type, i)
+				print("\tmsg_type: "+str(msg_type))
+				param_string += enumerate_param_msg_fields(t, last_msg['msg'], msg_type, i)
 				#enter_string += enumerate_msg_fields(t, last_msg, msg_type)
 				field_type = python_to_daikon_type(field['type'])
 			i += 1
-		enter_string += "\n"
-		exit_string = "\n.."+topic+"("+param_string+"):::EXIT0\nthis_invocation_nonce\n"+str(call_counts[index])+"\nreturn"+"\n"+str(hex(id(msg)))+"\n1"
-		#enumerate msg fields
+		enter_string += param_string + "\n"
+		exit_string += param_string
+		#enumerate EXIT return msg fields
 		msg_type = message_types[index]
+		exit_string += "\nreturn"+"\n"+str(hex(id(msg)))+"\n1"
 		exit_string += enumerate_msg_fields(topic, msg, msg_type)
 		dtrace_file.write(enter_string+exit_string)
 		if (topic):
 			call_counts[index] = call_counts[index] + 1
+		time.sleep(2)
 	dtrace_file.write("\n..main():::EXIT0\nreturn\n0\n1\n")
 	dtrace_file.close()
 	bag.close()
