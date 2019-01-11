@@ -306,16 +306,16 @@ def main():
 			last_msgs[msg_type] = {'msg': msg, 'hash': str(hex(id(msg)))}
 			msg_count += 1
 			print("Processing message "+str(msg_count)+" out of "+str(bag_info['messages']))
-			#sys.stdout.write("\033[F") # Cursor up one line
+			sys.stdout.write("\033[F") # Cursor up one line
 		index = topics.index(topic)
 		topic=topic.replace("/", "")
 		signature_param_string = build_param_string(index)
-		print("signature_param_string: "+signature_param_string)
+		#print("signature_param_string: "+signature_param_string)
 		#build ENTER string
 		enter_string = "\n.."+topic+"("+signature_param_string+"):::ENTER\nthis_invocation_nonce\n"+str(call_counts[index])
 		exit_string = exit_string = "\n.."+topic+"("+signature_param_string+"):::EXIT0\nthis_invocation_nonce\n"+str(call_counts[index])
 		i = 0
-		print("last_msgs: "+str(last_msgs))
+		#print("last_msgs: "+str(last_msgs))
 		param_string = ""
 		for t in topics_in:
 			param_topic_index = topics.index(t)
@@ -325,17 +325,17 @@ def main():
 			#enter_string += param_string
 			#exit_string += param_string
 			keys = message_fields[msg_type].keys()
-			print("\nFields for "+str(message_fields[msg_type])+"\n"+str(keys))
+			#print("\nFields for "+str(message_fields[msg_type])+"\nKeys:\n"+str(keys))
 			for key in keys:
 				field = message_fields[msg_type][key]
 				#enter_string += "\nvariable a"+str(i)+"."+key
-				print("Getting param fields for "+str(msg))
+				'''print("Getting param fields for "+str(msg))
 				print("\tt: "+str(t))
 				print("\tlast_msg: "+str(last_msg))
-				print("\tmsg_type: "+str(msg_type))
-				param_string += enumerate_param_msg_fields(t, last_msg['msg'], msg_type, i)
+				print("\tmsg_type: "+str(msg_type))'''
 				#enter_string += enumerate_msg_fields(t, last_msg, msg_type)
 				field_type = python_to_daikon_type(field['type'])
+			param_string += enumerate_param_msg_fields(t, last_msg['msg'], msg_type, i)
 			i += 1
 		enter_string += param_string + "\n"
 		exit_string += param_string
@@ -346,7 +346,7 @@ def main():
 		dtrace_file.write(enter_string+exit_string)
 		if (topic):
 			call_counts[index] = call_counts[index] + 1
-		time.sleep(2)
+		#time.sleep(2)
 	dtrace_file.write("\n..main():::EXIT0\nreturn\n0\n1\n")
 	dtrace_file.close()
 	bag.close()
