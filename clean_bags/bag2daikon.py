@@ -114,6 +114,7 @@ def test_print(test_output):
 def traverse_msg_tree(val, levels, msg_type, key):
 	global message_fields
 	for level in levels:
+		test_print("\nGetting attribute for "+str(val)+", "+str(level))
 		if isinstance(val, list):
 			for v in val:
 				if level in str(v):
@@ -121,10 +122,6 @@ def traverse_msg_tree(val, levels, msg_type, key):
 		if not isinstance(val, list):
 			val = getattr(val, level)
 		test_print("\n\tlevel: "+str(level)+"\n\tval: "+str(val)+"\n\ttype: "+str(message_fields[msg_type][key]['type']))
-		'''if(testing):
-			print("\n\tlevel: "+str(level))
-			print("\tval: "+str(val))
-			print("\ttype: "+str(message_fields[msg_type][key]['type']))'''
 	return val
 
 
@@ -155,7 +152,27 @@ def enumerate_msg_fields(topic, msg, msg_type):
 			val = python_to_daikon_literal(val)
 			field_string += "\n"+str(val)
 		field_string += "\n1"
-	field_string += "\n"
+	#field_string += "\n"
+	return field_string
+
+
+def enumerate_param_msg_fields(topic, msg, msg_type, i):
+	global testing, message_fields
+	field_string = ""
+	keys = message_fields[msg_type].keys()
+	test_print("\nPRINTING msg:\n"+str(msg) + "\n\nmsg keys for "+str(topic)+":\n"+str(keys))
+	for key in keys:
+		field = message_fields[msg_type][key]
+		field_string += "\na"+str(i)+"."+key
+		levels = key.split(".")
+		test_print("\nRETRIEVING key: "+key+ "\nlevels: "+str(levels))
+		val = traverse_msg_tree(msg, levels, msg_type, key)
+		if  "string" in str(message_fields[msg_type][key]['type']) or "str" in str(message_fields[msg_type][key]['type']):
+			field_string += "\n\""+str(val)+"\""
+		else:
+			val = python_to_daikon_literal(val)
+			field_string += "\n"+str(val)+"\n1"
+	#field_string += "\n"
 	return field_string
 
 
@@ -204,20 +221,20 @@ def main():
 			print child.attrib['topics_out']
 			print type(child.attrib['topics_out'])'''
 			topics_in = child.attrib['topics_in'].split(" ")
-			print("topics_in: "+str(topics_in))
+			print("\nTOPICS_IN: \n"+str(topics_in))
 			xml_topics.extend(topics_in)
 			topics_out = child.attrib['topics_out'].split(" ")
 			xml_topics.extend(topics_out)
-			print("topics_out: "+str(topics_out))
-	print("XML TOPICS: \n"+str(xml_topics))
-	print(""+str(io_topics))
+			print("\nTOPICS_OUT: \n"+str(topics_out))
+	print("\nXML TOPICS: \n"+str(xml_topics))
+	#print(""+str(io_topics))
 
 	#get bag info
 	print "displaying bag info..."
 	display_bag_info(sys.argv[1])
-	print("global topics: "+str(topics))
-	print("message_types: "+str(message_types))
-	print("message_fields: "+str(message_fields))
+	print("GLOBAL topics: \n"+str(topics))
+	print("MESSAGE_TYPES: \n"+str(message_types))
+	print("MESSAGE_FIELDS: \n"+str(message_fields))
 
 	#make decls file
 	print "Writing decls to "+decls_filename
@@ -234,7 +251,6 @@ def main():
 		enter_string = "\n\nppt .."+function_name+"("
 		param_string = build_param_string(index)
 		enter_string += param_string + "):::ENTER"
-		#enter_string += "():::ENTER"
 		enter_string += "\n\tppt-type enter"
 		i = 0
 		for t in topics_in:
@@ -285,7 +301,6 @@ def main():
 	msg_count = 0
 	last_msgs = {}
 	for topic, msg, t in bag.read_messages(xml_topics):
-	#'''for topic, msg, t in bag.read_message(topics=sys.argv[2:len(sys.argv)]):'''
 		if(msg):
 			index = topics.index(topic)
 			msg_type = message_types[index]
@@ -298,10 +313,10 @@ def main():
 		param_string = build_param_string(index)
 		enter_string = "\n.."+topic+"("+param_string+"):::ENTER\nthis_invocation_nonce\n"+str(call_counts[index])
 		i = 0
-		print("last_msgs: "+str(last_msgs))
+		#print("last_msgs: "+str(last_msgs))
 		for t in topics_in:
-			index = topics.index(t)
-			msg_type = message_types[index]
+			param_topic_index = topics.index(t)
+			msg_type = message_types[param_topic_index]
 			last_msg = last_msgs[msg_type]
 			enter_string += "\na"+str(i)
 			enter_string += "\n"+last_msg['hash']
@@ -309,16 +324,21 @@ def main():
 			keys = message_fields[msg_type].keys()
 			for key in keys:
 				field = message_fields[msg_type][key]
-				enter_string += "\nvariable a"+str(i)+"."+key
-				enter_string += enumerate_msg_fields(topic, msg, msg_type)
+				#enter_string += "\nvariable a"+str(i)+"."+key
+				'''print("Getting param fields for "+str(msg))
+				print("\tt: "+str(t))
+				print("\tlast_msg: "+str(last_msg))
+				print("\tmsg_type: "+str(msg_type))'''
+				enter_string += enumerate_param_msg_fields(t, last_msg['msg'], msg_type, i)
+				#enter_string += enumerate_msg_fields(t, last_msg, msg_type)
 				field_type = python_to_daikon_type(field['type'])
 			i += 1
 		enter_string += "\n"
 		exit_string = "\n.."+topic+"("+param_string+"):::EXIT0\nthis_invocation_nonce\n"+str(call_counts[index])+"\nreturn"+"\n"+str(hex(id(msg)))+"\n1"
 		#enumerate msg fields
 		msg_type = message_types[index]
-		field_string = enumerate_msg_fields(topic, msg, msg_type)
-		dtrace_file.write(enter_string+exit_string+field_string)
+		exit_string += enumerate_msg_fields(topic, msg, msg_type)
+		dtrace_file.write(enter_string+exit_string)
 		if (topic):
 			call_counts[index] = call_counts[index] + 1
 	dtrace_file.write("\n..main():::EXIT0\nreturn\n0\n1\n")
