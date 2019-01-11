@@ -46,6 +46,7 @@ def display_bag_info(bag_name):
 	#sys.stdout.write("\nFIELDS FOR %u TOPICS\n" % len(bag_topics))
 	i = 0
 	bag = rosbag.Bag(bag_name)
+	print("bag_topics: "+str(bag_topics))
 	for topic in bag_topics:
 		message_fields.update({topic['type']: {}})
 		message_types.append(topic['type'])
@@ -93,6 +94,7 @@ def python_to_daikon_type(python_type):
 		field_type = "boolean"
 	return field_type;
 
+
 def python_to_daikon_literal(python_lit):
 	python_lit = str(python_lit)
 	if(python_lit == "True"):
@@ -102,10 +104,12 @@ def python_to_daikon_literal(python_lit):
 	else:
 		daikon_lit = python_lit
 	return daikon_lit
+\
 
 def test_print(test_output):
 	#test_output="\nmessage_types:\n"+str(message_types)
 	exec MY_MACRO in globals(), locals()
+
 
 def traverse_msg_tree(val, levels, msg_type, key):
 	global message_fields
@@ -158,9 +162,12 @@ def enumerate_msg_fields(topic, msg, msg_type):
 def build_param_string(index):
 	global topics_in, topics, message_types
 	param_string = ""
+	msg_type = ""
+	#print("BUILD_PARAM_STRING")
 	for t in topics_in:
-		type_index = topics.index(t)
-		msg_type = message_types[index]
+		i = topics.index(t)
+		msg_type = message_types[i]
+		#print(str(t)+" "+str(msg_type))
 		if len(topics_in) == 1:
 			param_string += msg_type
 		elif i == 0 and len(topics_in) > 1:
@@ -207,6 +214,9 @@ def main():
 	#get bag info
 	print "displaying bag info..."
 	display_bag_info(sys.argv[1])
+	print("global topics: "+str(topics))
+	print("message_types: "+str(message_types))
+	print("message_fields: "+str(message_fields))
 
 	#make decls file
 	print "Writing decls to "+decls_filename
@@ -222,23 +232,30 @@ def main():
 		#topic=topic[1:len(topic)]
 		function_name = topic.replace("/", "")
 		enter_string = "\n\nppt .."+function_name+"("
-		i = 0
 		param_string = build_param_string(index)
-		'''param_string = ""
-		for t in topics_in:
-			type_index = topics.index(t)
-			msg_type = message_types[index]
-			if len(topics_in) == 1:
-				param_string += msg_type
-			elif i == 0 and len(topics_in) > 1:
-				param_string += msg_type +", "
-			elif i == len(topics_in)-1:
-				param_string += msg_type
-			else:
-				param_string += "\_"+ msg_type +", "'''
 		enter_string += param_string + "):::ENTER"
 		#enter_string += "():::ENTER"
-		enter_string += "\n\tppt-type enter\n"
+		enter_string += "\n\tppt-type enter"
+		i = 0
+		for t in topics_in:
+			enter_string += "\n\tvariable a"+str(i)
+			enter_string += "\n\t\tvar-kind variable"
+			enter_string += "\n\t\trep-type hashcode"
+			msg_type = message_types[index]
+			enter_string += "\n\t\tdec-type "+ str(msg_type)
+			enter_string += "\n\t\tflags is_param"
+			keys = message_fields[msg_type].keys()
+			for key in keys:
+				field = message_fields[msg_type][key]
+				enter_string += "\n\tvariable a"+str(i)+"."+key
+				enter_string += "\n\t\tvar-kind field "+key
+				enter_string += "\n\t\tenclosing-var a"+str(i)
+				field_type = python_to_daikon_type(field['type'])
+				enter_string += "\n\t\trep-type "+field_type
+				enter_string += "\n\t\tdec-type "+field_type
+				enter_string += "\n\t\tcomparability 1"
+			i += 1
+		enter_string += "\n"
 		exit_string = "\nppt .."+function_name+"("+param_string+"):::EXIT0" + "\n\tppt-type subexit" + "\n\tvariable return" + "\n\t\tvar-kind variable" + "\n\t\trep-type hashcode" + "\n\t\tdec-type "+str(message_types[index]) + "\n\t\tcomparability 1"
 		decls_file.write(enter_string)
 		decls_file.write(exit_string)
@@ -270,14 +287,30 @@ def main():
 	for topic, msg, t in bag.read_messages(xml_topics):
 	#'''for topic, msg, t in bag.read_message(topics=sys.argv[2:len(sys.argv)]):'''
 		if(msg):
-			last_msgs[str(type(msg))] = msg
+			last_msgs[str(type(msg))] = {'msg': msg, 'hash': str(hex(id(msg)))}
 			msg_count += 1
 			print("Processing message "+str(msg_count)+" out of "+str(bag_info['messages']))
 			sys.stdout.write("\033[F") # Cursor up one line
 		index = topics.index(topic)
 		topic=topic.replace("/", "")
 		param_string = build_param_string(index)
-		enter_string = "\n.."+topic+"("+param_string+"):::ENTER\nthis_invocation_nonce\n"+str(call_counts[index])+"\n"
+		enter_string = "\n.."+topic+"("+param_string+"):::ENTER\nthis_invocation_nonce\n"+str(call_counts[index])
+		i = 0
+		for t in topics_in:
+			index = topics.index(t)
+			msg_type = message_types[index]
+			last_msg = last_msgs[str(msg_type)]
+			enter_string += "\na"+str(i)
+			enter_string += "\n"+last_msg['hash']
+			enter_string += "\n1"
+			keys = message_fields[msg_type].keys()
+			for key in keys:
+				field = message_fields[msg_type][key]
+				enter_string += "\nvariable a"+str(i)+"."+key
+				enter_string += enumerate_msg_fields(topic, msg, msg_type)
+				field_type = python_to_daikon_type(field['type'])
+			i += 1
+		enter_string += "\n"
 		exit_string = "\n.."+topic+"("+param_string+"):::EXIT0\nthis_invocation_nonce\n"+str(call_counts[index])+"\nreturn"+"\n"+str(hex(id(msg)))+"\n1"
 		#enumerate msg fields
 		msg_type = message_types[index]
