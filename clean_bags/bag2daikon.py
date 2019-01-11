@@ -16,6 +16,8 @@ bag_info = {}
 testing = False
 want_fields = False
 xml_topics = []
+topics_in = []
+topics_out = []
 
 MY_MACRO = """
 if testing:
@@ -153,8 +155,26 @@ def enumerate_msg_fields(topic, msg, msg_type):
 	return field_string
 
 
+def build_param_string(index):
+	global topics_in, topics, message_types
+	param_string = ""
+	for t in topics_in:
+		type_index = topics.index(t)
+		msg_type = message_types[index]
+		if len(topics_in) == 1:
+			param_string += msg_type
+		elif i == 0 and len(topics_in) > 1:
+			param_string += msg_type +", "
+		elif i == len(topics_in)-1:
+			param_string += msg_type
+		else:
+			param_string += "\_"+ msg_type +", "
+	return param_string
+
+
 def main():
-	global testing, topics, message_types, message_fields, bag_info, xml_topics
+	global testing, topics, message_types, message_fields, bag_info
+	global xml_topics, topics_in, topics_out
 	start_time = time.time()
 
 	#handle CL args
@@ -162,23 +182,28 @@ def main():
 	output_filename=sys.argv[1].split(".")
 	dtrace_filename=output_filename[0]+".dtrace"
 	decls_filename=output_filename[0]+".decls"
+	io_topics = {}
 	if(len(sys.argv) == 3):
 		tree = ET.parse(sys.argv[2])
 		root = tree.getroot()
 		print("XML INFO\n"+str(root.tag))
 		#print(root.attrib)
 		for child in root:
+			io_topics[child.attrib['name']] = child.attrib
 			print child.tag, child.attrib
+			'''print type(child.attrib)
 			print child.attrib['topics_in']
 			print type(child.attrib['topics_in'])
 			print child.attrib['topics_out']
-			print type(child.attrib['topics_out'])
-			xml_topics = child.attrib['topics_in'].split(" ")
-			print("xml_topics: "+str(xml_topics))
-			xml_topics.extend(child.attrib['topics_out'].split(" "))
-			print("xml_topics: "+str(xml_topics))
+			print type(child.attrib['topics_out'])'''
+			topics_in = child.attrib['topics_in'].split(" ")
+			print("topics_in: "+str(topics_in))
+			xml_topics.extend(topics_in)
+			topics_out = child.attrib['topics_out'].split(" ")
+			xml_topics.extend(topics_out)
+			print("topics_out: "+str(topics_out))
 	print("XML TOPICS: \n"+str(xml_topics))
-
+	print(""+str(io_topics))
 	#get bag info
 	print "displaying bag info..."
 	display_bag_info(sys.argv[1])
@@ -194,13 +219,27 @@ def main():
 	for topic in topics:
 		test_output = "\n"+str(topic)+"\n"+str(type(topic))
 		exec MY_MACRO in globals(),locals()
-		'''if(testing):
-			print(str(topic))
-			print(type(topic))'''
 		#topic=topic[1:len(topic)]
 		function_name = topic.replace("/", "")
-		enter_string = "\n\nppt .."+function_name+"():::ENTER\n\tppt-type enter\n"
-		exit_string = "\nppt .."+function_name+"():::EXIT0" + "\n\tppt-type subexit" + "\n\tvariable return" + "\n\t\tvar-kind variable" + "\n\t\trep-type hashcode" + "\n\t\tdec-type "+str(message_types[index]) + "\n\t\tcomparability 1"
+		enter_string = "\n\nppt .."+function_name+"("
+		i = 0
+		param_string = build_param_string(index)
+		'''param_string = ""
+		for t in topics_in:
+			type_index = topics.index(t)
+			msg_type = message_types[index]
+			if len(topics_in) == 1:
+				param_string += msg_type
+			elif i == 0 and len(topics_in) > 1:
+				param_string += msg_type +", "
+			elif i == len(topics_in)-1:
+				param_string += msg_type
+			else:
+				param_string += "\_"+ msg_type +", "'''
+		enter_string += param_string + "):::ENTER"
+		#enter_string += "():::ENTER"
+		enter_string += "\n\tppt-type enter\n"
+		exit_string = "\nppt .."+function_name+"("+param_string+"):::EXIT0" + "\n\tppt-type subexit" + "\n\tvariable return" + "\n\t\tvar-kind variable" + "\n\t\trep-type hashcode" + "\n\t\tdec-type "+str(message_types[index]) + "\n\t\tcomparability 1"
 		decls_file.write(enter_string)
 		decls_file.write(exit_string)
 		msg_type = message_types[index]
@@ -227,16 +266,19 @@ def main():
 	dtrace_file.write(dtrace_header)
 	call_counts=np.zeros(len(topics), dtype=int)
 	msg_count = 0
+	last_msgs = {}
 	for topic, msg, t in bag.read_messages(xml_topics):
 	#'''for topic, msg, t in bag.read_message(topics=sys.argv[2:len(sys.argv)]):'''
 		if(msg):
+			last_msgs[str(type(msg))] = msg
 			msg_count += 1
 			print("Processing message "+str(msg_count)+" out of "+str(bag_info['messages']))
 			sys.stdout.write("\033[F") # Cursor up one line
 		index = topics.index(topic)
 		topic=topic.replace("/", "")
-		enter_string = "\n.."+topic+"():::ENTER\nthis_invocation_nonce\n"+str(call_counts[index])+"\n"
-		exit_string = "\n.."+topic+"():::EXIT0\nthis_invocation_nonce\n"+str(call_counts[index])+"\nreturn"+"\n"+str(hex(id(msg)))+"\n1"
+		param_string = build_param_string(index)
+		enter_string = "\n.."+topic+"("+param_string+"):::ENTER\nthis_invocation_nonce\n"+str(call_counts[index])+"\n"
+		exit_string = "\n.."+topic+"("+param_string+"):::EXIT0\nthis_invocation_nonce\n"+str(call_counts[index])+"\nreturn"+"\n"+str(hex(id(msg)))+"\n1"
 		#enumerate msg fields
 		msg_type = message_types[index]
 		field_string = enumerate_msg_fields(topic, msg, msg_type)
