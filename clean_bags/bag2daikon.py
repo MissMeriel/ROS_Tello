@@ -104,7 +104,7 @@ def python_to_daikon_literal(python_lit):
 	else:
 		daikon_lit = python_lit
 	return daikon_lit
-\
+
 
 def test_print(test_output):
 	#test_output="\nmessage_types:\n"+str(message_types)
@@ -211,6 +211,7 @@ def main():
 			print("topics_out: "+str(topics_out))
 	print("XML TOPICS: \n"+str(xml_topics))
 	print(""+str(io_topics))
+
 	#get bag info
 	print "displaying bag info..."
 	display_bag_info(sys.argv[1])
@@ -229,7 +230,6 @@ def main():
 	for topic in topics:
 		test_output = "\n"+str(topic)+"\n"+str(type(topic))
 		exec MY_MACRO in globals(),locals()
-		#topic=topic[1:len(topic)]
 		function_name = topic.replace("/", "")
 		enter_string = "\n\nppt .."+function_name+"("
 		param_string = build_param_string(index)
@@ -287,7 +287,9 @@ def main():
 	for topic, msg, t in bag.read_messages(xml_topics):
 	#'''for topic, msg, t in bag.read_message(topics=sys.argv[2:len(sys.argv)]):'''
 		if(msg):
-			last_msgs[str(type(msg))] = {'msg': msg, 'hash': str(hex(id(msg)))}
+			index = topics.index(topic)
+			msg_type = message_types[index]
+			last_msgs[msg_type] = {'msg': msg, 'hash': str(hex(id(msg)))}
 			msg_count += 1
 			print("Processing message "+str(msg_count)+" out of "+str(bag_info['messages']))
 			sys.stdout.write("\033[F") # Cursor up one line
@@ -296,10 +298,11 @@ def main():
 		param_string = build_param_string(index)
 		enter_string = "\n.."+topic+"("+param_string+"):::ENTER\nthis_invocation_nonce\n"+str(call_counts[index])
 		i = 0
+		print("last_msgs: "+str(last_msgs))
 		for t in topics_in:
 			index = topics.index(t)
 			msg_type = message_types[index]
-			last_msg = last_msgs[str(msg_type)]
+			last_msg = last_msgs[msg_type]
 			enter_string += "\na"+str(i)
 			enter_string += "\n"+last_msg['hash']
 			enter_string += "\n1"
