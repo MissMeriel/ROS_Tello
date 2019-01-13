@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+
+<nodes>
+	<node name="gotogoal" topics_in="/vicon/TELLO/TELLO /vicon/OBSTACLE/OBSTACLE /user_input" topics_out="/velocity /state"/>
+	<node name="" topics_in="/obstacle_detector /obstacle_dyn" topics_out="/velocity /user_input"/>
+	<node name="key_vel" topics_in="/obstacle_detector /keys_enabled /killswitch /obstacle_dyn" topics_out="/state /velocity"/>
+	<!--<node name="" topics_in="" topics_out=""/>-->
+</nodes>
