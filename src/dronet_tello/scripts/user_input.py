@@ -70,7 +70,7 @@ def main():
 	rospy.init_node("user_input", anonymous=True)
 	dt = 0.200
 	rate = rospy.Rate(dt)
-	velocity_publisher = rospy.Publisher("/velocity", Twist, queue_size=5)
+	#velocity_publisher = rospy.Publisher("/velocity", Twist, queue_size=5)
 	user_input_publisher = rospy.Publisher("/user_input", String, queue_size=10)
 	obstacle_subscriber = rospy.Subscriber("/obstacle_detector", Bool, obstacle_callback, queue_size=1)
 	obstacle_dyn_subscriber = rospy.Subscriber("/obstacle_dyn", Bool, obstacle_dyn_callback, queue_size=1)
