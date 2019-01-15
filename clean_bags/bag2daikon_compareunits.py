@@ -1,4 +1,5 @@
 #/usr/bin/python
+from __future__ import print_function
 import sys
 import time
 import rosbag
@@ -6,6 +7,7 @@ from sets import Set
 import numpy as np
 import subprocess, yaml
 import xml.etree.ElementTree as ET
+
 
 
 
@@ -18,15 +20,17 @@ want_fields = False
 xml_topics = Set()
 topics_in = []
 topics_out = []
+comparability_count = 1
+comparability_map = {}
 
 MY_MACRO = """
 if testing:
-	print test_output            
+	print(test_output)          
 """
 
 FIELD_MACRO = """
 if want_fields:
-	print field_output
+	print(field_output)
 """
 
 def print_fields(field_output):
@@ -128,7 +132,7 @@ def traverse_msg_tree(val, levels, msg_type, key):
 
 
 def enumerate_msg_fields(topic, msg, msg_type):
-	global testing, message_fields
+	global testing, message_fields, comparability_map, comparability_count
 	field_string = ""
 	keys = message_fields[msg_type].keys()
 	#test_print("\nPRINTING msg:\n"+str(msg) + "\n\nmsg keys for "+str(topic)+":\n"+str(keys))
@@ -148,13 +152,16 @@ def enumerate_msg_fields(topic, msg, msg_type):
 
 		val = traverse_msg_tree(msg, levels, msg_type, key)
 		#print(str(val) + str(field['type']))
-		if  "string" in str(message_fields[msg_type][key]['type']) or "str" in str(message_fields[msg_type][key]['type']):
+		field_type = message_fields[msg_type][key]['type']
+		#using actual type of field_type
+		comparability_int = 1 ###get_comparability_int(key, field_type)
+		if  "string" in str(field_type) or "str" in str(field_type):
 			val = val.replace("\n", "")
 			field_string += "\n\""+str(val)+"\""
 		else:
 			val = python_to_daikon_literal(val)
 			field_string += "\n"+str(val)
-		field_string += "\n1"
+		field_string += "\n"+str(comparability_int)
 	field_string += "\n"
 	return field_string
 
@@ -173,12 +180,16 @@ def enumerate_param_msg_fields(topic, msg, msg_type, i):
 			val = traverse_msg_tree(msg, levels, msg_type, key)
 		else:
 			val = "nonsensical"
-		if  "string" in str(message_fields[msg_type][key]['type']) or "str" in str(message_fields[msg_type][key]['type']):
+		#using actual type of field_type
+		field_type = message_fields[msg_type][key]['type']
+		comparability_int = 1 ###get_comparability_int(key, field_type)
+		if  "string" in str(field_type) or "str" in str(field_type):
 			val = val.replace("\n", "")
-			field_string += "\n\""+str(val)+"\"\n1"
+			field_string += "\n\""+str(val)+"\""
 		else:
 			val = python_to_daikon_literal(val)
-			field_string += "\n"+str(val)+"\n1"
+			field_string += "\n"+str(val)
+		field_string += "\n"+str(comparability_int)
 	return field_string
 
 
@@ -205,9 +216,81 @@ def build_param_string(topics_in):
 	return param_string
 
 
+def get_comparability_int(field, field_type):
+	global comparability_count, comparability_map
+	#print("GET COMPARABILITY INT FOR field:"+str(field)+", field_type:"+str(field_type), end='')
+	if "rotation" in field:
+		try:
+			comparability_int = comparability_map["rotation"]
+		except:
+			comparability_count += 1
+			comparability_int = comparability_count
+			comparability_map["rotation"] = comparability_count
+	elif "angular" in field:
+		try:
+			comparability_int = comparability_map["angular"]
+		except:
+			comparability_count += 1
+			comparability_int = comparability_count
+			comparability_map["angular"] = comparability_count
+	elif "translation" in field:
+		try:
+			comparability_int = comparability_map["translation"]
+		except:
+			comparability_count += 1
+			comparability_int = comparability_count
+			comparability_map["translation"] = comparability_count
+	elif "frame_id" in field:
+		#this allows for comparison of frame_id and child_frame_id
+		try:
+			comparability_int = comparability_map["frame_id"]
+		except:
+			comparability_count += 1
+			comparability_int = comparability_count
+			comparability_map["frame_id"] = comparability_count
+	elif "stamp.nsecs" in field:
+		try:
+			comparability_int = comparability_map["stamp.nsecs"]
+		except:
+			comparability_count += 1
+			comparability_int = comparability_count
+			comparability_map["stamp.nsecs"] = comparability_count
+	elif "stamp.secs" in field:
+		try:
+			comparability_int = comparability_map["stamp.secs"]
+		except:
+			comparability_count += 1
+			comparability_int = comparability_count
+			comparability_map["stamp.secs"] = comparability_count
+	elif "header.seq" in field:
+		try:
+			comparability_int = comparability_map["header.seq"]
+		except:
+			comparability_count += 1
+			comparability_int = comparability_count
+			comparability_map["header.seq"] = comparability_count
+	#elif "" in field:
+
+	#elif "" in field:
+
+	#elif "" in field:
+
+	else:
+		try:
+			comparability_int = comparability_map[field_type]
+			
+		except:
+			comparability_count += 1
+			comparability_int = comparability_count
+			comparability_map[field_type] = comparability_count
+	#print(", comparability_int:"+str(comparability_int))
+	return comparability_int
+
+
 def main():
 	global testing, topics, message_types, message_fields, bag_info
 	global xml_topics, topics_in, topics_out
+	global comparability_map, comparability_count
 	start_time = time.time()
 
 	#handle CL args
@@ -256,14 +339,14 @@ def main():
 			topics.append(t)
 
 	#get bag info
-	print "displaying bag info..."
+	print("displaying bag info...")
 	display_bag_info(sys.argv[1])
 	test_print("GLOBAL topics: \n"+str(topics))
 	test_print("MESSAGE_TYPES: \n"+str(message_types))
 	#test_print("MESSAGE_FIELDS: \n"+str(message_fields))
 
 	#make decls file
-	print "Writing decls to "+decls_filename
+	print("Writing decls to "+decls_filename)
 	decls_file=open(decls_filename, "w")
 	decls_header = "input-language C/C++\ndecl-version 2.0\nvar-comparability implicit\n\n"
 	decls_header += "\nppt ..main():::ENTER\n\tppt-type enter\n"
@@ -308,9 +391,10 @@ def main():
 				param_string += "\n\t\tvar-kind field "+key
 				param_string += "\n\t\tenclosing-var param"+str(i)
 				field_type = python_to_daikon_type(field['type'])
+				comparability_int = get_comparability_int(key, field['type'])
 				param_string += "\n\t\trep-type "+field_type
 				param_string += "\n\t\tdec-type "+field_type
-				param_string += "\n\t\tcomparability 1"
+				param_string += "\n\t\tcomparability "+str(comparability_int)
 			i += 1
 		enter_string += param_string+ "\n"
 		exit_string = "\nppt .."+function_name+"("+signature_param_string+"):::EXIT0" + "\n\tppt-type subexit" + param_string +"\n\tvariable return" + "\n\t\tvar-kind variable" + "\n\t\trep-type hashcode" + "\n\t\tdec-type "+str(message_types[index]) + "\n\t\tcomparability 1"
@@ -327,13 +411,14 @@ def main():
 			field_type = python_to_daikon_type(field['type'])
 			field_string += "\n\t\trep-type "+field_type
 			field_string += "\n\t\tdec-type "+field_type
-			field_string += "\n\t\tcomparability 1"
+			comparability_int = get_comparability_int(key, field['type'])
+			field_string += "\n\t\tcomparability "+str(comparability_int)
 		decls_file.write(field_string+"\n")
 		index += 1
 	decls_file.close()
 
 	#make dtrace file
-	print "Writing dtrace to "+dtrace_filename
+	print("Writing dtrace to "+dtrace_filename)
 	dtrace_file=open(dtrace_filename, "w")
 	dtrace_header = "input-language C/C++\ndecl-version 2.0\nvar-comparability implicit\n\n" + "\n..main():::ENTER\n" 
 	dtrace_file.write(dtrace_header)
@@ -397,6 +482,9 @@ def main():
 	dtrace_file.write("\n..main():::EXIT0\nreturn\n0\n1\n")
 	dtrace_file.close()
 	bag.close()
+	print("\nCOMPARABILITY MAP:")
+	for key in comparability_map.keys():
+		print("comparability_map["+str(key)+"]: "+str(comparability_map[key]))
 	print("Processed "+str(msg_count)+" out of "+str(bag_info['messages'])+" messages")
 	print("----- %s seconds runtime -----" % (time.time() - start_time))
 
