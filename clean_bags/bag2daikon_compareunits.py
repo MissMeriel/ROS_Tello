@@ -10,16 +10,13 @@ import xml.etree.ElementTree as ET
 
 
 
-
 topics = []
 message_types = []
 message_fields = {}
 bag_info = {}
-testing = False
+testing = True
 want_fields = False
 xml_topics = Set()
-topics_in = []
-topics_out = []
 comparability_count = 1
 comparability_map = {}
 
@@ -135,6 +132,8 @@ def enumerate_msg_fields(topic, msg, msg_type):
 	global testing, message_fields, comparability_map, comparability_count
 	field_string = ""
 	keys = message_fields[msg_type].keys()
+#	if(msg == None):
+		#exit()
 	#test_print("\nPRINTING msg:\n"+str(msg) + "\n\nmsg keys for "+str(topic)+":\n"+str(keys))
 	'''if(testing):
 		print("\nPRINTING msg:\n"+str(msg))
@@ -170,16 +169,17 @@ def enumerate_param_msg_fields(topic, msg, msg_type, i):
 	global message_fields
 	field_string = ""
 	keys = message_fields[msg_type].keys()
-	#test_print("\nPRINTING msg:\n"+str(msg) + "\n\nmsg keys for "+str(topic)+":\n"+str(keys))
+	test_print("\nPRINTING msg:\n"+str(msg) + "\n\nmsg keys for "+str(topic)+":\n"+str(keys))
 	for key in keys:
 		field = message_fields[msg_type][key]
 		field_string += "\nparam"+str(i)+"."+key
 		levels = key.split(".")
-		#test_print("\nRETRIEVING key: "+key+ "\nlevels: "+str(levels))
+		test_print("\nRETRIEVING key: "+key+ "\nlevels: "+str(levels))
 		if msg != None:
 			val = traverse_msg_tree(msg, levels, msg_type, key)
 		else:
 			val = "nonsensical"
+			#exit()
 		#using actual type of field_type
 		field_type = message_fields[msg_type][key]['type']
 		comparability_int = 1 ###get_comparability_int(key, field_type)
@@ -270,11 +270,8 @@ def get_comparability_int(field, field_type):
 			comparability_int = comparability_count
 			comparability_map["header.seq"] = comparability_count
 	#elif "" in field:
-
 	#elif "" in field:
-
 	#elif "" in field:
-
 	else:
 		try:
 			comparability_int = comparability_map[field_type]
@@ -289,7 +286,7 @@ def get_comparability_int(field, field_type):
 
 def main():
 	global testing, topics, message_types, message_fields, bag_info
-	global xml_topics, topics_in, topics_out
+	global xml_topics#, topics_in, topics_out
 	global comparability_map, comparability_count
 	start_time = time.time()
 
@@ -307,7 +304,7 @@ def main():
 		topics_in = []
 		topics_out = []
 		for child in root:
-			#print child.tag, child.attrib
+			#print(child.tag+"="+child.attrib)
 			io_topics[child.attrib['name']] = child.attrib
 			topics_in = filter(None, child.attrib['topics_in'].split(" "))
 			xml_topics.update(topics_in)
@@ -317,7 +314,7 @@ def main():
 			io_topics[child.attrib['name']]['topics_out'] = topics_out
 	for t in xml_topics:
 		node_lookup[t] = {'in': "", 'out': ""}
-	test_print("BIULDING NODE LOOKUP")
+	test_print("BUILDING NODE LOOKUP")
 	for node in io_topics:
 		for ti in io_topics[node]['topics_in']:
 			test_print("node: "+str(node)+"; ti: "+str(ti))
@@ -355,20 +352,19 @@ def main():
 	index = 0
 	comparability_count = 1
 	comparability_map = {}
-	test_print("TOPICS:\n"+str(topics)+"\n")
+	#test_print("TOPICS:\n"+str(topics)+"\n")
 	for topic in topics:
-		test_print("WRITING DECL FOR "+str(topic)+"\n"+str(type(topic)))
+		test_print("WRITING DECL FOR "+str(topic)+" "+str(message_types[index]))
 		slashed_topic = topic
 		#get node publishing that topic
-		test_print("node_lookup["+slashed_topic+"]['out']: "+str(node_lookup[slashed_topic]['out']))
+		#test_print("node_lookup["+slashed_topic+"]['out']: "+str(node_lookup[slashed_topic]['out']))
 		node_name = node_lookup[slashed_topic]['out']
 		if node_name == '':
 			topics_in = []
 		else:
 		#get topics consumed by that node for the fxn signature's params
 			topics_in = io_topics[node_name]['topics_in']
-		
-		test_print("TOPICS_IN FOR "+node_name+":"+str(topics_in))
+		#test_print("TOPICS_IN FOR "+node_name+":"+str(topics_in))
 		function_name = topic.replace("/", "")
 		enter_string = "\nppt .."+function_name+"("
 		signature_param_string = build_param_string(topics_in)
@@ -416,6 +412,7 @@ def main():
 		decls_file.write(field_string+"\n")
 		index += 1
 	decls_file.close()
+	test_print("\n")
 
 	#make dtrace file
 	print("Writing dtrace to "+dtrace_filename)
@@ -424,16 +421,71 @@ def main():
 	dtrace_file.write(dtrace_header)
 	call_counts=np.zeros(len(topics), dtype=int)
 	msg_count = 0
+	last_topic = None
 	last_msgs = {}
+	io_params = {}
 	for t in topics:
 		last_msgs[t] = None
+		io_params[t] = {'enter':{}, 'exit':{}}
+
+	for t in topics:
+		node_name = node_lookup[t]['out']
+		if node_name == '':
+			topics_in = []
+		else:
+		#get topics consumed by that node for the fxn signature's params
+			topics_in = io_topics[node_name]['topics_in']
+		topics_in = io_topics[node_name]['topics_in']
+		for ti in topics_in:
+			io_params[t]['enter'][ti] = {}
+			io_params[t]['exit'][ti] = {}
+
+	print("IO_PARAMS:")
+	for key in io_params.keys():
+		print(key+": "+str(io_params[key]))
+
+	print("NODE_LOOKUP:")
+	for key in node_lookup.keys():
+		print(key+": "+str(node_lookup[key]))
+
+	print("IO_TOPICS:")
+	for key in io_topics.keys():
+		print(key+": "+str(io_topics[key]))
+	#exit()
+
 	for topic, msg, t in bag.read_messages(xml_topics):
+
 		if(msg):
+			if(last_topic != topic and last_topic != None):
+				# determine if current topic is one of the topics 
+				# that the last topic's node subscribes to
+				node_name = node_lookup[last_topic]['out']
+				topics_in = io_topics[node_name]['topics_in']
+				if('vicon' not in last_topic):
+					print("\nnode_name: "+str(node_name))
+					print("CURR TOPIC: "+topic)
+					print("LAST TOPIC: "+str(last_topic))
+					print("TOPICS IN FOR "+str(node_name)+": "+str(topics_in))
+					print("NODE_LOOKUP: "+str(node_lookup))
+					print("IO_PARAMS: "+str(io_params))
+				
+				for key in io_params.keys():
+					if(topic in io_params[key]['enter'].keys()):
+						io_params[last_topic]['enter'][topic] = {'msg': msg, 'hash': str(hex(id(msg))), 'topic': topic}
+
+					if('vicon' not in last_topic):
+						print("ADDED TO IO_PARAMS["+last_topic+"][enter]["+topic+"]: "+str("{msg:"+str(msg)+", hash:"+str(hex(id(msg)))+", topic:"+topic+"}"))
+						#exit()
+				
+	
 			index = topics.index(topic)
 			msg_type = message_types[index]
+			for key in io_params.keys():
+				if(io_params[key]['exit'] != {}):
+					io_params[key]['exit'][topic] = {'msg': msg, 'hash': str(hex(id(msg))), 'topic': topic}
 			last_msgs[topic] = {'msg': msg, 'hash': str(hex(id(msg))), 'topic': topic}
 			msg_count += 1
-			print("Processing message "+str(msg_count)+" out of "+str(bag_info['messages']))
+			#print("Processing message "+str(msg_count)+" out of "+str(bag_info['messages']))
 			if not testing:
 				sys.stdout.write("\033[F") # Cursor up one line
 		index = topics.index(topic)
@@ -453,24 +505,57 @@ def main():
 		exit_string = exit_string = "\n.."+topic+"("+signature_param_string+"):::EXIT0\nthis_invocation_nonce\n"+str(call_counts[index])
 		i = 0
 		param_string = ""
+		enter_param_string = ""
+		exit_param_string = ""
 		#test_print("LAST_MSGS:\n"+str(last_msgs))
-		for t in topics_in:
-			#t = t.replace("/", "")
+		for t in topics_in: 
 			param_topic_index = topics.index(t)
 			msg_type = message_types[param_topic_index]
-			last_msg = last_msgs[t]
-			if last_msg != None:
-				param_string += "\nparam"+str(i) + "\n"+last_msg['hash'] + "\n1"
-				message = last_msg['msg']
+			print("io_params["+slashed_topic+"]: "+str(io_params[slashed_topic]))
+			print("io_params["+slashed_topic+"]['enter']: "+str(io_params[slashed_topic]['enter']))
+			enter_msg = {}
+			exit_msg = {}
+			try:
+				enter_msg = io_params[slashed_topic]['enter'][t]
+			except:
+				enter_msg = {}
+				#exit()
+			try:
+				exit_msg = io_params[slashed_topic]['exit'][t]
+			except:
+				exit_msg = {}
+				#exit()
+			#exit_msg = last_msgs[t]
+			print("ENTER MESSAGE FOR TOPIC "+str(t)+": "+str(enter_msg))
+			print("EXIT MESSAGE FOR TOPIC "+str(t)+": "+str(exit_msg))
+			#print("\nIO_PARAMS:")
+			#for key in io_params.keys():
+			#	print(key+": "+str(io_params[key]))
+
+			if enter_msg != {}:
+				enter_param_string += "\nparam"+str(i) + "\n"+enter_msg['hash'] + "\n1"
+				enter_message = enter_msg['msg']
+				enter_param_string += enumerate_param_msg_fields(t, enter_message, msg_type, i)
 			else:
-				param_string += "\nparam"+str(i) + "\n"+hex(id("")) + "\n1"
-				message = None
-			keys = message_fields[msg_type].keys()
-			#test_print("\nFields for "+str(message_fields[msg_type])+"\nKeys:\n"+str(keys))
-			param_string += enumerate_param_msg_fields(t, message, msg_type, i)
+				#exit()
+				enter_param_string += "\nparam"+str(i) + "\n"+hex(id("")) + "\n1"
+				enter_message = None
+			if exit_msg != {}:
+				exit_param_string += "\nparam"+str(i) + "\n"+exit_msg['hash'] + "\n1"
+				exit_message = exit_msg['msg']
+				exit_param_string += enumerate_param_msg_fields(t, exit_message, msg_type, i)
+			else:
+				#exit()
+				exit_param_string += "\nparam"+str(i) + "\n"+hex(id("")) + "\n1"
+				exit_message = None
+	
+
+			#if(msg == None):
+				#exit()
+
 			i += 1
-		enter_string += param_string + "\n"
-		exit_string += param_string
+		enter_string += enter_param_string + "\n"
+		exit_string += exit_param_string
 		#enumerate EXIT return msg fields
 		msg_type = message_types[index]
 		exit_string += "\nreturn"+"\n"+str(hex(id(msg)))+"\n1"
@@ -478,14 +563,17 @@ def main():
 		dtrace_file.write(enter_string+exit_string)
 		if (topic):
 			call_counts[index] = call_counts[index] + 1
+		if slashed_topic != last_topic:
+			last_topic = slashed_topic
 		#time.sleep(2)
 	dtrace_file.write("\n..main():::EXIT0\nreturn\n0\n1\n")
 	dtrace_file.close()
 	bag.close()
-	print("\nCOMPARABILITY MAP:")
+	test_print("\nCOMPARABILITY MAP:")
 	for key in comparability_map.keys():
-		print("comparability_map["+str(key)+"]: "+str(comparability_map[key]))
+		test_print("comparability_map["+str(key)+"]: "+str(comparability_map[key]))
 	print("Processed "+str(msg_count)+" out of "+str(bag_info['messages'])+" messages")
+	print("Output: "+decls_filename+" "+dtrace_filename)
 	print("----- %s seconds runtime -----" % (time.time() - start_time))
 
 
