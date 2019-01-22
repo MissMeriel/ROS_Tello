@@ -103,6 +103,7 @@ def main():
 	previous_error = 0
 	# Defaults: Kp=0.045; Ki=0.08; Kd=0.075
 	# Moderate speed: Kp=0.008; Ki=0.03; Kd=0.06
+	# Quick speed: Kp=0.13; Ki=0.003; Kd=0.1
 	Kp = 0.13
 	Ki = 0.003
 	Kd = 0.1
@@ -139,8 +140,8 @@ def main():
 			vel.linear.x = 0
 			vel.linear.y = 0
 			vel.linear.z = -500
-			print("NO VICON DATA; LANDING")
 			str_msg = "NO VICON DATA; LANDING"
+			print(str_msg)
 			velocity_publisher.publish(vel)
 			continue
 
@@ -166,7 +167,7 @@ def main():
 			#print("\tdistance to obstacle: "+ str(distance_drone_to_obstacle))
 			#print("\tdistance from obstacle to goal: "+ str(distance_obs_to_goal))
 
-		str_msg = "GO TO GOAL; distance to goal: "+ str(distance_to_final_goal)
+		str_msg = "GO TO GOAL"
 
 		obstacle_publisher.publish(Bool(obstacle_in_path))
 		pose = Pose()
@@ -177,8 +178,8 @@ def main():
 
 		if (distance_to_final_goal < threshold):
 			if(hover_count < 5):
-				print("GOAL REACHED with threshold "+str(distance_to_final_goal))
-				str_msg = "GOAL REACHED with threshold "+str(distance_to_final_goal)
+				print("GOAL REACHED with threshold "+str(distance_to_final_goal)
+				str_msg = "GOAL REACHED"
 				vel.linear.x = 0
 				vel.linear.y = 0
 				vel.linear.z = -200
@@ -201,6 +202,7 @@ def main():
 				integral = 0
 				previous_error = 0
 		elif(avoid):
+			str_msg = "AVOIDING"
 			print("OBSTACLE_IN_PATH; AVOID")
 			print("OBSTACLE_IN_PATH; AVOID")
 			print("OBSTACLE_IN_PATH; AVOID")
@@ -226,6 +228,7 @@ def main():
 			if(not obstacle_in_path and avoid_count > 5):
 				avoid = False
 				print("OBSTACLE NO LONGER IN PATH; AVOID TERMINATED")
+				str_msg = "GO TO GOAL"
 				avoid_count = 0
 		else:
 			print("NOT @ FINAL GOAL")
@@ -240,6 +243,7 @@ def main():
 					goal_x = hover_point_x
 					goal_y = hover_point_y
 					print("goal set to hover_point: "+str(hover_point_x)+", "+str(hover_point_y))
+					str_msg = "GO TO GOAL"
 					error = 0
 					integral = 0
 					previous_error = 0
@@ -255,6 +259,7 @@ def main():
 						vel.linear.z=-200
 						hover_count = 0
 					print("HOVERED "+str(hover_count)+" seconds")
+					str_msg = "HOVERING AT OBSTACLE; WAITING FOR USER INPUT"
 					hover_count += dt
 					velocity_publisher.publish(vel)
 					rate.sleep()
@@ -263,7 +268,7 @@ def main():
 				goal_x = final_goal_x
 				goal_y = final_goal_y
 				print("OBSTACLE NOT IN_PATH; GO TOWARDS GOAL")
-
+				str_msg = "GO TO GOAL"
 			error = distance_to_goal
 			derivative = (error - previous_error) / dt
 			integral = integral + (error * dt)

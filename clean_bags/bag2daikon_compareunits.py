@@ -287,6 +287,14 @@ def get_comparability_int(field, field_type):
 	return comparability_int
 
 
+def get_topic_sequence_dtrace_string(topic_sequence):
+	
+
+
+def get_topic_sequence_decl_string(topic_sequence):
+
+
+
 def main():
 	global testing, topics, message_types, message_fields, bag_info
 	global xml_topics#, topics_in, topics_out
@@ -355,7 +363,6 @@ def main():
 	index = 0
 	comparability_count = 1
 	comparability_map = {}
-	#test_print("TOPICS:\n"+str(topics)+"\n")
 	for topic in topics:
 		test_print("WRITING DECL FOR "+str(topic)+" "+str(message_types[index]))
 		slashed_topic = topic

@@ -11,15 +11,10 @@ from geometry_msgs.msg import TransformStamped
 from std_msgs.msg import Bool
 from std_msgs.msg import String
 #from vicon_bridge import Marker
+from enum import Enum     # for enum34, or the stdlib version
 
-
-<<<<<<< HEAD
 goal_x = sys.argv[1]
 goal_y = sys.argv[2]
-=======
-goal_x = int(sys.argv[1])
-goal_y = int(sys.argv[2])
->>>>>>> 60b5fb2a3458a5dda8913c26cd99366274a52927
 obs_x = -20
 obs_y = -20
 obs_corner_x = 0
@@ -32,7 +27,7 @@ curr_angle = 0
 publishing = True
 avoid = False
 
-<<<<<<< HEAD
+
 def process_sysargs():
 	global goal_x, goal_y
 	goal_x = goal_x.split(",")
@@ -40,8 +35,7 @@ def process_sysargs():
 	for i in range(0,len(goal_x)):
 		goal_x[i] = float(goal_x[i])
 		goal_y[i] = float(goal_y[i])
-=======
->>>>>>> 60b5fb2a3458a5dda8913c26cd99366274a52927
+
 
 def vicon_data(data):
 	global curr_x, curr_y, curr_z, curr_angle
@@ -144,13 +138,13 @@ def main():
 		#print("distance to goal: "+ str(distance_to_goal))
 		#print("distance to obstacle: "+ str(distance_drone_to_obstacle))
 		print("obstacle_in_path: "+str(obstacle_in_path))
-		str_msg = "distance to goal: "+ str(distance_to_goal)
+		str_msg = "GO TO GOAL"
 		obstacle_publisher.publish(Bool(obstacle_in_path))
 
 		if (distance_to_final_goal < threshold):
 			if(hover_count < 5):
 				print("GOAL REACHED with threshold "+str(distance_to_goal))
-				str_msg = "GOAL REACHED with threshold "+str(distance_to_goal)
+				str_msg = "GOAL REACHED"
 				vel.linear.x = 0
 				vel.linear.y = 0
 				vel.linear.z = -200
@@ -158,6 +152,7 @@ def main():
 			else:
 				exit()
 		elif(avoid):
+			str_msg = "AVOIDING"
 			print("OBSTACLE_IN_PATH; AVOID")
 			print("OBSTACLE_IN_PATH; AVOID")
 			print("OBSTACLE_IN_PATH; AVOID")
@@ -187,7 +182,7 @@ def main():
 				print("OBSTACLE NO LONGER IN PATH")
 				print("OBSTACLE NO LONGER IN PATH")
 				count = 0
-
+				str_msg = "GO TO GOAL"
 
 		else:
 			print("NOT AVOID")
@@ -200,6 +195,7 @@ def main():
 				goal_x = hover_point_x
 				goal_y = hover_point_y
 				print("goal set to hover_point: "+str(hover_point_x)+", "+str(hover_point_y))
+				str_msg = "GO TO GOAL"
 				error = 0
 				integral = 0
 				previous_error = 0
@@ -208,9 +204,11 @@ def main():
 				if(distance_to_goal < threshold):
 					vel.linear.x = 0
 					vel.linear.y = 0
+					str_msg = "HOVERING"
 					while(sent < 5):
 						obstacle_publisher.publish(Bool(True))
 						sent += 1
+					state_publisher.publish(str_msg)
 					velocity_publisher.publish(vel)
 					rate.sleep()
 					break
@@ -222,13 +220,15 @@ def main():
 					print("PREPARING TO AVOID")
 					print("PREPARING TO AVOID")
 					str_msg = "PREPARING TO AVOID"
+					state_publisher.publish(str_msg)
 					break
 				hover_count += dt
 				if(hover_count > 10):
 					vel.linear.x = 0
 					vel.linear.y = 0
 					vel.linear.z = -200
-				if(hover_count > 10):
+					str_msg = "LANDING"
+				if(hover_count > 12):
 					exit()
 			else:
 				goal_x = final_goal_x
@@ -263,6 +263,7 @@ def main():
 				vel_x = -1
 			vel.linear.x = vel_x
 			vel.linear.y = vel_y
+			str_msg = "GO TO GOAL"
 
 		#check for lapse in vicon data
 		if(not publishing):
