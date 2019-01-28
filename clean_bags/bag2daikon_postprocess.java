@@ -8,6 +8,11 @@ import java.io.*;
 import java.io.ObjectInputStream;
 import java.util.*;
 import java.util.ArrayList;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import com.github.swrirobotics.bags.reader.BagFile;
+import com.github.swrirobotics.bags.reader.exceptions.BagReaderException;
 
 /**
  * Postprocessing of invariants for temporal invariant generation
@@ -18,6 +23,7 @@ import java.util.ArrayList;
 public class bag2daikon_postprocess {
 
 	public static PptMap pptmap;
+	private static final String OUTPUT_FILE = "demo2_2018-12-21-11-10-07_postproc.txt";
 
 	public static void createSerializable(String filename) throws IOException {
 		FileOutputStream fileout =  new FileOutputStream(filename);
@@ -62,9 +68,36 @@ public class bag2daikon_postprocess {
 		}*/
 	}
 
-	public static void main(String[] args){
+	public static void main(String[] args) throws BagReaderException {
+
+		
 		try{
-			readInSerializable("demo2_2018-12-21-11-10-07.inv");
+			//readInSerializable("demo2_2018-12-21-11-10-07.inv");
+			OutputStream out = new FileOutputStream(OUTPUT_FILE);
+			BagFile file = BagReader.readFile("demo2_2018-12-21-11-10-07.bag");
+			//bag.start(out, Bag.CHUNK_COMPRESSION_NONE);
+			// write a byte sequence
+			/*out.write(bytes);
+			// write a single byte
+			out.write(bytes[0]);
+			// write sub sequence of the byte array
+			out.write(bytes,4,10);
+			*/
+
+			file.forMessagesOfType("std_msgs/String", new MessageHandler() {
+			    @Override
+			    public boolean process(MessageType message) {
+				try {
+				    System.out.println(message.<StringType>getField("data").getValue());
+				}
+				catch (UninitializedFieldException e) {
+				    System.err.println("Field was not initialized.");
+				}
+				return true;
+			    }
+			});
+		 
+
 		} catch(IOException e) {
 			e.printStackTrace();
 		}
