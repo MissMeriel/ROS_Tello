@@ -73,17 +73,25 @@ public class bag2daikon_postprocess {
 	public static void main(String[] args) throws BagReaderException {
 		
 		try{
-			readInSerializable("demo2_2018-12-21-11-10-07.inv");
+			String inv_file = "demo2_statestd_2019-01-29-10-53-10.inv"; //args[1];
+			String bag_file = "demo2_statestd_2019-01-29-10-53-10.bag";
+			readInSerializable(inv_file);
 			OutputStream out = new FileOutputStream(OUTPUT_FILE);
-			BagFile file = BagReader.readFile("demo2_2018-12-21-11-10-07.bag");
+			BagFile file = BagReader.readFile(bag_file);
 
 			System.out.println("Topics:");
+			//String[] topics = [];
 			for (TopicInfo topic : file.getTopics()) {
 			    System.out.println(topic.getName() + " \t\t" + topic.getMessageCount() +
 					  " msgs \t: " + topic.getMessageType() + " \t" +
 					  (topic.getConnectionCount() > 1 ? ("(" + topic.getConnectionCount() + " connections)") : ""));
 			}
-			System.out.println("\n");
+
+			/* sorted bag --> msg array w/ fuzzy chron compare across topics
+			* 
+			*/
+
+			/*System.out.println("\n");
 			file.forMessagesOfType("std_msgs/String", new MessageHandler() {
 			    @Override
 			    public boolean process(MessageType message, Connection conn) {
@@ -95,7 +103,7 @@ public class bag2daikon_postprocess {
 				}
 				return true;
 			    }
-			});
+			});*/
 		 
 		} catch(IOException e) {
 			e.printStackTrace();

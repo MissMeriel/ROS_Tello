@@ -287,11 +287,11 @@ def get_comparability_int(field, field_type):
 	return comparability_int
 
 
-def get_topic_sequence_dtrace_string(topic_sequence):
+#def get_topic_sequence_dtrace_string(topic_sequence):
 	
 
 
-def get_topic_sequence_decl_string(topic_sequence):
+#def get_topic_sequence_decl_string(topic_sequence):
 
 
 
