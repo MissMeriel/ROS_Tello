@@ -12,7 +12,8 @@
 	key_vel_toggle.py
 	user_input.py
 	-->
-  <node pkg="rosbag" type="record" name="rosbag_record" args="record -o $(find dronet_tello)/../../demo2 /rosout /velocity /flight_data /state /user_input /obstacle_detector /vicon/TELLO/TELLO /vicon/OBSTACLE/OBSTACLE /vicon/markers" />
+
+  <node pkg="rosbag" type="record" name="rosbag_record" args="record -o $(find dronet_tello)/../../demo2_statestd /rosout /velocity /flight_data /state /user_input /obstacle_detector /vicon/TELLO/TELLO /vicon/OBSTACLE/OBSTACLE /vicon/markers" />
 
 </launch>
 

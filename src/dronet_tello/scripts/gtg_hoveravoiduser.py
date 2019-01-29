@@ -8,7 +8,7 @@ import time
 
 from geometry_msgs.msg import Twist
 from geometry_msgs.msg import TransformStamped
-from geometry_msgs.msg import Pose
+#from geometry_msgs.msg import Pose
 from std_msgs.msg import Bool
 from std_msgs.msg import String
 from std_msgs.msg import Int64
@@ -81,7 +81,7 @@ def main():
 	process_sysargs()
 
 	rospy.init_node("gtg_hover", anonymous=True)
-	loc_publisher = rospy.Publisher("/drone_location", Pose, queue_size=10)
+	#loc_publisher = rospy.Publisher("/drone_location", Pose, queue_size=10)
 	velocity_publisher = rospy.Publisher("/velocity", Twist, queue_size=10)
 	state_publisher = rospy.Publisher("/state", String, queue_size=10)
 	obstacle_publisher = rospy.Publisher("/obstacle_detector", Bool, queue_size=1)
@@ -114,7 +114,7 @@ def main():
 	final_goal_y = goal_array_y[0]
 	goal_x = final_goal_x
 	goal_y = final_goal_y
-	threshold = 0.15
+	threshold = 0.12
 	obstacle_threshold = 0.7
 	angle_threshold = math.radians(15)
 	detection_distance = 0.75
@@ -170,16 +170,16 @@ def main():
 		str_msg = "GO TO GOAL"
 
 		obstacle_publisher.publish(Bool(obstacle_in_path))
-		pose = Pose()
+		'''pose = Pose()
 		pose.position.x = curr_x
 		pose.position.y = curr_y
 		pose.position.z = curr_z
-		loc_publisher.publish(pose)
+		loc_publisher.publish(pose)'''
 
 		if (distance_to_final_goal < threshold):
 			if(hover_count < 5):
-				print("GOAL REACHED with threshold "+str(distance_to_final_goal)
 				str_msg = "GOAL REACHED"
+				print("GOAL REACHED with threshold "+str(distance_to_final_goal))
 				vel.linear.x = 0
 				vel.linear.y = 0
 				vel.linear.z = -200
@@ -223,6 +223,7 @@ def main():
 			if(testing):
 				print("Following avoid angle: "+str(math.degrees(avoid_angle)))
 				print("angle_obs_to_drone: "+str(math.degrees(angle_obs_to_drone)))
+				print("angle_drone_to_obs: "+str(math.degrees(angle_drone_to_obs)))
 				print("")
 			avoid_count += dt
 			if(not obstacle_in_path and avoid_count > 5):

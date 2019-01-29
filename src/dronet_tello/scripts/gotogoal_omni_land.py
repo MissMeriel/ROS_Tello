@@ -61,9 +61,9 @@ def main():
 	position_subscriber = rospy.Subscriber("/vicon/TELLO/TELLO", TransformStamped, vicon_data, queue_size=10)
 	input_subscriber = rospy.Subscriber("/user_input", String, process_user_input, queue_size=5)
 
-	nodemap_file = open(os.path.basename(__file__), "w")
+	#nodemap_file = open(os.path.basename(__file__), "w")
 	
-	nodemap_file.write(rig.topic_node('/velocity'))
+	#nodemap_file.write(rig.topic_node('/velocity'))
 
 
 	vel = Twist()
