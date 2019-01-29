@@ -5,13 +5,18 @@ import daikon.FileIO;
 import daikon.inv.Invariant;
 import daikon.inv.unary.OneOf;
 import java.io.*;
-import java.io.ObjectInputStream;
-import java.util.*;
-import java.util.ArrayList;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.ObjectInputStream;
+import java.util.*;
+import java.util.ArrayList;
+import com.github.swrirobotics.bags.reader.*;
+import com.github.swrirobotics.bags.reader.records.*;
+import com.github.swrirobotics.bags.reader.messages.serialization.MessageType;
+import com.github.swrirobotics.bags.reader.messages.serialization.*;
 import com.github.swrirobotics.bags.reader.BagFile;
+import com.github.swrirobotics.bags.reader.exceptions.*;
 import com.github.swrirobotics.bags.reader.exceptions.BagReaderException;
 
 /**
@@ -62,31 +67,26 @@ public class bag2daikon_postprocess {
 		} catch (IOException exc) {
 			System.out.println("IOException on readInSerializable("+filename+")");
 			exc.printStackTrace();
-		} /*catch (ClassNotFoundException exc) {
-			System.out.println("ClassNotFoundException on readInSerializable("+filename+")");
-			exc.printStackTrace();
-		}*/
+		}
 	}
 
 	public static void main(String[] args) throws BagReaderException {
-
 		
 		try{
-			//readInSerializable("demo2_2018-12-21-11-10-07.inv");
+			readInSerializable("demo2_2018-12-21-11-10-07.inv");
 			OutputStream out = new FileOutputStream(OUTPUT_FILE);
 			BagFile file = BagReader.readFile("demo2_2018-12-21-11-10-07.bag");
-			//bag.start(out, Bag.CHUNK_COMPRESSION_NONE);
-			// write a byte sequence
-			/*out.write(bytes);
-			// write a single byte
-			out.write(bytes[0]);
-			// write sub sequence of the byte array
-			out.write(bytes,4,10);
-			*/
 
+			System.out.println("Topics:");
+			for (TopicInfo topic : file.getTopics()) {
+			    System.out.println(topic.getName() + " \t\t" + topic.getMessageCount() +
+					  " msgs \t: " + topic.getMessageType() + " \t" +
+					  (topic.getConnectionCount() > 1 ? ("(" + topic.getConnectionCount() + " connections)") : ""));
+			}
+			System.out.println("\n");
 			file.forMessagesOfType("std_msgs/String", new MessageHandler() {
 			    @Override
-			    public boolean process(MessageType message) {
+			    public boolean process(MessageType message, Connection conn) {
 				try {
 				    System.out.println(message.<StringType>getField("data").getValue());
 				}
@@ -97,7 +97,6 @@ public class bag2daikon_postprocess {
 			    }
 			});
 		 
-
 		} catch(IOException e) {
 			e.printStackTrace();
 		}
