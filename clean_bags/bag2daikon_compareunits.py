@@ -22,7 +22,7 @@ comparability_map = {}
 
 MY_MACRO = """
 if testing:
-	print(test_output)          
+	print(test_output)
 """
 
 FIELD_MACRO = """
