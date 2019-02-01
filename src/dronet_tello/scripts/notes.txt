@@ -16,12 +16,13 @@ gtg_transfer -- multigtg, can transfer user control while hovering at goal
 key_vel_transfer.py -- includes emergency land keys X and M for user1 and 2 resp.
 user_input_transfer.py -- transfer user control
 
-TESTS
-gotogoal_omnidirectional.py -- single goal, base code
-gtg_hover.py
+SCENARIO TESTING
 gtg_hoveravoid.py -- single goal, autoavoidance
+gotogoal_omni_land.py -- multigoal, no avoidance
 gotogoal_omni_land_avoid.py -- 
 obstacle_detector.py -- possibly break out obstacle detection into its own node? seems more appropriate to have it on the "robot" node
+
+TESTS
 dyn_test.py -- run with dynamic obstacle to test delta thresholds
 user_input_test.py
 
@@ -29,4 +30,4 @@ BASE CODE
 camera.py -- raw image
 key_vel.py
 key_controller.py
-
+Tello.py
