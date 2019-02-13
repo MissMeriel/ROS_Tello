@@ -55,6 +55,7 @@ def readInputWindows( caption, default, timeout = 5):
 
 
 def readInput():
+	global obstacle_detected
 	timeout = 5
 	print("Avoid obstacle?")
 	rlist, _, _ = select([sys.stdin], [], [], timeout)
@@ -62,6 +63,7 @@ def readInput():
 		s = sys.stdin.readline()
 	else:
 		s = "no"
+	obstacle_detected = False
 	return s
 
 
@@ -75,7 +77,6 @@ def main():
 	obstacle_subscriber = rospy.Subscriber("/obstacle_detector", Bool, obstacle_callback, queue_size=1)
 	obstacle_dyn_subscriber = rospy.Subscriber("/obstacle_dyn", Bool, obstacle_dyn_callback, queue_size=1)
 	
-
 	vel = Twist()
 	while not rospy.is_shutdown():
 		if(obstacle_detected and not obstacle_dyn):
@@ -83,7 +84,7 @@ def main():
 			answer = readInput()
 
 			sent = 0
-			while(sent < 5):
+			while(sent < 1):
 				user_input_publisher.publish(answer)
 				sent += 1
 		obstacle_detected=False

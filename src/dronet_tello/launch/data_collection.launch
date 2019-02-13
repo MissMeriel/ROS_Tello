@@ -6,8 +6,8 @@
 
   <node name="tello" pkg="dronet_tello" type="tello.py">
   </node>
-  <node name="tello_camera" pkg="dronet_tello" type="camera.py">
-  </node>
+  <!--<node name="tello_camera" pkg="dronet_tello" type="camera.py">
+  </node> -->
 
   <node name="tello_key_vel" pkg="dronet_tello" type="key_vel.py">
   </node>

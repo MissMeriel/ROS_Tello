@@ -120,7 +120,7 @@ def main():
 	final_goal_x = goal_x
 	final_goal_y = goal_y
 	threshold = 0.075
-	obstacle_threshold = 0.72
+	obstacle_threshold = 1
 	angle_threshold = math.radians(15)
 	detection_distance = 1
 	count = 0.0
@@ -173,11 +173,11 @@ def main():
 			#print("\tdistance to curr goal: "+ str(distance_to_goal))
 			#print("\tdistance to obstacle: "+ str(distance_drone_to_obstacle))
 			#print("\tdistance from obstacle to goal: "+ str(distance_obs_to_goal))
-		str_msg = "GO TO GOAL; distance to goal: "+ str(distance_to_goal)
+		str_msg = "GO TO GOAL"
 
 		if(obstacle_dyn and obstacle_in_path):
 			print("GO TO GOAL; DYNAMIC OBSTACLE IN PATH")
-			str_msg="GO TO GOAL; DYNAMIC OBSTACLE IN PATH; TRANSFERRING CONTROL TO USER 1"
+			str_msg="DYNAMIC OBSTACLE IN PATH; TRANSFERRING CONTROL TO USER 1"
 			obstacle_dyn_publisher.publish(True)
 			key_enabler.publish(True)
 			if(control_count < 4):
@@ -199,8 +199,8 @@ def main():
 
 		if (distance_to_final_goal < threshold):
 			if(hover_count < 5):
-				print("GOAL REACHED with threshold "+str(distance_to_final_goal))
-				str_msg = "GO TO GOAL; GOAL REACHED with threshold "+str(distance_to_final_goal)
+				print("GOAL REACHED")
+				str_msg = "GOAL REACHED"
 				vel.linear.x = 0
 				vel.linear.y = 0
 				vel.linear.z = -200
@@ -218,8 +218,7 @@ def main():
 
 			#interpolated goal offset from obstacle radius	
 			angle_drone_to_obs = math.atan2(obs_y-curr_y, obs_x-curr_x)		
-			#avoid_angle = angle_drone_to_obs - curr_angle
-			avoid_angle = angle_drone_to_obs - curr_angle + math.pi / 2.0
+			avoid_angle = angle_drone_to_obs - curr_angle - math.pi / 2.0
 			vel.linear.x = math.cos(avoid_angle) * (0.22)
 			vel.linear.y = math.sin(avoid_angle) * (0.22)
 
@@ -303,7 +302,10 @@ def main():
 		if(testing):
 			print("vel.x, vel.y: "+ str(vel.linear.x)+", "+ str(vel.linear.y))
 			print("goal: "+str(goal_x)+", "+str(goal_y))
-		velocity_publisher.publish(vel)
+		if(not obstacle_dyn or distance_to_final_goal < threshold):
+			velocity_publisher.publish(vel)
+		else:
+			str_msg = "USER1 CONTROL"
 		state_publisher.publish(str_msg)
 		publishing = False
 		rate.sleep()

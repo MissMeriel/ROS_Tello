@@ -104,9 +104,9 @@ def main():
 	# Defaults: Kp=0.045; Ki=0.08; Kd=0.075
 	# Moderate speed: Kp=0.008; Ki=0.03; Kd=0.06
 	# Quick speed: Kp=0.13; Ki=0.003; Kd=0.1
-	Kp = 0.13
+	Kp = 0.145
 	Ki = 0.003
-	Kd = 0.1
+	Kd = 0.13
 
 	publishing_count = 0
 	avoid = False
@@ -115,7 +115,7 @@ def main():
 	goal_x = final_goal_x
 	goal_y = final_goal_y
 	threshold = 0.12
-	obstacle_threshold = 0.7
+	obstacle_threshold = 1
 	angle_threshold = math.radians(15)
 	detection_distance = 0.75
 	count = 0.0
@@ -182,7 +182,6 @@ def main():
 				print("GOAL REACHED with threshold "+str(distance_to_final_goal))
 				vel.linear.x = 0
 				vel.linear.y = 0
-				vel.linear.z = -200
 				hover_count += 1
 
 			if(goal_count == len(goal_array_x)-1 and exit_count < 5):
@@ -215,8 +214,9 @@ def main():
 			#goal_y = curr_y + 0.005 * math.sin(avoid_angle)
 			#0,0->-1,-1=-135; 0,0->1,-1=-45; 0,0->-1,1=135
 			angle_drone_to_obs = math.atan2(obs_y-curr_y, obs_x-curr_x)
-			angle_obs_to_drone = math.atan2(curr_y- obs_y, curr_x-obs_x)
-			avoid_angle = angle_obs_to_drone - math.radians(90) - curr_angle
+			angle_obs_to_drone = math.atan2(curr_y-obs_y, curr_x-obs_x)
+			#avoid_angle = angle_obs_to_drone - math.radians(90) - curr_angle
+			avoid_angle = angle_drone_to_obs - math.radians(90) - curr_angle
 			vel.linear.x = math.cos(avoid_angle) * (0.3)
 			# negative sine bc Tello control is dumb
 			vel.linear.y = -math.sin(avoid_angle) * (0.3)
