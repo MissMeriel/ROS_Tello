@@ -62,9 +62,7 @@ def main():
 	input_subscriber = rospy.Subscriber("/user_input", String, process_user_input, queue_size=5)
 
 	#nodemap_file = open(os.path.basename(__file__), "w")
-	
 	#nodemap_file.write(rig.topic_node('/velocity'))
-
 
 	vel = Twist()
 	vel.linear.x = 0
@@ -96,7 +94,7 @@ def main():
 			vel.linear.x = 0
 			vel.linear.y = 0
 			print("GOAL REACHED within threshold: " + str(distance_to_goal))
-			state_publisher.publish("GOAL REACHED within threshold: " + str(distance_to_goal))
+			state_publisher.publish("GOAL REACHED")
 			hover_count += dt
 			if(hover_count > 5 and goal_counter == len(goal_x)-1):
 				vel.linear.x = 0
@@ -153,7 +151,7 @@ def main():
 				vel.linear.x = 1
 			if(vel.linear.x < -1):
 				vel.linear.x = -1
-
+			state_publisher.publish("GO TO GOAL")
 		#check that we haven't gone too long without vicon data
 		if(not publishing):
 			publishing_count += 1
@@ -164,6 +162,7 @@ def main():
 			vel.linear.y = 0
 			vel.linear.z = -200
 			print("NO VICON DATA; LANDING")
+			state_publisher.publish("NO VICON DATA; LANDING")
 
 		print("vel.x, vel.y: "+ str(vel.linear.x)+", "+ str(vel.linear.y))
 		velocity_publisher.publish(vel)	

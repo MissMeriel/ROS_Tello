@@ -1,3 +1,5 @@
+*.jar
+*.class
 */*.inv.gz
 */*.zip
 */*.dtrace

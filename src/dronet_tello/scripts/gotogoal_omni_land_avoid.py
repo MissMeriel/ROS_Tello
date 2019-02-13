@@ -143,7 +143,7 @@ def main():
 
 		if (distance_to_final_goal < threshold):
 			if(hover_count < 5):
-				print("GOAL REACHED with threshold "+str(distance_to_goal))
+				print("GOAL REACHED")
 				str_msg = "GOAL REACHED"
 				vel.linear.x = 0
 				vel.linear.y = 0
@@ -213,13 +213,8 @@ def main():
 					rate.sleep()
 					break
 				if(avoid):
-					print("PREPARING TO AVOID")
-					print("PREPARING TO AVOID")
-					print("PREPARING TO AVOID")
-					print("PREPARING TO AVOID")
-					print("PREPARING TO AVOID")
-					print("PREPARING TO AVOID")
 					str_msg = "PREPARING TO AVOID"
+					print(str_msg+"\n"+str_msg+"\n"+str_msg+"\n"+str_msg+"\n"str_msg+"\n"+str_msg+"\n")
 					state_publisher.publish(str_msg)
 					break
 				hover_count += dt
@@ -239,12 +234,11 @@ def main():
 			derivative = (error - previous_error) / dt
 			integral = integral + (error * dt)
 			w = Kp*error + Ki*integral + Kd*derivative
+			previous_error = error
 
 			vel_x = math.cos(angle_drone_to_goal) * w
 			#negative sin due to how Tello interprets roll (right = pos)
 			vel_y = -math.sin(angle_drone_to_goal) * w
-
-			previous_error = error
 
 			#print("w: "+str(w))
 			print("curr_x, curr_y: "+str(curr_x)+", "+str(curr_y))
@@ -273,11 +267,11 @@ def main():
 			publishing_count = 0
 			publishing = True
 		if(publishing_count > 10):
+			str_msg = "NO VICON DATA; LANDING"
+			print(str_msg)
 			vel.linear.x = 0
 			vel.linear.y = 0
-			vel.linear.z = -500
-			print("NO VICON DATA; LANDING")
-			str_msg = "NO VICON DATA; LANDING"
+			vel.linear.z = -200
 
 		#print("vel.x, vel.y: "+ str(vel.linear.x)+", "+ str(vel.linear.y))
 		print("goal: "+str(goal_x)+", "+str(goal_y))

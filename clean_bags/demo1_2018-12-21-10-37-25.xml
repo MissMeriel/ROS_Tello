@@ -1,8 +1,0 @@
-<?xml version="1.0"?>
-
-<nodes>
-	<node name="gotogoal" topics_in="/vicon/TELLO/TELLO" topics_out="/velocity /state"/>
-	<!--<node name="" topics_in="" topics_out=""/>
-	<node name="" topics_in="" topics_out=""/>
-	<node name="" topics_in="" topics_out=""/>-->
-</nodes>
