@@ -93,7 +93,7 @@ def main():
     process_killer = rospy.Subscriber("/killswitch", Bool, killswitch, queue_size=5)
     obstacle_dyn_subscriber = rospy.Subscriber("/obstacle_dyn", Bool, process_obstacle_dyn, queue_size=1)
     state_publisher = rospy.Publisher("/state", String, queue_size=5)
-    velocity_publisher = rospy.Publisher("velocity", Twist, queue_size=1)
+    velocity_publisher = rospy.Publisher("/velocity", Twist, queue_size=1)
     linear_vel_x = 0.0
     linear_vel_y = 0.0
     linear_vel_z = 0.0

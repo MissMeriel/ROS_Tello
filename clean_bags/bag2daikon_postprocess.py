@@ -6,8 +6,9 @@ import rosbag
 from sets import Set
 import numpy as np
 import subprocess, yaml
+import os
 import xml.etree.ElementTree as ET
-
+import re
 
 # Pass in: 	invariant xml
 #		bagfile
@@ -39,82 +40,6 @@ if want_fields:
 
 def print_fields(field_output):
 	exec FIELD_MACRO in globals(),locals()
-
-
-def display_bag_info(bag_name):
-	global topics, message_types, message_fields, bag_info
-	#print "topics: "+str(bag.get_type_and_topic_info()[1].keys())
-	bag_info = yaml.load(subprocess.Popen(['rosbag', 'info', '--yaml', bag_name], stdout=subprocess.PIPE).communicate()[0])
-	bag_topics = bag_info['topics']
-	keys = bag_info.keys()
-	test_print("BAG INFO")
-	for key in keys:
-		test_print(key+str(": ")+str(bag_info[key]))
-	#For every topic in the bag, display its fields.
-	print_fields("\nFIELDS FOR "+str(len(bag_topics))+" TOPICS\n")
-	#sys.stdout.write("\nFIELDS FOR %u TOPICS\n" % len(bag_topics))
-	i = 0
-	bag = rosbag.Bag(bag_name)
-	test_print("bag_topics: "+str(bag_topics))
-	for t in topics:
-		for topic in bag_topics:
-			if topic['topic'] == t:
-				message_fields.update({topic['type']: {}})
-				message_types.append(topic['type'])
-				#topics.append(topic['topic'])
-				for _, msg, _ in bag.read_messages(topics=topic['topic']):
-					print_topic_fields(topic['topic'], "",  msg, 0, i, topic['type'])
-					print_fields('')
-					break
-				i += 1
-	bag.close()
-
-
-def print_topic_fields(field_name, path, msg, depth, index, msg_type):
-	global message_types, message_fields
-	if hasattr(msg, '__slots__'):
-		print_fields(' ' * (depth * 2) + field_name)
-		for slot in msg.__slots__:
-			if(path != ""):
-				new_path = path+"."+slot
-			else:
-				new_path = slot
-			print_topic_fields(slot, new_path, getattr(msg, slot), depth + 1, index, msg_type)
-	elif isinstance(msg, list):
-		if (len(msg) > 0) and hasattr(msg[0], '__slots__'):
-		    print_fields(' ' * (depth * 2) + field_name + '[]')
-		    for slot in msg[0].__slots__:
-			if(path != ""):
-				new_path = path+"."+slot
-			else:
-				new_path = slot
-			print_topic_fields(slot, new_path, getattr(msg[0], slot), depth + 1, index, msg_type)
-	else:
-		print_fields(' ' * (depth * 2) + field_name)
-		print_fields(' ' * (depth * 2) + "path: "+path)
-		print_fields(' ' * (depth * 2) + "type: "+str(type(msg)))
-		print_fields(' ' * (depth * 2) + "addr: "+str(hex(id(msg))))
-		message_fields[msg_type][path] = {'name': field_name, 'type': type(msg), 'addr': hex(id(msg))}
-
-
-def python_to_daikon_type(python_type):
-	field_type = str(python_type).split("\'")[1]
-	if(field_type == "str"):
-		field_type = "string"
-	if(field_type == "bool"):
-		field_type = "boolean"
-	return field_type;
-
-
-def python_to_daikon_literal(python_lit):
-	python_lit = str(python_lit)
-	if(python_lit == "True"):
-		daikon_lit = "0"
-	elif(python_lit == "False"):
-		daikon_lit = "1"
-	else:
-		daikon_lit = python_lit
-	return daikon_lit
 
 
 def test_print(test_output):
@@ -163,7 +88,7 @@ def parse_xml(tree):
 def parse_inv_xml(xml_tree):
 	root = xml_tree.getroot()
 	spinfo_string = ""
-	print(str(root.tag)+"="+str(root.attrib)+str(root.text))
+	test_print(str(root.tag)+"="+str(root.attrib)+str(root.text))
 	for child in root.iter("PPT"):
 		for invinfo in child.iter("INVINFO"):
 			if("OneOf" in invinfo.find("DAIKONCLASS").text and "one of" in invinfo.find("INV").text):
@@ -187,8 +112,40 @@ def parse_inv_xml(xml_tree):
 					for val in vals:
 						spinfo_string += "\n"+varname+" == "+val
 					spinfo_string += "\n\n"
-	print("SPINFO_STRING:")
-	print(spinfo_string)
+	test_print("SPINFO_STRING:")
+	test_print(spinfo_string)
+	return spinfo_string
+
+
+def strip_xml_of_repeats(tree):
+	root = xml_tree.getroot()
+	spinfo_string = ""
+	test_print(str(root.tag)+"="+str(root.attrib)+str(root.text))
+	for child in root.iter("PPT"):
+		for invinfo in child.iter("INVINFO"):
+			if("OneOf" in invinfo.find("DAIKONCLASS").text and "one of" in invinfo.find("INV").text):
+				test_print(child.find("PPTNAME").text)
+				test_print("\t"*1 + str(invinfo.tag)+"="+str(invinfo.attrib))
+				test_print("\t"*2+"PARENT="+invinfo.find("PARENT").text)
+				test_print("\t"*2+"INV="+invinfo.find("INV").text)
+				test_print("\t"*2+"SAMPLES="+invinfo.find("SAMPLES").text)
+				test_print("\t"*2+"DAIKON="+invinfo.find("DAIKON").text)
+				test_print("\t"*2+"DAIKONCLASS="+invinfo.find("DAIKONCLASS").text)
+				test_print("\t"*2+"METHOD="+invinfo.find("METHOD").text)
+				if("one of" in invinfo.find("INV").text):
+					ppt = child.find("PPTNAME").text.split(":")[0].split("(")[0]
+					test_print("ppt "+str(ppt))
+					spinfo_string += "PPT_NAME "+ ppt
+					infosplit = invinfo.find("INV").text.split("one of")
+					varname = infosplit[0]
+					valsplit = infosplit[1].replace("{", "").strip("}")
+					test_print(valsplit)
+					vals = valsplit.split(",")
+					for val in vals:
+						spinfo_string += "\n"+varname+" == "+val
+					spinfo_string += "\n\n"
+	test_print("SPINFO_STRING:")
+	test_print(spinfo_string)
 	return spinfo_string
 
 
@@ -197,21 +154,41 @@ def main():
 	global comparability_map, comparability_count
 	start_time = time.time()
 
-	#handle CL args
-	bag = rosbag.Bag(sys.argv[1])
 	output_filename=sys.argv[1].split(".")
+	xml_filehead=output_filename[0]
+
+
+	#handle CL args
 	spinfo_filename=output_filename[0]+".spinfo"
 
 	#process .inv xml
-	if(len(sys.argv) == 3):
-		xml_tree = ET.parse(sys.argv[2])
-		spinfo_string = parse_inv_xml(xml_tree)
-		spinfo_file = file(spinfo_filename, "w")
-		spinfo_file.write(spinfo_string)
-		spinfo_file.close()
-		print("New .spinfo file: "+spinfo_filename)
-		print("Run .spinfo file as: java -cp $DAIKONDIR/daikon.jar daikon.Daikon --config_option daikon.derive.Derivation.disable_derived_variables=true "+ output_filename[0]+".decls "+ output_filename[0]+".dtrace "+spinfo_filename)
-		
+	xml_tree = ET.parse(sys.argv[1])
+	#with open(sys.argv[1]) as f:
+	#	xml = f.read()
+	#xml_tree = ET.fromstring(re.sub(r"(<\?xml[^>]+\?>)", r"\1<root>", xml) + "</root>")
+	spinfo_string = parse_inv_xml(xml_tree)
+	spinfo_file = file(spinfo_filename, "w")
+	spinfo_file.write(spinfo_string)
+	spinfo_file.close()
+	print("New .spinfo file: "+spinfo_filename)
+	print("Run .spinfo file as: java -cp $DAIKONDIR/daikon.jar daikon.Daikon --config_option daikon.derive.Derivation.disable_derived_variables=true "+ output_filename[0]+".decls "+ output_filename[0]+".dtrace "+spinfo_filename)
+
+	#java -cp $DAIKONDIR/daikon.jar:${DAIKONDIR}/java/lib/*:${DAIKONDIR}/java daikon.Daikon --user-defined-invariant daikon.inv.unary.string.ProbabilisticString --user-defined-invariant daikon.inv.unary.scalar.ProbabilisticFloat --user-defined-invariant daikon.inv.unary.scalar.ProbabilisticScalar --user-defined-invariant daikon.inv.unary.stringsequence.ProbabilisticStringSequence
+	
+	#print("Generating conditional invariants....")
+	#os.system('java -cp $DAIKONDIR/daikon.jar:${DAIKONDIR}/java/lib/*:${DAIKONDIR}/java daikon.Daikon --user-defined-invariant daikon.inv.unary.string.ProbabilisticString --user-defined-invariant daikon.inv.unary.scalar.ProbabilisticFloat --user-defined-invariant daikon.inv.unary.scalar.ProbabilisticScalar --user-defined-invariant daikon.inv.unary.stringsequence.ProbabilisticStringSequence '+ output_filename[0]+".decls "+ output_filename[0]+".dtrace "+spinfo_filename)
+	#print("Unzipping conditional invariants from "+output_filename[0]+".inv.gz...")
+	#os.system('gunzip '+output_filename[0]+'.inv.gz')
+	#print("Generating conditional invariant XML....")
+	#os.system('java -cp $DAIKONDIR/daikon.jar:${DAIKONDIR}/java/lib/*:${DAIKONDIR}/java  daikon.PrintInvariants --wrap_xml '+output_filename[0]+'.inv > '+output_filename[0]+'_split.xml')
+	#print("XML file generated: "+output_filename[0]+"_split.xml")
+
+	#separate split invariants file into repeated and nonrepeated conditional invs
+	#xml_tree = ET.parse(output_filename[0]+'_split.xml')
+	#nonrepeated_invs = strip_xml_of_repeats(xml_tree)
+
+	#generate FSMs
+	
 
 if __name__ == "__main__":
     # execute only if run as a script

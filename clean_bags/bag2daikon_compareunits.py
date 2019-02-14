@@ -7,18 +7,19 @@ from sets import Set
 import numpy as np
 import subprocess, yaml
 import xml.etree.ElementTree as ET
-
+import os
 
 
 topics = []
 message_types = []
 message_fields = {}
 bag_info = {}
-testing = False
+testing = True
 want_fields = False
 xml_topics = Set()
 comparability_count = 1
 comparability_map = {}
+
 
 MY_MACRO = """
 if testing:
@@ -29,6 +30,7 @@ FIELD_MACRO = """
 if want_fields:
 	print(field_output)
 """
+
 
 def print_fields(field_output):
 	exec FIELD_MACRO in globals(),locals()
@@ -47,19 +49,34 @@ def display_bag_info(bag_name):
 	print_fields("\nFIELDS FOR "+str(len(bag_topics))+" TOPICS\n")
 	#sys.stdout.write("\nFIELDS FOR %u TOPICS\n" % len(bag_topics))
 	i = 0
+	message_types = []
 	bag = rosbag.Bag(bag_name)
-	test_print("bag_topics: "+str(bag_topics))
+	test_print("\nbag_topics: "+str(bag_topics))
+	test_print("topics: "+str(topics))
+	remove_topics = []
 	for t in topics:
+		found = False
 		for topic in bag_topics:
-			if topic['topic'] == t:
+			if(topic['topic'] == t):
+				found = True
 				message_fields.update({topic['type']: {}})
 				message_types.append(topic['type'])
-				#topics.append(topic['topic'])
-				for _, msg, _ in bag.read_messages(topics=topic['topic']):
-					print_topic_fields(topic['topic'], "",  msg, 0, i, topic['type'])
-					print_fields('')
-					break
-				i += 1
+				print("topic:"+str(topic["topic"])+" message type:"+str(topic['type']))
+		if(not found):
+			remove_topics.append(t)
+	for t in remove_topics:
+		topics.remove(t)
+	print("BAG TOPICS: "+str(bag_topics))
+	print("TOPICS: "+str(topics))
+	print("MESSAGE TYPES: "+str(message_types))
+	index=0
+	for topic in bag_topics:
+		for _, msg, _ in bag.read_messages(topic):
+			topic_type=message_type[index]
+			print_topic_fields(topic, "",  msg, 0, i, topic_type)
+			print_fields('')
+			index += 1
+			break
 	bag.close()
 
 
@@ -87,6 +104,7 @@ def print_topic_fields(field_name, path, msg, depth, index, msg_type):
 		print_fields(' ' * (depth * 2) + "path: "+path)
 		print_fields(' ' * (depth * 2) + "type: "+str(type(msg)))
 		print_fields(' ' * (depth * 2) + "addr: "+str(hex(id(msg))))
+		print("message_fields["+msg_type+"]["+path+"]")
 		message_fields[msg_type][path] = {'name': field_name, 'type': type(msg), 'addr': hex(id(msg))}
 
 
@@ -125,7 +143,7 @@ def traverse_msg_tree(val, levels, msg_type, key):
 		if not isinstance(val, list):
 			val = getattr(val, level)
 		#test_print("\n\tlevel: "+str(level)+"\n\tval: "+str(val)+"\n\ttype: "+str(message_fields[msg_type][key]['type']))
-	return val
+	return val 
 
 
 def enumerate_msg_fields(topic, msg, msg_type):
@@ -146,7 +164,6 @@ def enumerate_msg_fields(topic, msg, msg_type):
 			print("\nRETRIEVING key: "+key)
 		if(testing):
 			print("levels: "+str(levels))'''
-
 		val = traverse_msg_tree(msg, levels, msg_type, key)
 		#print(str(val) + str(field['type']))
 		field_type = message_fields[msg_type][key]['type']
@@ -174,20 +191,21 @@ def enumerate_param_msg_fields(topic, msg, msg_type, i):
 		field = message_fields[msg_type][key]
 		field_string += "\nparam"+str(i)+"."+key
 		levels = key.split(".")
-		test_print("\nRETRIEVING key: "+key)
+		test_print("RETRIEVING key: "+key)
 		#test_print("levels: "+str(levels))
 		if msg != None:
 			val = traverse_msg_tree(msg, levels, msg_type, key)
 		else:
 			val = "nonsensical"
-			if(topic == '/state'):
-				exit()
 		#using actual type of field_type
 		field_type = message_fields[msg_type][key]['type']
 		comparability_int = 1 ###get_comparability_int(key, field_type)
 		if  "string" in str(field_type) or "str" in str(field_type):
 			#and val != "nonsensical":
 			val = val.replace("\n", "")
+			val = val.replace("\n", "")
+			if("GO TO GOAL" in val):
+				val = "GO TO GOAL"
 			field_string += "\n\""+str(val)+"\""
 		else:
 			val = python_to_daikon_literal(val)
@@ -197,15 +215,19 @@ def enumerate_param_msg_fields(topic, msg, msg_type, i):
 
 
 def build_param_string(topics_in):
-	global topics, message_types
+	global topics, message_types, bag_info
+	#bag_info['topics']
 	param_string = ""
 	msg_type = ""
-	#print("BUILDING PARAM STRING")
-	#print("TOPICS_IN: "+str(topics_in))
-	#print("MESSAGE_TYPES: "+str(message_types))
+	test_print("\nBUILDING PARAM STRING")
+	test_print("TOPICS_IN: "+str(topics_in))
+	test_print("MESSAGE_TYPES: "+str(message_types))
+	test_print("TOPICS: "+str(topics))
+	
 	i = 0
 	for t in topics_in:
 		index = topics.index(t)
+		test_print(t+" at topics["+str(index)+"]")
 		msg_type = message_types[index]
 		if len(topics_in) == 1:
 			param_string += msg_type
@@ -272,9 +294,6 @@ def get_comparability_int(field, field_type):
 			comparability_count += 1
 			comparability_int = comparability_count
 			comparability_map["header.seq"] = comparability_count
-	#elif "" in field:
-	#elif "" in field:
-	#elif "" in field:
 	else:
 		try:
 			comparability_int = comparability_map[field_type]
@@ -289,15 +308,12 @@ def get_comparability_int(field, field_type):
 
 #def get_topic_sequence_dtrace_string(topic_sequence):
 	
-
-
 #def get_topic_sequence_decl_string(topic_sequence):
-
 
 
 def main():
 	global testing, topics, message_types, message_fields, bag_info
-	global xml_topics#, topics_in, topics_out
+	global xml_topics
 	global comparability_map, comparability_count
 	start_time = time.time()
 
@@ -315,7 +331,6 @@ def main():
 		topics_in = []
 		topics_out = []
 		for child in root:
-			#print(child.tag+"="+child.attrib)
 			io_topics[child.attrib['name']] = child.attrib
 			topics_in = filter(None, child.attrib['topics_in'].split(" "))
 			xml_topics.update(topics_in)
@@ -328,12 +343,12 @@ def main():
 	test_print("BUILDING NODE LOOKUP")
 	for node in io_topics:
 		for ti in io_topics[node]['topics_in']:
-			test_print("node: "+str(node)+"; ti: "+str(ti))
+			#test_print("node: "+str(node)+"; ti: "+str(ti))
 			node_lookup[ti]['in']=node
 		for to in io_topics[node]['topics_out']:
-			test_print("node: "+str(node)+"; to: "+str(to))
+			#test_print("node: "+str(node)+"; to: "+str(to))
 			node_lookup[to]['out']=node
-		test_print(node_lookup)
+		#test_print(node_lookup)
 	test_print("XML TOPICS: \n"+str(xml_topics))
 	test_print("IO_TOPICS:")
 	for t in io_topics:
@@ -353,6 +368,12 @@ def main():
 	test_print("MESSAGE_TYPES: \n"+str(message_types))
 	#test_print("MESSAGE_FIELDS: \n"+str(message_fields))
 
+	#make sure requested topics in xml match what is found in bag
+	for t1 in topics:
+		for t2 in io_topics:
+			if(t1 not in t2['topics_in']):
+				
+
 	#make decls file
 	print("Writing decls to "+decls_filename+"...")
 	decls_file=open(decls_filename, "w")
@@ -364,7 +385,7 @@ def main():
 	comparability_count = 1
 	comparability_map = {}
 	for topic in topics:
-		test_print("WRITING DECL FOR "+str(topic)+" "+str(message_types[index]))
+		test_print("WRITING DECL FOR "+str(topic)+" of type "+str(message_types[index]))
 		slashed_topic = topic
 		#get node publishing that topic
 		#test_print("node_lookup["+slashed_topic+"]['out']: "+str(node_lookup[slashed_topic]['out']))
@@ -511,13 +532,12 @@ def main():
 			msg_type = message_types[param_topic_index]
 			enter_msg = io_params[slashed_topic]['enter'][t]
 			exit_msg = io_params[slashed_topic]['exit'][t]
-			test_print("ENTER MESSAGE "+str(i)+" FOR TOPIC "+slashed_topic+": "+str(t)+": "+str(enter_msg))
-			test_print("EXIT MESSAGE "+str(i)+" FOR TOPIC "+slashed_topic+": "+str(t)+": "+str(exit_msg))
-			#print("\nIO_PARAMS:")
-			#for key in io_params.keys():
-			#	print(key+": "+str(io_params[key]))
+			test_print("\nENTER MESSAGE "+str(i)+" FOR TOPIC "+slashed_topic+": "+str(enter_msg))
+			test_print("EXIT MESSAGE "+str(i)+" FOR TOPIC "+slashed_topic+": "+str(exit_msg))
+			if enter_msg['msg'] == None:
+				print("Enter message is None")
 
-			if enter_msg != {}:
+			if enter_msg != {} or not enter_msg['msg']==None:
 				enter_param_string +="\nparam"+str(i)+"\n"+enter_msg['hash']+"\n1"
 				enter_message = enter_msg['msg']
 				enter_param_string += enumerate_param_msg_fields(t, enter_message, msg_type, i)
@@ -525,7 +545,7 @@ def main():
 				#exit()
 				enter_param_string += "\nparam"+str(i) + "\n"+hex(id("")) + "\n1"
 				enter_message = None
-			if exit_msg != {}:
+			if exit_msg != {} or exit_msg['msg'] != None:
 				exit_param_string += "\nparam"+str(i) + "\n"+exit_msg['hash'] + "\n1"
 				exit_message = exit_msg['msg']
 				exit_param_string += enumerate_param_msg_fields(t, exit_message, msg_type, i)
@@ -533,7 +553,6 @@ def main():
 				#exit()
 				exit_param_string += "\nparam"+str(i) + "\n"+hex(id("")) + "\n1"
 				exit_message = None
-
 			i += 1
 		enter_string += enter_param_string + "\n"
 		exit_string += exit_param_string
@@ -546,7 +565,7 @@ def main():
 			call_counts[index] = call_counts[index] + 1
 		if slashed_topic != last_topic:
 			last_topic = slashed_topic
-		#time.sleep(2)
+
 	dtrace_file.write("\n..main():::EXIT0\nreturn\n0\n1\n")
 	dtrace_file.close()
 	bag.close()
@@ -556,8 +575,10 @@ def main():
 	print("Processed "+str(msg_count)+" out of "+str(bag_info['messages'])+" messages")
 	print("Output: "+decls_filename+" "+dtrace_filename)
 	print("----- %s seconds runtime -----" % (time.time() - start_time))
-
-
+	os.system('java -cp $DAIKONDIR/daikon.jar:${DAIKONDIR}/java/lib/*:${DAIKONDIR}/java daikon.Daikon '+ decls_filename+" "+dtrace_filename)
+	os.system('gunzip '+output_filename[0]+'.inv.gz')
+	os.system('java -cp $DAIKONDIR/daikon.jar daikon.PrintInvariants --wrap_xml '+output_filename[0]+'.inv > '+output_filename[0]+'.xml')
+	print("Printed invariants to "+output_filename[0]+'.xml')
 
 if __name__ == "__main__":
     # execute only if run as a script
