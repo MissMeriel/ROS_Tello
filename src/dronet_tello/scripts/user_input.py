@@ -57,12 +57,11 @@ def readInputWindows( caption, default, timeout = 5):
 def readInput():
 	global obstacle_detected
 	timeout = 5
+	s = None
 	print("Avoid obstacle?")
 	rlist, _, _ = select([sys.stdin], [], [], timeout)
 	if rlist:
 		s = sys.stdin.readline()
-	else:
-		s = "no"
 	obstacle_detected = False
 	return s
 
@@ -84,7 +83,7 @@ def main():
 			answer = readInput()
 
 			sent = 0
-			while(sent < 1):
+			while(sent < 1 and answer != None):
 				user_input_publisher.publish(answer)
 				sent += 1
 		obstacle_detected=False

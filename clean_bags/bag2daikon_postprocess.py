@@ -117,38 +117,6 @@ def parse_inv_xml(xml_tree):
 	return spinfo_string
 
 
-def strip_xml_of_repeats(tree):
-	root = xml_tree.getroot()
-	spinfo_string = ""
-	test_print(str(root.tag)+"="+str(root.attrib)+str(root.text))
-	for child in root.iter("PPT"):
-		for invinfo in child.iter("INVINFO"):
-			if("OneOf" in invinfo.find("DAIKONCLASS").text and "one of" in invinfo.find("INV").text):
-				test_print(child.find("PPTNAME").text)
-				test_print("\t"*1 + str(invinfo.tag)+"="+str(invinfo.attrib))
-				test_print("\t"*2+"PARENT="+invinfo.find("PARENT").text)
-				test_print("\t"*2+"INV="+invinfo.find("INV").text)
-				test_print("\t"*2+"SAMPLES="+invinfo.find("SAMPLES").text)
-				test_print("\t"*2+"DAIKON="+invinfo.find("DAIKON").text)
-				test_print("\t"*2+"DAIKONCLASS="+invinfo.find("DAIKONCLASS").text)
-				test_print("\t"*2+"METHOD="+invinfo.find("METHOD").text)
-				if("one of" in invinfo.find("INV").text):
-					ppt = child.find("PPTNAME").text.split(":")[0].split("(")[0]
-					test_print("ppt "+str(ppt))
-					spinfo_string += "PPT_NAME "+ ppt
-					infosplit = invinfo.find("INV").text.split("one of")
-					varname = infosplit[0]
-					valsplit = infosplit[1].replace("{", "").strip("}")
-					test_print(valsplit)
-					vals = valsplit.split(",")
-					for val in vals:
-						spinfo_string += "\n"+varname+" == "+val
-					spinfo_string += "\n\n"
-	test_print("SPINFO_STRING:")
-	test_print(spinfo_string)
-	return spinfo_string
-
-
 def main():
 	global testing, topics, message_types, message_fields, bag_info
 	global comparability_map, comparability_count

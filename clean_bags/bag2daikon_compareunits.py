@@ -14,7 +14,7 @@ topics = []
 message_types = []
 message_fields = {}
 bag_info = {}
-testing = True
+testing = False
 want_fields = False
 xml_topics = Set()
 comparability_count = 1
@@ -61,27 +61,35 @@ def display_bag_info(bag_name):
 				found = True
 				message_fields.update({topic['type']: {}})
 				message_types.append(topic['type'])
-				print("topic:"+str(topic["topic"])+" message type:"+str(topic['type']))
+				test_print("topic:"+str(topic["topic"])+" message type:"+str(topic['type']))
 		if(not found):
 			remove_topics.append(t)
 	for t in remove_topics:
 		topics.remove(t)
-	print("BAG TOPICS: "+str(bag_topics))
-	print("TOPICS: "+str(topics))
-	print("MESSAGE TYPES: "+str(message_types))
+	test_print("BAG TOPICS: "+str(bag_topics))
+	test_print("TOPICS: "+str(topics))
+	test_print("MESSAGE TYPES: "+str(message_types))
 	index=0
-	for topic in bag_topics:
-		for _, msg, _ in bag.read_messages(topic):
-			topic_type=message_type[index]
-			print_topic_fields(topic, "",  msg, 0, i, topic_type)
-			print_fields('')
-			index += 1
-			break
+	topics_copy = []
+	for t in topics:
+		topics_copy.append(t)
+	for topic_dict in bag_topics:
+		test_print("GETTING TOPIC FIELDS FOR "+str(topic_dict))
+		for topic, msg, _ in bag.read_messages(topic_dict["topic"]):
+			if(topic in topics_copy):
+				i = topics.index(topic)
+				topic_type=message_types[i]
+				print_topic_fields(topic, "",  msg, 0, i, topic_type)
+				print_fields('')
+				topics_copy.remove(topic)
+			elif(topics_copy == []):
+				break
 	bag.close()
 
 
 def print_topic_fields(field_name, path, msg, depth, index, msg_type):
 	global message_types, message_fields
+	test_print("PRINTING TOPIC FIELDS FOR "+str(field_name))
 	if hasattr(msg, '__slots__'):
 		print_fields(' ' * (depth * 2) + field_name)
 		for slot in msg.__slots__:
@@ -104,7 +112,7 @@ def print_topic_fields(field_name, path, msg, depth, index, msg_type):
 		print_fields(' ' * (depth * 2) + "path: "+path)
 		print_fields(' ' * (depth * 2) + "type: "+str(type(msg)))
 		print_fields(' ' * (depth * 2) + "addr: "+str(hex(id(msg))))
-		print("message_fields["+msg_type+"]["+path+"]")
+		test_print("message_fields["+msg_type+"]["+path+"]")
 		message_fields[msg_type][path] = {'name': field_name, 'type': type(msg), 'addr': hex(id(msg))}
 
 
@@ -184,7 +192,7 @@ def enumerate_param_msg_fields(topic, msg, msg_type, i):
 	global message_fields
 	field_string = ""
 	keys = message_fields[msg_type].keys()
-	test_print("\nPRINTING msg:\n"+str(msg))
+	#test_print("\nPRINTING msg:\n"+str(msg))
 	#test_print("\nmsg keys for "+str(topic)+":\n"+str(keys))
 	for key in keys:
 		val = ""
@@ -219,15 +227,15 @@ def build_param_string(topics_in):
 	#bag_info['topics']
 	param_string = ""
 	msg_type = ""
-	test_print("\nBUILDING PARAM STRING")
+	'''test_print("\nBUILDING PARAM STRING")
 	test_print("TOPICS_IN: "+str(topics_in))
 	test_print("MESSAGE_TYPES: "+str(message_types))
-	test_print("TOPICS: "+str(topics))
+	test_print("TOPICS: "+str(topics)) '''
 	
 	i = 0
 	for t in topics_in:
 		index = topics.index(t)
-		test_print(t+" at topics["+str(index)+"]")
+		#test_print(t+" at topics["+str(index)+"]")
 		msg_type = message_types[index]
 		if len(topics_in) == 1:
 			param_string += msg_type
@@ -266,7 +274,7 @@ def get_comparability_int(field, field_type):
 			comparability_int = comparability_count
 			comparability_map["translation"] = comparability_count
 	elif "frame_id" in field:
-		#this allows for comparison of frame_id and child_frame_id
+		# allows comparison of frame_id and child_frame_id
 		try:
 			comparability_int = comparability_map["frame_id"]
 		except:
@@ -366,12 +374,12 @@ def main():
 	display_bag_info(sys.argv[1])
 	test_print("GLOBAL topics: \n"+str(topics))
 	test_print("MESSAGE_TYPES: \n"+str(message_types))
-	#test_print("MESSAGE_FIELDS: \n"+str(message_fields))
+	test_print("MESSAGE_FIELDS: \n"+str(message_fields))
 
 	#make sure requested topics in xml match what is found in bag
-	for t1 in topics:
-		for t2 in io_topics:
-			if(t1 not in t2['topics_in']):
+	#for t1 in topics:
+	#	for t2 in io_topics:
+	#		if(t1 not in t2['topics_in']):
 				
 
 	#make decls file
@@ -488,7 +496,7 @@ def main():
 			#Populate enter messages upon startup
 			for key in io_params.keys():
 				if(topic in io_params[key]['enter'].keys()):
-					test_print("io_params["+key+"][enter]["+topic+"]: "+str(io_params[key]['enter'][topic]))
+					#test_print("io_params["+key+"][enter]["+topic+"]: "+str(io_params[key]['enter'][topic]))
 					if(io_params[key]['enter'][topic]['msg'] is None):
 						io_params[key]['enter'][topic] = {'msg': msg, 'hash': str(hex(id(msg))), 'topic': topic}
 				
@@ -505,8 +513,8 @@ def main():
 				if(topic in io_params[key]['exit'].keys()):
 					io_params[key]['exit'][topic] = {'msg': msg, 'hash': str(hex(id(msg))), 'topic': topic}
 			msg_count += 1
-			print("Processing message "+str(msg_count)+" out of "+str(bag_info['messages']))
-			sys.stdout.write("\033[F") # Cursor up one line
+			#print("Processing message "+str(msg_count)+" out of "+str(bag_info['messages']))
+			#sys.stdout.write("\033[F") # Cursor up one line
 		index = topics.index(topic)
 		slashed_topic = topic
 		topic=topic.replace("/", "")
@@ -532,8 +540,8 @@ def main():
 			msg_type = message_types[param_topic_index]
 			enter_msg = io_params[slashed_topic]['enter'][t]
 			exit_msg = io_params[slashed_topic]['exit'][t]
-			test_print("\nENTER MESSAGE "+str(i)+" FOR TOPIC "+slashed_topic+": "+str(enter_msg))
-			test_print("EXIT MESSAGE "+str(i)+" FOR TOPIC "+slashed_topic+": "+str(exit_msg))
+			#test_print("\nENTER MESSAGE "+str(i)+" FOR TOPIC "+slashed_topic+": "+str(enter_msg))
+			#test_print("EXIT MESSAGE "+str(i)+" FOR TOPIC "+slashed_topic+": "+str(exit_msg))
 			if enter_msg['msg'] == None:
 				print("Enter message is None")
 

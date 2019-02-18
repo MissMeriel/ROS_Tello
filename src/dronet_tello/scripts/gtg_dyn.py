@@ -261,6 +261,7 @@ def main():
 						exit()
 					print("HOVERED "+str(hover_count)+" seconds")
 					hover_count += dt
+					state_publisher.publish("HOVERING")
 					velocity_publisher.publish(vel)
 					rate.sleep()
 					continue
