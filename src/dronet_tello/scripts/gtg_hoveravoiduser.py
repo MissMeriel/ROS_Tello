@@ -104,7 +104,7 @@ def main():
 	# Defaults: Kp=0.045; Ki=0.08; Kd=0.075
 	# Moderate speed: Kp=0.008; Ki=0.03; Kd=0.06
 	# Quick speed: Kp=0.13; Ki=0.003; Kd=0.1
-	Kp = 0.145
+	Kp = 0.13
 	Ki = 0.003
 	Kd = 0.13
 
@@ -116,8 +116,8 @@ def main():
 	goal_y = final_goal_y
 	threshold = 0.12
 	obstacle_threshold = 1
-	angle_threshold = math.radians(15)
-	detection_distance = 0.75
+	angle_threshold = math.radians(20)
+	detection_distance = 1.5
 	count = 0.0
 	sent = 0
 	vel_x = 0

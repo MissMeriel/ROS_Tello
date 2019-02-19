@@ -7,13 +7,15 @@
   <node name="tello" pkg="dronet_tello" type="tello.py" output="screen"/>  
   <node name="gtg_hoveravoid" pkg="dronet_tello" type="gtg_hoveravoiduser.py" output="screen" args="$(arg x) $(arg y)"/>
   <!--<node name="user_input" pkg="dronet_tello" type="user_input.py" output="screen"/> -->
-
+  <node name="distance_to" pkg="dronet_tello" type="distance_to.py" output="screen"/>
+  <node name="user_detector" pkg="dronet_tello" type="user_detector.py" output="screen"/>
   <!-- Launch in separate terminals:
-	key_vel_toggle.py
 	user_input.py
 	-->
 
-  <node pkg="rosbag" type="record" name="rosbag_record" args="record -o $(find dronet_tello)/../../demo2_statestd /rosout /velocity /flight_data /state /user_input /obstacle_detector /vicon/TELLO/TELLO /vicon/OBSTACLE/OBSTACLE /vicon/markers" />
+<!--  <node pkg="rosbag" type="record" name="rosbag_record" args="record -o $(find dronet_tello)/../../demo2_statestd /rosout /velocity /flight_data /state /user_input /obstacle_detector /vicon/TELLO/TELLO /vicon/OBSTACLE/OBSTACLE /vicon/markers " /> -->
+
+  <node pkg="rosbag" type="record" name="rosbag_record" args="record -o $(find dronet_tello)/../../demo2_user /rosout /velocity /flight_data /state /user_input /obstacle_detector /vicon/TELLO/TELLO /vicon/OBSTACLE/OBSTACLE /vicon/markers /vicon/PLAYER1/PLAYER1 /is_user_watching_drone /distance_to_user  /distance_to_obstacle" />
 
 </launch>
 

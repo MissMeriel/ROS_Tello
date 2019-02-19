@@ -51,7 +51,7 @@ def distance_to_obstacle():
 	global obstacle_x, obstacle_y
 	global drone_x, drone_y
 	if(obstacle_x!= None and obstacle_y != None and drone_x != None and drone_y != None):
-		return sqrt((obstacle_x - drone_x)^2 + (obstacle_y - drone_y)^2)	
+		return math.sqrt(math.pow(obstacle_x - drone_x, 2) + math.pow(obstacle_y - drone_y, 2))	
 	else:
 		return None
 
@@ -59,7 +59,7 @@ def distance_to_user():
 	global obstacle_x, obstacle_y
 	global user_x, user_y
 	if(obstacle_x!= None and obstacle_y != None and drone_x != None and drone_y != None):
-		return sqrt((user_x - drone_x)^2 + (user_y - drone_y)^2)
+		return math.sqrt(math.pow(user_x - drone_x, 2) + math.pow(user_y - drone_y, 2))
 	else:
 		return None
 
@@ -77,7 +77,7 @@ def main():
 
 	while not rospy.is_shutdown():
 		obstacle_distance_publisher.publish(distance_to_obstacle())
-		obstacle_distance_publisher.publish(distance_to_user())
+		user_distance_publisher.publish(distance_to_user())
 		rate.sleep()
 
 
