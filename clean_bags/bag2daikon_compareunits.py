@@ -197,7 +197,8 @@ def enumerate_param_msg_fields(topic, msg, msg_type, i):
 	for key in keys:
 		val = ""
 		field = message_fields[msg_type][key]
-		field_string += "\nparam"+str(i)+"."+key
+		#field_string += "\nparam"+str(i)+"."+key
+		field_string += "\n"+topic+str(i)+"."+key
 		levels = key.split(".")
 		test_print("RETRIEVING key: "+key)
 		#test_print("levels: "+str(levels))
@@ -208,8 +209,7 @@ def enumerate_param_msg_fields(topic, msg, msg_type, i):
 		#using actual type of field_type
 		field_type = message_fields[msg_type][key]['type']
 		comparability_int = 1 ###get_comparability_int(key, field_type)
-		if  "string" in str(field_type) or "str" in str(field_type):
-			#and val != "nonsensical":
+		if  "string" in str(field_type) or "str" in str(field_type) and val != "nonsensical":
 			val = val.replace("\n", "")
 			val = val.replace("\n", "")
 			if("GO TO GOAL" in val):
@@ -218,6 +218,8 @@ def enumerate_param_msg_fields(topic, msg, msg_type, i):
 		else:
 			val = python_to_daikon_literal(val)
 			field_string += "\n"+str(val)
+		if msg == None:
+			comparability_int = 2
 		field_string += "\n"+str(comparability_int)
 	return field_string
 
@@ -413,7 +415,8 @@ def main():
 		param_string = ""
 		for t in topics_in:
 			topic_index = topics.index(t)
-			param_string += "\n\tvariable param"+str(i)
+			#param_string += "\n\tvariable param"+str(i)
+			param_string += "\n\tvariable "+t+str(i)
 			param_string += "\n\t\tvar-kind variable"
 			param_string += "\n\t\trep-type hashcode"
 			msg_type = message_types[topic_index]
@@ -422,9 +425,10 @@ def main():
 			keys = message_fields[msg_type].keys()
 			for key in keys:
 				field = message_fields[msg_type][key]
-				param_string += "\n\tvariable param"+str(i)+"."+key
+				#param_string += "\n\tvariable param"+str(i)+"."+key
+				param_string += "\n\tvariable "+t+str(i)+"."+key
 				param_string += "\n\t\tvar-kind field "+key
-				param_string += "\n\t\tenclosing-var param"+str(i)
+				param_string += "\n\t\tenclosing-var "+t+str(i)
 				field_type = python_to_daikon_type(field['type'])
 				comparability_int = get_comparability_int(key, field['type'])
 				param_string += "\n\t\trep-type "+field_type
@@ -542,24 +546,26 @@ def main():
 			exit_msg = io_params[slashed_topic]['exit'][t]
 			#test_print("\nENTER MESSAGE "+str(i)+" FOR TOPIC "+slashed_topic+": "+str(enter_msg))
 			#test_print("EXIT MESSAGE "+str(i)+" FOR TOPIC "+slashed_topic+": "+str(exit_msg))
-			if enter_msg['msg'] == None:
-				print("Enter message is None")
-
 			if enter_msg != {} or not enter_msg['msg']==None:
-				enter_param_string +="\nparam"+str(i)+"\n"+enter_msg['hash']+"\n1"
+				#enter_param_string +="\nparam"+str(i)+"\n"+enter_msg['hash']+"\n1"
+				enter_param_string +="\n"+t+str(i)+"\n"+enter_msg['hash']+"\n1"
 				enter_message = enter_msg['msg']
 				enter_param_string += enumerate_param_msg_fields(t, enter_message, msg_type, i)
 			else:
 				#exit()
-				enter_param_string += "\nparam"+str(i) + "\n"+hex(id("")) + "\n1"
+				#print("Enter message is None")
+				#enter_param_string += "\nparam"+str(i) + "\n"+hex(id("")) + "\n1"
+				enter_param_string += "\n"+t+str(i) + "\n"+hex(id("")) + "\n1"
 				enter_message = None
 			if exit_msg != {} or exit_msg['msg'] != None:
-				exit_param_string += "\nparam"+str(i) + "\n"+exit_msg['hash'] + "\n1"
+				#exit_param_string += "\nparam"+str(i) + "\n"+exit_msg['hash'] + "\n1"
+				exit_param_string += "\n"+t+str(i) + "\n"+exit_msg['hash'] + "\n1"
 				exit_message = exit_msg['msg']
 				exit_param_string += enumerate_param_msg_fields(t, exit_message, msg_type, i)
 			else:
 				#exit()
-				exit_param_string += "\nparam"+str(i) + "\n"+hex(id("")) + "\n1"
+				#exit_param_string += "\nparam"+str(i) + "\n"+hex(id("")) + "\n1"
+				exit_param_string += "\n"+t+str(i) + "\n"+hex(id("")) + "\n1"
 				exit_message = None
 			i += 1
 		enter_string += enter_param_string + "\n"

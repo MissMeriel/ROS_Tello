@@ -110,7 +110,7 @@ def main():
 	if(kill):
 		exit()
 	#if(enabled and obstacle_dyn):
-	if(enabled or obstacle_dyn):
+	if(enabled or obstacle_dyn): 
 		try:
 		    key_press = q.get(timeout=0.1)
 		except Queue.Empty:

@@ -1,0 +1,182 @@
+DEMO1_user (3 bags)
+param0 == /vicon/TELLO/TELLO transformStamped
+param1 == /is_user_watching_drone
+param2 == /distance_to_user
+..state(geometry_msgs/TransformStamped, std_msgs/Bool, std_msgs/Float64):::ENTER
+param0.transform.translation.z <= 1.26619671985
+param0.transform.translation.z >= 0.0291180297823
+param0.transform.translation.x <= 1.28668502696
+param0.transform.translation.y != 0
+param0.transform.translation.y <= 1.29433937991
+..state(geometry_msgs/TransformStamped, std_msgs/Bool, std_msgs/Float64):::EXIT
+(return.data == "Finished behavior")  ==>  (orig(param0.transform.translation.z) <= 0.544087799574)
+(return.data == "Finished behavior")  ==>  (param0.transform.translation.z <= 0.515867597396)
+(return.data == "Finished behavior")  ==>  (orig(param0.transform.translation.z) >= 0.0527947825631)
+(return.data == "Finished behavior")  ==>  (orig(param2.data) >= 1.64536944917)
+(return.data == "Finished behavior")  ==>  (param2.data >= 1.64470831812)
+(return.data == "GO TO GOAL")  ==>  (orig(param0.transform.translation.x) <= 1.28668502696)
+(return.data == "GO TO GOAL")  ==>  (orig(param0.transform.translation.y) <= 1.29433937991)
+(return.data == "GO TO GOAL")  ==>  (orig(param0.transform.translation.z) <= 1.26619671985)
+(return.data == "GO TO GOAL")  ==>  (orig(param0.transform.translation.z) >= 0.0291180297823)
+(return.data == "GO TO GOAL")  ==>  (param0.transform.rotation.z <= 0.991612550789)
+(return.data == "GO TO GOAL")  ==>  (param0.transform.rotation.z >= -0.840146309601)
+(return.data == "GO TO GOAL")  ==>  (param0.transform.translation.x <= 1.28426505374)
+(return.data == "GO TO GOAL")  ==>  (param0.transform.translation.y <= 1.40134792699)
+(return.data == "GO TO GOAL")  ==>  (param0.transform.translation.z <= 1.27084146987)
+(return.data == "GO TO GOAL")  ==>  (param0.transform.translation.z >= 0.030481146797)
+(return.data == "GOAL REACHED")  ==>  (orig(param0.transform.translation.x) <= 1.09967804618)
+(return.data == "GOAL REACHED")  ==>  (orig(param0.transform.translation.y) <= 1.25026985347)
+(return.data == "GOAL REACHED")  ==>  (orig(param0.transform.translation.z) <= 1.06740968303)
+(return.data == "GOAL REACHED")  ==>  (orig(param0.transform.translation.z) >= 0.0527947825631)
+(return.data == "GOAL REACHED")  ==>  (param2.data >= 1.29665786629)
+(return.data == "NO VICON DATA; LANDING")  ==>  (orig(param0.transform.translation.x) > orig(param0.transform.translation.y))
+(return.data == "NO VICON DATA; LANDING")  ==>  (orig(param0.transform.translation.x) one of { -0.94909186343, 0.0512764556412 }
+	"-0.94909186343" probability: 1.16%	count:1.0 total:86.0
+	"0.0512764556412" probability: 98.84%	count:85.0 total:86.0)
+(return.data == "NO VICON DATA; LANDING")  ==>  (orig(param0.transform.translation.x) one of { -0.94909186343, 0.0512764556412 })
+(return.data == "NO VICON DATA; LANDING")  ==>  (orig(param0.transform.translation.y) one of { -2.07279737159, 0.0490816210807 }
+	"-2.07279737159" probability: 1.16%	count:1.0 total:86.0
+	"0.0490816210807" probability: 98.84%	count:85.0 total:86.0)
+(return.data == "NO VICON DATA; LANDING")  ==>  (orig(param0.transform.translation.y) one of { -2.07279737159, 0.0490816210807 })
+(return.data == "NO VICON DATA; LANDING")  ==>  (orig(param0.transform.translation.z) > orig(param0.transform.translation.x))
+(return.data == "NO VICON DATA; LANDING")  ==>  (orig(param0.transform.translation.z) > orig(param0.transform.translation.y))
+(return.data == "NO VICON DATA; LANDING")  ==>  (orig(param0.transform.translation.z) one of { 0.135022814614, 0.861302333926 }
+	"0.135022814614" probability: 1.16%	count:1.0 total:86.0
+	"0.861302333926" probability: 98.84%	count:85.0 total:86.0)
+(return.data == "NO VICON DATA; LANDING")  ==>  (orig(param0.transform.translation.z) one of { 0.135022814614, 0.861302333926 })
+(return.data == "NO VICON DATA; LANDING")  ==>  (orig(param2.data) >= 1.64536944917)
+(return.data == "NO VICON DATA; LANDING")  ==>  (orig(param2.data) one of { 1.64560350173, 1.88642846701, 2.74348833681 }
+	"1.64560350173" probability: 10.42%	count:10.0 total:96.0
+	"1.88642846701" probability: 1.04%	count:1.0 total:96.0
+	"2.74348833681" probability: 88.54%	count:85.0 total:96.0)
+(return.data == "NO VICON DATA; LANDING")  ==>  (param0.transform.translation.z one of { 0.0299365497122, 0.808768529081 }
+	"0.0299365497122" probability: 1.16%	count:1.0 total:86.0
+	"0.808768529081" probability: 98.84%	count:85.0 total:86.0)
+CONSISTENTLY TRUE: if UAV leaves vicon area, and vicon still tracks user's direction of attention, last value saved for UAV's position will be outdated
+(return.data == "NO VICON DATA; LANDING")  ==>  (param1.data == false)
+(return.data == "NO VICON DATA; LANDING")  ==>  (param2.data <= orig(param2.data))
+(return.data == "NO VICON DATA; LANDING")  ==>  (param2.data >= 1.64470831812)
+..state(geometry_msgs/TransformStamped, std_msgs/Bool, std_msgs/Float64):::EXIT;condition="not(return.data == "Finished behavior")"
+return.data one of { "GO TO GOAL", "GOAL REACHED", "NO VICON DATA; LANDING" }
+return.data one of { "GO TO GOAL", "GOAL REACHED", "NO VICON DATA; LANDING" }
+	"GO TO GOAL" probability: 75.11%	count:3736.0 total:4974.0
+	"GOAL REACHED" probability: 22.07%	count:1098.0 total:4974.0
+	"NO VICON DATA; LANDING" probability: 2.81%	count:140.0 total:4974.0
+
+
+DEMO2_statestd (4 bags)
+..state(geometry_msgs/TransformStamped, geometry_msgs/TransformStamped, std_msgs/String):::ENTER
+(param2.data == "nonsensical")  ==>  (param0.transform.translation.x <= 0.19114392193)
+(param2.data == "nonsensical")  ==>  (param0.transform.translation.y <= 4.9E-324)
+(param2.data == "nonsensical")  ==>  (param0.transform.translation.z <= 1.12411675036)
+..velocity(geometry_msgs/TransformStamped, geometry_msgs/TransformStamped, std_msgs/String):::EXIT;condition="return.linear.z  ==  0.0"
+orig(param1.transform.translation.z) <= 1.05248299982
+orig(param1.transform.translation.z) >= 0.276380029344
+orig(param1.transform.translation.y) <= 0.051380817624
+orig(param1.transform.translation.y) >= -0.0163550433646
+orig(param2.data) one of { "no", "nonsensical" }
+	"no" probability: 81.19%	count:3657.0 total:4504.0
+	"nonsensical" probability: 18.81%	count:847.0 total:4504.0
+..velocity(geometry_msgs/TransformStamped, geometry_msgs/TransformStamped, std_msgs/String):::EXIT;condition="return.linear.z  ==   -200.0"
+orig(param0.child_frame_id) == "vicon/TELLO/TELLO"
+orig(param0.transform.translation.x) one of { -0.351829913918, 0.899386908127 }
+	"-0.351829913918" probability: 80.00%	count:4.0 total:5.0
+	"0.899386908127" probability: 20.00%	count:1.0 total:5.0
+orig(param0.transform.translation.y) one of { 0.575820786534, 0.785447591116 }
+	"0.575820786534" probability: 80.00%	count:4.0 total:5.0
+	"0.785447591116" probability: 20.00%	count:1.0 total:5.0
+orig(param1.child_frame_id) == "vicon/OBSTACLE/OBSTACLE"
+orig(param1.transform.translation.x) one of { -0.130451319676, -0.0775279037996 }
+	"-0.130451319676" probability: 80.00%	count:4.0 total:5.0
+	"-0.0775279037996" probability: 20.00%	count:1.0 total:5.0
+orig(param1.transform.translation.y) one of { -0.0162844349103, 0.0513646987144 }
+	"-0.0162844349103" probability: 20.00%	count:1.0 total:5.0
+	"0.0513646987144" probability: 80.00%	count:4.0 total:5.0
+..velocity(geometry_msgs/TransformStamped, geometry_msgs/TransformStamped, std_msgs/String):::EXIT;condition="not(param2.data  ==   "nonsensical")"
+return.linear.y <= 1.0
+return.linear.y >= -1.0
+return.linear.x <= 1.0
+return.linear.x >= -1.0
+return.linear.z one of { -200.0, 0.0 }
+	"-200.0" probability: 0.20%	count:8.0 total:3973.0
+	"0.0" probability: 99.80%	count:3965.0 total:3973.0
+orig(param0.child_frame_id) == "vicon/TELLO/TELLO"
+orig(param0.transform.translation.y) <= 1.23434685526
+orig(param0.transform.translation.x) <= 0.899386908127
+
+
+
+
+DEMO1 (single bag)
+..state(geometry_msgs/TransformStamped, std_msgs/Bool, std_msgs/Float64):::EXIT;condition="return.data == "GO TO GOAL""
+orig(param0.child_frame_id) == "vicon/TELLO/TELLO"
+orig(param0.transform.translation.z) <= 1.06569433859
+orig(param0.transform.translation.z) >= 0.0291180297823
+param2 is float value from /distance_to_user topic
+orig(param2.data) one of { 1.65679220144, 1.8512774403, 1.88642846701 }
+	"1.65679220144" probability: 0.17%	count:1.0 total:604.0
+	"1.8512774403" probability: 40.07%	count:242.0 total:604.0
+	"1.88642846701" probability: 59.77%	count:361.0 total:604.0
+..state(geometry_msgs/TransformStamped, std_msgs/Bool, std_msgs/Float64):::EXIT
+(return.data == "Finished behavior")  ==>  (param0.transform.translation.z <= 0.515867597396)
+(return.data == "Finished behavior")  ==>  (param1.data == false)
+(return.data == "GO TO GOAL")  ==>  (param0.transform.translation.x <= 1.28426505374)
+(return.data == "GO TO GOAL")  ==>  (param0.transform.translation.y <= 1.40134792699)
+(return.data == "GO TO GOAL")  ==>  (param0.transform.translation.z <= 1.17558945372)
+(return.data == "GO TO GOAL")  ==>  (param0.transform.translation.z >= 0.030481146797)
+(return.data == "GOAL REACHED")  ==>  (param0.transform.translation.x <= 4.9E-324)
+(return.data == "GOAL REACHED")  ==>  (param0.transform.translation.y <= 1.08822153886)
+(return.data == "GOAL REACHED")  ==>  (param0.transform.translation.z <= 0.78077653039)
+(return.data == "GOAL REACHED")  ==>  (param2.data >= 1.64470831812)
+(return.data == "NO VICON DATA; LANDING")  ==>  (param0.transform.translation.x < orig(param0.transform.translation.x))
+(return.data == "NO VICON DATA; LANDING")  ==>  (param0.transform.translation.x < orig(param0.transform.translation.z))
+(return.data == "NO VICON DATA; LANDING")  ==>  (param0.transform.translation.x == -0.950406462309)
+(return.data == "NO VICON DATA; LANDING")  ==>  (param0.transform.translation.x > orig(param0.transform.translation.y))
+(return.data == "NO VICON DATA; LANDING")  ==>  (param0.transform.translation.x > param0.transform.translation.y)
+(return.data == "NO VICON DATA; LANDING")  ==>  (param0.transform.translation.y < orig(param0.transform.translation.x))
+(return.data == "NO VICON DATA; LANDING")  ==>  (param0.transform.translation.y < orig(param0.transform.translation.z))
+(return.data == "NO VICON DATA; LANDING")  ==>  (param0.transform.translation.y == -2.06908095685)
+(return.data == "NO VICON DATA; LANDING")  ==>  (param0.transform.translation.y > orig(param0.transform.translation.y))
+(return.data == "NO VICON DATA; LANDING")  ==>  (param0.transform.translation.z < orig(param0.transform.translation.z))
+(return.data == "NO VICON DATA; LANDING")  ==>  (param0.transform.translation.z == 0.0299365497122)
+(return.data == "NO VICON DATA; LANDING")  ==>  (param0.transform.translation.z > orig(param0.transform.translation.x))
+(return.data == "NO VICON DATA; LANDING")  ==>  (param0.transform.translation.z > orig(param0.transform.translation.y))
+(return.data == "NO VICON DATA; LANDING")  ==>  (param0.transform.translation.z > param0.transform.translation.x)
+(return.data == "NO VICON DATA; LANDING")  ==>  (param0.transform.translation.z > param0.transform.translation.y)
+(return.data == "NO VICON DATA; LANDING")  ==>  (param1.data == false)
+(return.data == "NO VICON DATA; LANDING")  ==>  (param2.data <= 1.72810661726)
+(return.data == "NO VICON DATA; LANDING")  ==>  (param2.data <= orig(param2.data))
+(return.data == "NO VICON DATA; LANDING")  ==>  (param2.data >= 1.64470831812)
+(return.data one of { "Finished behavior", "GO TO GOAL", "GOAL REACHED" })  ==>  (orig(param2.data) one of { 1.64560350173, 1.65679220144, 1.8512774403, 1.88642846701 }
+	"1.64560350173" probability: 2.16%	count:20.0 total:928.0
+	"1.65679220144" probability: 0.11%	count:1.0 total:928.0
+	"1.8512774403" probability: 27.37%	count:254.0 total:928.0
+	"1.88642846701" probability: 70.37%	count:653.0 total:928.0)
+(return.data one of { "Finished behavior", "GOAL REACHED", "NO VICON DATA; LANDING" })  ==>  (param0.transform.translation.x < orig(param0.transform.translation.z))
+(return.data one of { "Finished behavior", "GOAL REACHED", "NO VICON DATA; LANDING" })  ==>  (param0.transform.translation.x <= 4.9E-324)
+(return.data one of { "Finished behavior", "GOAL REACHED", "NO VICON DATA; LANDING" })  ==>  (param0.transform.translation.y <= 1.08822153886)
+(return.data one of { "Finished behavior", "GOAL REACHED", "NO VICON DATA; LANDING" })  ==>  (param0.transform.translation.z <= 0.78077653039)
+(return.data one of { "Finished behavior", "GOAL REACHED", "NO VICON DATA; LANDING" })  ==>  (param0.transform.translation.z > orig(param0.transform.translation.x))
+(return.data one of { "Finished behavior", "GOAL REACHED", "NO VICON DATA; LANDING" })  ==>  (param0.transform.translation.z > param0.transform.translation.x)
+(return.data one of { "Finished behavior", "GOAL REACHED", "NO VICON DATA; LANDING" })  ==>  (param0.transform.translation.z >= 0.0273507967395)
+(return.data one of { "Finished behavior", "GOAL REACHED", "NO VICON DATA; LANDING" })  ==>  (param2.data >= 1.64470831812)
+
+(return.data one of { "GO TO GOAL", "GOAL REACHED", "NO VICON DATA; LANDING" })  ==>  (orig(param0.transform.translation.x) <= 1.28668502696)
+(return.data one of { "GO TO GOAL", "GOAL REACHED", "NO VICON DATA; LANDING" })  ==>  (orig(param0.transform.translation.y) <= 1.29433937991)
+(return.data one of { "GO TO GOAL", "GOAL REACHED", "NO VICON DATA; LANDING" })  ==>  (orig(param0.transform.translation.z) <= 1.06569433859)
+(return.data one of { "GO TO GOAL", "GOAL REACHED", "NO VICON DATA; LANDING" })  ==>  (orig(param0.transform.translation.z) >= 0.0291180297823)
+(return.data one of { "GO TO GOAL", "GOAL REACHED", "NO VICON DATA; LANDING" })  ==>  (orig(param2.data) one of { 1.64560350173, 1.65679220144, 1.8512774403, 1.88642846701 }
+	"1.64560350173" probability: 2.30%	count:20.0 total:871.0
+	"1.65679220144" probability: 0.11%	count:1.0 total:871.0
+	"1.8512774403" probability: 29.16%	count:254.0 total:871.0
+	"1.88642846701" probability: 68.43%	count:596.0 total:871.0)
+
+(return.data one of { "GO TO GOAL", "GOAL REACHED", "NO VICON DATA; LANDING" })  ==>  (param0.transform.translation.x <= 1.28426505374)
+(return.data one of { "GO TO GOAL", "GOAL REACHED", "NO VICON DATA; LANDING" })  ==>  (param0.transform.translation.y <= 1.40134792699)
+(return.data one of { "GO TO GOAL", "GOAL REACHED", "NO VICON DATA; LANDING" })  ==>  (param0.transform.translation.z <= 1.17558945372)
+(return.data one of { "GO TO GOAL", "GOAL REACHED", "NO VICON DATA; LANDING" })  ==>  (param2.data >= 1.48959492247)
+(return.data one of { "GO TO GOAL", "GOAL REACHED", "NO VICON DATA; LANDING" })  ==>  (return.data one of { "GO TO GOAL", "GOAL REACHED", "NO VICON DATA; LANDING" }
+	"GO TO GOAL" probability: 75.07%	count:1412.0 total:1881.0
+	"GOAL REACHED" probability: 22.01%	count:414.0 total:1881.0
+	"NO VICON DATA; LANDING" probability: 2.92%	count:55.0 total:1881.0)
+
