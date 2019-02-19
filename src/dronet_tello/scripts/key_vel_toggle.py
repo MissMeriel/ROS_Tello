@@ -111,7 +111,6 @@ def main():
 		exit()
 	#if(enabled and obstacle_dyn):
 	if(enabled or obstacle_dyn):
-  	        state_publisher.publish("manual control")
 		try:
 		    key_press = q.get(timeout=0.1)
 		except Queue.Empty:
