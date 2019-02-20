@@ -89,7 +89,7 @@ def main():
 	global obs_x, obs_y, obs_z, obs_angle
 	global curr_x, curr_y, curr_angle
 	global publishing, avoid, landing, manual,testing
-	rospy.init_node("gtg_hover", anonymous=True)
+	rospy.init_node("gtg_transfer", anonymous=True)
 	velocity_publisher = rospy.Publisher("/velocity", Twist, queue_size=10)
 	state_publisher = rospy.Publisher("/state", String, queue_size=10)
 	obstacle_publisher = rospy.Publisher("/obstacle_detector", Bool, queue_size=1)
@@ -177,7 +177,7 @@ def main():
 				vel.linear.x = 0
 				vel.linear.y = 0
 				hover_count += dt
-				str_msg="Waiting for user input"
+				str_msg="WAITING FOR USER INPUT"
 				velocity_publisher.publish(vel)
 				state_publisher.publish(str_msg)
 				rate.sleep()
@@ -187,7 +187,7 @@ def main():
 				vel.linear.x = 0
 				vel.linear.y = 0
 				vel.linear.z = -200
-				str_msg="Timeout reached; Landing now"
+				str_msg="USER INPUT TIMEOUT; LANDING"
 				velocity_publisher.publish(vel)
 				state_publisher.publish(str_msg)
 				hover_count += dt
@@ -202,6 +202,8 @@ def main():
 				exit()
 
 		if(manual):
+			str_msg="MANUAL MODE"
+			state_publisher.publish(str_msg)
 			rate.sleep()
 			continue
 

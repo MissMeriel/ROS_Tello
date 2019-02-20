@@ -144,7 +144,7 @@ def enumerate_msg_fields(topic, msg, msg_type):
 		test_print(str(val) + str(field['type']))
 		field_type = message_fields[msg_type][key]['type']
 		#using actual type of field_type
-		comparability_int = get_comparability_int(key, field_type)
+		comparability_int = 1 ##get_comparability_int(key, field_type)
 		if  "string" in str(field_type) or "str" in str(field_type):
 			val = val.replace("\n", "")
 			if("GO TO GOAL" in val):
@@ -182,7 +182,7 @@ def enumerate_param_msg_fields(topic, msg, msg_type, i):
 				exit()
 		#using actual type of field_type
 		field_type = message_fields[msg_type][key]['type']
-		comparability_int = get_comparability_int(key, field_type)
+		comparability_int = 1 ##get_comparability_int(key, field_type)
 		if  "string" in str(field_type) or "str" in str(field_type):
 			#and val != "nonsensical":
 			val = val.replace("\n", "")
@@ -417,7 +417,7 @@ def main():
 					param_string += "\n\t\tvar-kind field "+key
 					param_string += "\n\t\tenclosing-var param"+str(i)
 					field_type = python_to_daikon_type(field['type'])
-					comparability_int = get_comparability_int(key, field['type'])
+					comparability_int = 1 ##get_comparability_int(key, field['type'])
 					param_string += "\n\t\trep-type "+field_type
 					param_string += "\n\t\tdec-type "+field_type
 					param_string += "\n\t\tcomparability "+str(comparability_int)
@@ -444,7 +444,7 @@ def main():
 				field_type = python_to_daikon_type(field['type'])
 				field_string += "\n\t\trep-type "+field_type
 				field_string += "\n\t\tdec-type "+field_type
-				comparability_int = get_comparability_int(key, field['type'])
+				comparability_int = 1 ##get_comparability_int(key, field['type'])
 				field_string += "\n\t\tcomparability "+str(comparability_int)
 			exit_string += (field_string+"\n")
 			decls_file.write(exit_string+"\n")
@@ -504,6 +504,14 @@ def main():
 				dtrace_file.write(enter_string+exit_string)
 				call_counts[last_topic] = call_count + 1
 
+			# EVENTUALLY
+			#else if(temporal == "eventually"):
+				# use OneOfs as heuristic -- not interested in static vals
+
+			# ALWAYS
+			# What daikon generates by default
+
+
 			# UNTIL
 			elif(temporal == "until"):
 				# For now, compare whole message
@@ -543,13 +551,6 @@ def main():
 						call_counts[last_topic] = call_count + 1
 					#print(topic + "changed from "+str(logic_operators["until"][topic]['msg'])+" to "+ str(msg))
 					#test_print(topic + "changed")
-
-			# EVENTUALLY
-			#else if(temporal == "eventually"):
-				# use OneOfs as heuristic -- not interested in static vals
-
-			# ALWAYS
-			# What daikon generates by default
 
 		if(msg):
 			msg_count += 1
