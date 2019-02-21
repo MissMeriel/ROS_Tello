@@ -54,7 +54,6 @@ def vicon_data(data):
 	curr_angle = math.atan2(siny_cosp, cosy_cosp);
 	publishing = True
 
-
 def vicon_obstacle(data):
 	global obs_x, obs_y, obs_z, obs_angle
 	obs_x = data.transform.translation.x
@@ -159,12 +158,12 @@ def main():
 			#print("start goal: "+str(goal_x)+", "+str(goal_y))
 			print("obstacle_in_path: "+str(obstacle_in_path))
 			print("\tpaths_align: "+str(paths_align))
-			#print("\tdistance_drone_to_obstacle <= detection_distance: "+str(distance_drone_to_obstacle <= detection_distance))
-			#print("\tdistance_to_final_goal >  distance_obs_to_goal: "+str(distance_to_final_goal >  distance_obs_to_goal))
+			print("\tdistance_drone_to_obstacle <= detection_distance: "+str(distance_drone_to_obstacle <= detection_distance))
+			print("\t\tdistance to obstacle: "+ str(distance_drone_to_obstacle))
+			print("\tdistance_to_final_goal >  distance_obs_to_goal: "+str(distance_to_final_goal >  distance_obs_to_goal))
+			print("\t\tdistance to final goal: "+ str(distance_to_final_goal))
+			print("\t\tdistance obstacle to goal: "+ str(distance_obs_to_goal))
 			print("\tangle_drone_to_goal: "+str(math.degrees(angle_drone_to_goal)))
-			print("\tdistance to final goal: "+ str(distance_to_final_goal))
-			#print("\tdistance to obstacle: "+ str(distance_drone_to_obstacle))
-			#print("\tdistance from obstacle to goal: "+ str(distance_obs_to_goal))
 
 		str_msg = "GO TO GOAL"
 		obstacle_publisher.publish(Bool(obstacle_in_path))
@@ -199,6 +198,7 @@ def main():
 			print_count = 0
 			while print_count < 5:
 				print("OBSTACLE_IN_PATH; AVOID")
+				print_count += 1
 			#tangent to circle
 			#interpolated goal offset from obstacle radius
 			#goal_x = curr_x + 0.005 * math.cos(avoid_angle)
@@ -229,7 +229,7 @@ def main():
 				if(abs(distance_drone_to_obstacle - detection_distance) < threshold):
 					angle_obs_to_drone = math.atan2(curr_y-obs_y, curr_x-obs_x)
 					#angle_obs_to_drone = math.pi + angle_drone_to_obs #math.atan2(curr_y-obs_y, curr_x-obs_x)
-					#print("angle_obs_to_drone: "+str(math.degrees(angle_obs_to_drone)))
+					print("angle_obs_to_drone: "+str(math.degrees(angle_obs_to_drone)))
 					hover_point_x = obs_x + obstacle_threshold * math.cos(math.pi + angle_obs_to_goal)
 					hover_point_y = obs_y + obstacle_threshold * math.sin(math.pi + angle_obs_to_goal)
 					goal_x = hover_point_x
@@ -241,7 +241,7 @@ def main():
 					previous_error = 0
 
 				distance_to_goal = math.sqrt((goal_x - curr_x)**2 + (goal_y - curr_y)**2)
-				if(distance_to_goal <= 0.75):
+				if(distance_to_goal <= 1.5):
 					vel.linear.x = 0
 					vel.linear.y = 0
 					#while(sent < 4):
@@ -250,11 +250,15 @@ def main():
 					str_msg = "HOVERING AT OBSTACLE; WAITING FOR USER INPUT"
 					if(hover_count > 10):
 						vel.linear.z=-200
-						hover_count = 0
+						#hover_count = 0
 						str_msg = "USER INPUT TIMEOUT; LANDING"
 					print("HOVERED "+str(hover_count)+" seconds")
 					hover_count += dt
 					state_publisher.publish(str_msg)
+					sent = 0
+					while(sent < 4):
+						velocity_publisher.publish(vel)
+						sent += 1
 					velocity_publisher.publish(vel)
 					rate.sleep()
 					continue

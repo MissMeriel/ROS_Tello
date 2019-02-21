@@ -10,9 +10,11 @@
   
   <node name="tello_gotogoal" pkg="dronet_tello" type="gotogoal_omni_land.py" output="screen" args="$(arg x) $(arg y)"/>
 
-
+	<node name="distance_to" pkg="dronet_tello" type="distance_to.py" output="screen"/>
+	<node name="user_detector" pkg="dronet_tello" type="user_detector.py" output="screen"/>
   <!-- <node name="user_input" pkg="dronet_tello" type="user_input.py" output="screen"/> -->
-  <node pkg="rosbag" type="record" name="rosbag_record" args="record -o $(find dronet_tello)/../../demo1_statestd /rosout /velocity /flight_data /state /user_input /obstacle_detector /vicon/TELLO/TELLO /vicon/OBSTACLE/OBSTACLE /vicon/markers" />
+<!--  <node pkg="rosbag" type="record" name="rosbag_record" args="record -o $(find dronet_tello)/../../demo1_statestd /rosout /velocity /flight_data /state /user_input /obstacle_detector /vicon/TELLO/TELLO /vicon/OBSTACLE/OBSTACLE /vicon/markers" /> -->
+  <node pkg="rosbag" type="record" name="rosbag_record" args="record -o $(find dronet_tello)/../../demo1_user /rosout /velocity /flight_data /state /user_input /obstacle_detector /vicon/TELLO/TELLO /vicon/OBSTACLE/OBSTACLE /vicon/PLAYER1/PLAYER1 /is_user_watching_drone /distance_to_user" />
 
 </launch>
 
