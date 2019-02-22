@@ -513,7 +513,7 @@ def main():
 
 
 			# UNTIL
-			elif(temporal == "until"):
+			'''elif(temporal == "until"):
 				# For now, compare whole message
 				# TODO: Extend to use OneOfs as heuristic (ignoring constants)
 				# Check that at least one of the fields is still the same
@@ -550,7 +550,7 @@ def main():
 						dtrace_file.write(enter_string+exit_string)
 						call_counts[last_topic] = call_count + 1
 					#print(topic + "changed from "+str(logic_operators["until"][topic]['msg'])+" to "+ str(msg))
-					#test_print(topic + "changed")
+					#test_print(topic + "changed")'''
 
 		if(msg):
 			msg_count += 1

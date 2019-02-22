@@ -147,6 +147,7 @@ def main():
 			vel.linear.z = -200
 			str_msg = "NO VICON DATA; LANDING"
 			print(str_msg)
+			state_publisher.publish(str_msg)
 			velocity_publisher.publish(vel)
 			process_killer.publish(True)
 			continue

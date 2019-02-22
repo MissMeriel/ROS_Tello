@@ -108,12 +108,14 @@ def main():
     global gtg, enabled1, enabled2, kill
 
     rospy.init_node("key_vel", anonymous=True)
-    velocity_publisher = rospy.Publisher("velocity", Twist, queue_size=10)
-    input_subscriber = rospy.Subscriber("/obstacle_detector", Bool, obstacle_detected, queue_size=5)
+    velocity_publisher = rospy.Publisher("/velocity", Twist, queue_size=10)
+    key_state_publisher = rospy.Publisher("/key_state", Twist, queue_size=10)
+    obstacle_subscriber = rospy.Subscriber("/obstacle_detector", Bool, obstacle_detected, queue_size=5)
     input_subscriber = rospy.Subscriber("/keys_enabled", Bool, process_user_input, queue_size=5)
     state_subscriber = rospy.Subscriber("/state", String, process_state, queue_size=5)
     process_killer = rospy.Subscriber("/killswitch", Bool, killswitch, queue_size=5)
     user_input_subscriber = rospy.Subscriber("/user_input", String, process_user_input, queue_size=10)
+
     linear_vel_x = 0.0
     linear_vel_y = 0.0
     linear_vel_z = 0.0
@@ -186,16 +188,24 @@ def main():
 
 		if(key_press == Key.A or key_press == Key.S or key_press == Key.D or key_press == Key.W or key_press == Key.X):
 			sys.stdout.write("User 2 disabled; User 1 has control")
+			
+		if(enabled1):
+			key_state_publisher.publish("User 1 has control; User 2 disabled")
+		elif(enabled2):
+			key_state_publisher.publish("User 2 has control; User 1 disabled")
 
 		velocity = Twist()
 		velocity.linear.x = linear_vel_x
 		velocity.linear.z = linear_vel_z
 		velocity.angular.z = angular_vel
 		velocity_publisher.publish(velocity)
+
 	elif(gtg):
-		sys.stdout.write("Key control disabled during go-to-goal.")
+		sys.stdout.write("Key control disabled during autonomous go-to-goal.")
+		key_state_publisher.publish("Key control disabled during autonomous go-to-goal.")
 	else:
 		sys.stdout.write("Key control disabled.")
+		key_state_publisher("Key control disabled.")
 
 if __name__ == "__main__":
     try:

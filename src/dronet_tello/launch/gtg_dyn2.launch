@@ -7,9 +7,17 @@
   <node name="tello" pkg="dronet_tello" type="tello.py" output="screen"/>
   <node name="gtg_dyn" pkg="dronet_tello" type="gtg_dyn2.py" output="screen" args="$(arg x) $(arg y)"/>
   <node name="key_vel_middleman" pkg="dronet_tello" type="key_vel_middleman.py" output="screen"/>
+  <node name="user_detector" pkg="dronet_tello" type="user_detector.py" output="screen"/>
+  <node name="distance_to" pkg="dronet_tello" type="distance_to.py" output="screen"/>
 
-  <!--<node name="tello_key_vel" pkg="dronet_tello" type="key_vel_toggle.py" /> -->
+  <node pkg="rosbag" type="record" name="rosbag_record" args="record -o $(find dronet_tello)/../../demo3_statestd /rosout /velocity /flight_data /state /user_input /obstacle_detector /keys_enabled /user_velocity /obstacle_dyn /vicon/TELLO/TELLO /vicon/OBSTACLE/OBSTACLE /vicon/PLAYER1/PLAYER1 /is_user_watching_drone /distance_to_user /distance_to_obstacle" />
+
+  <!--<node name="tello_key_vel" pkg="dronet_tello" type="key_vel_toggle2.py" /> -->
   <!--<node name="user_input" pkg="dronet_tello" type="user_input.py" output="screen"/> -->
-  <node pkg="rosbag" type="record" name="rosbag_record" args="record -o $(find dronet_tello)/../../demo3_statestd /rosout /velocity /flight_data /state /user_input /obstacle_detector /keys_enabled /user_velocity /obstacle_dyn /vicon/TELLO/TELLO /vicon/OBSTACLE/OBSTACLE" />
+
+  <!-- Run in separate terminals:
+	rosrun dronet_tello key_vel_toggle2.py
+	rosrun dronet_tello user_input.py
+  -->
 
 </launch>

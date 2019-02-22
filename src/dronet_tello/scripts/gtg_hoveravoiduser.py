@@ -136,7 +136,7 @@ def main():
 		if(publishing_count > 5):
 			vel.linear.x = 0
 			vel.linear.y = 0
-			vel.linear.z = -500
+			vel.linear.z = -200
 			str_msg = "NO VICON DATA; LANDING"
 			print(str_msg)
 			state_publisher.publish(str_msg)
@@ -165,7 +165,6 @@ def main():
 			print("\t\tdistance obstacle to goal: "+ str(distance_obs_to_goal))
 			print("\tangle_drone_to_goal: "+str(math.degrees(angle_drone_to_goal)))
 
-		str_msg = "GO TO GOAL"
 		obstacle_publisher.publish(Bool(obstacle_in_path))
 
 		if (distance_to_final_goal < threshold):
@@ -185,6 +184,7 @@ def main():
 				if(exit_count >= 5):
 					exit()
 			else:
+				str_msg = "GO TO GOAL"
 				hover_count = 0
 				goal_count +=1
 				goal_x = goal_array_x[goal_count]

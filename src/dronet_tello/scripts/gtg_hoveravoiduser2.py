@@ -136,7 +136,7 @@ def main():
 		if(publishing_count > 5):
 			vel.linear.x = 0
 			vel.linear.y = 0
-			vel.linear.z = -500
+			vel.linear.z = -200
 			str_msg = "NO VICON DATA; LANDING"
 			print(str_msg)
 			state_publisher.publish(str_msg)
@@ -164,8 +164,7 @@ def main():
 			print("\t\tdistance to final goal: "+ str(distance_to_final_goal))
 			print("\t\tdistance obstacle to goal: "+ str(distance_obs_to_goal))
 			print("\tangle_drone_to_goal: "+str(math.degrees(angle_drone_to_goal)))
-
-		str_msg = "GO TO GOAL"
+		
 		obstacle_publisher.publish(Bool(obstacle_in_path))
 
 		if (distance_to_final_goal < threshold):
@@ -174,7 +173,7 @@ def main():
 				print("GOAL REACHED with threshold "+str(distance_to_final_goal))
 				vel.linear.x = 0
 				vel.linear.y = 0
-				hover_count += 1
+				hover_count += dt
 
 			if(goal_count == len(goal_array_x)-1 and exit_count < 5):
 				str_msg = "Finished behavior"
@@ -185,6 +184,7 @@ def main():
 				if(exit_count >= 5):
 					exit()
 			else:
+				str_msg = "GO TO GOAL"
 				hover_count = 0
 				goal_count +=1
 				goal_x = goal_array_x[goal_count]
@@ -260,15 +260,14 @@ def main():
 					#sent += 1
 				str_msg = "HOVERING AT OBSTACLE; WAITING FOR USER INPUT"
 				print("HOVERED "+str(hover_count)+" seconds")
-				if(hover_count > 10):
+				if(hover_count > 5):
 					vel.linear.z=-200
 					hover_count = 0
 					str_msg = "USER INPUT TIMEOUT; LANDING"
+				if(hover_count > 10):
+					exit()
 				hover_count += dt
 				sent = 0
-				while(sent < 4):
-					velocity_publisher.publish(vel)
-					sent += 1
 			state_publisher.publish(str_msg)
 			velocity_publisher.publish(vel)
 			rate.sleep()

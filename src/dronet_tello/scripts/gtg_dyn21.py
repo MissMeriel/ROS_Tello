@@ -13,8 +13,10 @@ from std_msgs.msg import String
 #from vicon_bridge import Marker
 
 
-goal_x = float(sys.argv[1])
-goal_y = float(sys.argv[2])
+goal_array_x = sys.argv[1]
+goal_array_y = sys.argv[2]
+goal_x = -200
+goal_y = -200
 obs_x = -20
 obs_y = -20
 obs_z = -20
@@ -94,6 +96,9 @@ def main():
 	global curr_x, curr_y, curr_angle
 	global publishing, avoid, obstacle_dyn, state
 	global testing
+
+	process_sysargs()
+
 	rospy.init_node("gtg_dyn", anonymous=True)
 	velocity_publisher = rospy.Publisher("/velocity", Twist, queue_size=10)
 	state_publisher = rospy.Publisher("/state", String, queue_size=10)
@@ -147,17 +152,16 @@ def main():
 
 		#check for lapse in vicon data
 		if(not publishing):
-			publishing = False
 			publishing_count += 1
 		else:
 			publishing_count = 0
-			publishing = True
 		if(publishing_count > 5):
 			vel.linear.x = 0
 			vel.linear.y = 0
 			vel.linear.z = -200
 			str_msg = "NO VICON DATA; LANDING"
 			print(str_msg)
+			state_publisher.publish(str_msg)
 			velocity_publisher.publish(vel)
 			process_killer.publish(True)
 			continue
@@ -176,15 +180,14 @@ def main():
 			print("")
 			#print("start goal: "+str(goal_x)+", "+str(goal_y))
 			print("obstacle_in_path: "+str(obstacle_in_path))
-			#print("\tpaths_align: "+str(paths_align))
-			#print("\tdistance_drone_to_obstacle <= detection_distance: "+str(distance_drone_to_obstacle <= detection_distance))
-			#print("\tdistance_to_final_goal >  distance_obs_to_goal: "+str(distance_to_final_goal >  distance_obs_to_goal))
-			#print("\tangle_obs_to_goal: "+str(math.degrees(angle_obs_to_goal)))
-			print("\tDistance to final goal: "+ str(distance_to_final_goal))
+			print("\tpaths_align: "+str(paths_align))
+			print("\tdistance_drone_to_obstacle <= detection_distance: "+str(distance_drone_to_obstacle <= detection_distance))
+			print("\t\tdistance to obstacle: "+ str(distance_drone_to_obstacle))
+			print("\tdistance_to_final_goal >  distance_obs_to_goal: "+str(distance_to_final_goal >  distance_obs_to_goal))
+			print("\t\tdistance to final goal: "+ str(distance_to_final_goal))
+			print("\t\tdistance obstacle to goal: "+ str(distance_obs_to_goal))
+			print("\tangle_drone_to_goal: "+str(math.degrees(angle_drone_to_goal)))
 			print("\tDynamic obstacle?: "+str(obstacle_dyn))
-			#print("\tdistance to curr goal: "+ str(distance_to_goal))
-			#print("\tdistance to obstacle: "+ str(distance_drone_to_obstacle))
-			#print("\tdistance from obstacle to goal: "+ str(distance_obs_to_goal))
 
 		if(obstacle_in_path and obstacle_dyn):
 			print("GO TO GOAL; DYNAMIC OBSTACLE IN PATH")
@@ -197,13 +200,16 @@ def main():
 				velocity_publisher.publish(vel)
 				obstacle_dyn_publisher.publish(True)
 				key_enabler.publish(True)
+				state_publisher.publish(str_msg)
 				keys_enabled=True
 			elif(control_count > 10 and not avoid and not keys_enabled):
-				print("USER INPUT TIMEOUT; LANDING")
+				str_msg = "USER INPUT TIMEOUT; LANDING"
+				print(str_msg)
 				vel.linear.x = 0
 				vel.linear.y = 0
 				vel.linear.z = -200
 				velocity_publisher.publish(vel)
+				state_publisher.publish(str_msg)
 		elif(obstacle_in_path and not obstacle_dyn):
 			control_count = 0
 			obstacle_publisher.publish(Bool(obstacle_in_path))
@@ -214,9 +220,10 @@ def main():
 				print("GOAL REACHED with threshold "+str(distance_to_final_goal))
 				vel.linear.x = 0
 				vel.linear.y = 0
-				hover_count += 1
+				hover_count += dt
+				keys_enabled = False
 
-			'''if(goal_count == len(goal_array_x)-1 and exit_count < 5):
+			if(goal_count == len(goal_array_x)-1 and exit_count < 5):
 				str_msg = "Finished behavior"
 				vel.linear.x = 0
 				vel.linear.y = 0
@@ -224,18 +231,16 @@ def main():
 				exit_count += 1
 				process_killer.publish(True)
 				if(exit_count >= 5):
-					exit()'''
+					exit()
 			else:
-				process_killer.publish(True)
-				exit()
-				'''hover_count = 0
+				hover_count = 0
 				goal_count +=1
 				goal_x = goal_array_x[goal_count]
 				goal_y = goal_array_y[goal_count]
 				final_goal_x = goal_x
 				final_goal_y = goal_y
 				integral = 0
-				previous_error = 0'''
+				previous_error = 0
 			state_publisher.publish(str_msg)
 			velocity_publisher.publish(vel)
 			publishing = False
@@ -243,23 +248,22 @@ def main():
 			continue
 
 		elif(avoid):
-			print("OBSTACLE_IN_PATH; AVOID")
-			print("OBSTACLE_IN_PATH; AVOID")
-			print("OBSTACLE_IN_PATH; AVOID")
-			print("OBSTACLE_IN_PATH; AVOID")
-			print("OBSTACLE_IN_PATH; AVOID")
-			print("OBSTACLE_IN_PATH; AVOID")
+			print_count = 0
+			while print_count < 5:
+				print("OBSTACLE_IN_PATH; AVOID")
+				print_count += 1
 
 			#interpolated goal offset from obstacle radius	
 			angle_drone_to_obs = math.atan2(obs_y-curr_y, obs_x-curr_x)		
 			avoid_angle = angle_drone_to_obs - curr_angle - math.radians(90)
 			vel.linear.x = math.cos(avoid_angle) * (0.3)
 			vel.linear.y = -math.sin(avoid_angle) * (0.3)
+			avoid_count += dt
 
 			if(testing):
 				print("Following avoid angle: "+str(math.degrees(avoid_angle)))
 				print("Angle from drone to obstacle: "+str(math.degrees(angle_drone_to_obs)))
-			avoid_count += dt
+
 			if(not obstacle_in_path and avoid_count > 3.5):
 				avoid = False
 				print("OBSTACLE NO LONGER IN PATH")
@@ -268,6 +272,7 @@ def main():
 			velocity_publisher.publish(vel)
 			rate.sleep()
 			continue
+
 		elif(obstacle_in_path):
 			print("NOT @ FINAL GOAL AND OBS IIN PATH")
 			if(abs(distance_drone_to_obstacle - detection_distance) < threshold):
@@ -277,29 +282,37 @@ def main():
 				hover_point_y = obs_y + obstacle_threshold * math.sin(math.pi + angle_obs_to_goal)
 				goal_x = hover_point_x
 				goal_y = hover_point_y
-				print("goal set to hover_point: "+str(hover_point_x)+", "+str(hover_point_y))
+
 				error = 0
 				integral = 0
 				previous_error = 0
-
+				
+				print("goal set to hover_point: "+str(hover_point_x)+", "+str(hover_point_y))
+				str_msg = "GO TO GOAL"
+				angle_drone_to_hoverpt = math.atan2(goal_y-curr_y, goal_x-curr_x)
+				vel.linear.x = 2 * math.cos(angle_drone_to_hoverpt)
+				vel.linear.y = 2 * -math.sin(angle_drone_to_hoverpt)
 			distance_to_goal = math.sqrt((goal_x - curr_x)**2 + (goal_y - curr_y)**2)
 			if(distance_to_goal <= 0.5 and not keys_enabled):
 				vel.linear.x = 0
 				vel.linear.y = 0
-				while(sent < 4):
-					obstacle_publisher.publish(Bool(True))
-					sent += 1
+				str_msg = "HOVERING AT OBSTACLE; WAITING FOR USER INPUT"
+				#while(sent < 4):
+				obstacle_publisher.publish(Bool(True))
+				#	sent += 1
 				if(hover_count > 5):
 					vel.linear.z=-200
 					hover_count = 0
+					process_killer.publish(True)
+					str_msg = "USER INPUT TIMEOUT; LANDING"
 				if(hover_count > 10):
 					exit()
 				print("HOVERED "+str(hover_count)+" seconds")
-				hover_count += dt
-				state_publisher.publish("HOVERING")
-				velocity_publisher.publish(vel)
-				rate.sleep()
-				continue
+			hover_count += dt
+			state_publisher.publish()
+			velocity_publisher.publish(vel)
+			rate.sleep()
+			continue
 		else:
 			goal_x = final_goal_x
 			goal_y = final_goal_y
@@ -339,7 +352,7 @@ def main():
 			if(testing):
 				print("vel.x, vel.y: "+ str(vel.linear.x)+", "+ str(vel.linear.y))
 				print("goal: "+str(goal_x)+", "+str(goal_y))
-			if(not obstacle_dyn or distance_to_final_goal < threshold):
+			if(not obstacle_dyn or keys_enabled or distance_to_final_goal < threshold):
 				velocity_publisher.publish(vel)
 			else:
 				str_msg = "USER1 CONTROL"
