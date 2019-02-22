@@ -1,2 +1,0 @@
-set(vicon_bridge_MESSAGE_FILES "/home/meriel/ros_workspace_clean.2018.09.24/src/vicon_bridge/msg/Marker.msg;/home/meriel/ros_workspace_clean.2018.09.24/src/vicon_bridge/msg/Markers.msg;/home/meriel/ros_workspace_clean.2018.09.24/src/vicon_bridge/msg/TfDistortInfo.msg")
-set(vicon_bridge_SERVICE_FILES "/home/meriel/ros_workspace_clean.2018.09.24/src/vicon_bridge/srv/viconCalibrateSegment.srv;/home/meriel/ros_workspace_clean.2018.09.24/src/vicon_bridge/srv/viconGrabPose.srv")
