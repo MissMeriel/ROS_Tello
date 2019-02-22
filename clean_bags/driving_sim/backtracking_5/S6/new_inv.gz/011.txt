@@ -1,0 +1,357 @@
+===========================================================================
+aprogram.point:::Trust_Human_Dec
+ManualBrake_H2M == ManualThrottle_H2M
+ManualBrake_H2M == CurrentBrake_Machine
+ManualBrake_H2M == AutoBrake_Machine
+ManualGear_H2M == CurrentGear_Machine
+ManualGear_H2M == AutoGear_Machine
+CurrentWheel_Machine == AutoWheel_Machine
+CurrentThrottle_Machine == AutoThrottle_Machine
+TimeSignal_Sec one of { 7.0, 9.0, 37.0, 46.0, 58.0, 59.0, 61.0, 101.0 }
+	"7.0" probability: 12.50%	count:1.0 total:8.0
+	"9.0" probability: 12.50%	count:1.0 total:8.0
+	"37.0" probability: 12.50%	count:1.0 total:8.0
+	"46.0" probability: 12.50%	count:1.0 total:8.0
+	"58.0" probability: 12.50%	count:1.0 total:8.0
+	"59.0" probability: 12.50%	count:1.0 total:8.0
+	"61.0" probability: 12.50%	count:1.0 total:8.0
+	"101.0" probability: 12.50%	count:1.0 total:8.0
+TimeSignal_Sec != 0
+Trust_Human one of { 1.0, 2.0, 3.0 }
+Trust_Human one of { 1.0, 2.0, 3.0 }
+	"1.0" probability: 50.00%	count:4.0 total:8.0
+	"2.0" probability: 25.00%	count:2.0 total:8.0
+	"3.0" probability: 25.00%	count:2.0 total:8.0
+Trust_Human != 0
+Alarm_M2H == " "
+Alarm_M2H == " "
+Mode_H2M == "autonomous"
+Mode_H2M == "autonomous"
+ManualBrake_H2M == 0.0
+ManualBrake_H2M == 0.0
+ManualGear_H2M == 1.0
+ManualGear_H2M == 1.0
+ManualGear_H2M != 0
+ManualWheel_H2M == 0.970931563286797
+ManualWheel_H2M == 0.970931563286797
+ManualWheel_H2M != 0
+CurrentWheel_Machine one of { -46.59974234444755, -17.198608859187587, -0.611112004607369, -0.3061486914874685, 6.651210247850572, 12.823372272446806, 45.19472803388323, 46.701443237442824 }
+	"-46.59974234444755" probability: 12.50%	count:1.0 total:8.0
+	"-17.198608859187587" probability: 12.50%	count:1.0 total:8.0
+	"-0.611112004607369" probability: 12.50%	count:1.0 total:8.0
+	"-0.3061486914874685" probability: 12.50%	count:1.0 total:8.0
+	"6.651210247850572" probability: 12.50%	count:1.0 total:8.0
+	"12.823372272446806" probability: 12.50%	count:1.0 total:8.0
+	"45.19472803388323" probability: 12.50%	count:1.0 total:8.0
+	"46.701443237442824" probability: 12.50%	count:1.0 total:8.0
+CurrentWheel_Machine != 0
+CurrentThrottle_Machine one of { 15.0, 20.0 }
+CurrentThrottle_Machine one of { 15.0, 20.0 }
+	"15.0" probability: 66.67%	count:4.0 total:6.0
+	"20.0" probability: 33.33%	count:2.0 total:6.0
+CurrentThrottle_Machine != 0
+Speed_Machine one of { 7.00588662673478, 7.8946525754673935, 14.653735427734716, 15.642452117910846, 15.65598840734451, 15.659475560154213, 15.666393808796835, 15.679669574228845 }
+	"7.00588662673478" probability: 12.50%	count:1.0 total:8.0
+	"7.8946525754673935" probability: 12.50%	count:1.0 total:8.0
+	"14.653735427734716" probability: 12.50%	count:1.0 total:8.0
+	"15.642452117910846" probability: 12.50%	count:1.0 total:8.0
+	"15.65598840734451" probability: 12.50%	count:1.0 total:8.0
+	"15.659475560154213" probability: 12.50%	count:1.0 total:8.0
+	"15.666393808796835" probability: 12.50%	count:1.0 total:8.0
+	"15.679669574228845" probability: 12.50%	count:1.0 total:8.0
+Speed_Machine != 0
+PupilLeft_Human one of { 3.23, 3.25, 3.3, 3.56, 3.64, 3.66, 3.67, 5.0 }
+	"3.23" probability: 12.50%	count:1.0 total:8.0
+	"3.25" probability: 12.50%	count:1.0 total:8.0
+	"3.3" probability: 12.50%	count:1.0 total:8.0
+	"3.56" probability: 12.50%	count:1.0 total:8.0
+	"3.64" probability: 12.50%	count:1.0 total:8.0
+	"3.66" probability: 12.50%	count:1.0 total:8.0
+	"3.67" probability: 12.50%	count:1.0 total:8.0
+	"5.0" probability: 12.50%	count:1.0 total:8.0
+PupilLeft_Human != 0
+PupilRight_Human one of { 3.23, 3.29, 3.33, 3.46, 3.56, 3.62, 3.65, 3.68 }
+	"3.23" probability: 12.50%	count:1.0 total:8.0
+	"3.29" probability: 12.50%	count:1.0 total:8.0
+	"3.33" probability: 12.50%	count:1.0 total:8.0
+	"3.46" probability: 12.50%	count:1.0 total:8.0
+	"3.56" probability: 12.50%	count:1.0 total:8.0
+	"3.62" probability: 12.50%	count:1.0 total:8.0
+	"3.65" probability: 12.50%	count:1.0 total:8.0
+	"3.68" probability: 12.50%	count:1.0 total:8.0
+PupilRight_Human != 0
+GSR_Human one of { 240.981275754874, 241.06841521623798, 247.880620693074, 251.813053988719, 252.289527461715, 266.937162991832, 273.395849850999, 275.201585161131 }
+	"240.981275754874" probability: 12.50%	count:1.0 total:8.0
+	"241.06841521623798" probability: 12.50%	count:1.0 total:8.0
+	"247.880620693074" probability: 12.50%	count:1.0 total:8.0
+	"251.813053988719" probability: 12.50%	count:1.0 total:8.0
+	"252.289527461715" probability: 12.50%	count:1.0 total:8.0
+	"266.937162991832" probability: 12.50%	count:1.0 total:8.0
+	"273.395849850999" probability: 12.50%	count:1.0 total:8.0
+	"275.201585161131" probability: 12.50%	count:1.0 total:8.0
+GSR_Human != 0
+EventN_Machine one of { " ", "cyclist detected", "obstacle detected" }
+EventN_Machine one of { " ", "cyclist detected", "obstacle detected" }
+	" " probability: 66.67%	count:6.0 total:9.0
+	"cyclist detected" probability: 11.11%	count:1.0 total:9.0
+	"obstacle detected" probability: 22.22%	count:2.0 total:9.0
+RangeN_Machine one of { 0.0, 32.333446502685554, 39.874168395996094 }
+RangeN_Machine one of { 0.0, 32.333446502685554, 39.874168395996094 }
+	"0.0" probability: 71.43%	count:5.0 total:7.0
+	"32.333446502685554" probability: 14.29%	count:1.0 total:7.0
+	"39.874168395996094" probability: 14.29%	count:1.0 total:7.0
+EventW_Machine one of { " ", "cyclist detected", "obstacle detected" }
+EventW_Machine one of { " ", "cyclist detected", "obstacle detected" }
+	" " probability: 66.67%	count:6.0 total:9.0
+	"cyclist detected" probability: 11.11%	count:1.0 total:9.0
+	"obstacle detected" probability: 22.22%	count:2.0 total:9.0
+RangeW_Machine one of { 0.0, 4.936747074127197, 26.601531982421875, 33.564414978027344 }
+	"0.0" probability: 57.14%	count:4.0 total:7.0
+	"4.936747074127197" probability: 14.29%	count:1.0 total:7.0
+	"26.601531982421875" probability: 14.29%	count:1.0 total:7.0
+	"33.564414978027344" probability: 14.29%	count:1.0 total:7.0
+RangeW_Machine >= 0.0
+PupilChange_Human one of { -0.4, -0.3, -0.2 }
+PupilChange_Human one of { -0.4, -0.3, -0.2 }
+	"-0.4" probability: 37.50%	count:3.0 total:8.0
+	"-0.3" probability: 50.00%	count:4.0 total:8.0
+	"-0.2" probability: 12.50%	count:1.0 total:8.0
+PupilChange_Human != 0
+TimeSignal_Sec > Trust_Human
+TimeSignal_Sec > ManualBrake_H2M
+TimeSignal_Sec > ManualGear_H2M
+TimeSignal_Sec > ManualWheel_H2M
+TimeSignal_Sec != CurrentWheel_Machine
+TimeSignal_Sec != CurrentThrottle_Machine
+TimeSignal_Sec != Speed_Machine
+TimeSignal_Sec > PupilLeft_Human
+TimeSignal_Sec > PupilRight_Human
+TimeSignal_Sec < GSR_Human
+TimeSignal_Sec > RangeN_Machine
+TimeSignal_Sec > RangeW_Machine
+TimeSignal_Sec > PupilChange_Human
+Trust_Human > ManualBrake_H2M
+Trust_Human >= ManualGear_H2M
+Trust_Human > ManualWheel_H2M
+Trust_Human != CurrentWheel_Machine
+Trust_Human < CurrentThrottle_Machine
+Trust_Human < Speed_Machine
+Trust_Human < PupilLeft_Human
+Trust_Human < PupilRight_Human
+Trust_Human < GSR_Human
+Trust_Human != RangeN_Machine
+Trust_Human != RangeW_Machine
+Trust_Human > PupilChange_Human
+Alarm_M2H < Mode_H2M
+Alarm_M2H <= EventN_Machine
+Alarm_M2H <= EventW_Machine
+Mode_H2M != EventN_Machine
+Mode_H2M != EventW_Machine
+ManualBrake_H2M < ManualGear_H2M
+ManualBrake_H2M < ManualWheel_H2M
+ManualBrake_H2M != CurrentWheel_Machine
+ManualBrake_H2M < CurrentThrottle_Machine
+ManualBrake_H2M < Speed_Machine
+ManualBrake_H2M < PupilLeft_Human
+ManualBrake_H2M < PupilRight_Human
+ManualBrake_H2M < GSR_Human
+ManualBrake_H2M <= RangeN_Machine
+ManualBrake_H2M <= RangeW_Machine
+ManualBrake_H2M > PupilChange_Human
+ManualGear_H2M > ManualWheel_H2M
+ManualGear_H2M != CurrentWheel_Machine
+ManualGear_H2M < CurrentThrottle_Machine
+ManualGear_H2M < Speed_Machine
+ManualGear_H2M < PupilLeft_Human
+ManualGear_H2M < PupilRight_Human
+ManualGear_H2M < GSR_Human
+ManualGear_H2M != RangeN_Machine
+ManualGear_H2M != RangeW_Machine
+ManualGear_H2M > PupilChange_Human
+ManualWheel_H2M != CurrentWheel_Machine
+ManualWheel_H2M < CurrentThrottle_Machine
+ManualWheel_H2M < Speed_Machine
+ManualWheel_H2M < PupilLeft_Human
+ManualWheel_H2M < PupilRight_Human
+ManualWheel_H2M < GSR_Human
+ManualWheel_H2M != RangeN_Machine
+ManualWheel_H2M != RangeW_Machine
+ManualWheel_H2M > PupilChange_Human
+CurrentWheel_Machine != CurrentThrottle_Machine
+CurrentWheel_Machine != Speed_Machine
+CurrentWheel_Machine != PupilLeft_Human
+CurrentWheel_Machine != PupilRight_Human
+CurrentWheel_Machine < GSR_Human
+CurrentWheel_Machine != RangeN_Machine
+CurrentWheel_Machine != RangeW_Machine
+CurrentWheel_Machine != PupilChange_Human
+CurrentThrottle_Machine != Speed_Machine
+CurrentThrottle_Machine > PupilLeft_Human
+CurrentThrottle_Machine > PupilRight_Human
+CurrentThrottle_Machine < GSR_Human
+CurrentThrottle_Machine != RangeN_Machine
+CurrentThrottle_Machine != RangeW_Machine
+CurrentThrottle_Machine > PupilChange_Human
+Speed_Machine > PupilLeft_Human
+Speed_Machine > PupilRight_Human
+Speed_Machine < GSR_Human
+Speed_Machine != RangeN_Machine
+Speed_Machine != RangeW_Machine
+Speed_Machine > PupilChange_Human
+PupilLeft_Human < GSR_Human
+PupilLeft_Human != RangeN_Machine
+PupilLeft_Human != RangeW_Machine
+PupilLeft_Human > PupilChange_Human
+PupilRight_Human < GSR_Human
+PupilRight_Human != RangeN_Machine
+PupilRight_Human != RangeW_Machine
+PupilRight_Human > PupilChange_Human
+GSR_Human > RangeN_Machine
+GSR_Human > RangeW_Machine
+GSR_Human > PupilChange_Human
+EventN_Machine <= EventW_Machine
+RangeN_Machine > PupilChange_Human
+RangeW_Machine > PupilChange_Human
+===========================================================================
+aprogram.point:::Trust_Human_Inc
+Alarm_M2H == EventN_Machine
+Alarm_M2H == EventW_Machine
+ManualBrake_H2M == ManualThrottle_H2M
+ManualBrake_H2M == CurrentBrake_Machine
+ManualBrake_H2M == AutoBrake_Machine
+ManualBrake_H2M == RangeN_Machine
+ManualBrake_H2M == RangeW_Machine
+ManualGear_H2M == CurrentGear_Machine
+ManualGear_H2M == AutoGear_Machine
+CurrentWheel_Machine == AutoWheel_Machine
+CurrentThrottle_Machine == AutoThrottle_Machine
+TimeSignal_Sec one of { 17.0, 40.0, 48.0, 82.0 }
+	"17.0" probability: 25.00%	count:1.0 total:4.0
+	"40.0" probability: 25.00%	count:1.0 total:4.0
+	"48.0" probability: 25.00%	count:1.0 total:4.0
+	"82.0" probability: 25.00%	count:1.0 total:4.0
+TimeSignal_Sec != 0
+Trust_Human one of { 2.0, 4.0, 5.0 }
+Trust_Human one of { 2.0, 4.0, 5.0 }
+	"2.0" probability: 50.00%	count:2.0 total:4.0
+	"4.0" probability: 25.00%	count:1.0 total:4.0
+	"5.0" probability: 25.00%	count:1.0 total:4.0
+Trust_Human != 0
+Alarm_M2H == " "
+Alarm_M2H == " "
+Mode_H2M == "autonomous"
+Mode_H2M == "autonomous"
+ManualBrake_H2M == 0.0
+ManualBrake_H2M == 0.0
+ManualGear_H2M == 1.0
+ManualGear_H2M == 1.0
+ManualGear_H2M != 0
+ManualWheel_H2M == 0.970931563286797
+ManualWheel_H2M == 0.970931563286797
+ManualWheel_H2M != 0
+CurrentWheel_Machine one of { -104.00134794404177, -9.062118407570221, -6.4671809657929336, -0.007368507060195388 }
+	"-104.00134794404177" probability: 25.00%	count:1.0 total:4.0
+	"-9.062118407570221" probability: 25.00%	count:1.0 total:4.0
+	"-6.4671809657929336" probability: 25.00%	count:1.0 total:4.0
+	"-0.007368507060195388" probability: 25.00%	count:1.0 total:4.0
+CurrentWheel_Machine != 0
+CurrentWheel_Machine <= 4.9E-324
+CurrentThrottle_Machine one of { 15.0, 20.0 }
+CurrentThrottle_Machine one of { 15.0, 20.0 }
+	"15.0" probability: 66.67%	count:2.0 total:3.0
+	"20.0" probability: 33.33%	count:1.0 total:3.0
+CurrentThrottle_Machine != 0
+Speed_Machine one of { 10.573909160871693, 15.065684317864992, 15.65163157092394, 15.672456266891981 }
+	"10.573909160871693" probability: 25.00%	count:1.0 total:4.0
+	"15.065684317864992" probability: 25.00%	count:1.0 total:4.0
+	"15.65163157092394" probability: 25.00%	count:1.0 total:4.0
+	"15.672456266891981" probability: 25.00%	count:1.0 total:4.0
+Speed_Machine != 0
+PupilLeft_Human one of { 3.22, 3.25, 3.35, 3.43 }
+	"3.22" probability: 25.00%	count:1.0 total:4.0
+	"3.25" probability: 25.00%	count:1.0 total:4.0
+	"3.35" probability: 25.00%	count:1.0 total:4.0
+	"3.43" probability: 25.00%	count:1.0 total:4.0
+PupilLeft_Human != 0
+PupilRight_Human one of { 3.26, 3.31, 3.34 }
+PupilRight_Human one of { 3.26, 3.31, 3.34 }
+	"3.26" probability: 50.00%	count:2.0 total:4.0
+	"3.31" probability: 25.00%	count:1.0 total:4.0
+	"3.34" probability: 25.00%	count:1.0 total:4.0
+PupilRight_Human != 0
+GSR_Human one of { 241.06841521623798, 242.20699009373402, 258.953310718078, 263.040218849462 }
+	"241.06841521623798" probability: 25.00%	count:1.0 total:4.0
+	"242.20699009373402" probability: 25.00%	count:1.0 total:4.0
+	"258.953310718078" probability: 25.00%	count:1.0 total:4.0
+	"263.040218849462" probability: 25.00%	count:1.0 total:4.0
+GSR_Human != 0
+PupilChange_Human == -0.4
+PupilChange_Human == -0.4
+PupilChange_Human != 0
+TimeSignal_Sec > Trust_Human
+TimeSignal_Sec > ManualBrake_H2M
+TimeSignal_Sec > ManualGear_H2M
+TimeSignal_Sec > ManualWheel_H2M
+TimeSignal_Sec > CurrentWheel_Machine
+TimeSignal_Sec != CurrentThrottle_Machine
+TimeSignal_Sec > Speed_Machine
+TimeSignal_Sec > PupilLeft_Human
+TimeSignal_Sec > PupilRight_Human
+TimeSignal_Sec < GSR_Human
+TimeSignal_Sec > PupilChange_Human
+Trust_Human > ManualBrake_H2M
+Trust_Human > ManualGear_H2M
+Trust_Human > ManualWheel_H2M
+Trust_Human > CurrentWheel_Machine
+Trust_Human < CurrentThrottle_Machine
+Trust_Human < Speed_Machine
+Trust_Human != PupilLeft_Human
+Trust_Human != PupilRight_Human
+Trust_Human < GSR_Human
+Trust_Human > PupilChange_Human
+Alarm_M2H < Mode_H2M
+ManualBrake_H2M < ManualGear_H2M
+ManualBrake_H2M < ManualWheel_H2M
+ManualBrake_H2M > CurrentWheel_Machine
+ManualBrake_H2M < CurrentThrottle_Machine
+ManualBrake_H2M < Speed_Machine
+ManualBrake_H2M < PupilLeft_Human
+ManualBrake_H2M < PupilRight_Human
+ManualBrake_H2M < GSR_Human
+ManualBrake_H2M > PupilChange_Human
+ManualGear_H2M > ManualWheel_H2M
+ManualGear_H2M > CurrentWheel_Machine
+ManualGear_H2M < CurrentThrottle_Machine
+ManualGear_H2M < Speed_Machine
+ManualGear_H2M < PupilLeft_Human
+ManualGear_H2M < PupilRight_Human
+ManualGear_H2M < GSR_Human
+ManualGear_H2M > PupilChange_Human
+ManualWheel_H2M > CurrentWheel_Machine
+ManualWheel_H2M < CurrentThrottle_Machine
+ManualWheel_H2M < Speed_Machine
+ManualWheel_H2M < PupilLeft_Human
+ManualWheel_H2M < PupilRight_Human
+ManualWheel_H2M < GSR_Human
+ManualWheel_H2M > PupilChange_Human
+CurrentWheel_Machine < CurrentThrottle_Machine
+CurrentWheel_Machine < Speed_Machine
+CurrentWheel_Machine < PupilLeft_Human
+CurrentWheel_Machine < PupilRight_Human
+CurrentWheel_Machine < GSR_Human
+CurrentWheel_Machine != PupilChange_Human
+CurrentThrottle_Machine != Speed_Machine
+CurrentThrottle_Machine > PupilLeft_Human
+CurrentThrottle_Machine > PupilRight_Human
+CurrentThrottle_Machine < GSR_Human
+CurrentThrottle_Machine > PupilChange_Human
+Speed_Machine > PupilLeft_Human
+Speed_Machine > PupilRight_Human
+Speed_Machine < GSR_Human
+Speed_Machine > PupilChange_Human
+PupilLeft_Human != PupilRight_Human
+PupilLeft_Human < GSR_Human
+PupilLeft_Human > PupilChange_Human
+PupilRight_Human < GSR_Human
+PupilRight_Human > PupilChange_Human
+GSR_Human > PupilChange_Human

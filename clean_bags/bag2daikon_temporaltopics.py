@@ -201,66 +201,68 @@ def enumerate_param_msg_fields(topic, msg, msg_type, i):
 
 def get_comparability_int(field, field_type):
 	global comparability_count, comparability_map
-	#print("GET COMPARABILITY INT FOR field:"+str(field)+", field_type:"+str(field_type), end='')
+	if comparability_count == 2:
+		comparability_count += 1
+	#test_print("GET COMPARABILITY INT FOR field:"+str(field)+", field_type:"+str(field_type), end='')
 	if "rotation" in field:
 		try:
 			comparability_int = comparability_map["rotation"]
 		except:
-			comparability_count += 1
 			comparability_int = comparability_count
 			comparability_map["rotation"] = comparability_count
+			comparability_count += 1
 	elif "angular" in field:
 		try:
 			comparability_int = comparability_map["angular"]
 		except:
-			comparability_count += 1
 			comparability_int = comparability_count
 			comparability_map["angular"] = comparability_count
+			comparability_count += 1
 	elif "translation" in field:
 		try:
 			comparability_int = comparability_map["translation"]
 		except:
-			comparability_count += 1
 			comparability_int = comparability_count
 			comparability_map["translation"] = comparability_count
+			comparability_count += 1
 	elif "frame_id" in field:
 		# allows for comparison of frame_id and child_frame_id
 		try:
 			comparability_int = comparability_map["frame_id"]
 		except:
-			comparability_count += 1
 			comparability_int = comparability_count
 			comparability_map["frame_id"] = comparability_count
+			comparability_count += 1
 	elif "stamp.nsecs" in field:
 		try:
 			comparability_int = comparability_map["stamp.nsecs"]
 		except:
-			comparability_count += 1
 			comparability_int = comparability_count
 			comparability_map["stamp.nsecs"] = comparability_count
+			comparability_count += 1
 	elif "stamp.secs" in field:
 		try:
 			comparability_int = comparability_map["stamp.secs"]
 		except:
-			comparability_count += 1
 			comparability_int = comparability_count
 			comparability_map["stamp.secs"] = comparability_count
+			comparability_count += 1
 	elif "header.seq" in field:
 		try:
 			comparability_int = comparability_map["header.seq"]
 		except:
-			comparability_count += 1
 			comparability_int = comparability_count
 			comparability_map["header.seq"] = comparability_count
+			comparability_count += 1
 	else:
 		try:
 			comparability_int = comparability_map[field_type]
 			
 		except:
-			comparability_count += 1
 			comparability_int = comparability_count
 			comparability_map[field_type] = comparability_count
-	#print(", comparability_int:"+str(comparability_int))
+			comparability_count += 1
+	#test_print(", comparability_int:"+str(comparability_int))
 	return comparability_int
 
 
@@ -363,8 +365,8 @@ def main():
 	#handle CL args
 	bag = rosbag.Bag(sys.argv[1])
 	output_filename=sys.argv[1].split(".")
-	dtrace_filename=output_filename[0]+"_temporals.dtrace"
-	decls_filename=output_filename[0]+"_temporals.decls"
+	dtrace_filename=output_filename[0]+"_temporals_enriched.dtrace"
+	decls_filename=output_filename[0]+"_temporals_enriched.decls"
 
 
 	#process xml file
@@ -389,66 +391,100 @@ def main():
 
 	comparability_count = 1
 	comparability_map = {}
-	temporals = ["next", "eventually", "until"]
+	temporals = ["next", "eventually", "until", "always"]
 	topics_copy = np.copy(topics)
 	for temporal in temporals:
 		index = 0
 		for topic in topics:
-			topics_in = [topic]
-			test_print("WRITING DECL FOR "+str(topic)+" "+str(temporal))
-			function_name = topic +"_"+temporal
-			signature_param_string = build_param_string(topics_in)
-			enter_string = "\nppt .."+function_name+"("+signature_param_string+"):::ENTER"
-			enter_string += "\n\tppt-type enter"
-			param_string = ""
-			i = 0
-			for t in topics_in:
-				topic_index = topics.index(t)
-				param_string += "\n\tvariable param"+str(i)
-				param_string += "\n\t\tvar-kind variable"
-				param_string += "\n\t\trep-type hashcode"
-				msg_type = message_types[topic_index]
-				param_string += "\n\t\tdec-type "+ str(msg_type)
-				param_string += "\n\t\tflags is_param"
+			if temporal == "always":
+				signature_param_string = ""
+				function_name = topic +"_"+temporal
+				enter_string = "\nppt .."+function_name+"("+signature_param_string+"):::ENTER"
+				enter_string += "\n\tppt-type enter"
+				param_string = ""
+				#iterate thru topics_in
+				enter_string += param_string+ "\n"
+				decls_file.write(enter_string)
+				exit_string = "\nppt .."+function_name+"("+signature_param_string+"):::EXIT0" 
+				exit_string += "\n\tppt-type subexit" + param_string 
+				exit_string += "\n\tvariable return" 
+				exit_string += "\n\t\tvar-kind variable" 
+				exit_string += "\n\t\trep-type hashcode"
+				exit_string += "\n\t\tdec-type "+str(message_types[index])
+				exit_string += "\n\t\tcomparability 1"
+				msg_type = message_types[index]
 				keys = message_fields[msg_type].keys()
+				field_string = ""
 				for key in keys:
 					field = message_fields[msg_type][key]
-					param_string += "\n\tvariable param"+str(i)+"."+key
-					param_string += "\n\t\tvar-kind field "+key
-					param_string += "\n\t\tenclosing-var param"+str(i)
+					field_string += "\n\tvariable return."+key
+					field_string += "\n\t\tvar-kind field "+key #field['name']
+					field_string += "\n\t\tenclosing-var return"
 					field_type = python_to_daikon_type(field['type'])
-					comparability_int = 1 ##get_comparability_int(key, field['type'])
-					param_string += "\n\t\trep-type "+field_type
-					param_string += "\n\t\tdec-type "+field_type
-					param_string += "\n\t\tcomparability "+str(comparability_int)
-				i += 1
+					field_string += "\n\t\trep-type "+field_type
+					field_string += "\n\t\tdec-type "+field_type
+					comparability_int = get_comparability_int(key, field['type'])
+					field_string += "\n\t\tcomparability "+str(comparability_int)
+				exit_string += (field_string+"\n")
+				decls_file.write(exit_string+"\n")
+				index += 1
+			else:
+				topics_in = [topic]
+				test_print("WRITING DECL FOR "+str(topic)+" "+str(temporal))
+				function_name = topic +"_"+temporal
+				signature_param_string = build_param_string(topics_in)
+				enter_string = "\nppt .."+function_name+"("+signature_param_string+"):::ENTER"
+				enter_string += "\n\tppt-type enter"
+				param_string = ""
+				i = 0
+				for t in topics_in:
+					topic_index = topics.index(t)
+					param_string += "\n\tvariable param"+str(i)
+					param_string += "\n\t\tvar-kind variable"
+					param_string += "\n\t\trep-type hashcode"
+					msg_type = message_types[topic_index]
+					param_string += "\n\t\tdec-type "+ str(msg_type)
+					param_string += "\n\t\tflags is_param"
+					param_string += "\n\t\tcomparability 1"
+					keys = message_fields[msg_type].keys()
+					for key in keys:
+						field = message_fields[msg_type][key]
+						param_string += "\n\tvariable param"+str(i)+"."+key
+						param_string += "\n\t\tvar-kind field "+key
+						param_string += "\n\t\tenclosing-var param"+str(i)
+						field_type = python_to_daikon_type(field['type'])
+						comparability_int = get_comparability_int(key, field['type'])
+						param_string += "\n\t\trep-type "+field_type
+						param_string += "\n\t\tdec-type "+field_type
+						param_string += "\n\t\tcomparability "+str(comparability_int)
+					i += 1
 
-			enter_string += param_string+ "\n"
-			decls_file.write(enter_string)
+				enter_string += param_string+ "\n"
+				decls_file.write(enter_string)
 			
-			exit_string = "\nppt .."+function_name+"("+signature_param_string+"):::EXIT0" 
-			exit_string += "\n\tppt-type subexit" + param_string 
-			exit_string += "\n\tvariable return" 
-			exit_string += "\n\t\tvar-kind variable" 
-			exit_string += "\n\t\trep-type hashcode"
-			exit_string += "\n\t\tdec-type "+str(message_types[index])
-			exit_string += "\n\t\tcomparability 1"
-			msg_type = message_types[index]
-			keys = message_fields[msg_type].keys()
-			field_string = ""
-			for key in keys:
-				field = message_fields[msg_type][key]
-				field_string += "\n\tvariable return."+key
-				field_string += "\n\t\tvar-kind field "+key #field['name']
-				field_string += "\n\t\tenclosing-var return"
-				field_type = python_to_daikon_type(field['type'])
-				field_string += "\n\t\trep-type "+field_type
-				field_string += "\n\t\tdec-type "+field_type
-				comparability_int = 1 ##get_comparability_int(key, field['type'])
-				field_string += "\n\t\tcomparability "+str(comparability_int)
-			exit_string += (field_string+"\n")
-			decls_file.write(exit_string+"\n")
-			index += 1
+				exit_string = "\nppt .."+function_name+"("+signature_param_string+"):::EXIT0" 
+				exit_string += "\n\tppt-type subexit" + param_string 
+				exit_string += "\n\tvariable return" 
+				exit_string += "\n\t\tvar-kind variable" 
+				exit_string += "\n\t\trep-type hashcode"
+				exit_string += "\n\t\tdec-type "+str(message_types[index])
+				exit_string += "\n\t\tcomparability 1"
+				msg_type = message_types[index]
+				keys = message_fields[msg_type].keys()
+				field_string = ""
+				for key in keys:
+					field = message_fields[msg_type][key]
+					field_string += "\n\tvariable return."+key
+					field_string += "\n\t\tvar-kind field "+key #field['name']
+					field_string += "\n\t\tenclosing-var return"
+					field_type = python_to_daikon_type(field['type'])
+					field_string += "\n\t\trep-type "+field_type
+					field_string += "\n\t\tdec-type "+field_type
+					comparability_int = get_comparability_int(key, field['type'])
+					field_string += "\n\t\tcomparability "+str(comparability_int)
+				exit_string += (field_string+"\n")
+				decls_file.write(exit_string+"\n")
+				index += 1
 	decls_file.close()
 	test_print("\n")
 
@@ -510,47 +546,36 @@ def main():
 
 			# ALWAYS
 			# What daikon generates by default
-
-
-			# UNTIL
-			'''elif(temporal == "until"):
-				# For now, compare whole message
-				# TODO: Extend to use OneOfs as heuristic (ignoring constants)
-				# Check that at least one of the fields is still the same
-				if logic_operators[temporal][topic]['msg'] == msg:
-					#build ENTER string
-					test_print(topic+" still same")#+str(msg))
-					topics_in = [topic]
-					signature_param_string = build_param_string(topics_in)
-					call_count = call_counts[topic]
-					enter_string = "\n.."+topic+"_"+temporal+"("+signature_param_string+"):::ENTER"+"\nthis_invocation_nonce\n"+str(call_count)
-					enter_param_string = ""
-					i = 0
-					for t in topics_in:
-						topic_index = topics.index(t)
-						msg_type = logic_operators[temporal][t]["type"]
-						keys = message_fields[msg_type].keys()
-						enter_message = logic_operators[temporal][t]["msg"]
-						msg_hash = logic_operators[temporal][t]["hash"]
-						enter_param_string +="\nparam"+str(i)+"\n"+msg_hash+"\n1"
-						enter_param_string += enumerate_param_msg_fields(t, enter_message, msg_type, i)
-						i += 1
-					enter_string += enter_param_string + "\n"
-					logic_operators[temporal][topic]['enter_string'] = enter_string
-					#dtrace_file.write(enter_string)
-					
-				else:
-					if(logic_operators[temporal][topic]['enter_string'] != None):
-						#build EXIT string
-						enter_string = logic_operators[temporal][topic]['enter_string']
-						exit_string = enter_string.replace("ENTER", "EXIT0")
-						exit_string += "return"+"\n"+str(hex(id(msg)))+"\n1"
-						msg_type = logic_operators[temporal][topic]["type"]
-						exit_string += enumerate_msg_fields(topic, msg, msg_type)
-						dtrace_file.write(enter_string+exit_string)
-						call_counts[last_topic] = call_count + 1
-					#print(topic + "changed from "+str(logic_operators["until"][topic]['msg'])+" to "+ str(msg))
-					#test_print(topic + "changed")'''
+			if(temporal == "always"):
+				#topics_in = [topic]
+				signature_param_string = "" #build_param_string(topics_in)
+				call_count = call_counts[topic]
+				#build ENTER string
+				enter_string = "\n.."+topic+"_"+temporal+"("+signature_param_string+"):::ENTER"
+				enter_string += "\nthis_invocation_nonce\n"+str(call_count)
+				#build EXIT string
+				exit_string = "\n.."+topic+"_"+temporal+"("+signature_param_string+"):::EXIT0"
+				exit_string += "\nthis_invocation_nonce\n"+str(call_count)
+				#build ENTER/EXIT param string
+				enter_param_string = ""
+				i = 0
+				'''for t in topics_in:
+					topic_index = topics.index(t)
+					msg_type = logic_operators[temporal][t]["type"]
+					keys = message_fields[msg_type].keys()
+					enter_message = logic_operators[temporal][t]["msg"]
+					msg_hash = logic_operators[temporal][t]["hash"]
+					enter_param_string +="\nparam"+str(i)+"\n"+msg_hash+"\n1"
+					enter_param_string += enumerate_param_msg_fields(t, enter_message, msg_type, i)
+					i += 1'''
+				enter_string += enter_param_string + "\n"
+				exit_param_string = enter_param_string
+				#build return string
+				exit_string += exit_param_string + "\nreturn"+"\n"+str(hex(id(msg)))+"\n1"
+				msg_type = message_types[topics.index(topic)]
+				exit_string += enumerate_msg_fields(topic, msg, msg_type)
+				dtrace_file.write(enter_string+exit_string)
+				call_counts[topic] = call_count + 1
 
 		if(msg):
 			msg_count += 1

@@ -1,0 +1,1003 @@
+<INVARIANTS>
+<!-- =========================================================================== -->
+<PPT>
+<PPTNAME>aprogram.point:::Alarm_M2H</PPTNAME>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>ManualBrake_H2M == ManualThrottle_H2M</INV> <SAMPLES>50</SAMPLES> <DAIKON>ManualBrake_H2M == ManualThrottle_H2M</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>ManualGear_H2M == CurrentGear_Machine</INV> <SAMPLES>50</SAMPLES> <DAIKON>ManualGear_H2M == CurrentGear_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>ManualGear_H2M == AutoGear_Machine</INV> <SAMPLES>50</SAMPLES> <DAIKON>ManualGear_H2M == AutoGear_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>CurrentBrake_Machine == AutoBrake_Machine</INV> <SAMPLES>50</SAMPLES> <DAIKON>CurrentBrake_Machine == AutoBrake_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>CurrentWheel_Machine == AutoWheel_Machine</INV> <SAMPLES>50</SAMPLES> <DAIKON>CurrentWheel_Machine == AutoWheel_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>CurrentThrottle_Machine == AutoThrottle_Machine</INV> <SAMPLES>50</SAMPLES> <DAIKON>CurrentThrottle_Machine == AutoThrottle_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>TimeSignal_Sec != 0</INV> <SAMPLES>50</SAMPLES> <DAIKON>TimeSignal_Sec != 0</DAIKON> <DAIKONCLASS>class daikon.inv.unary.scalar.NonZeroFloat</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>Trust_Human one of { 1.0, 2.0, 3.0, 4.0 }
+	&quot;1.0&quot; probability: 10.64%	count:5.0 total:47.0
+	&quot;2.0&quot; probability: 17.02%	count:8.0 total:47.0
+	&quot;3.0&quot; probability: 21.28%	count:10.0 total:47.0
+	&quot;4.0&quot; probability: 51.06%	count:24.0 total:47.0</INV> <SAMPLES>50</SAMPLES> <DAIKON>Trust_Human one of { 1.0, 2.0, 3.0, 4.0 }
+	&quot;1.0&quot; probability: 10.64%	count:5.0 total:47.0
+	&quot;2.0&quot; probability: 17.02%	count:8.0 total:47.0
+	&quot;3.0&quot; probability: 21.28%	count:10.0 total:47.0
+	&quot;4.0&quot; probability: 51.06%	count:24.0 total:47.0</DAIKON> <DAIKONCLASS>class daikon.inv.unary.scalar.ProbabilisticFloat</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>Trust_Human != 0</INV> <SAMPLES>50</SAMPLES> <DAIKON>Trust_Human != 0</DAIKON> <DAIKONCLASS>class daikon.inv.unary.scalar.NonZeroFloat</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>Trust_Human &gt;= 1.0</INV> <SAMPLES>50</SAMPLES> <DAIKON>Trust_Human &gt;= 1.0</DAIKON> <DAIKONCLASS>class daikon.inv.unary.scalar.LowerBoundFloat</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>Alarm_M2H one of { &quot; &quot;, &quot;cyclist alarm&quot;, &quot;obstacle alarm&quot;, &quot;pedestrian alarm&quot;, &quot;truck alarm&quot; }
+	&quot; &quot; probability: 76.60%	count:36.0 total:47.0
+	&quot;cyclist alarm&quot; probability: 6.38%	count:3.0 total:47.0
+	&quot;obstacle alarm&quot; probability: 6.38%	count:3.0 total:47.0
+	&quot;pedestrian alarm&quot; probability: 6.38%	count:3.0 total:47.0
+	&quot;truck alarm&quot; probability: 4.26%	count:2.0 total:47.0</INV> <SAMPLES>50</SAMPLES> <DAIKON>Alarm_M2H one of { &quot; &quot;, &quot;cyclist alarm&quot;, &quot;obstacle alarm&quot;, &quot;pedestrian alarm&quot;, &quot;truck alarm&quot; }
+	&quot; &quot; probability: 76.60%	count:36.0 total:47.0
+	&quot;cyclist alarm&quot; probability: 6.38%	count:3.0 total:47.0
+	&quot;obstacle alarm&quot; probability: 6.38%	count:3.0 total:47.0
+	&quot;pedestrian alarm&quot; probability: 6.38%	count:3.0 total:47.0
+	&quot;truck alarm&quot; probability: 4.26%	count:2.0 total:47.0</DAIKON> <DAIKONCLASS>class daikon.inv.unary.string.ProbabilisticString</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>Mode_H2M == &quot;autonomous&quot;</INV> <SAMPLES>50</SAMPLES> <DAIKON>Mode_H2M == &quot;autonomous&quot;</DAIKON> <DAIKONCLASS>class daikon.inv.unary.string.OneOfString</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>Mode_H2M == &quot;autonomous&quot;</INV> <SAMPLES>50</SAMPLES> <DAIKON>Mode_H2M == &quot;autonomous&quot;</DAIKON> <DAIKONCLASS>class daikon.inv.unary.string.ProbabilisticString</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>ManualBrake_H2M == 0.0</INV> <SAMPLES>50</SAMPLES> <DAIKON>ManualBrake_H2M == 0.0</DAIKON> <DAIKONCLASS>class daikon.inv.unary.scalar.OneOfFloat</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>ManualBrake_H2M == 0.0</INV> <SAMPLES>50</SAMPLES> <DAIKON>ManualBrake_H2M == 0.0</DAIKON> <DAIKONCLASS>class daikon.inv.unary.scalar.ProbabilisticFloat</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>ManualGear_H2M == 1.0</INV> <SAMPLES>50</SAMPLES> <DAIKON>ManualGear_H2M == 1.0</DAIKON> <DAIKONCLASS>class daikon.inv.unary.scalar.OneOfFloat</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>ManualGear_H2M == 1.0</INV> <SAMPLES>50</SAMPLES> <DAIKON>ManualGear_H2M == 1.0</DAIKON> <DAIKONCLASS>class daikon.inv.unary.scalar.ProbabilisticFloat</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>ManualGear_H2M != 0</INV> <SAMPLES>50</SAMPLES> <DAIKON>ManualGear_H2M != 0</DAIKON> <DAIKONCLASS>class daikon.inv.unary.scalar.NonZeroFloat</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>ManualWheel_H2M != 0</INV> <SAMPLES>50</SAMPLES> <DAIKON>ManualWheel_H2M != 0</DAIKON> <DAIKONCLASS>class daikon.inv.unary.scalar.NonZeroFloat</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>ManualWheel_H2M &lt;= 4.9E-324</INV> <SAMPLES>50</SAMPLES> <DAIKON>ManualWheel_H2M &lt;= 4.9E-324</DAIKON> <DAIKONCLASS>class daikon.inv.unary.scalar.UpperBoundFloat</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>CurrentBrake_Machine one of { 0.0, 16.66269302368164, 88.03743839263916, 100.0 }
+	&quot;0.0&quot; probability: 85.71%	count:18.0 total:21.0
+	&quot;16.66269302368164&quot; probability: 4.76%	count:1.0 total:21.0
+	&quot;88.03743839263916&quot; probability: 4.76%	count:1.0 total:21.0
+	&quot;100.0&quot; probability: 4.76%	count:1.0 total:21.0</INV> <SAMPLES>50</SAMPLES> <DAIKON>CurrentBrake_Machine one of { 0.0, 16.66269302368164, 88.03743839263916, 100.0 }
+	&quot;0.0&quot; probability: 85.71%	count:18.0 total:21.0
+	&quot;16.66269302368164&quot; probability: 4.76%	count:1.0 total:21.0
+	&quot;88.03743839263916&quot; probability: 4.76%	count:1.0 total:21.0
+	&quot;100.0&quot; probability: 4.76%	count:1.0 total:21.0</DAIKON> <DAIKONCLASS>class daikon.inv.unary.scalar.ProbabilisticFloat</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>CurrentBrake_Machine &gt;= 0.0</INV> <SAMPLES>50</SAMPLES> <DAIKON>CurrentBrake_Machine &gt;= 0.0</DAIKON> <DAIKONCLASS>class daikon.inv.unary.scalar.LowerBoundFloat</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>CurrentWheel_Machine != 0</INV> <SAMPLES>50</SAMPLES> <DAIKON>CurrentWheel_Machine != 0</DAIKON> <DAIKONCLASS>class daikon.inv.unary.scalar.NonZeroFloat</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>CurrentThrottle_Machine one of { 0.0, 15.0, 20.0 }</INV> <SAMPLES>50</SAMPLES> <DAIKON>CurrentThrottle_Machine one of { 0.0, 15.0, 20.0 }</DAIKON> <DAIKONCLASS>class daikon.inv.unary.scalar.OneOfFloat</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>CurrentThrottle_Machine one of { 0.0, 15.0, 20.0 }
+	&quot;0.0&quot; probability: 9.68%	count:3.0 total:31.0
+	&quot;15.0&quot; probability: 41.94%	count:13.0 total:31.0
+	&quot;20.0&quot; probability: 48.39%	count:15.0 total:31.0</INV> <SAMPLES>50</SAMPLES> <DAIKON>CurrentThrottle_Machine one of { 0.0, 15.0, 20.0 }
+	&quot;0.0&quot; probability: 9.68%	count:3.0 total:31.0
+	&quot;15.0&quot; probability: 41.94%	count:13.0 total:31.0
+	&quot;20.0&quot; probability: 48.39%	count:15.0 total:31.0</DAIKON> <DAIKONCLASS>class daikon.inv.unary.scalar.ProbabilisticFloat</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>Speed_Machine != 0</INV> <SAMPLES>50</SAMPLES> <DAIKON>Speed_Machine != 0</DAIKON> <DAIKONCLASS>class daikon.inv.unary.scalar.NonZeroFloat</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>PupilLeft_Human != 0</INV> <SAMPLES>50</SAMPLES> <DAIKON>PupilLeft_Human != 0</DAIKON> <DAIKONCLASS>class daikon.inv.unary.scalar.NonZeroFloat</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>PupilRight_Human != 0</INV> <SAMPLES>50</SAMPLES> <DAIKON>PupilRight_Human != 0</DAIKON> <DAIKONCLASS>class daikon.inv.unary.scalar.NonZeroFloat</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>GSR_Human != 0</INV> <SAMPLES>50</SAMPLES> <DAIKON>GSR_Human != 0</DAIKON> <DAIKONCLASS>class daikon.inv.unary.scalar.NonZeroFloat</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>EventN_Machine one of { &quot; &quot;, &quot;cyclist detected&quot;, &quot;obstacle detected&quot;, &quot;truck detected&quot; }
+	&quot; &quot; probability: 92.68%	count:38.0 total:41.0
+	&quot;cyclist detected&quot; probability: 2.44%	count:1.0 total:41.0
+	&quot;obstacle detected&quot; probability: 2.44%	count:1.0 total:41.0
+	&quot;truck detected&quot; probability: 2.44%	count:1.0 total:41.0</INV> <SAMPLES>50</SAMPLES> <DAIKON>EventN_Machine one of { &quot; &quot;, &quot;cyclist detected&quot;, &quot;obstacle detected&quot;, &quot;truck detected&quot; }
+	&quot; &quot; probability: 92.68%	count:38.0 total:41.0
+	&quot;cyclist detected&quot; probability: 2.44%	count:1.0 total:41.0
+	&quot;obstacle detected&quot; probability: 2.44%	count:1.0 total:41.0
+	&quot;truck detected&quot; probability: 2.44%	count:1.0 total:41.0</DAIKON> <DAIKONCLASS>class daikon.inv.unary.string.ProbabilisticString</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>RangeN_Machine one of { 0.0, 28.70438575744629, 35.92608642578125, 39.960533142089844 }
+	&quot;0.0&quot; probability: 92.68%	count:38.0 total:41.0
+	&quot;28.70438575744629&quot; probability: 2.44%	count:1.0 total:41.0
+	&quot;35.92608642578125&quot; probability: 2.44%	count:1.0 total:41.0
+	&quot;39.960533142089844&quot; probability: 2.44%	count:1.0 total:41.0</INV> <SAMPLES>50</SAMPLES> <DAIKON>RangeN_Machine one of { 0.0, 28.70438575744629, 35.92608642578125, 39.960533142089844 }
+	&quot;0.0&quot; probability: 92.68%	count:38.0 total:41.0
+	&quot;28.70438575744629&quot; probability: 2.44%	count:1.0 total:41.0
+	&quot;35.92608642578125&quot; probability: 2.44%	count:1.0 total:41.0
+	&quot;39.960533142089844&quot; probability: 2.44%	count:1.0 total:41.0</DAIKON> <DAIKONCLASS>class daikon.inv.unary.scalar.ProbabilisticFloat</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>RangeN_Machine &gt;= 0.0</INV> <SAMPLES>50</SAMPLES> <DAIKON>RangeN_Machine &gt;= 0.0</DAIKON> <DAIKONCLASS>class daikon.inv.unary.scalar.LowerBoundFloat</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>EventW_Machine one of { &quot; &quot;, &quot;cyclist detected&quot;, &quot;false alarm&quot;, &quot;obstacle detected&quot;, &quot;pedestrian detected&quot;, &quot;truck detected&quot; }
+	&quot; &quot; probability: 76.60%	count:36.0 total:47.0
+	&quot;cyclist detected&quot; probability: 4.26%	count:2.0 total:47.0
+	&quot;false alarm&quot; probability: 2.13%	count:1.0 total:47.0
+	&quot;obstacle detected&quot; probability: 6.38%	count:3.0 total:47.0
+	&quot;pedestrian detected&quot; probability: 6.38%	count:3.0 total:47.0
+	&quot;truck detected&quot; probability: 4.26%	count:2.0 total:47.0</INV> <SAMPLES>50</SAMPLES> <DAIKON>EventW_Machine one of { &quot; &quot;, &quot;cyclist detected&quot;, &quot;false alarm&quot;, &quot;obstacle detected&quot;, &quot;pedestrian detected&quot;, &quot;truck detected&quot; }
+	&quot; &quot; probability: 76.60%	count:36.0 total:47.0
+	&quot;cyclist detected&quot; probability: 4.26%	count:2.0 total:47.0
+	&quot;false alarm&quot; probability: 2.13%	count:1.0 total:47.0
+	&quot;obstacle detected&quot; probability: 6.38%	count:3.0 total:47.0
+	&quot;pedestrian detected&quot; probability: 6.38%	count:3.0 total:47.0
+	&quot;truck detected&quot; probability: 4.26%	count:2.0 total:47.0</DAIKON> <DAIKONCLASS>class daikon.inv.unary.string.ProbabilisticString</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>RangeW_Machine &gt;= 0.0</INV> <SAMPLES>50</SAMPLES> <DAIKON>RangeW_Machine &gt;= 0.0</DAIKON> <DAIKONCLASS>class daikon.inv.unary.scalar.LowerBoundFloat</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>PupilChange_Human != 0</INV> <SAMPLES>50</SAMPLES> <DAIKON>PupilChange_Human != 0</DAIKON> <DAIKONCLASS>class daikon.inv.unary.scalar.NonZeroFloat</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>PupilChange_Human &lt;= 1.27</INV> <SAMPLES>50</SAMPLES> <DAIKON>PupilChange_Human &lt;= 1.27</DAIKON> <DAIKONCLASS>class daikon.inv.unary.scalar.UpperBoundFloat</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>PupilChange_Human &gt;= -0.7999999999999998</INV> <SAMPLES>50</SAMPLES> <DAIKON>PupilChange_Human &gt;= -0.7999999999999998</DAIKON> <DAIKONCLASS>class daikon.inv.unary.scalar.LowerBoundFloat</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>Reliability_Machine == 0.8</INV> <SAMPLES>50</SAMPLES> <DAIKON>Reliability_Machine == 0.8</DAIKON> <DAIKONCLASS>class daikon.inv.unary.scalar.OneOfFloat</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>Reliability_Machine == 0.8</INV> <SAMPLES>50</SAMPLES> <DAIKON>Reliability_Machine == 0.8</DAIKON> <DAIKONCLASS>class daikon.inv.unary.scalar.ProbabilisticFloat</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>Reliability_Machine != 0</INV> <SAMPLES>50</SAMPLES> <DAIKON>Reliability_Machine != 0</DAIKON> <DAIKONCLASS>class daikon.inv.unary.scalar.NonZeroFloat</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>AverageTrust_Human == 4.033333333333333</INV> <SAMPLES>50</SAMPLES> <DAIKON>AverageTrust_Human == 4.033333333333333</DAIKON> <DAIKONCLASS>class daikon.inv.unary.scalar.OneOfFloat</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>AverageTrust_Human == 4.033333333333333</INV> <SAMPLES>50</SAMPLES> <DAIKON>AverageTrust_Human == 4.033333333333333</DAIKON> <DAIKONCLASS>class daikon.inv.unary.scalar.ProbabilisticFloat</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>AverageTrust_Human != 0</INV> <SAMPLES>50</SAMPLES> <DAIKON>AverageTrust_Human != 0</DAIKON> <DAIKONCLASS>class daikon.inv.unary.scalar.NonZeroFloat</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>TrustChange_Human one of { -1.0, 0.0, 1.0 }</INV> <SAMPLES>50</SAMPLES> <DAIKON>TrustChange_Human one of { -1.0, 0.0, 1.0 }</DAIKON> <DAIKONCLASS>class daikon.inv.unary.scalar.OneOfFloat</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>TrustChange_Human one of { -1.0, 0.0, 1.0 }
+	&quot;-1.0&quot; probability: 21.28%	count:10.0 total:47.0
+	&quot;0.0&quot; probability: 76.60%	count:36.0 total:47.0
+	&quot;1.0&quot; probability: 2.13%	count:1.0 total:47.0</INV> <SAMPLES>50</SAMPLES> <DAIKON>TrustChange_Human one of { -1.0, 0.0, 1.0 }
+	&quot;-1.0&quot; probability: 21.28%	count:10.0 total:47.0
+	&quot;0.0&quot; probability: 76.60%	count:36.0 total:47.0
+	&quot;1.0&quot; probability: 2.13%	count:1.0 total:47.0</DAIKON> <DAIKONCLASS>class daikon.inv.unary.scalar.ProbabilisticFloat</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>TimeSignal_Sec &gt; Trust_Human</INV> <SAMPLES>50</SAMPLES> <DAIKON>TimeSignal_Sec &gt; Trust_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatGreaterThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>TimeSignal_Sec &gt; ManualBrake_H2M</INV> <SAMPLES>50</SAMPLES> <DAIKON>TimeSignal_Sec &gt; ManualBrake_H2M</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatGreaterThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>TimeSignal_Sec &gt; ManualGear_H2M</INV> <SAMPLES>50</SAMPLES> <DAIKON>TimeSignal_Sec &gt; ManualGear_H2M</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatGreaterThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>TimeSignal_Sec &gt; ManualWheel_H2M</INV> <SAMPLES>50</SAMPLES> <DAIKON>TimeSignal_Sec &gt; ManualWheel_H2M</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatGreaterThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>TimeSignal_Sec &gt; CurrentBrake_Machine</INV> <SAMPLES>50</SAMPLES> <DAIKON>TimeSignal_Sec &gt; CurrentBrake_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatGreaterThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>TimeSignal_Sec != CurrentWheel_Machine</INV> <SAMPLES>50</SAMPLES> <DAIKON>TimeSignal_Sec != CurrentWheel_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatNonEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>TimeSignal_Sec != CurrentThrottle_Machine</INV> <SAMPLES>50</SAMPLES> <DAIKON>TimeSignal_Sec != CurrentThrottle_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatNonEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>TimeSignal_Sec != Speed_Machine</INV> <SAMPLES>50</SAMPLES> <DAIKON>TimeSignal_Sec != Speed_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatNonEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>TimeSignal_Sec &gt; PupilLeft_Human</INV> <SAMPLES>50</SAMPLES> <DAIKON>TimeSignal_Sec &gt; PupilLeft_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatGreaterThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>TimeSignal_Sec &gt; PupilRight_Human</INV> <SAMPLES>50</SAMPLES> <DAIKON>TimeSignal_Sec &gt; PupilRight_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatGreaterThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>TimeSignal_Sec &lt; GSR_Human</INV> <SAMPLES>50</SAMPLES> <DAIKON>TimeSignal_Sec &lt; GSR_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatLessThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>TimeSignal_Sec &gt; RangeN_Machine</INV> <SAMPLES>50</SAMPLES> <DAIKON>TimeSignal_Sec &gt; RangeN_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatGreaterThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>TimeSignal_Sec != RangeW_Machine</INV> <SAMPLES>50</SAMPLES> <DAIKON>TimeSignal_Sec != RangeW_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatNonEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>TimeSignal_Sec &gt; PupilChange_Human</INV> <SAMPLES>50</SAMPLES> <DAIKON>TimeSignal_Sec &gt; PupilChange_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatGreaterThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>TimeSignal_Sec &gt; Reliability_Machine</INV> <SAMPLES>50</SAMPLES> <DAIKON>TimeSignal_Sec &gt; Reliability_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatGreaterThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>TimeSignal_Sec &gt; AverageTrust_Human</INV> <SAMPLES>50</SAMPLES> <DAIKON>TimeSignal_Sec &gt; AverageTrust_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatGreaterThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>TimeSignal_Sec &gt; TrustChange_Human</INV> <SAMPLES>50</SAMPLES> <DAIKON>TimeSignal_Sec &gt; TrustChange_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatGreaterThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>Trust_Human &gt; ManualBrake_H2M</INV> <SAMPLES>50</SAMPLES> <DAIKON>Trust_Human &gt; ManualBrake_H2M</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatGreaterThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>Trust_Human &gt;= ManualGear_H2M</INV> <SAMPLES>50</SAMPLES> <DAIKON>Trust_Human &gt;= ManualGear_H2M</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatGreaterEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>Trust_Human &gt; ManualWheel_H2M</INV> <SAMPLES>50</SAMPLES> <DAIKON>Trust_Human &gt; ManualWheel_H2M</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatGreaterThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>Trust_Human != CurrentBrake_Machine</INV> <SAMPLES>50</SAMPLES> <DAIKON>Trust_Human != CurrentBrake_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatNonEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>Trust_Human != CurrentWheel_Machine</INV> <SAMPLES>50</SAMPLES> <DAIKON>Trust_Human != CurrentWheel_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatNonEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>Trust_Human != CurrentThrottle_Machine</INV> <SAMPLES>50</SAMPLES> <DAIKON>Trust_Human != CurrentThrottle_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatNonEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>Trust_Human &lt; Speed_Machine</INV> <SAMPLES>50</SAMPLES> <DAIKON>Trust_Human &lt; Speed_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatLessThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>Trust_Human != PupilLeft_Human</INV> <SAMPLES>50</SAMPLES> <DAIKON>Trust_Human != PupilLeft_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatNonEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>Trust_Human != PupilRight_Human</INV> <SAMPLES>50</SAMPLES> <DAIKON>Trust_Human != PupilRight_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatNonEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>Trust_Human &lt; GSR_Human</INV> <SAMPLES>50</SAMPLES> <DAIKON>Trust_Human &lt; GSR_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatLessThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>Trust_Human != RangeN_Machine</INV> <SAMPLES>50</SAMPLES> <DAIKON>Trust_Human != RangeN_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatNonEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>Trust_Human != RangeW_Machine</INV> <SAMPLES>50</SAMPLES> <DAIKON>Trust_Human != RangeW_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatNonEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>Trust_Human &gt; PupilChange_Human</INV> <SAMPLES>50</SAMPLES> <DAIKON>Trust_Human &gt; PupilChange_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatGreaterThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>Trust_Human &gt; Reliability_Machine</INV> <SAMPLES>50</SAMPLES> <DAIKON>Trust_Human &gt; Reliability_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatGreaterThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>Trust_Human &lt; AverageTrust_Human</INV> <SAMPLES>50</SAMPLES> <DAIKON>Trust_Human &lt; AverageTrust_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatLessThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>Trust_Human &gt; TrustChange_Human</INV> <SAMPLES>50</SAMPLES> <DAIKON>Trust_Human &gt; TrustChange_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatGreaterThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>Alarm_M2H != Mode_H2M</INV> <SAMPLES>50</SAMPLES> <DAIKON>Alarm_M2H != Mode_H2M</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoString.StringNonEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>Alarm_M2H &lt;= EventW_Machine</INV> <SAMPLES>50</SAMPLES> <DAIKON>Alarm_M2H &lt;= EventW_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoString.StringLessEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>Mode_H2M != EventN_Machine</INV> <SAMPLES>50</SAMPLES> <DAIKON>Mode_H2M != EventN_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoString.StringNonEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>Mode_H2M != EventW_Machine</INV> <SAMPLES>50</SAMPLES> <DAIKON>Mode_H2M != EventW_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoString.StringNonEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>ManualBrake_H2M &lt; ManualGear_H2M</INV> <SAMPLES>50</SAMPLES> <DAIKON>ManualBrake_H2M &lt; ManualGear_H2M</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatLessThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>ManualBrake_H2M &gt; ManualWheel_H2M</INV> <SAMPLES>50</SAMPLES> <DAIKON>ManualBrake_H2M &gt; ManualWheel_H2M</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatGreaterThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>ManualBrake_H2M &lt;= CurrentBrake_Machine</INV> <SAMPLES>50</SAMPLES> <DAIKON>ManualBrake_H2M &lt;= CurrentBrake_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatLessEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>ManualBrake_H2M != CurrentWheel_Machine</INV> <SAMPLES>50</SAMPLES> <DAIKON>ManualBrake_H2M != CurrentWheel_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatNonEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>ManualBrake_H2M &lt;= CurrentThrottle_Machine</INV> <SAMPLES>50</SAMPLES> <DAIKON>ManualBrake_H2M &lt;= CurrentThrottle_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatLessEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>ManualBrake_H2M &lt; Speed_Machine</INV> <SAMPLES>50</SAMPLES> <DAIKON>ManualBrake_H2M &lt; Speed_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatLessThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>ManualBrake_H2M &lt; PupilLeft_Human</INV> <SAMPLES>50</SAMPLES> <DAIKON>ManualBrake_H2M &lt; PupilLeft_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatLessThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>ManualBrake_H2M &lt; PupilRight_Human</INV> <SAMPLES>50</SAMPLES> <DAIKON>ManualBrake_H2M &lt; PupilRight_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatLessThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>ManualBrake_H2M &lt; GSR_Human</INV> <SAMPLES>50</SAMPLES> <DAIKON>ManualBrake_H2M &lt; GSR_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatLessThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>ManualBrake_H2M &lt;= RangeN_Machine</INV> <SAMPLES>50</SAMPLES> <DAIKON>ManualBrake_H2M &lt;= RangeN_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatLessEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>ManualBrake_H2M &lt;= RangeW_Machine</INV> <SAMPLES>50</SAMPLES> <DAIKON>ManualBrake_H2M &lt;= RangeW_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatLessEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>ManualBrake_H2M != PupilChange_Human</INV> <SAMPLES>50</SAMPLES> <DAIKON>ManualBrake_H2M != PupilChange_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatNonEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>ManualBrake_H2M &lt; Reliability_Machine</INV> <SAMPLES>50</SAMPLES> <DAIKON>ManualBrake_H2M &lt; Reliability_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatLessThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>ManualBrake_H2M &lt; AverageTrust_Human</INV> <SAMPLES>50</SAMPLES> <DAIKON>ManualBrake_H2M &lt; AverageTrust_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatLessThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>ManualGear_H2M &gt; ManualWheel_H2M</INV> <SAMPLES>50</SAMPLES> <DAIKON>ManualGear_H2M &gt; ManualWheel_H2M</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatGreaterThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>ManualGear_H2M != CurrentBrake_Machine</INV> <SAMPLES>50</SAMPLES> <DAIKON>ManualGear_H2M != CurrentBrake_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatNonEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>ManualGear_H2M != CurrentWheel_Machine</INV> <SAMPLES>50</SAMPLES> <DAIKON>ManualGear_H2M != CurrentWheel_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatNonEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>ManualGear_H2M != CurrentThrottle_Machine</INV> <SAMPLES>50</SAMPLES> <DAIKON>ManualGear_H2M != CurrentThrottle_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatNonEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>ManualGear_H2M &lt; Speed_Machine</INV> <SAMPLES>50</SAMPLES> <DAIKON>ManualGear_H2M &lt; Speed_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatLessThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>ManualGear_H2M &lt; PupilLeft_Human</INV> <SAMPLES>50</SAMPLES> <DAIKON>ManualGear_H2M &lt; PupilLeft_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatLessThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>ManualGear_H2M &lt; PupilRight_Human</INV> <SAMPLES>50</SAMPLES> <DAIKON>ManualGear_H2M &lt; PupilRight_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatLessThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>ManualGear_H2M &lt; GSR_Human</INV> <SAMPLES>50</SAMPLES> <DAIKON>ManualGear_H2M &lt; GSR_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatLessThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>ManualGear_H2M != RangeN_Machine</INV> <SAMPLES>50</SAMPLES> <DAIKON>ManualGear_H2M != RangeN_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatNonEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>ManualGear_H2M != RangeW_Machine</INV> <SAMPLES>50</SAMPLES> <DAIKON>ManualGear_H2M != RangeW_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatNonEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>ManualGear_H2M != PupilChange_Human</INV> <SAMPLES>50</SAMPLES> <DAIKON>ManualGear_H2M != PupilChange_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatNonEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>ManualGear_H2M &gt; Reliability_Machine</INV> <SAMPLES>50</SAMPLES> <DAIKON>ManualGear_H2M &gt; Reliability_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatGreaterThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>ManualGear_H2M &lt; AverageTrust_Human</INV> <SAMPLES>50</SAMPLES> <DAIKON>ManualGear_H2M &lt; AverageTrust_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatLessThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>ManualGear_H2M &gt;= TrustChange_Human</INV> <SAMPLES>50</SAMPLES> <DAIKON>ManualGear_H2M &gt;= TrustChange_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatGreaterEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>ManualWheel_H2M &lt; CurrentBrake_Machine</INV> <SAMPLES>50</SAMPLES> <DAIKON>ManualWheel_H2M &lt; CurrentBrake_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatLessThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>ManualWheel_H2M != CurrentWheel_Machine</INV> <SAMPLES>50</SAMPLES> <DAIKON>ManualWheel_H2M != CurrentWheel_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatNonEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>ManualWheel_H2M &lt; CurrentThrottle_Machine</INV> <SAMPLES>50</SAMPLES> <DAIKON>ManualWheel_H2M &lt; CurrentThrottle_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatLessThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>ManualWheel_H2M &lt; Speed_Machine</INV> <SAMPLES>50</SAMPLES> <DAIKON>ManualWheel_H2M &lt; Speed_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatLessThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>ManualWheel_H2M &lt; PupilLeft_Human</INV> <SAMPLES>50</SAMPLES> <DAIKON>ManualWheel_H2M &lt; PupilLeft_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatLessThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>ManualWheel_H2M &lt; PupilRight_Human</INV> <SAMPLES>50</SAMPLES> <DAIKON>ManualWheel_H2M &lt; PupilRight_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatLessThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>ManualWheel_H2M &lt; GSR_Human</INV> <SAMPLES>50</SAMPLES> <DAIKON>ManualWheel_H2M &lt; GSR_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatLessThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>ManualWheel_H2M &lt; RangeN_Machine</INV> <SAMPLES>50</SAMPLES> <DAIKON>ManualWheel_H2M &lt; RangeN_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatLessThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>ManualWheel_H2M &lt; RangeW_Machine</INV> <SAMPLES>50</SAMPLES> <DAIKON>ManualWheel_H2M &lt; RangeW_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatLessThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>ManualWheel_H2M &lt; PupilChange_Human</INV> <SAMPLES>50</SAMPLES> <DAIKON>ManualWheel_H2M &lt; PupilChange_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatLessThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>ManualWheel_H2M &lt; Reliability_Machine</INV> <SAMPLES>50</SAMPLES> <DAIKON>ManualWheel_H2M &lt; Reliability_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatLessThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>ManualWheel_H2M &lt; AverageTrust_Human</INV> <SAMPLES>50</SAMPLES> <DAIKON>ManualWheel_H2M &lt; AverageTrust_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatLessThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>ManualWheel_H2M &lt; TrustChange_Human</INV> <SAMPLES>50</SAMPLES> <DAIKON>ManualWheel_H2M &lt; TrustChange_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatLessThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>CurrentBrake_Machine != CurrentWheel_Machine</INV> <SAMPLES>50</SAMPLES> <DAIKON>CurrentBrake_Machine != CurrentWheel_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatNonEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>CurrentBrake_Machine != CurrentThrottle_Machine</INV> <SAMPLES>50</SAMPLES> <DAIKON>CurrentBrake_Machine != CurrentThrottle_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatNonEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>CurrentBrake_Machine != Speed_Machine</INV> <SAMPLES>50</SAMPLES> <DAIKON>CurrentBrake_Machine != Speed_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatNonEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>CurrentBrake_Machine != PupilLeft_Human</INV> <SAMPLES>50</SAMPLES> <DAIKON>CurrentBrake_Machine != PupilLeft_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatNonEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>CurrentBrake_Machine != PupilRight_Human</INV> <SAMPLES>50</SAMPLES> <DAIKON>CurrentBrake_Machine != PupilRight_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatNonEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>CurrentBrake_Machine &lt; GSR_Human</INV> <SAMPLES>50</SAMPLES> <DAIKON>CurrentBrake_Machine &lt; GSR_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatLessThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>CurrentBrake_Machine != PupilChange_Human</INV> <SAMPLES>50</SAMPLES> <DAIKON>CurrentBrake_Machine != PupilChange_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatNonEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>CurrentBrake_Machine != Reliability_Machine</INV> <SAMPLES>50</SAMPLES> <DAIKON>CurrentBrake_Machine != Reliability_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatNonEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>CurrentBrake_Machine != AverageTrust_Human</INV> <SAMPLES>50</SAMPLES> <DAIKON>CurrentBrake_Machine != AverageTrust_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatNonEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>CurrentWheel_Machine != CurrentThrottle_Machine</INV> <SAMPLES>50</SAMPLES> <DAIKON>CurrentWheel_Machine != CurrentThrottle_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatNonEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>CurrentWheel_Machine != Speed_Machine</INV> <SAMPLES>50</SAMPLES> <DAIKON>CurrentWheel_Machine != Speed_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatNonEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>CurrentWheel_Machine != PupilLeft_Human</INV> <SAMPLES>50</SAMPLES> <DAIKON>CurrentWheel_Machine != PupilLeft_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatNonEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>CurrentWheel_Machine != PupilRight_Human</INV> <SAMPLES>50</SAMPLES> <DAIKON>CurrentWheel_Machine != PupilRight_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatNonEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>CurrentWheel_Machine &lt; GSR_Human</INV> <SAMPLES>50</SAMPLES> <DAIKON>CurrentWheel_Machine &lt; GSR_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatLessThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>CurrentWheel_Machine != RangeN_Machine</INV> <SAMPLES>50</SAMPLES> <DAIKON>CurrentWheel_Machine != RangeN_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatNonEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>CurrentWheel_Machine != RangeW_Machine</INV> <SAMPLES>50</SAMPLES> <DAIKON>CurrentWheel_Machine != RangeW_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatNonEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>CurrentWheel_Machine != PupilChange_Human</INV> <SAMPLES>50</SAMPLES> <DAIKON>CurrentWheel_Machine != PupilChange_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatNonEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>CurrentWheel_Machine != Reliability_Machine</INV> <SAMPLES>50</SAMPLES> <DAIKON>CurrentWheel_Machine != Reliability_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatNonEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>CurrentWheel_Machine != AverageTrust_Human</INV> <SAMPLES>50</SAMPLES> <DAIKON>CurrentWheel_Machine != AverageTrust_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatNonEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>CurrentWheel_Machine != TrustChange_Human</INV> <SAMPLES>50</SAMPLES> <DAIKON>CurrentWheel_Machine != TrustChange_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatNonEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>CurrentThrottle_Machine != Speed_Machine</INV> <SAMPLES>50</SAMPLES> <DAIKON>CurrentThrottle_Machine != Speed_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatNonEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>CurrentThrottle_Machine != PupilLeft_Human</INV> <SAMPLES>50</SAMPLES> <DAIKON>CurrentThrottle_Machine != PupilLeft_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatNonEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>CurrentThrottle_Machine != PupilRight_Human</INV> <SAMPLES>50</SAMPLES> <DAIKON>CurrentThrottle_Machine != PupilRight_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatNonEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>CurrentThrottle_Machine &lt; GSR_Human</INV> <SAMPLES>50</SAMPLES> <DAIKON>CurrentThrottle_Machine &lt; GSR_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatLessThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>CurrentThrottle_Machine != RangeW_Machine</INV> <SAMPLES>50</SAMPLES> <DAIKON>CurrentThrottle_Machine != RangeW_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatNonEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>CurrentThrottle_Machine != PupilChange_Human</INV> <SAMPLES>50</SAMPLES> <DAIKON>CurrentThrottle_Machine != PupilChange_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatNonEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>CurrentThrottle_Machine != Reliability_Machine</INV> <SAMPLES>50</SAMPLES> <DAIKON>CurrentThrottle_Machine != Reliability_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatNonEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>CurrentThrottle_Machine != AverageTrust_Human</INV> <SAMPLES>50</SAMPLES> <DAIKON>CurrentThrottle_Machine != AverageTrust_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatNonEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>CurrentThrottle_Machine &gt;= TrustChange_Human</INV> <SAMPLES>50</SAMPLES> <DAIKON>CurrentThrottle_Machine &gt;= TrustChange_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatGreaterEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>Speed_Machine != PupilLeft_Human</INV> <SAMPLES>50</SAMPLES> <DAIKON>Speed_Machine != PupilLeft_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatNonEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>Speed_Machine != PupilRight_Human</INV> <SAMPLES>50</SAMPLES> <DAIKON>Speed_Machine != PupilRight_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatNonEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>Speed_Machine &lt; GSR_Human</INV> <SAMPLES>50</SAMPLES> <DAIKON>Speed_Machine &lt; GSR_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatLessThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>Speed_Machine != RangeN_Machine</INV> <SAMPLES>50</SAMPLES> <DAIKON>Speed_Machine != RangeN_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatNonEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>Speed_Machine != RangeW_Machine</INV> <SAMPLES>50</SAMPLES> <DAIKON>Speed_Machine != RangeW_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatNonEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>Speed_Machine &gt; PupilChange_Human</INV> <SAMPLES>50</SAMPLES> <DAIKON>Speed_Machine &gt; PupilChange_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatGreaterThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>Speed_Machine &gt; Reliability_Machine</INV> <SAMPLES>50</SAMPLES> <DAIKON>Speed_Machine &gt; Reliability_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatGreaterThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>Speed_Machine != AverageTrust_Human</INV> <SAMPLES>50</SAMPLES> <DAIKON>Speed_Machine != AverageTrust_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatNonEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>Speed_Machine &gt; TrustChange_Human</INV> <SAMPLES>50</SAMPLES> <DAIKON>Speed_Machine &gt; TrustChange_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatGreaterThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>PupilLeft_Human &lt; GSR_Human</INV> <SAMPLES>50</SAMPLES> <DAIKON>PupilLeft_Human &lt; GSR_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatLessThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>PupilLeft_Human != RangeN_Machine</INV> <SAMPLES>50</SAMPLES> <DAIKON>PupilLeft_Human != RangeN_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatNonEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>PupilLeft_Human != RangeW_Machine</INV> <SAMPLES>50</SAMPLES> <DAIKON>PupilLeft_Human != RangeW_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatNonEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>PupilLeft_Human &gt; PupilChange_Human</INV> <SAMPLES>50</SAMPLES> <DAIKON>PupilLeft_Human &gt; PupilChange_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatGreaterThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>PupilLeft_Human &gt; Reliability_Machine</INV> <SAMPLES>50</SAMPLES> <DAIKON>PupilLeft_Human &gt; Reliability_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatGreaterThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>PupilLeft_Human != AverageTrust_Human</INV> <SAMPLES>50</SAMPLES> <DAIKON>PupilLeft_Human != AverageTrust_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatNonEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>PupilLeft_Human &gt; TrustChange_Human</INV> <SAMPLES>50</SAMPLES> <DAIKON>PupilLeft_Human &gt; TrustChange_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatGreaterThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>PupilRight_Human &lt; GSR_Human</INV> <SAMPLES>50</SAMPLES> <DAIKON>PupilRight_Human &lt; GSR_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatLessThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>PupilRight_Human != RangeN_Machine</INV> <SAMPLES>50</SAMPLES> <DAIKON>PupilRight_Human != RangeN_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatNonEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>PupilRight_Human != RangeW_Machine</INV> <SAMPLES>50</SAMPLES> <DAIKON>PupilRight_Human != RangeW_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatNonEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>PupilRight_Human &gt; PupilChange_Human</INV> <SAMPLES>50</SAMPLES> <DAIKON>PupilRight_Human &gt; PupilChange_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatGreaterThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>PupilRight_Human &gt; Reliability_Machine</INV> <SAMPLES>50</SAMPLES> <DAIKON>PupilRight_Human &gt; Reliability_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatGreaterThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>PupilRight_Human != AverageTrust_Human</INV> <SAMPLES>50</SAMPLES> <DAIKON>PupilRight_Human != AverageTrust_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatNonEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>PupilRight_Human &gt; TrustChange_Human</INV> <SAMPLES>50</SAMPLES> <DAIKON>PupilRight_Human &gt; TrustChange_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatGreaterThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>GSR_Human &gt; RangeN_Machine</INV> <SAMPLES>50</SAMPLES> <DAIKON>GSR_Human &gt; RangeN_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatGreaterThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>GSR_Human &gt; RangeW_Machine</INV> <SAMPLES>50</SAMPLES> <DAIKON>GSR_Human &gt; RangeW_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatGreaterThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>GSR_Human &gt; PupilChange_Human</INV> <SAMPLES>50</SAMPLES> <DAIKON>GSR_Human &gt; PupilChange_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatGreaterThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>GSR_Human &gt; Reliability_Machine</INV> <SAMPLES>50</SAMPLES> <DAIKON>GSR_Human &gt; Reliability_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatGreaterThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>GSR_Human &gt; AverageTrust_Human</INV> <SAMPLES>50</SAMPLES> <DAIKON>GSR_Human &gt; AverageTrust_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatGreaterThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>GSR_Human &gt; TrustChange_Human</INV> <SAMPLES>50</SAMPLES> <DAIKON>GSR_Human &gt; TrustChange_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatGreaterThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>EventN_Machine &lt;= EventW_Machine</INV> <SAMPLES>50</SAMPLES> <DAIKON>EventN_Machine &lt;= EventW_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoString.StringLessEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>RangeN_Machine != PupilChange_Human</INV> <SAMPLES>50</SAMPLES> <DAIKON>RangeN_Machine != PupilChange_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatNonEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>RangeN_Machine != Reliability_Machine</INV> <SAMPLES>50</SAMPLES> <DAIKON>RangeN_Machine != Reliability_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatNonEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>RangeN_Machine != AverageTrust_Human</INV> <SAMPLES>50</SAMPLES> <DAIKON>RangeN_Machine != AverageTrust_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatNonEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>RangeW_Machine != PupilChange_Human</INV> <SAMPLES>50</SAMPLES> <DAIKON>RangeW_Machine != PupilChange_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatNonEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>RangeW_Machine != Reliability_Machine</INV> <SAMPLES>50</SAMPLES> <DAIKON>RangeW_Machine != Reliability_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatNonEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>RangeW_Machine != AverageTrust_Human</INV> <SAMPLES>50</SAMPLES> <DAIKON>RangeW_Machine != AverageTrust_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatNonEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>PupilChange_Human != Reliability_Machine</INV> <SAMPLES>50</SAMPLES> <DAIKON>PupilChange_Human != Reliability_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatNonEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>PupilChange_Human &lt; AverageTrust_Human</INV> <SAMPLES>50</SAMPLES> <DAIKON>PupilChange_Human &lt; AverageTrust_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatLessThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>PupilChange_Human != TrustChange_Human</INV> <SAMPLES>50</SAMPLES> <DAIKON>PupilChange_Human != TrustChange_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatNonEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>Reliability_Machine &lt; AverageTrust_Human</INV> <SAMPLES>50</SAMPLES> <DAIKON>Reliability_Machine &lt; AverageTrust_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatLessThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>Reliability_Machine != TrustChange_Human</INV> <SAMPLES>50</SAMPLES> <DAIKON>Reliability_Machine != TrustChange_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatNonEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Alarm_M2H</PARENT> <INV>AverageTrust_Human &gt; TrustChange_Human</INV> <SAMPLES>50</SAMPLES> <DAIKON>AverageTrust_Human &gt; TrustChange_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatGreaterThan</DAIKONCLASS>  </INVINFO>
+</PPT>
+<!-- =========================================================================== -->
+<PPT>
+<PPTNAME>aprogram.point:::Trust_Human_Dec</PPTNAME>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>ManualBrake_H2M == ManualThrottle_H2M</INV> <SAMPLES>9</SAMPLES> <DAIKON>ManualBrake_H2M == ManualThrottle_H2M</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>ManualGear_H2M == CurrentGear_Machine</INV> <SAMPLES>9</SAMPLES> <DAIKON>ManualGear_H2M == CurrentGear_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>ManualGear_H2M == AutoGear_Machine</INV> <SAMPLES>9</SAMPLES> <DAIKON>ManualGear_H2M == AutoGear_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>CurrentBrake_Machine == AutoBrake_Machine</INV> <SAMPLES>9</SAMPLES> <DAIKON>CurrentBrake_Machine == AutoBrake_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>CurrentWheel_Machine == AutoWheel_Machine</INV> <SAMPLES>9</SAMPLES> <DAIKON>CurrentWheel_Machine == AutoWheel_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>CurrentThrottle_Machine == AutoThrottle_Machine</INV> <SAMPLES>9</SAMPLES> <DAIKON>CurrentThrottle_Machine == AutoThrottle_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>TimeSignal_Sec one of { 9.0, 36.0, 88.0, 102.0, 103.0, 105.0, 106.0, 149.0, 151.0 }
+	&quot;9.0&quot; probability: 11.11%	count:1.0 total:9.0
+	&quot;36.0&quot; probability: 11.11%	count:1.0 total:9.0
+	&quot;88.0&quot; probability: 11.11%	count:1.0 total:9.0
+	&quot;102.0&quot; probability: 11.11%	count:1.0 total:9.0
+	&quot;103.0&quot; probability: 11.11%	count:1.0 total:9.0
+	&quot;105.0&quot; probability: 11.11%	count:1.0 total:9.0
+	&quot;106.0&quot; probability: 11.11%	count:1.0 total:9.0
+	&quot;149.0&quot; probability: 11.11%	count:1.0 total:9.0
+	&quot;151.0&quot; probability: 11.11%	count:1.0 total:9.0</INV> <SAMPLES>9</SAMPLES> <DAIKON>TimeSignal_Sec one of { 9.0, 36.0, 88.0, 102.0, 103.0, 105.0, 106.0, 149.0, 151.0 }
+	&quot;9.0&quot; probability: 11.11%	count:1.0 total:9.0
+	&quot;36.0&quot; probability: 11.11%	count:1.0 total:9.0
+	&quot;88.0&quot; probability: 11.11%	count:1.0 total:9.0
+	&quot;102.0&quot; probability: 11.11%	count:1.0 total:9.0
+	&quot;103.0&quot; probability: 11.11%	count:1.0 total:9.0
+	&quot;105.0&quot; probability: 11.11%	count:1.0 total:9.0
+	&quot;106.0&quot; probability: 11.11%	count:1.0 total:9.0
+	&quot;149.0&quot; probability: 11.11%	count:1.0 total:9.0
+	&quot;151.0&quot; probability: 11.11%	count:1.0 total:9.0</DAIKON> <DAIKONCLASS>class daikon.inv.unary.scalar.ProbabilisticFloat</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>TimeSignal_Sec != 0</INV> <SAMPLES>9</SAMPLES> <DAIKON>TimeSignal_Sec != 0</DAIKON> <DAIKONCLASS>class daikon.inv.unary.scalar.NonZeroFloat</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>Trust_Human one of { 1.0, 2.0, 3.0, 4.0 }
+	&quot;1.0&quot; probability: 11.11%	count:1.0 total:9.0
+	&quot;2.0&quot; probability: 22.22%	count:2.0 total:9.0
+	&quot;3.0&quot; probability: 33.33%	count:3.0 total:9.0
+	&quot;4.0&quot; probability: 33.33%	count:3.0 total:9.0</INV> <SAMPLES>9</SAMPLES> <DAIKON>Trust_Human one of { 1.0, 2.0, 3.0, 4.0 }
+	&quot;1.0&quot; probability: 11.11%	count:1.0 total:9.0
+	&quot;2.0&quot; probability: 22.22%	count:2.0 total:9.0
+	&quot;3.0&quot; probability: 33.33%	count:3.0 total:9.0
+	&quot;4.0&quot; probability: 33.33%	count:3.0 total:9.0</DAIKON> <DAIKONCLASS>class daikon.inv.unary.scalar.ProbabilisticFloat</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>Trust_Human != 0</INV> <SAMPLES>9</SAMPLES> <DAIKON>Trust_Human != 0</DAIKON> <DAIKONCLASS>class daikon.inv.unary.scalar.NonZeroFloat</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>Trust_Human &gt;= 1.0</INV> <SAMPLES>9</SAMPLES> <DAIKON>Trust_Human &gt;= 1.0</DAIKON> <DAIKONCLASS>class daikon.inv.unary.scalar.LowerBoundFloat</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>Alarm_M2H one of { &quot; &quot;, &quot;cyclist alarm&quot;, &quot;obstacle alarm&quot;, &quot;pedestrian alarm&quot; }
+	&quot; &quot; probability: 22.22%	count:2.0 total:9.0
+	&quot;cyclist alarm&quot; probability: 11.11%	count:1.0 total:9.0
+	&quot;obstacle alarm&quot; probability: 22.22%	count:2.0 total:9.0
+	&quot;pedestrian alarm&quot; probability: 44.44%	count:4.0 total:9.0</INV> <SAMPLES>9</SAMPLES> <DAIKON>Alarm_M2H one of { &quot; &quot;, &quot;cyclist alarm&quot;, &quot;obstacle alarm&quot;, &quot;pedestrian alarm&quot; }
+	&quot; &quot; probability: 22.22%	count:2.0 total:9.0
+	&quot;cyclist alarm&quot; probability: 11.11%	count:1.0 total:9.0
+	&quot;obstacle alarm&quot; probability: 22.22%	count:2.0 total:9.0
+	&quot;pedestrian alarm&quot; probability: 44.44%	count:4.0 total:9.0</DAIKON> <DAIKONCLASS>class daikon.inv.unary.string.ProbabilisticString</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>Mode_H2M == &quot;autonomous&quot;</INV> <SAMPLES>9</SAMPLES> <DAIKON>Mode_H2M == &quot;autonomous&quot;</DAIKON> <DAIKONCLASS>class daikon.inv.unary.string.OneOfString</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>Mode_H2M == &quot;autonomous&quot;</INV> <SAMPLES>9</SAMPLES> <DAIKON>Mode_H2M == &quot;autonomous&quot;</DAIKON> <DAIKONCLASS>class daikon.inv.unary.string.ProbabilisticString</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>ManualBrake_H2M == 0.0</INV> <SAMPLES>9</SAMPLES> <DAIKON>ManualBrake_H2M == 0.0</DAIKON> <DAIKONCLASS>class daikon.inv.unary.scalar.OneOfFloat</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>ManualBrake_H2M == 0.0</INV> <SAMPLES>9</SAMPLES> <DAIKON>ManualBrake_H2M == 0.0</DAIKON> <DAIKONCLASS>class daikon.inv.unary.scalar.ProbabilisticFloat</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>ManualGear_H2M == 1.0</INV> <SAMPLES>9</SAMPLES> <DAIKON>ManualGear_H2M == 1.0</DAIKON> <DAIKONCLASS>class daikon.inv.unary.scalar.OneOfFloat</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>ManualGear_H2M == 1.0</INV> <SAMPLES>9</SAMPLES> <DAIKON>ManualGear_H2M == 1.0</DAIKON> <DAIKONCLASS>class daikon.inv.unary.scalar.ProbabilisticFloat</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>ManualGear_H2M != 0</INV> <SAMPLES>9</SAMPLES> <DAIKON>ManualGear_H2M != 0</DAIKON> <DAIKONCLASS>class daikon.inv.unary.scalar.NonZeroFloat</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>ManualWheel_H2M one of { -12.605630579079873, -12.597390707255654, -12.292515449759662, -9.952391851682307, -9.438773174639508, -9.051499198901354, -9.032272831311516, -8.466468299382015 }
+	&quot;-12.605630579079873&quot; probability: 22.22%	count:2.0 total:9.0
+	&quot;-12.597390707255654&quot; probability: 11.11%	count:1.0 total:9.0
+	&quot;-12.292515449759662&quot; probability: 11.11%	count:1.0 total:9.0
+	&quot;-9.952391851682307&quot; probability: 11.11%	count:1.0 total:9.0
+	&quot;-9.438773174639508&quot; probability: 11.11%	count:1.0 total:9.0
+	&quot;-9.051499198901354&quot; probability: 11.11%	count:1.0 total:9.0
+	&quot;-9.032272831311516&quot; probability: 11.11%	count:1.0 total:9.0
+	&quot;-8.466468299382015&quot; probability: 11.11%	count:1.0 total:9.0</INV> <SAMPLES>9</SAMPLES> <DAIKON>ManualWheel_H2M one of { -12.605630579079873, -12.597390707255654, -12.292515449759662, -9.952391851682307, -9.438773174639508, -9.051499198901354, -9.032272831311516, -8.466468299382015 }
+	&quot;-12.605630579079873&quot; probability: 22.22%	count:2.0 total:9.0
+	&quot;-12.597390707255654&quot; probability: 11.11%	count:1.0 total:9.0
+	&quot;-12.292515449759662&quot; probability: 11.11%	count:1.0 total:9.0
+	&quot;-9.952391851682307&quot; probability: 11.11%	count:1.0 total:9.0
+	&quot;-9.438773174639508&quot; probability: 11.11%	count:1.0 total:9.0
+	&quot;-9.051499198901354&quot; probability: 11.11%	count:1.0 total:9.0
+	&quot;-9.032272831311516&quot; probability: 11.11%	count:1.0 total:9.0
+	&quot;-8.466468299382015&quot; probability: 11.11%	count:1.0 total:9.0</DAIKON> <DAIKONCLASS>class daikon.inv.unary.scalar.ProbabilisticFloat</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>ManualWheel_H2M != 0</INV> <SAMPLES>9</SAMPLES> <DAIKON>ManualWheel_H2M != 0</DAIKON> <DAIKONCLASS>class daikon.inv.unary.scalar.NonZeroFloat</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>ManualWheel_H2M &lt;= 4.9E-324</INV> <SAMPLES>9</SAMPLES> <DAIKON>ManualWheel_H2M &lt;= 4.9E-324</DAIKON> <DAIKONCLASS>class daikon.inv.unary.scalar.UpperBoundFloat</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>CurrentBrake_Machine one of { 0.0, 16.66269302368164, 88.03743839263916 }</INV> <SAMPLES>9</SAMPLES> <DAIKON>CurrentBrake_Machine one of { 0.0, 16.66269302368164, 88.03743839263916 }</DAIKON> <DAIKONCLASS>class daikon.inv.unary.scalar.OneOfFloat</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>CurrentBrake_Machine one of { 0.0, 16.66269302368164, 88.03743839263916 }
+	&quot;0.0&quot; probability: 71.43%	count:5.0 total:7.0
+	&quot;16.66269302368164&quot; probability: 14.29%	count:1.0 total:7.0
+	&quot;88.03743839263916&quot; probability: 14.29%	count:1.0 total:7.0</INV> <SAMPLES>9</SAMPLES> <DAIKON>CurrentBrake_Machine one of { 0.0, 16.66269302368164, 88.03743839263916 }
+	&quot;0.0&quot; probability: 71.43%	count:5.0 total:7.0
+	&quot;16.66269302368164&quot; probability: 14.29%	count:1.0 total:7.0
+	&quot;88.03743839263916&quot; probability: 14.29%	count:1.0 total:7.0</DAIKON> <DAIKONCLASS>class daikon.inv.unary.scalar.ProbabilisticFloat</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>CurrentWheel_Machine one of { -47.6447582244873, -5.448857445712926, -2.830726807387784, -0.3061486914874685, 5.032847348886237, 16.321091064980603, 46.577063314045326, 60.60401872915404, 132.87757221907162 }
+	&quot;-47.6447582244873&quot; probability: 11.11%	count:1.0 total:9.0
+	&quot;-5.448857445712926&quot; probability: 11.11%	count:1.0 total:9.0
+	&quot;-2.830726807387784&quot; probability: 11.11%	count:1.0 total:9.0
+	&quot;-0.3061486914874685&quot; probability: 11.11%	count:1.0 total:9.0
+	&quot;5.032847348886237&quot; probability: 11.11%	count:1.0 total:9.0
+	&quot;16.321091064980603&quot; probability: 11.11%	count:1.0 total:9.0
+	&quot;46.577063314045326&quot; probability: 11.11%	count:1.0 total:9.0
+	&quot;60.60401872915404&quot; probability: 11.11%	count:1.0 total:9.0
+	&quot;132.87757221907162&quot; probability: 11.11%	count:1.0 total:9.0</INV> <SAMPLES>9</SAMPLES> <DAIKON>CurrentWheel_Machine one of { -47.6447582244873, -5.448857445712926, -2.830726807387784, -0.3061486914874685, 5.032847348886237, 16.321091064980603, 46.577063314045326, 60.60401872915404, 132.87757221907162 }
+	&quot;-47.6447582244873&quot; probability: 11.11%	count:1.0 total:9.0
+	&quot;-5.448857445712926&quot; probability: 11.11%	count:1.0 total:9.0
+	&quot;-2.830726807387784&quot; probability: 11.11%	count:1.0 total:9.0
+	&quot;-0.3061486914874685&quot; probability: 11.11%	count:1.0 total:9.0
+	&quot;5.032847348886237&quot; probability: 11.11%	count:1.0 total:9.0
+	&quot;16.321091064980603&quot; probability: 11.11%	count:1.0 total:9.0
+	&quot;46.577063314045326&quot; probability: 11.11%	count:1.0 total:9.0
+	&quot;60.60401872915404&quot; probability: 11.11%	count:1.0 total:9.0
+	&quot;132.87757221907162&quot; probability: 11.11%	count:1.0 total:9.0</DAIKON> <DAIKONCLASS>class daikon.inv.unary.scalar.ProbabilisticFloat</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>CurrentWheel_Machine != 0</INV> <SAMPLES>9</SAMPLES> <DAIKON>CurrentWheel_Machine != 0</DAIKON> <DAIKONCLASS>class daikon.inv.unary.scalar.NonZeroFloat</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>CurrentThrottle_Machine one of { 0.0, 15.0, 20.0 }</INV> <SAMPLES>9</SAMPLES> <DAIKON>CurrentThrottle_Machine one of { 0.0, 15.0, 20.0 }</DAIKON> <DAIKONCLASS>class daikon.inv.unary.scalar.OneOfFloat</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>CurrentThrottle_Machine one of { 0.0, 15.0, 20.0 }
+	&quot;0.0&quot; probability: 25.00%	count:2.0 total:8.0
+	&quot;15.0&quot; probability: 37.50%	count:3.0 total:8.0
+	&quot;20.0&quot; probability: 37.50%	count:3.0 total:8.0</INV> <SAMPLES>9</SAMPLES> <DAIKON>CurrentThrottle_Machine one of { 0.0, 15.0, 20.0 }
+	&quot;0.0&quot; probability: 25.00%	count:2.0 total:8.0
+	&quot;15.0&quot; probability: 37.50%	count:3.0 total:8.0
+	&quot;20.0&quot; probability: 37.50%	count:3.0 total:8.0</DAIKON> <DAIKONCLASS>class daikon.inv.unary.scalar.ProbabilisticFloat</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>Speed_Machine one of { 3.682442885343112, 4.386662047934768, 7.8946525754673935, 12.272863755168002, 14.51371461826998, 15.597330393586368, 15.667910478040508, 15.672983397858072 }
+	&quot;3.682442885343112&quot; probability: 11.11%	count:1.0 total:9.0
+	&quot;4.386662047934768&quot; probability: 11.11%	count:1.0 total:9.0
+	&quot;7.8946525754673935&quot; probability: 11.11%	count:1.0 total:9.0
+	&quot;12.272863755168002&quot; probability: 11.11%	count:1.0 total:9.0
+	&quot;14.51371461826998&quot; probability: 11.11%	count:1.0 total:9.0
+	&quot;15.597330393586368&quot; probability: 11.11%	count:1.0 total:9.0
+	&quot;15.667910478040508&quot; probability: 11.11%	count:1.0 total:9.0
+	&quot;15.672983397858072&quot; probability: 22.22%	count:2.0 total:9.0</INV> <SAMPLES>9</SAMPLES> <DAIKON>Speed_Machine one of { 3.682442885343112, 4.386662047934768, 7.8946525754673935, 12.272863755168002, 14.51371461826998, 15.597330393586368, 15.667910478040508, 15.672983397858072 }
+	&quot;3.682442885343112&quot; probability: 11.11%	count:1.0 total:9.0
+	&quot;4.386662047934768&quot; probability: 11.11%	count:1.0 total:9.0
+	&quot;7.8946525754673935&quot; probability: 11.11%	count:1.0 total:9.0
+	&quot;12.272863755168002&quot; probability: 11.11%	count:1.0 total:9.0
+	&quot;14.51371461826998&quot; probability: 11.11%	count:1.0 total:9.0
+	&quot;15.597330393586368&quot; probability: 11.11%	count:1.0 total:9.0
+	&quot;15.667910478040508&quot; probability: 11.11%	count:1.0 total:9.0
+	&quot;15.672983397858072&quot; probability: 22.22%	count:2.0 total:9.0</DAIKON> <DAIKONCLASS>class daikon.inv.unary.scalar.ProbabilisticFloat</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>Speed_Machine != 0</INV> <SAMPLES>9</SAMPLES> <DAIKON>Speed_Machine != 0</DAIKON> <DAIKONCLASS>class daikon.inv.unary.scalar.NonZeroFloat</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>PupilLeft_Human one of { 4.05, 4.11, 4.16, 4.22, 4.25, 4.61, 4.75, 4.8, 5.17 }
+	&quot;4.05&quot; probability: 11.11%	count:1.0 total:9.0
+	&quot;4.11&quot; probability: 11.11%	count:1.0 total:9.0
+	&quot;4.16&quot; probability: 11.11%	count:1.0 total:9.0
+	&quot;4.22&quot; probability: 11.11%	count:1.0 total:9.0
+	&quot;4.25&quot; probability: 11.11%	count:1.0 total:9.0
+	&quot;4.61&quot; probability: 11.11%	count:1.0 total:9.0
+	&quot;4.75&quot; probability: 11.11%	count:1.0 total:9.0
+	&quot;4.8&quot; probability: 11.11%	count:1.0 total:9.0
+	&quot;5.17&quot; probability: 11.11%	count:1.0 total:9.0</INV> <SAMPLES>9</SAMPLES> <DAIKON>PupilLeft_Human one of { 4.05, 4.11, 4.16, 4.22, 4.25, 4.61, 4.75, 4.8, 5.17 }
+	&quot;4.05&quot; probability: 11.11%	count:1.0 total:9.0
+	&quot;4.11&quot; probability: 11.11%	count:1.0 total:9.0
+	&quot;4.16&quot; probability: 11.11%	count:1.0 total:9.0
+	&quot;4.22&quot; probability: 11.11%	count:1.0 total:9.0
+	&quot;4.25&quot; probability: 11.11%	count:1.0 total:9.0
+	&quot;4.61&quot; probability: 11.11%	count:1.0 total:9.0
+	&quot;4.75&quot; probability: 11.11%	count:1.0 total:9.0
+	&quot;4.8&quot; probability: 11.11%	count:1.0 total:9.0
+	&quot;5.17&quot; probability: 11.11%	count:1.0 total:9.0</DAIKON> <DAIKONCLASS>class daikon.inv.unary.scalar.ProbabilisticFloat</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>PupilLeft_Human != 0</INV> <SAMPLES>9</SAMPLES> <DAIKON>PupilLeft_Human != 0</DAIKON> <DAIKONCLASS>class daikon.inv.unary.scalar.NonZeroFloat</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>PupilRight_Human one of { 3.96, 4.1, 4.15, 4.17, 4.34, 4.67, 4.68, 4.97 }
+	&quot;3.96&quot; probability: 11.11%	count:1.0 total:9.0
+	&quot;4.1&quot; probability: 11.11%	count:1.0 total:9.0
+	&quot;4.15&quot; probability: 11.11%	count:1.0 total:9.0
+	&quot;4.17&quot; probability: 11.11%	count:1.0 total:9.0
+	&quot;4.34&quot; probability: 11.11%	count:1.0 total:9.0
+	&quot;4.67&quot; probability: 11.11%	count:1.0 total:9.0
+	&quot;4.68&quot; probability: 22.22%	count:2.0 total:9.0
+	&quot;4.97&quot; probability: 11.11%	count:1.0 total:9.0</INV> <SAMPLES>9</SAMPLES> <DAIKON>PupilRight_Human one of { 3.96, 4.1, 4.15, 4.17, 4.34, 4.67, 4.68, 4.97 }
+	&quot;3.96&quot; probability: 11.11%	count:1.0 total:9.0
+	&quot;4.1&quot; probability: 11.11%	count:1.0 total:9.0
+	&quot;4.15&quot; probability: 11.11%	count:1.0 total:9.0
+	&quot;4.17&quot; probability: 11.11%	count:1.0 total:9.0
+	&quot;4.34&quot; probability: 11.11%	count:1.0 total:9.0
+	&quot;4.67&quot; probability: 11.11%	count:1.0 total:9.0
+	&quot;4.68&quot; probability: 22.22%	count:2.0 total:9.0
+	&quot;4.97&quot; probability: 11.11%	count:1.0 total:9.0</DAIKON> <DAIKONCLASS>class daikon.inv.unary.scalar.ProbabilisticFloat</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>PupilRight_Human != 0</INV> <SAMPLES>9</SAMPLES> <DAIKON>PupilRight_Human != 0</DAIKON> <DAIKONCLASS>class daikon.inv.unary.scalar.NonZeroFloat</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>GSR_Human one of { 434.178534213268, 435.312554414069, 580.484123759215, 638.895987733197, 643.832088591295, 677.196714404069, 708.239273255851, 709.384274312656, 835.233210476096 }
+	&quot;434.178534213268&quot; probability: 11.11%	count:1.0 total:9.0
+	&quot;435.312554414069&quot; probability: 11.11%	count:1.0 total:9.0
+	&quot;580.484123759215&quot; probability: 11.11%	count:1.0 total:9.0
+	&quot;638.895987733197&quot; probability: 11.11%	count:1.0 total:9.0
+	&quot;643.832088591295&quot; probability: 11.11%	count:1.0 total:9.0
+	&quot;677.196714404069&quot; probability: 11.11%	count:1.0 total:9.0
+	&quot;708.239273255851&quot; probability: 11.11%	count:1.0 total:9.0
+	&quot;709.384274312656&quot; probability: 11.11%	count:1.0 total:9.0
+	&quot;835.233210476096&quot; probability: 11.11%	count:1.0 total:9.0</INV> <SAMPLES>9</SAMPLES> <DAIKON>GSR_Human one of { 434.178534213268, 435.312554414069, 580.484123759215, 638.895987733197, 643.832088591295, 677.196714404069, 708.239273255851, 709.384274312656, 835.233210476096 }
+	&quot;434.178534213268&quot; probability: 11.11%	count:1.0 total:9.0
+	&quot;435.312554414069&quot; probability: 11.11%	count:1.0 total:9.0
+	&quot;580.484123759215&quot; probability: 11.11%	count:1.0 total:9.0
+	&quot;638.895987733197&quot; probability: 11.11%	count:1.0 total:9.0
+	&quot;643.832088591295&quot; probability: 11.11%	count:1.0 total:9.0
+	&quot;677.196714404069&quot; probability: 11.11%	count:1.0 total:9.0
+	&quot;708.239273255851&quot; probability: 11.11%	count:1.0 total:9.0
+	&quot;709.384274312656&quot; probability: 11.11%	count:1.0 total:9.0
+	&quot;835.233210476096&quot; probability: 11.11%	count:1.0 total:9.0</DAIKON> <DAIKONCLASS>class daikon.inv.unary.scalar.ProbabilisticFloat</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>GSR_Human != 0</INV> <SAMPLES>9</SAMPLES> <DAIKON>GSR_Human != 0</DAIKON> <DAIKONCLASS>class daikon.inv.unary.scalar.NonZeroFloat</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>EventN_Machine one of { &quot; &quot;, &quot;obstacle detected&quot; }</INV> <SAMPLES>9</SAMPLES> <DAIKON>EventN_Machine one of { &quot; &quot;, &quot;obstacle detected&quot; }</DAIKON> <DAIKONCLASS>class daikon.inv.unary.string.OneOfString</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>EventN_Machine one of { &quot; &quot;, &quot;obstacle detected&quot; }
+	&quot; &quot; probability: 66.67%	count:2.0 total:3.0
+	&quot;obstacle detected&quot; probability: 33.33%	count:1.0 total:3.0</INV> <SAMPLES>9</SAMPLES> <DAIKON>EventN_Machine one of { &quot; &quot;, &quot;obstacle detected&quot; }
+	&quot; &quot; probability: 66.67%	count:2.0 total:3.0
+	&quot;obstacle detected&quot; probability: 33.33%	count:1.0 total:3.0</DAIKON> <DAIKONCLASS>class daikon.inv.unary.string.ProbabilisticString</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>RangeN_Machine one of { 0.0, 35.92608642578125 }</INV> <SAMPLES>9</SAMPLES> <DAIKON>RangeN_Machine one of { 0.0, 35.92608642578125 }</DAIKON> <DAIKONCLASS>class daikon.inv.unary.scalar.OneOfFloat</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>RangeN_Machine one of { 0.0, 35.92608642578125 }
+	&quot;0.0&quot; probability: 66.67%	count:2.0 total:3.0
+	&quot;35.92608642578125&quot; probability: 33.33%	count:1.0 total:3.0</INV> <SAMPLES>9</SAMPLES> <DAIKON>RangeN_Machine one of { 0.0, 35.92608642578125 }
+	&quot;0.0&quot; probability: 66.67%	count:2.0 total:3.0
+	&quot;35.92608642578125&quot; probability: 33.33%	count:1.0 total:3.0</DAIKON> <DAIKONCLASS>class daikon.inv.unary.scalar.ProbabilisticFloat</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>EventW_Machine one of { &quot; &quot;, &quot;obstacle detected&quot;, &quot;pedestrian detected&quot; }</INV> <SAMPLES>9</SAMPLES> <DAIKON>EventW_Machine one of { &quot; &quot;, &quot;obstacle detected&quot;, &quot;pedestrian detected&quot; }</DAIKON> <DAIKONCLASS>class daikon.inv.unary.string.OneOfString</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>EventW_Machine one of { &quot; &quot;, &quot;obstacle detected&quot;, &quot;pedestrian detected&quot; }
+	&quot; &quot; probability: 42.86%	count:3.0 total:7.0
+	&quot;obstacle detected&quot; probability: 28.57%	count:2.0 total:7.0
+	&quot;pedestrian detected&quot; probability: 28.57%	count:2.0 total:7.0</INV> <SAMPLES>9</SAMPLES> <DAIKON>EventW_Machine one of { &quot; &quot;, &quot;obstacle detected&quot;, &quot;pedestrian detected&quot; }
+	&quot; &quot; probability: 42.86%	count:3.0 total:7.0
+	&quot;obstacle detected&quot; probability: 28.57%	count:2.0 total:7.0
+	&quot;pedestrian detected&quot; probability: 28.57%	count:2.0 total:7.0</DAIKON> <DAIKONCLASS>class daikon.inv.unary.string.ProbabilisticString</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>RangeW_Machine one of { 0.0, 4.125914573669434, 14.392512321472168, 28.667461395263672, 32.797447204589844 }
+	&quot;0.0&quot; probability: 42.86%	count:3.0 total:7.0
+	&quot;4.125914573669434&quot; probability: 14.29%	count:1.0 total:7.0
+	&quot;14.392512321472168&quot; probability: 14.29%	count:1.0 total:7.0
+	&quot;28.667461395263672&quot; probability: 14.29%	count:1.0 total:7.0
+	&quot;32.797447204589844&quot; probability: 14.29%	count:1.0 total:7.0</INV> <SAMPLES>9</SAMPLES> <DAIKON>RangeW_Machine one of { 0.0, 4.125914573669434, 14.392512321472168, 28.667461395263672, 32.797447204589844 }
+	&quot;0.0&quot; probability: 42.86%	count:3.0 total:7.0
+	&quot;4.125914573669434&quot; probability: 14.29%	count:1.0 total:7.0
+	&quot;14.392512321472168&quot; probability: 14.29%	count:1.0 total:7.0
+	&quot;28.667461395263672&quot; probability: 14.29%	count:1.0 total:7.0
+	&quot;32.797447204589844&quot; probability: 14.29%	count:1.0 total:7.0</DAIKON> <DAIKONCLASS>class daikon.inv.unary.scalar.ProbabilisticFloat</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>RangeW_Machine &gt;= 0.0</INV> <SAMPLES>9</SAMPLES> <DAIKON>RangeW_Machine &gt;= 0.0</DAIKON> <DAIKONCLASS>class daikon.inv.unary.scalar.LowerBoundFloat</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>PupilChange_Human one of { -0.4150000000000009, -0.39999999999999947, -0.3199999999999994, -0.14499999999999957, -0.1349999999999998, 0.06500000000000039, 0.08499999999999996, 0.33000000000000007, 0.33499999999999996 }
+	&quot;-0.4150000000000009&quot; probability: 11.11%	count:1.0 total:9.0
+	&quot;-0.39999999999999947&quot; probability: 11.11%	count:1.0 total:9.0
+	&quot;-0.3199999999999994&quot; probability: 11.11%	count:1.0 total:9.0
+	&quot;-0.14499999999999957&quot; probability: 11.11%	count:1.0 total:9.0
+	&quot;-0.1349999999999998&quot; probability: 11.11%	count:1.0 total:9.0
+	&quot;0.06500000000000039&quot; probability: 11.11%	count:1.0 total:9.0
+	&quot;0.08499999999999996&quot; probability: 11.11%	count:1.0 total:9.0
+	&quot;0.33000000000000007&quot; probability: 11.11%	count:1.0 total:9.0
+	&quot;0.33499999999999996&quot; probability: 11.11%	count:1.0 total:9.0</INV> <SAMPLES>9</SAMPLES> <DAIKON>PupilChange_Human one of { -0.4150000000000009, -0.39999999999999947, -0.3199999999999994, -0.14499999999999957, -0.1349999999999998, 0.06500000000000039, 0.08499999999999996, 0.33000000000000007, 0.33499999999999996 }
+	&quot;-0.4150000000000009&quot; probability: 11.11%	count:1.0 total:9.0
+	&quot;-0.39999999999999947&quot; probability: 11.11%	count:1.0 total:9.0
+	&quot;-0.3199999999999994&quot; probability: 11.11%	count:1.0 total:9.0
+	&quot;-0.14499999999999957&quot; probability: 11.11%	count:1.0 total:9.0
+	&quot;-0.1349999999999998&quot; probability: 11.11%	count:1.0 total:9.0
+	&quot;0.06500000000000039&quot; probability: 11.11%	count:1.0 total:9.0
+	&quot;0.08499999999999996&quot; probability: 11.11%	count:1.0 total:9.0
+	&quot;0.33000000000000007&quot; probability: 11.11%	count:1.0 total:9.0
+	&quot;0.33499999999999996&quot; probability: 11.11%	count:1.0 total:9.0</DAIKON> <DAIKONCLASS>class daikon.inv.unary.scalar.ProbabilisticFloat</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>PupilChange_Human != 0</INV> <SAMPLES>9</SAMPLES> <DAIKON>PupilChange_Human != 0</DAIKON> <DAIKONCLASS>class daikon.inv.unary.scalar.NonZeroFloat</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>PupilChange_Human &lt;= 0.33499999999999996</INV> <SAMPLES>9</SAMPLES> <DAIKON>PupilChange_Human &lt;= 0.33499999999999996</DAIKON> <DAIKONCLASS>class daikon.inv.unary.scalar.UpperBoundFloat</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>PupilChange_Human &gt;= -0.4150000000000009</INV> <SAMPLES>9</SAMPLES> <DAIKON>PupilChange_Human &gt;= -0.4150000000000009</DAIKON> <DAIKONCLASS>class daikon.inv.unary.scalar.LowerBoundFloat</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>Reliability_Machine == 0.8</INV> <SAMPLES>9</SAMPLES> <DAIKON>Reliability_Machine == 0.8</DAIKON> <DAIKONCLASS>class daikon.inv.unary.scalar.OneOfFloat</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>Reliability_Machine == 0.8</INV> <SAMPLES>9</SAMPLES> <DAIKON>Reliability_Machine == 0.8</DAIKON> <DAIKONCLASS>class daikon.inv.unary.scalar.ProbabilisticFloat</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>Reliability_Machine != 0</INV> <SAMPLES>9</SAMPLES> <DAIKON>Reliability_Machine != 0</DAIKON> <DAIKONCLASS>class daikon.inv.unary.scalar.NonZeroFloat</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>AverageTrust_Human == 4.033333333333333</INV> <SAMPLES>9</SAMPLES> <DAIKON>AverageTrust_Human == 4.033333333333333</DAIKON> <DAIKONCLASS>class daikon.inv.unary.scalar.OneOfFloat</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>AverageTrust_Human == 4.033333333333333</INV> <SAMPLES>9</SAMPLES> <DAIKON>AverageTrust_Human == 4.033333333333333</DAIKON> <DAIKONCLASS>class daikon.inv.unary.scalar.ProbabilisticFloat</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>AverageTrust_Human != 0</INV> <SAMPLES>9</SAMPLES> <DAIKON>AverageTrust_Human != 0</DAIKON> <DAIKONCLASS>class daikon.inv.unary.scalar.NonZeroFloat</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>TrustChange_Human == -1.0</INV> <SAMPLES>9</SAMPLES> <DAIKON>TrustChange_Human == -1.0</DAIKON> <DAIKONCLASS>class daikon.inv.unary.scalar.OneOfFloat</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>TrustChange_Human == -1.0</INV> <SAMPLES>9</SAMPLES> <DAIKON>TrustChange_Human == -1.0</DAIKON> <DAIKONCLASS>class daikon.inv.unary.scalar.ProbabilisticFloat</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>TrustChange_Human != 0</INV> <SAMPLES>9</SAMPLES> <DAIKON>TrustChange_Human != 0</DAIKON> <DAIKONCLASS>class daikon.inv.unary.scalar.NonZeroFloat</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>TimeSignal_Sec &gt; Trust_Human</INV> <SAMPLES>9</SAMPLES> <DAIKON>TimeSignal_Sec &gt; Trust_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatGreaterThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>TimeSignal_Sec &gt; ManualBrake_H2M</INV> <SAMPLES>9</SAMPLES> <DAIKON>TimeSignal_Sec &gt; ManualBrake_H2M</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatGreaterThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>TimeSignal_Sec &gt; ManualGear_H2M</INV> <SAMPLES>9</SAMPLES> <DAIKON>TimeSignal_Sec &gt; ManualGear_H2M</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatGreaterThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>TimeSignal_Sec &gt; ManualWheel_H2M</INV> <SAMPLES>9</SAMPLES> <DAIKON>TimeSignal_Sec &gt; ManualWheel_H2M</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatGreaterThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>TimeSignal_Sec &gt; CurrentBrake_Machine</INV> <SAMPLES>9</SAMPLES> <DAIKON>TimeSignal_Sec &gt; CurrentBrake_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatGreaterThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>TimeSignal_Sec != CurrentWheel_Machine</INV> <SAMPLES>9</SAMPLES> <DAIKON>TimeSignal_Sec != CurrentWheel_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatNonEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>TimeSignal_Sec != CurrentThrottle_Machine</INV> <SAMPLES>9</SAMPLES> <DAIKON>TimeSignal_Sec != CurrentThrottle_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatNonEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>TimeSignal_Sec &gt; Speed_Machine</INV> <SAMPLES>9</SAMPLES> <DAIKON>TimeSignal_Sec &gt; Speed_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatGreaterThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>TimeSignal_Sec &gt; PupilLeft_Human</INV> <SAMPLES>9</SAMPLES> <DAIKON>TimeSignal_Sec &gt; PupilLeft_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatGreaterThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>TimeSignal_Sec &gt; PupilRight_Human</INV> <SAMPLES>9</SAMPLES> <DAIKON>TimeSignal_Sec &gt; PupilRight_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatGreaterThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>TimeSignal_Sec &lt; GSR_Human</INV> <SAMPLES>9</SAMPLES> <DAIKON>TimeSignal_Sec &lt; GSR_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatLessThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>TimeSignal_Sec &gt; RangeN_Machine</INV> <SAMPLES>9</SAMPLES> <DAIKON>TimeSignal_Sec &gt; RangeN_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatGreaterThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>TimeSignal_Sec &gt; RangeW_Machine</INV> <SAMPLES>9</SAMPLES> <DAIKON>TimeSignal_Sec &gt; RangeW_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatGreaterThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>TimeSignal_Sec &gt; PupilChange_Human</INV> <SAMPLES>9</SAMPLES> <DAIKON>TimeSignal_Sec &gt; PupilChange_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatGreaterThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>TimeSignal_Sec &gt; Reliability_Machine</INV> <SAMPLES>9</SAMPLES> <DAIKON>TimeSignal_Sec &gt; Reliability_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatGreaterThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>TimeSignal_Sec &gt; AverageTrust_Human</INV> <SAMPLES>9</SAMPLES> <DAIKON>TimeSignal_Sec &gt; AverageTrust_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatGreaterThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>TimeSignal_Sec &gt; TrustChange_Human</INV> <SAMPLES>9</SAMPLES> <DAIKON>TimeSignal_Sec &gt; TrustChange_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatGreaterThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>Trust_Human &gt; ManualBrake_H2M</INV> <SAMPLES>9</SAMPLES> <DAIKON>Trust_Human &gt; ManualBrake_H2M</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatGreaterThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>Trust_Human &gt;= ManualGear_H2M</INV> <SAMPLES>9</SAMPLES> <DAIKON>Trust_Human &gt;= ManualGear_H2M</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatGreaterEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>Trust_Human &gt; ManualWheel_H2M</INV> <SAMPLES>9</SAMPLES> <DAIKON>Trust_Human &gt; ManualWheel_H2M</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatGreaterThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>Trust_Human != CurrentBrake_Machine</INV> <SAMPLES>9</SAMPLES> <DAIKON>Trust_Human != CurrentBrake_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatNonEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>Trust_Human != CurrentWheel_Machine</INV> <SAMPLES>9</SAMPLES> <DAIKON>Trust_Human != CurrentWheel_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatNonEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>Trust_Human != CurrentThrottle_Machine</INV> <SAMPLES>9</SAMPLES> <DAIKON>Trust_Human != CurrentThrottle_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatNonEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>Trust_Human &lt; Speed_Machine</INV> <SAMPLES>9</SAMPLES> <DAIKON>Trust_Human &lt; Speed_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatLessThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>Trust_Human &lt; PupilLeft_Human</INV> <SAMPLES>9</SAMPLES> <DAIKON>Trust_Human &lt; PupilLeft_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatLessThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>Trust_Human &lt; PupilRight_Human</INV> <SAMPLES>9</SAMPLES> <DAIKON>Trust_Human &lt; PupilRight_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatLessThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>Trust_Human &lt; GSR_Human</INV> <SAMPLES>9</SAMPLES> <DAIKON>Trust_Human &lt; GSR_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatLessThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>Trust_Human != RangeN_Machine</INV> <SAMPLES>9</SAMPLES> <DAIKON>Trust_Human != RangeN_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatNonEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>Trust_Human != RangeW_Machine</INV> <SAMPLES>9</SAMPLES> <DAIKON>Trust_Human != RangeW_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatNonEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>Trust_Human &gt; PupilChange_Human</INV> <SAMPLES>9</SAMPLES> <DAIKON>Trust_Human &gt; PupilChange_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatGreaterThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>Trust_Human &gt; Reliability_Machine</INV> <SAMPLES>9</SAMPLES> <DAIKON>Trust_Human &gt; Reliability_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatGreaterThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>Trust_Human &lt; AverageTrust_Human</INV> <SAMPLES>9</SAMPLES> <DAIKON>Trust_Human &lt; AverageTrust_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatLessThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>Trust_Human &gt; TrustChange_Human</INV> <SAMPLES>9</SAMPLES> <DAIKON>Trust_Human &gt; TrustChange_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatGreaterThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>Alarm_M2H != Mode_H2M</INV> <SAMPLES>9</SAMPLES> <DAIKON>Alarm_M2H != Mode_H2M</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoString.StringNonEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>Mode_H2M != EventN_Machine</INV> <SAMPLES>9</SAMPLES> <DAIKON>Mode_H2M != EventN_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoString.StringNonEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>Mode_H2M != EventW_Machine</INV> <SAMPLES>9</SAMPLES> <DAIKON>Mode_H2M != EventW_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoString.StringNonEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>ManualBrake_H2M &lt; ManualGear_H2M</INV> <SAMPLES>9</SAMPLES> <DAIKON>ManualBrake_H2M &lt; ManualGear_H2M</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatLessThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>ManualBrake_H2M &gt; ManualWheel_H2M</INV> <SAMPLES>9</SAMPLES> <DAIKON>ManualBrake_H2M &gt; ManualWheel_H2M</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatGreaterThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>ManualBrake_H2M &lt;= CurrentBrake_Machine</INV> <SAMPLES>9</SAMPLES> <DAIKON>ManualBrake_H2M &lt;= CurrentBrake_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatLessEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>ManualBrake_H2M != CurrentWheel_Machine</INV> <SAMPLES>9</SAMPLES> <DAIKON>ManualBrake_H2M != CurrentWheel_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatNonEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>ManualBrake_H2M &lt;= CurrentThrottle_Machine</INV> <SAMPLES>9</SAMPLES> <DAIKON>ManualBrake_H2M &lt;= CurrentThrottle_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatLessEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>ManualBrake_H2M &lt; Speed_Machine</INV> <SAMPLES>9</SAMPLES> <DAIKON>ManualBrake_H2M &lt; Speed_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatLessThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>ManualBrake_H2M &lt; PupilLeft_Human</INV> <SAMPLES>9</SAMPLES> <DAIKON>ManualBrake_H2M &lt; PupilLeft_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatLessThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>ManualBrake_H2M &lt; PupilRight_Human</INV> <SAMPLES>9</SAMPLES> <DAIKON>ManualBrake_H2M &lt; PupilRight_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatLessThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>ManualBrake_H2M &lt; GSR_Human</INV> <SAMPLES>9</SAMPLES> <DAIKON>ManualBrake_H2M &lt; GSR_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatLessThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>ManualBrake_H2M &lt;= RangeN_Machine</INV> <SAMPLES>9</SAMPLES> <DAIKON>ManualBrake_H2M &lt;= RangeN_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatLessEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>ManualBrake_H2M &lt;= RangeW_Machine</INV> <SAMPLES>9</SAMPLES> <DAIKON>ManualBrake_H2M &lt;= RangeW_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatLessEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>ManualBrake_H2M != PupilChange_Human</INV> <SAMPLES>9</SAMPLES> <DAIKON>ManualBrake_H2M != PupilChange_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatNonEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>ManualBrake_H2M &lt; Reliability_Machine</INV> <SAMPLES>9</SAMPLES> <DAIKON>ManualBrake_H2M &lt; Reliability_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatLessThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>ManualBrake_H2M &lt; AverageTrust_Human</INV> <SAMPLES>9</SAMPLES> <DAIKON>ManualBrake_H2M &lt; AverageTrust_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatLessThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>ManualBrake_H2M &gt; TrustChange_Human</INV> <SAMPLES>9</SAMPLES> <DAIKON>ManualBrake_H2M &gt; TrustChange_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatGreaterThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>ManualGear_H2M &gt; ManualWheel_H2M</INV> <SAMPLES>9</SAMPLES> <DAIKON>ManualGear_H2M &gt; ManualWheel_H2M</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatGreaterThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>ManualGear_H2M != CurrentBrake_Machine</INV> <SAMPLES>9</SAMPLES> <DAIKON>ManualGear_H2M != CurrentBrake_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatNonEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>ManualGear_H2M != CurrentWheel_Machine</INV> <SAMPLES>9</SAMPLES> <DAIKON>ManualGear_H2M != CurrentWheel_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatNonEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>ManualGear_H2M != CurrentThrottle_Machine</INV> <SAMPLES>9</SAMPLES> <DAIKON>ManualGear_H2M != CurrentThrottle_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatNonEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>ManualGear_H2M &lt; Speed_Machine</INV> <SAMPLES>9</SAMPLES> <DAIKON>ManualGear_H2M &lt; Speed_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatLessThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>ManualGear_H2M &lt; PupilLeft_Human</INV> <SAMPLES>9</SAMPLES> <DAIKON>ManualGear_H2M &lt; PupilLeft_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatLessThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>ManualGear_H2M &lt; PupilRight_Human</INV> <SAMPLES>9</SAMPLES> <DAIKON>ManualGear_H2M &lt; PupilRight_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatLessThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>ManualGear_H2M &lt; GSR_Human</INV> <SAMPLES>9</SAMPLES> <DAIKON>ManualGear_H2M &lt; GSR_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatLessThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>ManualGear_H2M != RangeN_Machine</INV> <SAMPLES>9</SAMPLES> <DAIKON>ManualGear_H2M != RangeN_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatNonEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>ManualGear_H2M != RangeW_Machine</INV> <SAMPLES>9</SAMPLES> <DAIKON>ManualGear_H2M != RangeW_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatNonEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>ManualGear_H2M &gt; PupilChange_Human</INV> <SAMPLES>9</SAMPLES> <DAIKON>ManualGear_H2M &gt; PupilChange_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatGreaterThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>ManualGear_H2M &gt; Reliability_Machine</INV> <SAMPLES>9</SAMPLES> <DAIKON>ManualGear_H2M &gt; Reliability_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatGreaterThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>ManualGear_H2M &lt; AverageTrust_Human</INV> <SAMPLES>9</SAMPLES> <DAIKON>ManualGear_H2M &lt; AverageTrust_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatLessThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>ManualGear_H2M == TrustChange_Human**2</INV> <SAMPLES>9</SAMPLES> <DAIKON>ManualGear_H2M == TrustChange_Human**2</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.NumericFloat$Square</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>ManualGear_H2M &gt; TrustChange_Human</INV> <SAMPLES>9</SAMPLES> <DAIKON>ManualGear_H2M &gt; TrustChange_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatGreaterThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>ManualWheel_H2M &lt; CurrentBrake_Machine</INV> <SAMPLES>9</SAMPLES> <DAIKON>ManualWheel_H2M &lt; CurrentBrake_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatLessThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>ManualWheel_H2M != CurrentWheel_Machine</INV> <SAMPLES>9</SAMPLES> <DAIKON>ManualWheel_H2M != CurrentWheel_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatNonEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>ManualWheel_H2M &lt; CurrentThrottle_Machine</INV> <SAMPLES>9</SAMPLES> <DAIKON>ManualWheel_H2M &lt; CurrentThrottle_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatLessThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>ManualWheel_H2M &lt; Speed_Machine</INV> <SAMPLES>9</SAMPLES> <DAIKON>ManualWheel_H2M &lt; Speed_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatLessThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>ManualWheel_H2M &lt; PupilLeft_Human</INV> <SAMPLES>9</SAMPLES> <DAIKON>ManualWheel_H2M &lt; PupilLeft_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatLessThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>ManualWheel_H2M &lt; PupilRight_Human</INV> <SAMPLES>9</SAMPLES> <DAIKON>ManualWheel_H2M &lt; PupilRight_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatLessThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>ManualWheel_H2M &lt; GSR_Human</INV> <SAMPLES>9</SAMPLES> <DAIKON>ManualWheel_H2M &lt; GSR_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatLessThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>ManualWheel_H2M &lt; RangeN_Machine</INV> <SAMPLES>9</SAMPLES> <DAIKON>ManualWheel_H2M &lt; RangeN_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatLessThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>ManualWheel_H2M &lt; RangeW_Machine</INV> <SAMPLES>9</SAMPLES> <DAIKON>ManualWheel_H2M &lt; RangeW_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatLessThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>ManualWheel_H2M &lt; PupilChange_Human</INV> <SAMPLES>9</SAMPLES> <DAIKON>ManualWheel_H2M &lt; PupilChange_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatLessThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>ManualWheel_H2M &lt; Reliability_Machine</INV> <SAMPLES>9</SAMPLES> <DAIKON>ManualWheel_H2M &lt; Reliability_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatLessThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>ManualWheel_H2M &lt; AverageTrust_Human</INV> <SAMPLES>9</SAMPLES> <DAIKON>ManualWheel_H2M &lt; AverageTrust_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatLessThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>ManualWheel_H2M &lt; TrustChange_Human</INV> <SAMPLES>9</SAMPLES> <DAIKON>ManualWheel_H2M &lt; TrustChange_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatLessThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>CurrentBrake_Machine != CurrentWheel_Machine</INV> <SAMPLES>9</SAMPLES> <DAIKON>CurrentBrake_Machine != CurrentWheel_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatNonEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>CurrentBrake_Machine != CurrentThrottle_Machine</INV> <SAMPLES>9</SAMPLES> <DAIKON>CurrentBrake_Machine != CurrentThrottle_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatNonEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>CurrentBrake_Machine != Speed_Machine</INV> <SAMPLES>9</SAMPLES> <DAIKON>CurrentBrake_Machine != Speed_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatNonEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>CurrentBrake_Machine != PupilLeft_Human</INV> <SAMPLES>9</SAMPLES> <DAIKON>CurrentBrake_Machine != PupilLeft_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatNonEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>CurrentBrake_Machine != PupilRight_Human</INV> <SAMPLES>9</SAMPLES> <DAIKON>CurrentBrake_Machine != PupilRight_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatNonEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>CurrentBrake_Machine &lt; GSR_Human</INV> <SAMPLES>9</SAMPLES> <DAIKON>CurrentBrake_Machine &lt; GSR_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatLessThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>CurrentBrake_Machine != PupilChange_Human</INV> <SAMPLES>9</SAMPLES> <DAIKON>CurrentBrake_Machine != PupilChange_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatNonEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>CurrentBrake_Machine != Reliability_Machine</INV> <SAMPLES>9</SAMPLES> <DAIKON>CurrentBrake_Machine != Reliability_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatNonEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>CurrentBrake_Machine != AverageTrust_Human</INV> <SAMPLES>9</SAMPLES> <DAIKON>CurrentBrake_Machine != AverageTrust_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatNonEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>CurrentBrake_Machine &gt; TrustChange_Human</INV> <SAMPLES>9</SAMPLES> <DAIKON>CurrentBrake_Machine &gt; TrustChange_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatGreaterThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>CurrentWheel_Machine != CurrentThrottle_Machine</INV> <SAMPLES>9</SAMPLES> <DAIKON>CurrentWheel_Machine != CurrentThrottle_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatNonEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>CurrentWheel_Machine != Speed_Machine</INV> <SAMPLES>9</SAMPLES> <DAIKON>CurrentWheel_Machine != Speed_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatNonEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>CurrentWheel_Machine != PupilLeft_Human</INV> <SAMPLES>9</SAMPLES> <DAIKON>CurrentWheel_Machine != PupilLeft_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatNonEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>CurrentWheel_Machine != PupilRight_Human</INV> <SAMPLES>9</SAMPLES> <DAIKON>CurrentWheel_Machine != PupilRight_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatNonEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>CurrentWheel_Machine &lt; GSR_Human</INV> <SAMPLES>9</SAMPLES> <DAIKON>CurrentWheel_Machine &lt; GSR_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatLessThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>CurrentWheel_Machine != RangeN_Machine</INV> <SAMPLES>9</SAMPLES> <DAIKON>CurrentWheel_Machine != RangeN_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatNonEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>CurrentWheel_Machine != RangeW_Machine</INV> <SAMPLES>9</SAMPLES> <DAIKON>CurrentWheel_Machine != RangeW_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatNonEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>CurrentWheel_Machine != PupilChange_Human</INV> <SAMPLES>9</SAMPLES> <DAIKON>CurrentWheel_Machine != PupilChange_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatNonEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>CurrentWheel_Machine != Reliability_Machine</INV> <SAMPLES>9</SAMPLES> <DAIKON>CurrentWheel_Machine != Reliability_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatNonEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>CurrentWheel_Machine != AverageTrust_Human</INV> <SAMPLES>9</SAMPLES> <DAIKON>CurrentWheel_Machine != AverageTrust_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatNonEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>CurrentWheel_Machine != TrustChange_Human</INV> <SAMPLES>9</SAMPLES> <DAIKON>CurrentWheel_Machine != TrustChange_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatNonEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>CurrentThrottle_Machine != Speed_Machine</INV> <SAMPLES>9</SAMPLES> <DAIKON>CurrentThrottle_Machine != Speed_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatNonEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>CurrentThrottle_Machine != PupilLeft_Human</INV> <SAMPLES>9</SAMPLES> <DAIKON>CurrentThrottle_Machine != PupilLeft_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatNonEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>CurrentThrottle_Machine != PupilRight_Human</INV> <SAMPLES>9</SAMPLES> <DAIKON>CurrentThrottle_Machine != PupilRight_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatNonEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>CurrentThrottle_Machine &lt; GSR_Human</INV> <SAMPLES>9</SAMPLES> <DAIKON>CurrentThrottle_Machine &lt; GSR_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatLessThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>CurrentThrottle_Machine != RangeW_Machine</INV> <SAMPLES>9</SAMPLES> <DAIKON>CurrentThrottle_Machine != RangeW_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatNonEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>CurrentThrottle_Machine != PupilChange_Human</INV> <SAMPLES>9</SAMPLES> <DAIKON>CurrentThrottle_Machine != PupilChange_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatNonEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>CurrentThrottle_Machine != Reliability_Machine</INV> <SAMPLES>9</SAMPLES> <DAIKON>CurrentThrottle_Machine != Reliability_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatNonEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>CurrentThrottle_Machine != AverageTrust_Human</INV> <SAMPLES>9</SAMPLES> <DAIKON>CurrentThrottle_Machine != AverageTrust_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatNonEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>CurrentThrottle_Machine &gt; TrustChange_Human</INV> <SAMPLES>9</SAMPLES> <DAIKON>CurrentThrottle_Machine &gt; TrustChange_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatGreaterThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>Speed_Machine != PupilLeft_Human</INV> <SAMPLES>9</SAMPLES> <DAIKON>Speed_Machine != PupilLeft_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatNonEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>Speed_Machine != PupilRight_Human</INV> <SAMPLES>9</SAMPLES> <DAIKON>Speed_Machine != PupilRight_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatNonEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>Speed_Machine &lt; GSR_Human</INV> <SAMPLES>9</SAMPLES> <DAIKON>Speed_Machine &lt; GSR_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatLessThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>Speed_Machine != RangeN_Machine</INV> <SAMPLES>9</SAMPLES> <DAIKON>Speed_Machine != RangeN_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatNonEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>Speed_Machine != RangeW_Machine</INV> <SAMPLES>9</SAMPLES> <DAIKON>Speed_Machine != RangeW_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatNonEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>Speed_Machine &gt; PupilChange_Human</INV> <SAMPLES>9</SAMPLES> <DAIKON>Speed_Machine &gt; PupilChange_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatGreaterThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>Speed_Machine &gt; Reliability_Machine</INV> <SAMPLES>9</SAMPLES> <DAIKON>Speed_Machine &gt; Reliability_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatGreaterThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>Speed_Machine != AverageTrust_Human</INV> <SAMPLES>9</SAMPLES> <DAIKON>Speed_Machine != AverageTrust_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatNonEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>Speed_Machine &gt; TrustChange_Human</INV> <SAMPLES>9</SAMPLES> <DAIKON>Speed_Machine &gt; TrustChange_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatGreaterThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>PupilLeft_Human != PupilRight_Human</INV> <SAMPLES>9</SAMPLES> <DAIKON>PupilLeft_Human != PupilRight_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatNonEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>PupilLeft_Human &lt; GSR_Human</INV> <SAMPLES>9</SAMPLES> <DAIKON>PupilLeft_Human &lt; GSR_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatLessThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>PupilLeft_Human != RangeN_Machine</INV> <SAMPLES>9</SAMPLES> <DAIKON>PupilLeft_Human != RangeN_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatNonEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>PupilLeft_Human != RangeW_Machine</INV> <SAMPLES>9</SAMPLES> <DAIKON>PupilLeft_Human != RangeW_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatNonEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>PupilLeft_Human &gt; PupilChange_Human</INV> <SAMPLES>9</SAMPLES> <DAIKON>PupilLeft_Human &gt; PupilChange_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatGreaterThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>PupilLeft_Human &gt; Reliability_Machine</INV> <SAMPLES>9</SAMPLES> <DAIKON>PupilLeft_Human &gt; Reliability_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatGreaterThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>PupilLeft_Human &gt; AverageTrust_Human</INV> <SAMPLES>9</SAMPLES> <DAIKON>PupilLeft_Human &gt; AverageTrust_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatGreaterThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>PupilLeft_Human &gt; TrustChange_Human</INV> <SAMPLES>9</SAMPLES> <DAIKON>PupilLeft_Human &gt; TrustChange_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatGreaterThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>PupilRight_Human &lt; GSR_Human</INV> <SAMPLES>9</SAMPLES> <DAIKON>PupilRight_Human &lt; GSR_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatLessThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>PupilRight_Human != RangeN_Machine</INV> <SAMPLES>9</SAMPLES> <DAIKON>PupilRight_Human != RangeN_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatNonEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>PupilRight_Human != RangeW_Machine</INV> <SAMPLES>9</SAMPLES> <DAIKON>PupilRight_Human != RangeW_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatNonEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>PupilRight_Human &gt; PupilChange_Human</INV> <SAMPLES>9</SAMPLES> <DAIKON>PupilRight_Human &gt; PupilChange_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatGreaterThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>PupilRight_Human &gt; Reliability_Machine</INV> <SAMPLES>9</SAMPLES> <DAIKON>PupilRight_Human &gt; Reliability_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatGreaterThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>PupilRight_Human != AverageTrust_Human</INV> <SAMPLES>9</SAMPLES> <DAIKON>PupilRight_Human != AverageTrust_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatNonEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>PupilRight_Human &gt; TrustChange_Human</INV> <SAMPLES>9</SAMPLES> <DAIKON>PupilRight_Human &gt; TrustChange_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatGreaterThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>GSR_Human &gt; RangeN_Machine</INV> <SAMPLES>9</SAMPLES> <DAIKON>GSR_Human &gt; RangeN_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatGreaterThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>GSR_Human &gt; RangeW_Machine</INV> <SAMPLES>9</SAMPLES> <DAIKON>GSR_Human &gt; RangeW_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatGreaterThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>GSR_Human &gt; PupilChange_Human</INV> <SAMPLES>9</SAMPLES> <DAIKON>GSR_Human &gt; PupilChange_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatGreaterThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>GSR_Human &gt; Reliability_Machine</INV> <SAMPLES>9</SAMPLES> <DAIKON>GSR_Human &gt; Reliability_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatGreaterThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>GSR_Human &gt; AverageTrust_Human</INV> <SAMPLES>9</SAMPLES> <DAIKON>GSR_Human &gt; AverageTrust_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatGreaterThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>GSR_Human &gt; TrustChange_Human</INV> <SAMPLES>9</SAMPLES> <DAIKON>GSR_Human &gt; TrustChange_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatGreaterThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>EventN_Machine &lt;= EventW_Machine</INV> <SAMPLES>9</SAMPLES> <DAIKON>EventN_Machine &lt;= EventW_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoString.StringLessEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>RangeN_Machine != PupilChange_Human</INV> <SAMPLES>9</SAMPLES> <DAIKON>RangeN_Machine != PupilChange_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatNonEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>RangeN_Machine != Reliability_Machine</INV> <SAMPLES>9</SAMPLES> <DAIKON>RangeN_Machine != Reliability_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatNonEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>RangeN_Machine != AverageTrust_Human</INV> <SAMPLES>9</SAMPLES> <DAIKON>RangeN_Machine != AverageTrust_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatNonEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>RangeN_Machine &gt; TrustChange_Human</INV> <SAMPLES>9</SAMPLES> <DAIKON>RangeN_Machine &gt; TrustChange_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatGreaterThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>RangeW_Machine != PupilChange_Human</INV> <SAMPLES>9</SAMPLES> <DAIKON>RangeW_Machine != PupilChange_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatNonEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>RangeW_Machine != Reliability_Machine</INV> <SAMPLES>9</SAMPLES> <DAIKON>RangeW_Machine != Reliability_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatNonEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>RangeW_Machine != AverageTrust_Human</INV> <SAMPLES>9</SAMPLES> <DAIKON>RangeW_Machine != AverageTrust_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatNonEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>RangeW_Machine &gt; TrustChange_Human</INV> <SAMPLES>9</SAMPLES> <DAIKON>RangeW_Machine &gt; TrustChange_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatGreaterThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>PupilChange_Human &lt; Reliability_Machine</INV> <SAMPLES>9</SAMPLES> <DAIKON>PupilChange_Human &lt; Reliability_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatLessThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>PupilChange_Human &lt; AverageTrust_Human</INV> <SAMPLES>9</SAMPLES> <DAIKON>PupilChange_Human &lt; AverageTrust_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatLessThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>PupilChange_Human &gt; TrustChange_Human</INV> <SAMPLES>9</SAMPLES> <DAIKON>PupilChange_Human &gt; TrustChange_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatGreaterThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>Reliability_Machine &lt; AverageTrust_Human</INV> <SAMPLES>9</SAMPLES> <DAIKON>Reliability_Machine &lt; AverageTrust_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatLessThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>Reliability_Machine &gt; TrustChange_Human</INV> <SAMPLES>9</SAMPLES> <DAIKON>Reliability_Machine &gt; TrustChange_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatGreaterThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Dec</PARENT> <INV>AverageTrust_Human &gt; TrustChange_Human</INV> <SAMPLES>9</SAMPLES> <DAIKON>AverageTrust_Human &gt; TrustChange_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatGreaterThan</DAIKONCLASS>  </INVINFO>
+</PPT>
+<!-- =========================================================================== -->
+<PPT>
+<PPTNAME>aprogram.point:::Trust_Human_Inc</PPTNAME>
+<INVINFO> <PARENT>Trust_Human_Inc</PARENT> <INV>ManualBrake_H2M == ManualThrottle_H2M</INV> <SAMPLES>10</SAMPLES> <DAIKON>ManualBrake_H2M == ManualThrottle_H2M</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Inc</PARENT> <INV>ManualBrake_H2M == CurrentBrake_Machine</INV> <SAMPLES>10</SAMPLES> <DAIKON>ManualBrake_H2M == CurrentBrake_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Inc</PARENT> <INV>ManualBrake_H2M == AutoBrake_Machine</INV> <SAMPLES>10</SAMPLES> <DAIKON>ManualBrake_H2M == AutoBrake_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Inc</PARENT> <INV>ManualBrake_H2M == RangeN_Machine</INV> <SAMPLES>10</SAMPLES> <DAIKON>ManualBrake_H2M == RangeN_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Inc</PARENT> <INV>ManualBrake_H2M == RangeW_Machine</INV> <SAMPLES>10</SAMPLES> <DAIKON>ManualBrake_H2M == RangeW_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Inc</PARENT> <INV>ManualGear_H2M == CurrentGear_Machine</INV> <SAMPLES>10</SAMPLES> <DAIKON>ManualGear_H2M == CurrentGear_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Inc</PARENT> <INV>ManualGear_H2M == AutoGear_Machine</INV> <SAMPLES>10</SAMPLES> <DAIKON>ManualGear_H2M == AutoGear_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Inc</PARENT> <INV>CurrentWheel_Machine == AutoWheel_Machine</INV> <SAMPLES>10</SAMPLES> <DAIKON>CurrentWheel_Machine == AutoWheel_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Inc</PARENT> <INV>CurrentThrottle_Machine == AutoThrottle_Machine</INV> <SAMPLES>10</SAMPLES> <DAIKON>CurrentThrottle_Machine == AutoThrottle_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Inc</PARENT> <INV>EventN_Machine == EventW_Machine</INV> <SAMPLES>10</SAMPLES> <DAIKON>EventN_Machine == EventW_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoString.StringEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Inc</PARENT> <INV>TimeSignal_Sec one of { 17.0, 18.0, 29.0, 91.0, 95.0, 113.0, 114.0, 115.0, 156.0, 160.0 }
+	&quot;17.0&quot; probability: 10.00%	count:1.0 total:10.0
+	&quot;18.0&quot; probability: 10.00%	count:1.0 total:10.0
+	&quot;29.0&quot; probability: 10.00%	count:1.0 total:10.0
+	&quot;91.0&quot; probability: 10.00%	count:1.0 total:10.0
+	&quot;95.0&quot; probability: 10.00%	count:1.0 total:10.0
+	&quot;113.0&quot; probability: 10.00%	count:1.0 total:10.0
+	&quot;114.0&quot; probability: 10.00%	count:1.0 total:10.0
+	&quot;115.0&quot; probability: 10.00%	count:1.0 total:10.0
+	&quot;156.0&quot; probability: 10.00%	count:1.0 total:10.0
+	&quot;160.0&quot; probability: 10.00%	count:1.0 total:10.0</INV> <SAMPLES>10</SAMPLES> <DAIKON>TimeSignal_Sec one of { 17.0, 18.0, 29.0, 91.0, 95.0, 113.0, 114.0, 115.0, 156.0, 160.0 }
+	&quot;17.0&quot; probability: 10.00%	count:1.0 total:10.0
+	&quot;18.0&quot; probability: 10.00%	count:1.0 total:10.0
+	&quot;29.0&quot; probability: 10.00%	count:1.0 total:10.0
+	&quot;91.0&quot; probability: 10.00%	count:1.0 total:10.0
+	&quot;95.0&quot; probability: 10.00%	count:1.0 total:10.0
+	&quot;113.0&quot; probability: 10.00%	count:1.0 total:10.0
+	&quot;114.0&quot; probability: 10.00%	count:1.0 total:10.0
+	&quot;115.0&quot; probability: 10.00%	count:1.0 total:10.0
+	&quot;156.0&quot; probability: 10.00%	count:1.0 total:10.0
+	&quot;160.0&quot; probability: 10.00%	count:1.0 total:10.0</DAIKON> <DAIKONCLASS>class daikon.inv.unary.scalar.ProbabilisticFloat</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Inc</PARENT> <INV>TimeSignal_Sec != 0</INV> <SAMPLES>10</SAMPLES> <DAIKON>TimeSignal_Sec != 0</DAIKON> <DAIKONCLASS>class daikon.inv.unary.scalar.NonZeroFloat</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Inc</PARENT> <INV>Trust_Human one of { 2.0, 3.0, 4.0, 5.0 }
+	&quot;2.0&quot; probability: 10.00%	count:1.0 total:10.0
+	&quot;3.0&quot; probability: 20.00%	count:2.0 total:10.0
+	&quot;4.0&quot; probability: 30.00%	count:3.0 total:10.0
+	&quot;5.0&quot; probability: 40.00%	count:4.0 total:10.0</INV> <SAMPLES>10</SAMPLES> <DAIKON>Trust_Human one of { 2.0, 3.0, 4.0, 5.0 }
+	&quot;2.0&quot; probability: 10.00%	count:1.0 total:10.0
+	&quot;3.0&quot; probability: 20.00%	count:2.0 total:10.0
+	&quot;4.0&quot; probability: 30.00%	count:3.0 total:10.0
+	&quot;5.0&quot; probability: 40.00%	count:4.0 total:10.0</DAIKON> <DAIKONCLASS>class daikon.inv.unary.scalar.ProbabilisticFloat</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Inc</PARENT> <INV>Trust_Human != 0</INV> <SAMPLES>10</SAMPLES> <DAIKON>Trust_Human != 0</DAIKON> <DAIKONCLASS>class daikon.inv.unary.scalar.NonZeroFloat</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Inc</PARENT> <INV>Trust_Human &gt;= 2.0</INV> <SAMPLES>10</SAMPLES> <DAIKON>Trust_Human &gt;= 2.0</DAIKON> <DAIKONCLASS>class daikon.inv.unary.scalar.LowerBoundFloat</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Inc</PARENT> <INV>Alarm_M2H one of { &quot; &quot;, &quot;obstacle alarm&quot; }</INV> <SAMPLES>10</SAMPLES> <DAIKON>Alarm_M2H one of { &quot; &quot;, &quot;obstacle alarm&quot; }</DAIKON> <DAIKONCLASS>class daikon.inv.unary.string.OneOfString</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Inc</PARENT> <INV>Alarm_M2H one of { &quot; &quot;, &quot;obstacle alarm&quot; }
+	&quot; &quot; probability: 66.67%	count:2.0 total:3.0
+	&quot;obstacle alarm&quot; probability: 33.33%	count:1.0 total:3.0</INV> <SAMPLES>10</SAMPLES> <DAIKON>Alarm_M2H one of { &quot; &quot;, &quot;obstacle alarm&quot; }
+	&quot; &quot; probability: 66.67%	count:2.0 total:3.0
+	&quot;obstacle alarm&quot; probability: 33.33%	count:1.0 total:3.0</DAIKON> <DAIKONCLASS>class daikon.inv.unary.string.ProbabilisticString</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Inc</PARENT> <INV>Mode_H2M == &quot;autonomous&quot;</INV> <SAMPLES>10</SAMPLES> <DAIKON>Mode_H2M == &quot;autonomous&quot;</DAIKON> <DAIKONCLASS>class daikon.inv.unary.string.OneOfString</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Inc</PARENT> <INV>Mode_H2M == &quot;autonomous&quot;</INV> <SAMPLES>10</SAMPLES> <DAIKON>Mode_H2M == &quot;autonomous&quot;</DAIKON> <DAIKONCLASS>class daikon.inv.unary.string.ProbabilisticString</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Inc</PARENT> <INV>ManualBrake_H2M == 0.0</INV> <SAMPLES>10</SAMPLES> <DAIKON>ManualBrake_H2M == 0.0</DAIKON> <DAIKONCLASS>class daikon.inv.unary.scalar.OneOfFloat</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Inc</PARENT> <INV>ManualBrake_H2M == 0.0</INV> <SAMPLES>10</SAMPLES> <DAIKON>ManualBrake_H2M == 0.0</DAIKON> <DAIKONCLASS>class daikon.inv.unary.scalar.ProbabilisticFloat</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Inc</PARENT> <INV>ManualGear_H2M == 1.0</INV> <SAMPLES>10</SAMPLES> <DAIKON>ManualGear_H2M == 1.0</DAIKON> <DAIKONCLASS>class daikon.inv.unary.scalar.OneOfFloat</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Inc</PARENT> <INV>ManualGear_H2M == 1.0</INV> <SAMPLES>10</SAMPLES> <DAIKON>ManualGear_H2M == 1.0</DAIKON> <DAIKONCLASS>class daikon.inv.unary.scalar.ProbabilisticFloat</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Inc</PARENT> <INV>ManualGear_H2M != 0</INV> <SAMPLES>10</SAMPLES> <DAIKON>ManualGear_H2M != 0</DAIKON> <DAIKONCLASS>class daikon.inv.unary.scalar.NonZeroFloat</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Inc</PARENT> <INV>ManualWheel_H2M one of { -13.289539940489814, -12.292515449759662, -10.715953307392994, -9.60906385900664, -9.087205310139623 }
+	&quot;-13.289539940489814&quot; probability: 12.50%	count:1.0 total:8.0
+	&quot;-12.292515449759662&quot; probability: 37.50%	count:3.0 total:8.0
+	&quot;-10.715953307392994&quot; probability: 12.50%	count:1.0 total:8.0
+	&quot;-9.60906385900664&quot; probability: 12.50%	count:1.0 total:8.0
+	&quot;-9.087205310139623&quot; probability: 25.00%	count:2.0 total:8.0</INV> <SAMPLES>10</SAMPLES> <DAIKON>ManualWheel_H2M one of { -13.289539940489814, -12.292515449759662, -10.715953307392994, -9.60906385900664, -9.087205310139623 }
+	&quot;-13.289539940489814&quot; probability: 12.50%	count:1.0 total:8.0
+	&quot;-12.292515449759662&quot; probability: 37.50%	count:3.0 total:8.0
+	&quot;-10.715953307392994&quot; probability: 12.50%	count:1.0 total:8.0
+	&quot;-9.60906385900664&quot; probability: 12.50%	count:1.0 total:8.0
+	&quot;-9.087205310139623&quot; probability: 25.00%	count:2.0 total:8.0</DAIKON> <DAIKONCLASS>class daikon.inv.unary.scalar.ProbabilisticFloat</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Inc</PARENT> <INV>ManualWheel_H2M != 0</INV> <SAMPLES>10</SAMPLES> <DAIKON>ManualWheel_H2M != 0</DAIKON> <DAIKONCLASS>class daikon.inv.unary.scalar.NonZeroFloat</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Inc</PARENT> <INV>ManualWheel_H2M &lt;= 4.9E-324</INV> <SAMPLES>10</SAMPLES> <DAIKON>ManualWheel_H2M &lt;= 4.9E-324</DAIKON> <DAIKONCLASS>class daikon.inv.unary.scalar.UpperBoundFloat</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Inc</PARENT> <INV>CurrentWheel_Machine one of { -0.2758191466182669, -0.0622777565895889, -0.05235396677661458, -0.025309383401406288, -0.015384949275374312, -0.007368507060195388, 0.001774646357369253, 51.9347928942578, 52.24630854128714 }
+	&quot;-0.2758191466182669&quot; probability: 10.00%	count:1.0 total:10.0
+	&quot;-0.0622777565895889&quot; probability: 10.00%	count:1.0 total:10.0
+	&quot;-0.05235396677661458&quot; probability: 10.00%	count:1.0 total:10.0
+	&quot;-0.025309383401406288&quot; probability: 10.00%	count:1.0 total:10.0
+	&quot;-0.015384949275374312&quot; probability: 10.00%	count:1.0 total:10.0
+	&quot;-0.007368507060195388&quot; probability: 20.00%	count:2.0 total:10.0
+	&quot;0.001774646357369253&quot; probability: 10.00%	count:1.0 total:10.0
+	&quot;51.9347928942578&quot; probability: 10.00%	count:1.0 total:10.0
+	&quot;52.24630854128714&quot; probability: 10.00%	count:1.0 total:10.0</INV> <SAMPLES>10</SAMPLES> <DAIKON>CurrentWheel_Machine one of { -0.2758191466182669, -0.0622777565895889, -0.05235396677661458, -0.025309383401406288, -0.015384949275374312, -0.007368507060195388, 0.001774646357369253, 51.9347928942578, 52.24630854128714 }
+	&quot;-0.2758191466182669&quot; probability: 10.00%	count:1.0 total:10.0
+	&quot;-0.0622777565895889&quot; probability: 10.00%	count:1.0 total:10.0
+	&quot;-0.05235396677661458&quot; probability: 10.00%	count:1.0 total:10.0
+	&quot;-0.025309383401406288&quot; probability: 10.00%	count:1.0 total:10.0
+	&quot;-0.015384949275374312&quot; probability: 10.00%	count:1.0 total:10.0
+	&quot;-0.007368507060195388&quot; probability: 20.00%	count:2.0 total:10.0
+	&quot;0.001774646357369253&quot; probability: 10.00%	count:1.0 total:10.0
+	&quot;51.9347928942578&quot; probability: 10.00%	count:1.0 total:10.0
+	&quot;52.24630854128714&quot; probability: 10.00%	count:1.0 total:10.0</DAIKON> <DAIKONCLASS>class daikon.inv.unary.scalar.ProbabilisticFloat</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Inc</PARENT> <INV>CurrentWheel_Machine != 0</INV> <SAMPLES>10</SAMPLES> <DAIKON>CurrentWheel_Machine != 0</DAIKON> <DAIKONCLASS>class daikon.inv.unary.scalar.NonZeroFloat</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Inc</PARENT> <INV>CurrentWheel_Machine &gt;= -0.2758191466182669</INV> <SAMPLES>10</SAMPLES> <DAIKON>CurrentWheel_Machine &gt;= -0.2758191466182669</DAIKON> <DAIKONCLASS>class daikon.inv.unary.scalar.LowerBoundFloat</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Inc</PARENT> <INV>CurrentThrottle_Machine one of { 15.0, 20.0 }</INV> <SAMPLES>10</SAMPLES> <DAIKON>CurrentThrottle_Machine one of { 15.0, 20.0 }</DAIKON> <DAIKONCLASS>class daikon.inv.unary.scalar.OneOfFloat</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Inc</PARENT> <INV>CurrentThrottle_Machine one of { 15.0, 20.0 }
+	&quot;15.0&quot; probability: 66.67%	count:2.0 total:3.0
+	&quot;20.0&quot; probability: 33.33%	count:1.0 total:3.0</INV> <SAMPLES>10</SAMPLES> <DAIKON>CurrentThrottle_Machine one of { 15.0, 20.0 }
+	&quot;15.0&quot; probability: 66.67%	count:2.0 total:3.0
+	&quot;20.0&quot; probability: 33.33%	count:1.0 total:3.0</DAIKON> <DAIKONCLASS>class daikon.inv.unary.scalar.ProbabilisticFloat</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Inc</PARENT> <INV>CurrentThrottle_Machine != 0</INV> <SAMPLES>10</SAMPLES> <DAIKON>CurrentThrottle_Machine != 0</DAIKON> <DAIKONCLASS>class daikon.inv.unary.scalar.NonZeroFloat</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Inc</PARENT> <INV>Speed_Machine one of { 8.270273044204028, 8.571783786815894, 8.903990891282493, 10.573909160871693, 10.809721941860387, 13.209654643371254, 15.636413100631234, 15.654812632899542, 15.668701045866214 }
+	&quot;8.270273044204028&quot; probability: 10.00%	count:1.0 total:10.0
+	&quot;8.571783786815894&quot; probability: 10.00%	count:1.0 total:10.0
+	&quot;8.903990891282493&quot; probability: 10.00%	count:1.0 total:10.0
+	&quot;10.573909160871693&quot; probability: 10.00%	count:1.0 total:10.0
+	&quot;10.809721941860387&quot; probability: 10.00%	count:1.0 total:10.0
+	&quot;13.209654643371254&quot; probability: 10.00%	count:1.0 total:10.0
+	&quot;15.636413100631234&quot; probability: 20.00%	count:2.0 total:10.0
+	&quot;15.654812632899542&quot; probability: 10.00%	count:1.0 total:10.0
+	&quot;15.668701045866214&quot; probability: 10.00%	count:1.0 total:10.0</INV> <SAMPLES>10</SAMPLES> <DAIKON>Speed_Machine one of { 8.270273044204028, 8.571783786815894, 8.903990891282493, 10.573909160871693, 10.809721941860387, 13.209654643371254, 15.636413100631234, 15.654812632899542, 15.668701045866214 }
+	&quot;8.270273044204028&quot; probability: 10.00%	count:1.0 total:10.0
+	&quot;8.571783786815894&quot; probability: 10.00%	count:1.0 total:10.0
+	&quot;8.903990891282493&quot; probability: 10.00%	count:1.0 total:10.0
+	&quot;10.573909160871693&quot; probability: 10.00%	count:1.0 total:10.0
+	&quot;10.809721941860387&quot; probability: 10.00%	count:1.0 total:10.0
+	&quot;13.209654643371254&quot; probability: 10.00%	count:1.0 total:10.0
+	&quot;15.636413100631234&quot; probability: 20.00%	count:2.0 total:10.0
+	&quot;15.654812632899542&quot; probability: 10.00%	count:1.0 total:10.0
+	&quot;15.668701045866214&quot; probability: 10.00%	count:1.0 total:10.0</DAIKON> <DAIKONCLASS>class daikon.inv.unary.scalar.ProbabilisticFloat</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Inc</PARENT> <INV>Speed_Machine != 0</INV> <SAMPLES>10</SAMPLES> <DAIKON>Speed_Machine != 0</DAIKON> <DAIKONCLASS>class daikon.inv.unary.scalar.NonZeroFloat</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Inc</PARENT> <INV>PupilLeft_Human one of { 3.72, 3.77, 3.84, 3.89, 3.93, 3.98, 4.01, 4.17, 4.24, 5.0 }
+	&quot;3.72&quot; probability: 10.00%	count:1.0 total:10.0
+	&quot;3.77&quot; probability: 10.00%	count:1.0 total:10.0
+	&quot;3.84&quot; probability: 10.00%	count:1.0 total:10.0
+	&quot;3.89&quot; probability: 10.00%	count:1.0 total:10.0
+	&quot;3.93&quot; probability: 10.00%	count:1.0 total:10.0
+	&quot;3.98&quot; probability: 10.00%	count:1.0 total:10.0
+	&quot;4.01&quot; probability: 10.00%	count:1.0 total:10.0
+	&quot;4.17&quot; probability: 10.00%	count:1.0 total:10.0
+	&quot;4.24&quot; probability: 10.00%	count:1.0 total:10.0
+	&quot;5.0&quot; probability: 10.00%	count:1.0 total:10.0</INV> <SAMPLES>10</SAMPLES> <DAIKON>PupilLeft_Human one of { 3.72, 3.77, 3.84, 3.89, 3.93, 3.98, 4.01, 4.17, 4.24, 5.0 }
+	&quot;3.72&quot; probability: 10.00%	count:1.0 total:10.0
+	&quot;3.77&quot; probability: 10.00%	count:1.0 total:10.0
+	&quot;3.84&quot; probability: 10.00%	count:1.0 total:10.0
+	&quot;3.89&quot; probability: 10.00%	count:1.0 total:10.0
+	&quot;3.93&quot; probability: 10.00%	count:1.0 total:10.0
+	&quot;3.98&quot; probability: 10.00%	count:1.0 total:10.0
+	&quot;4.01&quot; probability: 10.00%	count:1.0 total:10.0
+	&quot;4.17&quot; probability: 10.00%	count:1.0 total:10.0
+	&quot;4.24&quot; probability: 10.00%	count:1.0 total:10.0
+	&quot;5.0&quot; probability: 10.00%	count:1.0 total:10.0</DAIKON> <DAIKONCLASS>class daikon.inv.unary.scalar.ProbabilisticFloat</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Inc</PARENT> <INV>PupilLeft_Human != 0</INV> <SAMPLES>10</SAMPLES> <DAIKON>PupilLeft_Human != 0</DAIKON> <DAIKONCLASS>class daikon.inv.unary.scalar.NonZeroFloat</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Inc</PARENT> <INV>PupilRight_Human one of { 3.61, 3.71, 3.73, 3.77, 3.85, 3.91, 3.95, 3.96, 4.1, 4.18 }
+	&quot;3.61&quot; probability: 10.00%	count:1.0 total:10.0
+	&quot;3.71&quot; probability: 10.00%	count:1.0 total:10.0
+	&quot;3.73&quot; probability: 10.00%	count:1.0 total:10.0
+	&quot;3.77&quot; probability: 10.00%	count:1.0 total:10.0
+	&quot;3.85&quot; probability: 10.00%	count:1.0 total:10.0
+	&quot;3.91&quot; probability: 10.00%	count:1.0 total:10.0
+	&quot;3.95&quot; probability: 10.00%	count:1.0 total:10.0
+	&quot;3.96&quot; probability: 10.00%	count:1.0 total:10.0
+	&quot;4.1&quot; probability: 10.00%	count:1.0 total:10.0
+	&quot;4.18&quot; probability: 10.00%	count:1.0 total:10.0</INV> <SAMPLES>10</SAMPLES> <DAIKON>PupilRight_Human one of { 3.61, 3.71, 3.73, 3.77, 3.85, 3.91, 3.95, 3.96, 4.1, 4.18 }
+	&quot;3.61&quot; probability: 10.00%	count:1.0 total:10.0
+	&quot;3.71&quot; probability: 10.00%	count:1.0 total:10.0
+	&quot;3.73&quot; probability: 10.00%	count:1.0 total:10.0
+	&quot;3.77&quot; probability: 10.00%	count:1.0 total:10.0
+	&quot;3.85&quot; probability: 10.00%	count:1.0 total:10.0
+	&quot;3.91&quot; probability: 10.00%	count:1.0 total:10.0
+	&quot;3.95&quot; probability: 10.00%	count:1.0 total:10.0
+	&quot;3.96&quot; probability: 10.00%	count:1.0 total:10.0
+	&quot;4.1&quot; probability: 10.00%	count:1.0 total:10.0
+	&quot;4.18&quot; probability: 10.00%	count:1.0 total:10.0</DAIKON> <DAIKONCLASS>class daikon.inv.unary.scalar.ProbabilisticFloat</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Inc</PARENT> <INV>PupilRight_Human != 0</INV> <SAMPLES>10</SAMPLES> <DAIKON>PupilRight_Human != 0</DAIKON> <DAIKONCLASS>class daikon.inv.unary.scalar.NonZeroFloat</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Inc</PARENT> <INV>GSR_Human one of { 471.653617583247, 482.22983073733, 492.198651375695, 585.069038146501, 615.3088850603, 722.2280562199651, 727.496743360828, 763.444447583049, 799.616823618122, 804.8972524510331 }
+	&quot;471.653617583247&quot; probability: 10.00%	count:1.0 total:10.0
+	&quot;482.22983073733&quot; probability: 10.00%	count:1.0 total:10.0
+	&quot;492.198651375695&quot; probability: 10.00%	count:1.0 total:10.0
+	&quot;585.069038146501&quot; probability: 10.00%	count:1.0 total:10.0
+	&quot;615.3088850603&quot; probability: 10.00%	count:1.0 total:10.0
+	&quot;722.2280562199651&quot; probability: 10.00%	count:1.0 total:10.0
+	&quot;727.496743360828&quot; probability: 10.00%	count:1.0 total:10.0
+	&quot;763.444447583049&quot; probability: 10.00%	count:1.0 total:10.0
+	&quot;799.616823618122&quot; probability: 10.00%	count:1.0 total:10.0
+	&quot;804.8972524510331&quot; probability: 10.00%	count:1.0 total:10.0</INV> <SAMPLES>10</SAMPLES> <DAIKON>GSR_Human one of { 471.653617583247, 482.22983073733, 492.198651375695, 585.069038146501, 615.3088850603, 722.2280562199651, 727.496743360828, 763.444447583049, 799.616823618122, 804.8972524510331 }
+	&quot;471.653617583247&quot; probability: 10.00%	count:1.0 total:10.0
+	&quot;482.22983073733&quot; probability: 10.00%	count:1.0 total:10.0
+	&quot;492.198651375695&quot; probability: 10.00%	count:1.0 total:10.0
+	&quot;585.069038146501&quot; probability: 10.00%	count:1.0 total:10.0
+	&quot;615.3088850603&quot; probability: 10.00%	count:1.0 total:10.0
+	&quot;722.2280562199651&quot; probability: 10.00%	count:1.0 total:10.0
+	&quot;727.496743360828&quot; probability: 10.00%	count:1.0 total:10.0
+	&quot;763.444447583049&quot; probability: 10.00%	count:1.0 total:10.0
+	&quot;799.616823618122&quot; probability: 10.00%	count:1.0 total:10.0
+	&quot;804.8972524510331&quot; probability: 10.00%	count:1.0 total:10.0</DAIKON> <DAIKONCLASS>class daikon.inv.unary.scalar.ProbabilisticFloat</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Inc</PARENT> <INV>GSR_Human != 0</INV> <SAMPLES>10</SAMPLES> <DAIKON>GSR_Human != 0</DAIKON> <DAIKONCLASS>class daikon.inv.unary.scalar.NonZeroFloat</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Inc</PARENT> <INV>EventN_Machine == &quot; &quot;</INV> <SAMPLES>10</SAMPLES> <DAIKON>EventN_Machine == &quot; &quot;</DAIKON> <DAIKONCLASS>class daikon.inv.unary.string.OneOfString</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Inc</PARENT> <INV>EventN_Machine == &quot; &quot;</INV> <SAMPLES>10</SAMPLES> <DAIKON>EventN_Machine == &quot; &quot;</DAIKON> <DAIKONCLASS>class daikon.inv.unary.string.ProbabilisticString</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Inc</PARENT> <INV>PupilChange_Human one of { -0.3049999999999997, -0.21999999999999975, -0.1599999999999997, -0.08499999999999996, -0.03000000000000025, -0.019999999999999574, 0.03000000000000025, 0.3849999999999998, 0.5700000000000003 }
+	&quot;-0.3049999999999997&quot; probability: 10.00%	count:1.0 total:10.0
+	&quot;-0.21999999999999975&quot; probability: 10.00%	count:1.0 total:10.0
+	&quot;-0.1599999999999997&quot; probability: 10.00%	count:1.0 total:10.0
+	&quot;-0.08499999999999996&quot; probability: 10.00%	count:1.0 total:10.0
+	&quot;-0.03000000000000025&quot; probability: 10.00%	count:1.0 total:10.0
+	&quot;-0.019999999999999574&quot; probability: 10.00%	count:1.0 total:10.0
+	&quot;0.03000000000000025&quot; probability: 20.00%	count:2.0 total:10.0
+	&quot;0.3849999999999998&quot; probability: 10.00%	count:1.0 total:10.0
+	&quot;0.5700000000000003&quot; probability: 10.00%	count:1.0 total:10.0</INV> <SAMPLES>10</SAMPLES> <DAIKON>PupilChange_Human one of { -0.3049999999999997, -0.21999999999999975, -0.1599999999999997, -0.08499999999999996, -0.03000000000000025, -0.019999999999999574, 0.03000000000000025, 0.3849999999999998, 0.5700000000000003 }
+	&quot;-0.3049999999999997&quot; probability: 10.00%	count:1.0 total:10.0
+	&quot;-0.21999999999999975&quot; probability: 10.00%	count:1.0 total:10.0
+	&quot;-0.1599999999999997&quot; probability: 10.00%	count:1.0 total:10.0
+	&quot;-0.08499999999999996&quot; probability: 10.00%	count:1.0 total:10.0
+	&quot;-0.03000000000000025&quot; probability: 10.00%	count:1.0 total:10.0
+	&quot;-0.019999999999999574&quot; probability: 10.00%	count:1.0 total:10.0
+	&quot;0.03000000000000025&quot; probability: 20.00%	count:2.0 total:10.0
+	&quot;0.3849999999999998&quot; probability: 10.00%	count:1.0 total:10.0
+	&quot;0.5700000000000003&quot; probability: 10.00%	count:1.0 total:10.0</DAIKON> <DAIKONCLASS>class daikon.inv.unary.scalar.ProbabilisticFloat</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Inc</PARENT> <INV>PupilChange_Human != 0</INV> <SAMPLES>10</SAMPLES> <DAIKON>PupilChange_Human != 0</DAIKON> <DAIKONCLASS>class daikon.inv.unary.scalar.NonZeroFloat</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Inc</PARENT> <INV>PupilChange_Human &lt;= 0.5700000000000003</INV> <SAMPLES>10</SAMPLES> <DAIKON>PupilChange_Human &lt;= 0.5700000000000003</DAIKON> <DAIKONCLASS>class daikon.inv.unary.scalar.UpperBoundFloat</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Inc</PARENT> <INV>PupilChange_Human &gt;= -0.3049999999999997</INV> <SAMPLES>10</SAMPLES> <DAIKON>PupilChange_Human &gt;= -0.3049999999999997</DAIKON> <DAIKONCLASS>class daikon.inv.unary.scalar.LowerBoundFloat</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Inc</PARENT> <INV>Reliability_Machine == 0.8</INV> <SAMPLES>10</SAMPLES> <DAIKON>Reliability_Machine == 0.8</DAIKON> <DAIKONCLASS>class daikon.inv.unary.scalar.OneOfFloat</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Inc</PARENT> <INV>Reliability_Machine == 0.8</INV> <SAMPLES>10</SAMPLES> <DAIKON>Reliability_Machine == 0.8</DAIKON> <DAIKONCLASS>class daikon.inv.unary.scalar.ProbabilisticFloat</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Inc</PARENT> <INV>Reliability_Machine != 0</INV> <SAMPLES>10</SAMPLES> <DAIKON>Reliability_Machine != 0</DAIKON> <DAIKONCLASS>class daikon.inv.unary.scalar.NonZeroFloat</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Inc</PARENT> <INV>AverageTrust_Human == 4.033333333333333</INV> <SAMPLES>10</SAMPLES> <DAIKON>AverageTrust_Human == 4.033333333333333</DAIKON> <DAIKONCLASS>class daikon.inv.unary.scalar.OneOfFloat</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Inc</PARENT> <INV>AverageTrust_Human == 4.033333333333333</INV> <SAMPLES>10</SAMPLES> <DAIKON>AverageTrust_Human == 4.033333333333333</DAIKON> <DAIKONCLASS>class daikon.inv.unary.scalar.ProbabilisticFloat</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Inc</PARENT> <INV>AverageTrust_Human != 0</INV> <SAMPLES>10</SAMPLES> <DAIKON>AverageTrust_Human != 0</DAIKON> <DAIKONCLASS>class daikon.inv.unary.scalar.NonZeroFloat</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Inc</PARENT> <INV>TrustChange_Human one of { 1.0, 2.0 }</INV> <SAMPLES>10</SAMPLES> <DAIKON>TrustChange_Human one of { 1.0, 2.0 }</DAIKON> <DAIKONCLASS>class daikon.inv.unary.scalar.OneOfFloat</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Inc</PARENT> <INV>TrustChange_Human one of { 1.0, 2.0 }
+	&quot;1.0&quot; probability: 75.00%	count:3.0 total:4.0
+	&quot;2.0&quot; probability: 25.00%	count:1.0 total:4.0</INV> <SAMPLES>10</SAMPLES> <DAIKON>TrustChange_Human one of { 1.0, 2.0 }
+	&quot;1.0&quot; probability: 75.00%	count:3.0 total:4.0
+	&quot;2.0&quot; probability: 25.00%	count:1.0 total:4.0</DAIKON> <DAIKONCLASS>class daikon.inv.unary.scalar.ProbabilisticFloat</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Inc</PARENT> <INV>TrustChange_Human != 0</INV> <SAMPLES>10</SAMPLES> <DAIKON>TrustChange_Human != 0</DAIKON> <DAIKONCLASS>class daikon.inv.unary.scalar.NonZeroFloat</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Inc</PARENT> <INV>TimeSignal_Sec &gt; Trust_Human</INV> <SAMPLES>10</SAMPLES> <DAIKON>TimeSignal_Sec &gt; Trust_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatGreaterThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Inc</PARENT> <INV>TimeSignal_Sec &gt; ManualBrake_H2M</INV> <SAMPLES>10</SAMPLES> <DAIKON>TimeSignal_Sec &gt; ManualBrake_H2M</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatGreaterThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Inc</PARENT> <INV>TimeSignal_Sec &gt; ManualGear_H2M</INV> <SAMPLES>10</SAMPLES> <DAIKON>TimeSignal_Sec &gt; ManualGear_H2M</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatGreaterThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Inc</PARENT> <INV>TimeSignal_Sec &gt; ManualWheel_H2M</INV> <SAMPLES>10</SAMPLES> <DAIKON>TimeSignal_Sec &gt; ManualWheel_H2M</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatGreaterThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Inc</PARENT> <INV>TimeSignal_Sec &gt; CurrentWheel_Machine</INV> <SAMPLES>10</SAMPLES> <DAIKON>TimeSignal_Sec &gt; CurrentWheel_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatGreaterThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Inc</PARENT> <INV>TimeSignal_Sec != CurrentThrottle_Machine</INV> <SAMPLES>10</SAMPLES> <DAIKON>TimeSignal_Sec != CurrentThrottle_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatNonEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Inc</PARENT> <INV>TimeSignal_Sec &gt; Speed_Machine</INV> <SAMPLES>10</SAMPLES> <DAIKON>TimeSignal_Sec &gt; Speed_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatGreaterThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Inc</PARENT> <INV>TimeSignal_Sec &gt; PupilLeft_Human</INV> <SAMPLES>10</SAMPLES> <DAIKON>TimeSignal_Sec &gt; PupilLeft_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatGreaterThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Inc</PARENT> <INV>TimeSignal_Sec &gt; PupilRight_Human</INV> <SAMPLES>10</SAMPLES> <DAIKON>TimeSignal_Sec &gt; PupilRight_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatGreaterThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Inc</PARENT> <INV>TimeSignal_Sec &lt; GSR_Human</INV> <SAMPLES>10</SAMPLES> <DAIKON>TimeSignal_Sec &lt; GSR_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatLessThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Inc</PARENT> <INV>TimeSignal_Sec &gt; PupilChange_Human</INV> <SAMPLES>10</SAMPLES> <DAIKON>TimeSignal_Sec &gt; PupilChange_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatGreaterThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Inc</PARENT> <INV>TimeSignal_Sec &gt; Reliability_Machine</INV> <SAMPLES>10</SAMPLES> <DAIKON>TimeSignal_Sec &gt; Reliability_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatGreaterThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Inc</PARENT> <INV>TimeSignal_Sec &gt; AverageTrust_Human</INV> <SAMPLES>10</SAMPLES> <DAIKON>TimeSignal_Sec &gt; AverageTrust_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatGreaterThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Inc</PARENT> <INV>TimeSignal_Sec &gt; TrustChange_Human</INV> <SAMPLES>10</SAMPLES> <DAIKON>TimeSignal_Sec &gt; TrustChange_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatGreaterThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Inc</PARENT> <INV>Trust_Human &gt; ManualBrake_H2M</INV> <SAMPLES>10</SAMPLES> <DAIKON>Trust_Human &gt; ManualBrake_H2M</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatGreaterThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Inc</PARENT> <INV>Trust_Human &gt; ManualGear_H2M</INV> <SAMPLES>10</SAMPLES> <DAIKON>Trust_Human &gt; ManualGear_H2M</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatGreaterThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Inc</PARENT> <INV>Trust_Human &gt; ManualWheel_H2M</INV> <SAMPLES>10</SAMPLES> <DAIKON>Trust_Human &gt; ManualWheel_H2M</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatGreaterThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Inc</PARENT> <INV>Trust_Human != CurrentWheel_Machine</INV> <SAMPLES>10</SAMPLES> <DAIKON>Trust_Human != CurrentWheel_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatNonEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Inc</PARENT> <INV>Trust_Human &lt; CurrentThrottle_Machine</INV> <SAMPLES>10</SAMPLES> <DAIKON>Trust_Human &lt; CurrentThrottle_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatLessThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Inc</PARENT> <INV>Trust_Human &lt; Speed_Machine</INV> <SAMPLES>10</SAMPLES> <DAIKON>Trust_Human &lt; Speed_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatLessThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Inc</PARENT> <INV>Trust_Human != PupilLeft_Human</INV> <SAMPLES>10</SAMPLES> <DAIKON>Trust_Human != PupilLeft_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatNonEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Inc</PARENT> <INV>Trust_Human != PupilRight_Human</INV> <SAMPLES>10</SAMPLES> <DAIKON>Trust_Human != PupilRight_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatNonEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Inc</PARENT> <INV>Trust_Human &lt; GSR_Human</INV> <SAMPLES>10</SAMPLES> <DAIKON>Trust_Human &lt; GSR_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatLessThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Inc</PARENT> <INV>Trust_Human &gt; PupilChange_Human</INV> <SAMPLES>10</SAMPLES> <DAIKON>Trust_Human &gt; PupilChange_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatGreaterThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Inc</PARENT> <INV>Trust_Human &gt; Reliability_Machine</INV> <SAMPLES>10</SAMPLES> <DAIKON>Trust_Human &gt; Reliability_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatGreaterThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Inc</PARENT> <INV>Trust_Human != AverageTrust_Human</INV> <SAMPLES>10</SAMPLES> <DAIKON>Trust_Human != AverageTrust_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatNonEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Inc</PARENT> <INV>Trust_Human &gt; TrustChange_Human</INV> <SAMPLES>10</SAMPLES> <DAIKON>Trust_Human &gt; TrustChange_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatGreaterThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Inc</PARENT> <INV>Alarm_M2H != Mode_H2M</INV> <SAMPLES>10</SAMPLES> <DAIKON>Alarm_M2H != Mode_H2M</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoString.StringNonEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Inc</PARENT> <INV>Alarm_M2H &gt;= EventN_Machine</INV> <SAMPLES>10</SAMPLES> <DAIKON>Alarm_M2H &gt;= EventN_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoString.StringGreaterEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Inc</PARENT> <INV>Mode_H2M &gt; EventN_Machine</INV> <SAMPLES>10</SAMPLES> <DAIKON>Mode_H2M &gt; EventN_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoString.StringGreaterThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Inc</PARENT> <INV>ManualBrake_H2M &lt; ManualGear_H2M</INV> <SAMPLES>10</SAMPLES> <DAIKON>ManualBrake_H2M &lt; ManualGear_H2M</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatLessThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Inc</PARENT> <INV>ManualBrake_H2M &gt; ManualWheel_H2M</INV> <SAMPLES>10</SAMPLES> <DAIKON>ManualBrake_H2M &gt; ManualWheel_H2M</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatGreaterThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Inc</PARENT> <INV>ManualBrake_H2M != CurrentWheel_Machine</INV> <SAMPLES>10</SAMPLES> <DAIKON>ManualBrake_H2M != CurrentWheel_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatNonEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Inc</PARENT> <INV>ManualBrake_H2M &lt; CurrentThrottle_Machine</INV> <SAMPLES>10</SAMPLES> <DAIKON>ManualBrake_H2M &lt; CurrentThrottle_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatLessThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Inc</PARENT> <INV>ManualBrake_H2M &lt; Speed_Machine</INV> <SAMPLES>10</SAMPLES> <DAIKON>ManualBrake_H2M &lt; Speed_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatLessThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Inc</PARENT> <INV>ManualBrake_H2M &lt; PupilLeft_Human</INV> <SAMPLES>10</SAMPLES> <DAIKON>ManualBrake_H2M &lt; PupilLeft_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatLessThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Inc</PARENT> <INV>ManualBrake_H2M &lt; PupilRight_Human</INV> <SAMPLES>10</SAMPLES> <DAIKON>ManualBrake_H2M &lt; PupilRight_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatLessThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Inc</PARENT> <INV>ManualBrake_H2M &lt; GSR_Human</INV> <SAMPLES>10</SAMPLES> <DAIKON>ManualBrake_H2M &lt; GSR_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatLessThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Inc</PARENT> <INV>ManualBrake_H2M != PupilChange_Human</INV> <SAMPLES>10</SAMPLES> <DAIKON>ManualBrake_H2M != PupilChange_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatNonEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Inc</PARENT> <INV>ManualBrake_H2M &lt; Reliability_Machine</INV> <SAMPLES>10</SAMPLES> <DAIKON>ManualBrake_H2M &lt; Reliability_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatLessThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Inc</PARENT> <INV>ManualBrake_H2M &lt; AverageTrust_Human</INV> <SAMPLES>10</SAMPLES> <DAIKON>ManualBrake_H2M &lt; AverageTrust_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatLessThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Inc</PARENT> <INV>ManualBrake_H2M &lt; TrustChange_Human</INV> <SAMPLES>10</SAMPLES> <DAIKON>ManualBrake_H2M &lt; TrustChange_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatLessThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Inc</PARENT> <INV>ManualGear_H2M &gt; ManualWheel_H2M</INV> <SAMPLES>10</SAMPLES> <DAIKON>ManualGear_H2M &gt; ManualWheel_H2M</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatGreaterThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Inc</PARENT> <INV>ManualGear_H2M != CurrentWheel_Machine</INV> <SAMPLES>10</SAMPLES> <DAIKON>ManualGear_H2M != CurrentWheel_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatNonEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Inc</PARENT> <INV>ManualGear_H2M &lt; CurrentThrottle_Machine</INV> <SAMPLES>10</SAMPLES> <DAIKON>ManualGear_H2M &lt; CurrentThrottle_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatLessThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Inc</PARENT> <INV>ManualGear_H2M &lt; Speed_Machine</INV> <SAMPLES>10</SAMPLES> <DAIKON>ManualGear_H2M &lt; Speed_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatLessThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Inc</PARENT> <INV>ManualGear_H2M &lt; PupilLeft_Human</INV> <SAMPLES>10</SAMPLES> <DAIKON>ManualGear_H2M &lt; PupilLeft_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatLessThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Inc</PARENT> <INV>ManualGear_H2M &lt; PupilRight_Human</INV> <SAMPLES>10</SAMPLES> <DAIKON>ManualGear_H2M &lt; PupilRight_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatLessThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Inc</PARENT> <INV>ManualGear_H2M &lt; GSR_Human</INV> <SAMPLES>10</SAMPLES> <DAIKON>ManualGear_H2M &lt; GSR_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatLessThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Inc</PARENT> <INV>ManualGear_H2M &gt; PupilChange_Human</INV> <SAMPLES>10</SAMPLES> <DAIKON>ManualGear_H2M &gt; PupilChange_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatGreaterThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Inc</PARENT> <INV>ManualGear_H2M &gt; Reliability_Machine</INV> <SAMPLES>10</SAMPLES> <DAIKON>ManualGear_H2M &gt; Reliability_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatGreaterThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Inc</PARENT> <INV>ManualGear_H2M &lt; AverageTrust_Human</INV> <SAMPLES>10</SAMPLES> <DAIKON>ManualGear_H2M &lt; AverageTrust_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatLessThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Inc</PARENT> <INV>ManualGear_H2M &lt;= TrustChange_Human</INV> <SAMPLES>10</SAMPLES> <DAIKON>ManualGear_H2M &lt;= TrustChange_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatLessEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Inc</PARENT> <INV>ManualWheel_H2M &lt; CurrentWheel_Machine</INV> <SAMPLES>10</SAMPLES> <DAIKON>ManualWheel_H2M &lt; CurrentWheel_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatLessThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Inc</PARENT> <INV>ManualWheel_H2M &lt; CurrentThrottle_Machine</INV> <SAMPLES>10</SAMPLES> <DAIKON>ManualWheel_H2M &lt; CurrentThrottle_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatLessThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Inc</PARENT> <INV>ManualWheel_H2M &lt; Speed_Machine</INV> <SAMPLES>10</SAMPLES> <DAIKON>ManualWheel_H2M &lt; Speed_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatLessThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Inc</PARENT> <INV>ManualWheel_H2M &lt; PupilLeft_Human</INV> <SAMPLES>10</SAMPLES> <DAIKON>ManualWheel_H2M &lt; PupilLeft_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatLessThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Inc</PARENT> <INV>ManualWheel_H2M &lt; PupilRight_Human</INV> <SAMPLES>10</SAMPLES> <DAIKON>ManualWheel_H2M &lt; PupilRight_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatLessThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Inc</PARENT> <INV>ManualWheel_H2M &lt; GSR_Human</INV> <SAMPLES>10</SAMPLES> <DAIKON>ManualWheel_H2M &lt; GSR_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatLessThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Inc</PARENT> <INV>ManualWheel_H2M &lt; PupilChange_Human</INV> <SAMPLES>10</SAMPLES> <DAIKON>ManualWheel_H2M &lt; PupilChange_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatLessThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Inc</PARENT> <INV>ManualWheel_H2M &lt; Reliability_Machine</INV> <SAMPLES>10</SAMPLES> <DAIKON>ManualWheel_H2M &lt; Reliability_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatLessThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Inc</PARENT> <INV>ManualWheel_H2M &lt; AverageTrust_Human</INV> <SAMPLES>10</SAMPLES> <DAIKON>ManualWheel_H2M &lt; AverageTrust_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatLessThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Inc</PARENT> <INV>ManualWheel_H2M &lt; TrustChange_Human</INV> <SAMPLES>10</SAMPLES> <DAIKON>ManualWheel_H2M &lt; TrustChange_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatLessThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Inc</PARENT> <INV>CurrentWheel_Machine != CurrentThrottle_Machine</INV> <SAMPLES>10</SAMPLES> <DAIKON>CurrentWheel_Machine != CurrentThrottle_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatNonEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Inc</PARENT> <INV>CurrentWheel_Machine != Speed_Machine</INV> <SAMPLES>10</SAMPLES> <DAIKON>CurrentWheel_Machine != Speed_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatNonEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Inc</PARENT> <INV>CurrentWheel_Machine != PupilLeft_Human</INV> <SAMPLES>10</SAMPLES> <DAIKON>CurrentWheel_Machine != PupilLeft_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatNonEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Inc</PARENT> <INV>CurrentWheel_Machine != PupilRight_Human</INV> <SAMPLES>10</SAMPLES> <DAIKON>CurrentWheel_Machine != PupilRight_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatNonEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Inc</PARENT> <INV>CurrentWheel_Machine &lt; GSR_Human</INV> <SAMPLES>10</SAMPLES> <DAIKON>CurrentWheel_Machine &lt; GSR_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatLessThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Inc</PARENT> <INV>CurrentWheel_Machine != PupilChange_Human</INV> <SAMPLES>10</SAMPLES> <DAIKON>CurrentWheel_Machine != PupilChange_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatNonEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Inc</PARENT> <INV>CurrentWheel_Machine != Reliability_Machine</INV> <SAMPLES>10</SAMPLES> <DAIKON>CurrentWheel_Machine != Reliability_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatNonEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Inc</PARENT> <INV>CurrentWheel_Machine != AverageTrust_Human</INV> <SAMPLES>10</SAMPLES> <DAIKON>CurrentWheel_Machine != AverageTrust_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatNonEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Inc</PARENT> <INV>CurrentWheel_Machine != TrustChange_Human</INV> <SAMPLES>10</SAMPLES> <DAIKON>CurrentWheel_Machine != TrustChange_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatNonEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Inc</PARENT> <INV>CurrentThrottle_Machine != Speed_Machine</INV> <SAMPLES>10</SAMPLES> <DAIKON>CurrentThrottle_Machine != Speed_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatNonEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Inc</PARENT> <INV>CurrentThrottle_Machine &gt; PupilLeft_Human</INV> <SAMPLES>10</SAMPLES> <DAIKON>CurrentThrottle_Machine &gt; PupilLeft_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatGreaterThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Inc</PARENT> <INV>CurrentThrottle_Machine &gt; PupilRight_Human</INV> <SAMPLES>10</SAMPLES> <DAIKON>CurrentThrottle_Machine &gt; PupilRight_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatGreaterThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Inc</PARENT> <INV>CurrentThrottle_Machine &lt; GSR_Human</INV> <SAMPLES>10</SAMPLES> <DAIKON>CurrentThrottle_Machine &lt; GSR_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatLessThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Inc</PARENT> <INV>CurrentThrottle_Machine &gt; PupilChange_Human</INV> <SAMPLES>10</SAMPLES> <DAIKON>CurrentThrottle_Machine &gt; PupilChange_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatGreaterThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Inc</PARENT> <INV>CurrentThrottle_Machine &gt; Reliability_Machine</INV> <SAMPLES>10</SAMPLES> <DAIKON>CurrentThrottle_Machine &gt; Reliability_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatGreaterThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Inc</PARENT> <INV>CurrentThrottle_Machine &gt; AverageTrust_Human</INV> <SAMPLES>10</SAMPLES> <DAIKON>CurrentThrottle_Machine &gt; AverageTrust_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatGreaterThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Inc</PARENT> <INV>CurrentThrottle_Machine % TrustChange_Human == 0</INV> <SAMPLES>10</SAMPLES> <DAIKON>CurrentThrottle_Machine % TrustChange_Human == 0</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.NumericFloat$Divides</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Inc</PARENT> <INV>CurrentThrottle_Machine &gt; TrustChange_Human</INV> <SAMPLES>10</SAMPLES> <DAIKON>CurrentThrottle_Machine &gt; TrustChange_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatGreaterThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Inc</PARENT> <INV>Speed_Machine &gt; PupilLeft_Human</INV> <SAMPLES>10</SAMPLES> <DAIKON>Speed_Machine &gt; PupilLeft_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatGreaterThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Inc</PARENT> <INV>Speed_Machine &gt; PupilRight_Human</INV> <SAMPLES>10</SAMPLES> <DAIKON>Speed_Machine &gt; PupilRight_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatGreaterThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Inc</PARENT> <INV>Speed_Machine &lt; GSR_Human</INV> <SAMPLES>10</SAMPLES> <DAIKON>Speed_Machine &lt; GSR_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatLessThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Inc</PARENT> <INV>Speed_Machine &gt; PupilChange_Human</INV> <SAMPLES>10</SAMPLES> <DAIKON>Speed_Machine &gt; PupilChange_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatGreaterThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Inc</PARENT> <INV>Speed_Machine &gt; Reliability_Machine</INV> <SAMPLES>10</SAMPLES> <DAIKON>Speed_Machine &gt; Reliability_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatGreaterThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Inc</PARENT> <INV>Speed_Machine &gt; AverageTrust_Human</INV> <SAMPLES>10</SAMPLES> <DAIKON>Speed_Machine &gt; AverageTrust_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatGreaterThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Inc</PARENT> <INV>Speed_Machine &gt; TrustChange_Human</INV> <SAMPLES>10</SAMPLES> <DAIKON>Speed_Machine &gt; TrustChange_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatGreaterThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Inc</PARENT> <INV>PupilLeft_Human &lt; GSR_Human</INV> <SAMPLES>10</SAMPLES> <DAIKON>PupilLeft_Human &lt; GSR_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatLessThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Inc</PARENT> <INV>PupilLeft_Human &gt; PupilChange_Human</INV> <SAMPLES>10</SAMPLES> <DAIKON>PupilLeft_Human &gt; PupilChange_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatGreaterThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Inc</PARENT> <INV>PupilLeft_Human &gt; Reliability_Machine</INV> <SAMPLES>10</SAMPLES> <DAIKON>PupilLeft_Human &gt; Reliability_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatGreaterThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Inc</PARENT> <INV>PupilLeft_Human != AverageTrust_Human</INV> <SAMPLES>10</SAMPLES> <DAIKON>PupilLeft_Human != AverageTrust_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatNonEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Inc</PARENT> <INV>PupilLeft_Human &gt; TrustChange_Human</INV> <SAMPLES>10</SAMPLES> <DAIKON>PupilLeft_Human &gt; TrustChange_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatGreaterThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Inc</PARENT> <INV>PupilRight_Human &lt; GSR_Human</INV> <SAMPLES>10</SAMPLES> <DAIKON>PupilRight_Human &lt; GSR_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatLessThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Inc</PARENT> <INV>PupilRight_Human &gt; PupilChange_Human</INV> <SAMPLES>10</SAMPLES> <DAIKON>PupilRight_Human &gt; PupilChange_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatGreaterThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Inc</PARENT> <INV>PupilRight_Human &gt; Reliability_Machine</INV> <SAMPLES>10</SAMPLES> <DAIKON>PupilRight_Human &gt; Reliability_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatGreaterThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Inc</PARENT> <INV>PupilRight_Human != AverageTrust_Human</INV> <SAMPLES>10</SAMPLES> <DAIKON>PupilRight_Human != AverageTrust_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatNonEqual</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Inc</PARENT> <INV>PupilRight_Human &gt; TrustChange_Human</INV> <SAMPLES>10</SAMPLES> <DAIKON>PupilRight_Human &gt; TrustChange_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatGreaterThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Inc</PARENT> <INV>GSR_Human &gt; PupilChange_Human</INV> <SAMPLES>10</SAMPLES> <DAIKON>GSR_Human &gt; PupilChange_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatGreaterThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Inc</PARENT> <INV>GSR_Human &gt; Reliability_Machine</INV> <SAMPLES>10</SAMPLES> <DAIKON>GSR_Human &gt; Reliability_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatGreaterThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Inc</PARENT> <INV>GSR_Human &gt; AverageTrust_Human</INV> <SAMPLES>10</SAMPLES> <DAIKON>GSR_Human &gt; AverageTrust_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatGreaterThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Inc</PARENT> <INV>GSR_Human &gt; TrustChange_Human</INV> <SAMPLES>10</SAMPLES> <DAIKON>GSR_Human &gt; TrustChange_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatGreaterThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Inc</PARENT> <INV>PupilChange_Human &lt; Reliability_Machine</INV> <SAMPLES>10</SAMPLES> <DAIKON>PupilChange_Human &lt; Reliability_Machine</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatLessThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Inc</PARENT> <INV>PupilChange_Human &lt; AverageTrust_Human</INV> <SAMPLES>10</SAMPLES> <DAIKON>PupilChange_Human &lt; AverageTrust_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatLessThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Inc</PARENT> <INV>PupilChange_Human &lt; TrustChange_Human</INV> <SAMPLES>10</SAMPLES> <DAIKON>PupilChange_Human &lt; TrustChange_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatLessThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Inc</PARENT> <INV>Reliability_Machine &lt; AverageTrust_Human</INV> <SAMPLES>10</SAMPLES> <DAIKON>Reliability_Machine &lt; AverageTrust_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatLessThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Inc</PARENT> <INV>Reliability_Machine &lt; TrustChange_Human</INV> <SAMPLES>10</SAMPLES> <DAIKON>Reliability_Machine &lt; TrustChange_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatLessThan</DAIKONCLASS>  </INVINFO>
+<INVINFO> <PARENT>Trust_Human_Inc</PARENT> <INV>AverageTrust_Human &gt; TrustChange_Human</INV> <SAMPLES>10</SAMPLES> <DAIKON>AverageTrust_Human &gt; TrustChange_Human</DAIKON> <DAIKONCLASS>class daikon.inv.binary.twoScalar.FloatGreaterThan</DAIKONCLASS>  </INVINFO>
+</PPT>
+</INVARIANTS>

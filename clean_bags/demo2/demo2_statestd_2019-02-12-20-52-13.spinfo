@@ -1,0 +1,56 @@
+PPT_NAME ..obstacle_detector
+param1.transform.rotation.z  ==   0.337436885911
+param1.transform.rotation.z  ==  0.337471089963 
+
+PPT_NAME ..obstacle_detector
+param1.transform.translation.z  ==   1.05275997823
+param1.transform.translation.z  ==  1.05287062785 
+
+PPT_NAME ..obstacle_detector
+param2.data  ==   "nonsensical"
+param2.data  ==  "y" 
+
+PPT_NAME ..state
+param1.transform.rotation.z  ==   0.337395156797
+param1.transform.rotation.z  ==  0.337436885911
+param1.transform.rotation.z  ==  0.337485042009 
+
+PPT_NAME ..state
+param1.transform.translation.z  ==   1.05273112304
+param1.transform.translation.z  ==  1.05287062785 
+
+PPT_NAME ..state
+param2.data  ==   "no"
+param2.data  ==  "nonsensical"
+param2.data  ==  "y" 
+
+PPT_NAME ..state
+return.data  ==   "AVOIDING"
+return.data  ==  "GO TO GOAL" 
+
+PPT_NAME ..user_input
+return.data  ==   "no"
+return.data  ==  "y" 
+
+PPT_NAME ..velocity
+param1.transform.rotation.z  ==   0.33738512419
+param1.transform.rotation.z  ==  0.337436885911
+param1.transform.rotation.z  ==  0.337479003812 
+
+PPT_NAME ..velocity
+param1.transform.translation.z  ==   1.05274685044
+param1.transform.translation.z  ==  1.05287062785 
+
+PPT_NAME ..velocity
+param2.data  ==   "nonsensical"
+param2.data  ==  "y" 
+
+PPT_NAME ..viconOBSTACLEOBSTACLE
+return.transform.rotation.z  ==   0.337384989291
+return.transform.rotation.z  ==  0.337436885911
+return.transform.rotation.z  ==  0.337479120203 
+
+PPT_NAME ..viconOBSTACLEOBSTACLE
+return.transform.translation.z  ==   1.05273112304
+return.transform.translation.z  ==  1.05287062785 
+

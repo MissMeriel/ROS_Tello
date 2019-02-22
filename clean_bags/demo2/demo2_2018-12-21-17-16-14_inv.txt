@@ -1,0 +1,339 @@
+Daikon version 5.7.2, released November 7, 2018; http://plse.cs.washington.edu/daikon.
+Reading declaration files .(read 1 decls file)
+Processing trace data; reading 1 dtrace file:
+
+===========================================================================
+..main():::EXIT
+return == 0
+===========================================================================
+..obstacle_detector(geometry_msgs/TransformStamped, geometry_msgs/TransformStamped, std_msgs/String):::ENTER
+param0.header.frame_id == param1.header.frame_id
+param0 != null
+param0.header.seq one of { 14397, 16960 }
+param0.transform.rotation.y one of { -0.0180244618044, -0.0101230844449 }
+param0.child_frame_id == "vicon/TELLO/TELLO"
+param0.header.frame_id == "/world"
+param0.transform.rotation.z one of { -0.399356397523, -0.396499165456 }
+param0.header.stamp.secs one of { 1545431035, 1545431061 }
+param0.transform.translation.z one of { 0.0365676393607, 0.0421800046852 }
+param0.header.stamp.nsecs one of { 827890771, 987602798 }
+param0.transform.translation.x one of { 0.158014035378, 1.05071415138 }
+param0.transform.translation.y one of { -0.251041214599, 1.0712152822 }
+param0.transform.translation.y != 0
+param0.transform.rotation.x one of { 0.0418746848445, 0.0435069570568 }
+param0.transform.rotation.w one of { 0.915706904859, 0.916902416475 }
+param1 != null
+param1.child_frame_id == "vicon/OBSTACLE/OBSTACLE"
+param1.transform.rotation.z == 0.999308496511
+param2 != null
+param2.data one of { "no", "nonsensical" }
+param0.header.seq < param1.header.seq
+param0.transform.rotation.y > param0.transform.rotation.z
+param0.transform.rotation.y < param0.transform.rotation.x
+param0.transform.rotation.y < param0.transform.rotation.w
+param0.transform.rotation.y < param1.transform.rotation.y
+param0.transform.rotation.y < param1.transform.rotation.z
+param0.transform.rotation.y < param1.transform.rotation.x
+param0.transform.rotation.y > param1.transform.rotation.w
+param0.child_frame_id > param0.header.frame_id
+param0.child_frame_id > param1.child_frame_id
+param0.header.frame_id < param1.child_frame_id
+param0.transform.rotation.z < param0.transform.rotation.x
+param0.transform.rotation.z < param0.transform.rotation.w
+param0.transform.rotation.z < param1.transform.rotation.y
+param0.transform.rotation.z < param1.transform.rotation.z
+param0.transform.rotation.z < param1.transform.rotation.x
+param0.transform.rotation.z < param1.transform.rotation.w
+param0.header.stamp.secs <= param1.header.stamp.secs
+param0.transform.translation.z < param0.transform.translation.x
+param0.transform.translation.z != param0.transform.translation.y
+param0.transform.translation.z < param1.transform.translation.z
+param0.transform.translation.z > param1.transform.translation.x
+param0.transform.translation.z > param1.transform.translation.y
+param0.transform.translation.x != param0.transform.translation.y
+param0.transform.translation.x != param1.transform.translation.z
+param0.transform.translation.x > param1.transform.translation.x
+param0.transform.translation.x > param1.transform.translation.y
+param0.transform.translation.y != param1.transform.translation.z
+param0.transform.translation.y > param1.transform.translation.x
+param0.transform.translation.y > param1.transform.translation.y
+param0.transform.rotation.x < param0.transform.rotation.w
+param0.transform.rotation.x > param1.transform.rotation.y
+param0.transform.rotation.x < param1.transform.rotation.z
+param0.transform.rotation.x > param1.transform.rotation.x
+param0.transform.rotation.x > param1.transform.rotation.w
+param0.transform.rotation.w > param1.transform.rotation.y
+param0.transform.rotation.w < param1.transform.rotation.z
+param0.transform.rotation.w > param1.transform.rotation.x
+param0.transform.rotation.w > param1.transform.rotation.w
+1.4762583424E10 * param1.transform.rotation.y + 4.9923873936873E13 * param1.transform.rotation.z - 4.9889287757244E13 == 0
+param1.transform.rotation.y < param1.transform.rotation.z
+param1.transform.rotation.y > param1.transform.rotation.x
+param1.transform.rotation.y > param1.transform.rotation.w
+2.2070194443205E13 * param1.transform.rotation.z + 1.4762583424E10 * param1.transform.rotation.x - 2.2054791584754E13 == 0
+param1.transform.rotation.z > param1.transform.rotation.x
+1.67321060015E12 * param1.transform.rotation.z - 4.1561283008E10 * param1.transform.rotation.w - 1.673535701751E12 == 0
+param1.transform.rotation.z > param1.transform.rotation.w
+param1.transform.translation.z > param1.transform.translation.x
+param1.transform.translation.z > param1.transform.translation.y
+param1.transform.translation.x > param1.transform.translation.y
+param1.transform.rotation.x > param1.transform.rotation.w
+7.235769281364841E15 * param0.transform.rotation.y - 1.5655792312653258E16 * param1.transform.rotation.y - 5.2944513798858424E19 * param1.transform.rotation.z + 5.290796540613924E19 == 0
+3.203577340170067E15 * param0.transform.rotation.y - 2.3405549731963466E19 * param1.transform.rotation.z - 1.5655792312653258E16 * param1.transform.rotation.x + 2.3389272667593236E19 == 0
+2.634757535567217E15 * param0.transform.rotation.y - 4.2586753657804734E19 * param1.transform.rotation.z + 1.05782267994556595E18 * param1.transform.rotation.w + 4.259507567220641E19 == 0
+7.235769281364841E15 * param0.transform.rotation.z + 5.661320779246481E15 * param1.transform.rotation.y + 1.9145366145048306E19 * param1.transform.rotation.z - 1.912923367316181E19 == 0
+3.203577340170067E15 * param0.transform.rotation.z + 8.4637252718380759E18 * param1.transform.rotation.z + 5.661320779246481E15 * param1.transform.rotation.x - 8.4565481954806866E18 == 0
+2.634757535567217E15 * param0.transform.rotation.z + 1.5399876837196059E19 * param1.transform.rotation.z - 3.825212674732464E17 * param1.transform.rotation.w - 1.5401824324478032E19 == 0
+7.235769281364841E15 * param0.transform.rotation.x - 3.234184825100035E15 * param1.transform.rotation.y - 1.0937315702775046E19 * param1.transform.rotation.z + 1.0929435571555453E19 == 0
+3.203577340170067E15 * param0.transform.rotation.x - 4.8351352812121948E18 * param1.transform.rotation.z - 3.234184825100035E15 * param1.transform.rotation.x + 4.8316266762272297E18 == 0
+2.634757535567217E15 * param0.transform.rotation.x - 8.7976021704776417E18 * param1.transform.rotation.z + 2.1852576930019296E17 * param1.transform.rotation.w + 8.7992011980147067E18 == 0
+7.235769281364841E15 * param0.transform.rotation.w + 2.368787202013335E15 * param1.transform.rotation.y + 8.0107275440919368E18 * param1.transform.rotation.z - 8.0118123797216614E18 == 0
+3.203577340170067E15 * param0.transform.rotation.w + 3.5413580835734502E18 * param1.transform.rotation.z + 2.368787202013335E15 * param1.transform.rotation.x - 3.5418239263795651E18 == 0
+2.634757535567217E15 * param0.transform.rotation.w + 6.4435548853295964E18 * param1.transform.rotation.z - 1.60053019113527232E17 * param1.transform.rotation.w - 6.4472226712000717E18 == 0
+2.747109065788956E15 * param1.transform.rotation.y - 2.06288275912177152E17 * param1.transform.rotation.z - 6.352081533971163E15 * param1.transform.rotation.x + 2.06096696630441696E17 == 0
+3.028621934801237E15 * param1.transform.rotation.y - 4.6627738533848698E17 * param1.transform.rotation.z + 1.2704163067942326E16 * param1.transform.rotation.w + 4.6642117742908237E17 == 0
+1.83382491353744E17 * param1.transform.rotation.z - 2.578154260211636E15 * param1.transform.rotation.x - 7.032661862498795E15 * param1.transform.rotation.w - 1.83531186949074816E17 == 0
+===========================================================================
+..obstacle_detector(geometry_msgs/TransformStamped, geometry_msgs/TransformStamped, std_msgs/String):::EXIT
+return != null
+===========================================================================
+..state(geometry_msgs/TransformStamped, geometry_msgs/TransformStamped, std_msgs/String):::ENTER
+param0.header.frame_id == param1.header.frame_id
+param0 != null
+param0.header.seq one of { 14397, 15153, 15316 }
+param0.transform.rotation.y one of { -0.0185941137023, -0.0180244618044, -0.0147483710225 }
+param0.child_frame_id == "vicon/TELLO/TELLO"
+param0.header.frame_id == "/world"
+param0.transform.rotation.z one of { -0.396499165456, -0.383630158141, -0.382493064545 }
+param0.header.stamp.secs one of { 1545431035, 1545431043, 1545431045 }
+param0.transform.translation.z one of { 0.0421800046852, 0.98667578819, 1.01777213456 }
+param0.header.stamp.nsecs one of { 218571936, 467978851, 827890771 }
+param0.transform.translation.x one of { 0.367788580908, 0.966369136758, 1.05071415138 }
+param0.transform.translation.y one of { 0.165407343308, 0.75795923489, 1.0712152822 }
+param0.transform.rotation.x one of { 0.0418746848445, 0.0517033344948, 0.0743810390084 }
+param0.transform.rotation.w one of { 0.916902416475, 0.920771836856, 0.921920361267 }
+param1 != null
+param1.child_frame_id == "vicon/OBSTACLE/OBSTACLE"
+param1.transform.rotation.z == 0.999308496511
+param1.transform.translation.x one of { -0.388610904011, -0.388434685859, -0.388394037547 }
+param2 has only one value
+param2 != null
+param2.data == "nonsensical"
+param0.header.seq < param1.header.seq
+param0.transform.rotation.y > param0.transform.rotation.z
+param0.transform.rotation.y < param0.transform.rotation.x
+param0.transform.rotation.y < param0.transform.rotation.w
+param0.transform.rotation.y < param1.transform.rotation.y
+param0.transform.rotation.y < param1.transform.rotation.z
+param0.transform.rotation.y < param1.transform.rotation.x
+param0.transform.rotation.y > param1.transform.rotation.w
+param0.child_frame_id > param0.header.frame_id
+param0.child_frame_id > param1.child_frame_id
+param0.header.frame_id < param1.child_frame_id
+param0.transform.rotation.z < param0.transform.rotation.x
+param0.transform.rotation.z < param0.transform.rotation.w
+param0.transform.rotation.z < param1.transform.rotation.y
+param0.transform.rotation.z < param1.transform.rotation.z
+param0.transform.rotation.z < param1.transform.rotation.x
+param0.transform.rotation.z < param1.transform.rotation.w
+param0.header.stamp.secs <= param1.header.stamp.secs
+param0.transform.translation.z != param0.transform.translation.x
+param0.transform.translation.z != param0.transform.translation.y
+param0.transform.translation.z != param1.transform.translation.z
+param0.transform.translation.z > param1.transform.translation.x
+param0.transform.translation.z > param1.transform.translation.y
+param0.transform.translation.x != param0.transform.translation.y
+param0.transform.translation.x > param1.transform.translation.z
+param0.transform.translation.x > param1.transform.translation.x
+param0.transform.translation.x > param1.transform.translation.y
+param0.transform.translation.y != param1.transform.translation.z
+param0.transform.translation.y > param1.transform.translation.x
+param0.transform.translation.y > param1.transform.translation.y
+param0.transform.rotation.x < param0.transform.rotation.w
+param0.transform.rotation.x > param1.transform.rotation.y
+param0.transform.rotation.x < param1.transform.rotation.z
+param0.transform.rotation.x > param1.transform.rotation.x
+param0.transform.rotation.x > param1.transform.rotation.w
+param0.transform.rotation.w > param1.transform.rotation.y
+param0.transform.rotation.w < param1.transform.rotation.z
+param0.transform.rotation.w > param1.transform.rotation.x
+param0.transform.rotation.w > param1.transform.rotation.w
+1.3365819008E10 * param1.transform.rotation.y + 9.9202644988187E13 * param1.transform.rotation.z - 9.9133988388378E13 == 0
+param1.transform.rotation.y < param1.transform.rotation.z
+param1.transform.rotation.y > param1.transform.rotation.x
+param1.transform.rotation.y > param1.transform.rotation.w
+3.5919129102069E13 * param1.transform.rotation.z + 6.682909504E9 * param1.transform.rotation.x - 3.5894226959795E13 == 0
+param1.transform.rotation.z > param1.transform.rotation.x
+3.978454431254E12 * param1.transform.rotation.z - 1670727376 * param1.transform.rotation.w - 3.975762912241E12 == 0
+param1.transform.rotation.z > param1.transform.rotation.w
+param1.transform.translation.z > param1.transform.translation.x
+param1.transform.translation.z > param1.transform.translation.y
+param1.transform.translation.x > param1.transform.translation.y
+param1.transform.rotation.x > param1.transform.rotation.w
+4.6251439450516072E16 * param0.transform.rotation.y + 3.383319930522843E15 * param0.transform.rotation.z - 1.2866866490431817E20 * param1.transform.rotation.z + 1.2858186521444455E20 == 0
+1.15266252634061424E17 * param0.transform.rotation.y + 3.383319930522843E15 * param0.transform.rotation.x - 2.7102346079087087E20 * param1.transform.rotation.z + 2.7083798305884524E20 == 0
+1.2199446332482808E16 * param0.transform.rotation.y + 3.383319930522843E15 * param0.transform.rotation.w - 3.756145630121165E19 * param1.transform.rotation.z + 3.753260013736189E19 == 0
+3.268713624844393E15 * param0.transform.rotation.y + 5.10957774756417E14 * param1.transform.rotation.y + 3.7923873353945426E18 * param1.transform.rotation.z - 3.7897037666004035E18 == 0
+4.823477733006263E15 * param0.transform.rotation.y + 5.4925652565537526E18 * param1.transform.rotation.z + 1.021915549512834E15 * param1.transform.rotation.x - 5.4886704106806702E18 == 0
+4.193571172634563E15 * param0.transform.rotation.y + 4.8669154581767035E18 * param1.transform.rotation.z - 2.043831099025668E15 * param1.transform.rotation.w - 4.8635472872919132E18 == 0
+1.4408281579257678E16 * param0.transform.rotation.z - 5.781429931314509E15 * param0.transform.rotation.x - 8.482532304281099E19 * param1.transform.rotation.z + 8.477262100314948E19 == 0
+1.524930791560351E15 * param0.transform.rotation.z - 5.781429931314509E15 * param0.transform.rotation.w + 6.1915867054270321E18 * param1.transform.rotation.z - 6.1813995607568476E18 == 0
+3.268713624844393E15 * param0.transform.rotation.z - 1.256298132399923E16 * param1.transform.rotation.y - 9.324389141675254E19 * param1.transform.rotation.z + 9.318065481936429E19 == 0
+4.823477733006263E15 * param0.transform.rotation.z - 1.3504637398232531E20 * param1.transform.rotation.z - 2.512596264799846E16 * param1.transform.rotation.x + 1.3495466105412986E20 == 0
+4.193571172634563E15 * param0.transform.rotation.z - 1.1966344584091134E20 * param1.transform.rotation.z + 5.025192529599692E16 * param1.transform.rotation.w + 1.1958415342219816E20 == 0
+1.524930791560351E15 * param0.transform.rotation.x - 1.4408281579257678E16 * param0.transform.rotation.w + 3.7804293104443654E19 * param1.transform.rotation.z - 3.776500417166178E19 == 0
+3.268713624844393E15 * param0.transform.rotation.x - 2.9157059689013956E16 * param1.transform.rotation.y - 2.1640704841935785E20 * param1.transform.rotation.z + 2.1625713960778128E20 == 0
+4.823477733006263E15 * param0.transform.rotation.x - 3.1342522013191216E20 * param1.transform.rotation.z - 5.8314119378027912E16 * param1.transform.rotation.x + 3.132077255928554E20 == 0
+4.193571172634563E15 * param0.transform.rotation.x - 2.7772342750453606E20 * param1.transform.rotation.z + 1.16628238756055824E17 * param1.transform.rotation.w + 2.775353653983127E20 == 0
+6.537427249688786E15 * param0.transform.rotation.w - 6.941468762805459E15 * param1.transform.rotation.y - 5.152037903259176E19 * param1.transform.rotation.z + 5.147872840081385E19 == 0
+4.823477733006263E15 * param0.transform.rotation.w - 3.730882671685935E19 * param1.transform.rotation.z - 6.941468762805459E15 * param1.transform.rotation.x + 3.727853846166451E19 == 0
+4.193571172634563E15 * param0.transform.rotation.w - 3.3059034712069747E19 * param1.transform.rotation.z + 1.3882937525610918E16 * param1.transform.rotation.w + 3.3032824393546297E19 == 0
+5.392557361368161E15 * param1.transform.rotation.y + 1.05126830359670157E18 * param1.transform.rotation.z - 1.1142708777445912E16 * param1.transform.rotation.x - 1.05062494979967552E18 == 0
+1.816282874640059E15 * param1.transform.rotation.y - 1.46543953771844608E17 * param1.transform.rotation.z + 5.722660279297927E15 * param1.transform.rotation.w + 1.46654580355410144E17 == 0
+5.5526286974039264E17 * param1.transform.rotation.z - 5.591983032115685E15 * param1.transform.rotation.x - 1.0785114722736322E16 * param1.transform.rotation.w - 5.553171755190809E17 == 0
+===========================================================================
+..state(geometry_msgs/TransformStamped, geometry_msgs/TransformStamped, std_msgs/String):::EXIT
+param2.data == orig(param2.data)
+param2.data == "nonsensical"
+return != null
+param2.data > return.data
+===========================================================================
+..user_input(std_msgs/Bool):::ENTER
+param0 has only one value
+param0.data == true
+===========================================================================
+..user_input(std_msgs/Bool):::EXIT
+return.data == "no"
+===========================================================================
+..velocity(geometry_msgs/TransformStamped, geometry_msgs/TransformStamped, std_msgs/String):::ENTER
+param0.header.frame_id == param1.header.frame_id
+param0 != null
+param0.child_frame_id == "vicon/TELLO/TELLO"
+param0.header.frame_id == "/world"
+param0.transform.translation.y != 0
+param1 != null
+param1.child_frame_id == "vicon/OBSTACLE/OBSTACLE"
+param1.transform.rotation.z == 0.999308496511
+param2 != null
+param2.data one of { "no", "nonsensical" }
+param0.header.seq < param1.header.seq
+param0.transform.rotation.y > param0.transform.rotation.z
+param0.transform.rotation.y < param0.transform.rotation.x
+param0.transform.rotation.y < param0.transform.rotation.w
+param0.transform.rotation.y != param1.transform.rotation.y
+param0.transform.rotation.y < param1.transform.rotation.z
+param0.transform.rotation.y != param1.transform.rotation.x
+param0.transform.rotation.y > param1.transform.rotation.w
+param0.child_frame_id > param0.header.frame_id
+param0.child_frame_id > param1.child_frame_id
+param0.header.frame_id < param1.child_frame_id
+param0.transform.rotation.z < param0.transform.rotation.x
+param0.transform.rotation.z < param0.transform.rotation.w
+param0.transform.rotation.z < param1.transform.rotation.y
+param0.transform.rotation.z < param1.transform.rotation.z
+param0.transform.rotation.z < param1.transform.rotation.x
+param0.transform.rotation.z < param1.transform.rotation.w
+param0.transform.translation.z != param0.transform.translation.x
+param0.transform.translation.z != param0.transform.translation.y
+param0.transform.translation.z != param1.transform.translation.z
+param0.transform.translation.z > param1.transform.translation.x
+param0.transform.translation.z > param1.transform.translation.y
+param0.transform.translation.x != param0.transform.translation.y
+param0.transform.translation.x != param1.transform.translation.z
+param0.transform.translation.x > param1.transform.translation.x
+param0.transform.translation.x > param1.transform.translation.y
+param0.transform.translation.y != param1.transform.translation.z
+param0.transform.translation.y > param1.transform.translation.x
+param0.transform.translation.y > param1.transform.translation.y
+param0.transform.rotation.x < param0.transform.rotation.w
+param0.transform.rotation.x > param1.transform.rotation.y
+param0.transform.rotation.x < param1.transform.rotation.z
+param0.transform.rotation.x > param1.transform.rotation.x
+param0.transform.rotation.x > param1.transform.rotation.w
+param0.transform.rotation.w > param1.transform.rotation.y
+param0.transform.rotation.w < param1.transform.rotation.z
+param0.transform.rotation.w > param1.transform.rotation.x
+param0.transform.rotation.w > param1.transform.rotation.w
+1.147068122112E12 * param1.transform.rotation.y - 1.30481806809321E14 * param1.transform.rotation.z + 1.30396470378323E14 == 0
+param1.transform.rotation.y < param1.transform.rotation.z
+param1.transform.rotation.y > param1.transform.rotation.x
+param1.transform.rotation.y > param1.transform.rotation.w
+2.0105545695322E13 * param1.transform.rotation.z - 2.86767030528E11 * param1.transform.rotation.x - 2.0094372996967E13 == 0
+param1.transform.rotation.z > param1.transform.rotation.x
+2.687399152983E12 * param1.transform.rotation.z - 2.096141E10 * param1.transform.rotation.w - 2.68628918256E12 == 0
+param1.transform.rotation.z > param1.transform.rotation.w
+param1.transform.translation.z > param1.transform.translation.x
+param1.transform.translation.z > param1.transform.translation.y
+param1.transform.translation.x > param1.transform.translation.y
+param1.transform.rotation.x > param1.transform.rotation.w
+2.424645595817606E15 * param0.transform.rotation.y + 9.35380326969117E14 * param0.transform.rotation.z - 1.2795999947966624E19 * param1.transform.rotation.z + 1.2787566049808318E19 == 0
+1.3131437094970606E16 * param0.transform.rotation.y - 9.35380326969117E14 * param0.transform.rotation.x - 3.7261796197568864E19 * param1.transform.rotation.z + 3.723630539133459E19 == 0
+3.297695192889475E15 * param0.transform.rotation.y + 1.870760653938234E15 * param0.transform.rotation.w - 1.4404944023853179E19 * param1.transform.rotation.z + 1.4393327089018638E19 == 0
+3.04732046149827E14 * param0.transform.rotation.y + 4.0513153161003928E16 * param1.transform.rotation.y - 4.6084703446012063E18 * param1.transform.rotation.z + 4.6054618506760212E18 == 0
+2.413170199521589E15 * param0.transform.rotation.y - 4.544673357410166E19 * param1.transform.rotation.z + 6.4821045057606285E17 * param1.transform.rotation.x + 4.54215222149862E19 == 0
+8.183264990586957E15 * param0.transform.rotation.y + 7.775511264877854E20 * param1.transform.rotation.z - 6.0648110051612539E18 * param1.transform.rotation.w - 7.772298287973897E20 == 0
+6.565718547485303E15 * param0.transform.rotation.z + 1.212322797908803E15 * param0.transform.rotation.x - 4.152493702374344E19 * param1.transform.rotation.z + 4.149877492120062E19 == 0
+3.297695192889475E15 * param0.transform.rotation.z - 4.849291191635212E15 * param0.transform.rotation.w - 7.7726922638482883E18 * param1.transform.rotation.z + 7.7730712802326241E18 == 0
+3.04732046149827E14 * param0.transform.rotation.z + 6.793803045829616E16 * param1.transform.rotation.y - 7.7281172707889244E18 * param1.transform.rotation.z + 7.7231838293620132E18 == 0
+2.413170199521589E15 * param0.transform.rotation.z - 7.621133703212546E19 * param1.transform.rotation.z + 1.08700848733273856E18 * param1.transform.rotation.x + 7.61699430354207E19 == 0
+8.183264990586957E15 * param0.transform.rotation.z + 1.3039047319836072E21 * param1.transform.rotation.z - 1.0170309705467634E19 * param1.transform.rotation.w - 1.303362938489602E21 == 0
+3.297695192889475E15 * param0.transform.rotation.x + 2.6262874189941212E16 * param0.transform.rotation.w - 7.085841790303009E19 * param1.transform.rotation.z + 7.078520047706987E19 == 0
+3.04732046149827E14 * param0.transform.rotation.x + 6.5107785688843576E16 * param1.transform.rotation.y - 7.4061700000803185E18 * param1.transform.rotation.z + 7.4013135288880568E18 == 0
+2.413170199521589E15 * param0.transform.rotation.x - 7.303643283556406E19 * param1.transform.rotation.z + 1.04172457102149722E18 * param1.transform.rotation.x + 7.299574526977016E19 == 0
+8.183264990586957E15 * param0.transform.rotation.x + 1.2495850891757924E21 * param1.transform.rotation.z - 9.746622623969413E18 * param1.transform.rotation.w - 1.249069318530961E21 == 0
+3.04732046149827E14 * param0.transform.rotation.w + 2.5935732118748036E16 * param1.transform.rotation.y - 2.9502530168355205E18 * param1.transform.rotation.z + 2.9480441117559378E18 == 0
+2.413170199521589E15 * param0.transform.rotation.w - 2.9094114273597678E19 * param1.transform.rotation.z + 4.1497171389996858E17 * param1.transform.rotation.x + 2.907573396525756E19 == 0
+8.183264990586957E15 * param0.transform.rotation.w + 4.977730971735167E20 * param1.transform.rotation.z - 3.8825739619818685E18 * param1.transform.rotation.w - 4.975750063271596E20 == 0
+5.185408129226827E15 * param1.transform.rotation.y + 3.3466816445301696E17 * param1.transform.rotation.z - 1.3186518545002682E16 * param1.transform.rotation.x - 3.3454017575698362E17 == 0
+3.106751249385557E15 * param1.transform.rotation.y - 3.0239816688364563E17 * param1.transform.rotation.z + 1.1347134443451306E16 * param1.transform.rotation.w + 3.026072723468329E17 == 0
+1.88597274097170272E17 * param1.transform.rotation.z - 3.106751249385557E15 * param1.transform.rotation.x - 6.50102579446698E15 * param1.transform.rotation.w - 1.88728451605361184E17 == 0
+===========================================================================
+..velocity(geometry_msgs/TransformStamped, geometry_msgs/TransformStamped, std_msgs/String):::EXIT
+return.angular.y == return.angular.x
+return.angular.y == return.angular.z
+return != null
+return.linear.z one of { -200.0, 0.0 }
+return.angular.y == 0.0
+return.linear.y >= return.linear.x
+return.linear.y >= return.linear.z
+===========================================================================
+..viconOBSTACLEOBSTACLE():::EXIT
+return != null
+return.child_frame_id == "vicon/OBSTACLE/OBSTACLE"
+return.header.frame_id == "/world"
+return.transform.rotation.z == 0.999308496511
+1.006167279104E12 * return.transform.rotation.y - 7.5161696930735E13 * return.transform.rotation.z + 7.5114060291199E13 == 0
+return.transform.rotation.y < return.transform.rotation.z
+return.transform.rotation.y > return.transform.rotation.x
+return.transform.rotation.y > return.transform.rotation.w
+return.child_frame_id > return.header.frame_id
+1.0924197180377E13 * return.transform.rotation.z + 6.0064904544E10 * return.transform.rotation.x - 1.0916070296067E13 == 0
+return.transform.rotation.z > return.transform.rotation.x
+2.100341416345E12 * return.transform.rotation.z - 8.7408167408E10 * return.transform.rotation.w - 2.102006073281E12 == 0
+return.transform.rotation.z > return.transform.rotation.w
+return.transform.translation.z > return.transform.translation.x
+return.transform.translation.z > return.transform.translation.y
+return.transform.translation.x > return.transform.translation.y
+return.transform.rotation.x > return.transform.rotation.w
+1.0255187956458974E16 * return.transform.rotation.y - 5.833089669310935E17 * return.transform.rotation.z - 7.881955451500263E15 * return.transform.rotation.x + 5.8287440928872704E17 == 0
+3.715066061848853E15 * return.transform.rotation.y - 3.7754015188142598E17 * return.transform.rotation.z + 7.881955451500263E15 * return.transform.rotation.w + 3.7757625379028128E17 == 0
+3.0810788800951462E17 * return.transform.rotation.z - 2.285030568839023E15 * return.transform.rotation.x - 1.3593827370073428E16 * return.transform.rotation.w - 3.0840152249496602E17 == 0
+===========================================================================
+..viconTELLOTELLO():::EXIT
+return != null
+return.transform.rotation.y != 0
+return.child_frame_id == "vicon/TELLO/TELLO"
+return.header.frame_id == "/world"
+return.transform.rotation.z != 0
+return.transform.translation.y != 0
+return.transform.rotation.y != return.transform.rotation.z
+return.transform.rotation.y != return.transform.rotation.x
+return.transform.rotation.y < return.transform.rotation.w
+return.child_frame_id > return.header.frame_id
+return.transform.rotation.z != return.transform.rotation.x
+return.transform.rotation.z < return.transform.rotation.w
+return.transform.translation.z != return.transform.translation.x
+return.transform.translation.z != return.transform.translation.y
+return.transform.translation.x != return.transform.translation.y
+return.transform.rotation.x < return.transform.rotation.w
+Exiting Daikon.

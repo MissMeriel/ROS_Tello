@@ -1,0 +1,25 @@
+PPT_NAME ..distance_to_user
+/distance_to_user2.data  ==   1.43678573346
+/distance_to_user2.data  ==  1.65679220144
+/distance_to_user2.data  ==  2.48979161381 
+
+PPT_NAME ..distance_to_user
+/velocity3.linear.z  ==   -200.0
+/velocity3.linear.z  ==  0.0 
+
+PPT_NAME ..distance_to_user
+/state4.data  ==   "GO TO GOAL"
+/state4.data  ==  "GOAL REACHED" 
+
+PPT_NAME ..is_user_watching_drone
+/velocity3.linear.z  ==   -200.0
+/velocity3.linear.z  ==  0.0 
+
+PPT_NAME ..is_user_watching_drone
+/state4.data  ==   "GO TO GOAL"
+/state4.data  ==  "GOAL REACHED" 
+
+PPT_NAME ..velocity
+return.linear.z  ==   -200.0
+return.linear.z  ==  0.0 
+

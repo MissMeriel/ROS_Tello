@@ -1,0 +1,24 @@
+PPT_NAME ../state_next
+param0.data  ==   "AVOIDING"
+param0.data  ==  "GO TO GOAL" 
+
+PPT_NAME ../state_next
+param0.data  ==   "AVOIDING"
+param0.data  ==  "GO TO GOAL" 
+
+PPT_NAME ../state_next
+return.data  ==   "AVOIDING"
+return.data  ==  "GO TO GOAL" 
+
+PPT_NAME ../user_input_next
+param0.data  ==   "no"
+param0.data  ==  "y" 
+
+PPT_NAME ../user_input_next
+param0.data  ==   "no"
+param0.data  ==  "y" 
+
+PPT_NAME ../user_input_next
+return.data  ==   "no"
+return.data  ==  "y" 
+

@@ -1,0 +1,6 @@
+PPT_NAME ..state
+return.data == "Finished behavior"
+return.data == "GO TO GOAL"
+return.data == "GOAL REACHED"
+return.data == "NO VICON DATA; LANDING"
+

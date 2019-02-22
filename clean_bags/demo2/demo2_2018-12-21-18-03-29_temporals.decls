@@ -1,0 +1,429 @@
+input-language C/C++
+decl-version 2.0
+var-comparability implicit
+
+
+ppt ..main():::ENTER
+	ppt-type enter
+
+ppt ..main():::EXIT0
+	ppt-type subexit
+	variable return
+		var-kind variable
+		rep-type int
+		dec-type int
+		comparability 1
+
+ppt ../user_input_next(string):::ENTER
+	ppt-type enter
+	variable topic_preceding
+		var-kind variable
+		rep-type string
+		dec-type string
+		flags is_param
+		comparability 1
+
+ppt ../user_input_next(string):::EXIT0
+	ppt-type subexit
+	variable topic_preceding
+		var-kind variable
+		rep-type string
+		dec-type string
+		flags is_param
+		comparability 1
+	variable return
+		var-kind variable
+		rep-type string
+		dec-type string
+		comparability 1
+
+ppt ../vicon/TELLO/TELLO_next(string):::ENTER
+	ppt-type enter
+	variable topic_preceding
+		var-kind variable
+		rep-type string
+		dec-type string
+		flags is_param
+		comparability 1
+
+ppt ../vicon/TELLO/TELLO_next(string):::EXIT0
+	ppt-type subexit
+	variable topic_preceding
+		var-kind variable
+		rep-type string
+		dec-type string
+		flags is_param
+		comparability 1
+	variable return
+		var-kind variable
+		rep-type string
+		dec-type string
+		comparability 1
+
+ppt ../obstacle_detector_next(string):::ENTER
+	ppt-type enter
+	variable topic_preceding
+		var-kind variable
+		rep-type string
+		dec-type string
+		flags is_param
+		comparability 1
+
+ppt ../obstacle_detector_next(string):::EXIT0
+	ppt-type subexit
+	variable topic_preceding
+		var-kind variable
+		rep-type string
+		dec-type string
+		flags is_param
+		comparability 1
+	variable return
+		var-kind variable
+		rep-type string
+		dec-type string
+		comparability 1
+
+ppt ../vicon/OBSTACLE/OBSTACLE_next(string):::ENTER
+	ppt-type enter
+	variable topic_preceding
+		var-kind variable
+		rep-type string
+		dec-type string
+		flags is_param
+		comparability 1
+
+ppt ../vicon/OBSTACLE/OBSTACLE_next(string):::EXIT0
+	ppt-type subexit
+	variable topic_preceding
+		var-kind variable
+		rep-type string
+		dec-type string
+		flags is_param
+		comparability 1
+	variable return
+		var-kind variable
+		rep-type string
+		dec-type string
+		comparability 1
+
+ppt ../velocity_next(string):::ENTER
+	ppt-type enter
+	variable topic_preceding
+		var-kind variable
+		rep-type string
+		dec-type string
+		flags is_param
+		comparability 1
+
+ppt ../velocity_next(string):::EXIT0
+	ppt-type subexit
+	variable topic_preceding
+		var-kind variable
+		rep-type string
+		dec-type string
+		flags is_param
+		comparability 1
+	variable return
+		var-kind variable
+		rep-type string
+		dec-type string
+		comparability 1
+
+ppt ../state_next(string):::ENTER
+	ppt-type enter
+	variable topic_preceding
+		var-kind variable
+		rep-type string
+		dec-type string
+		flags is_param
+		comparability 1
+
+ppt ../state_next(string):::EXIT0
+	ppt-type subexit
+	variable topic_preceding
+		var-kind variable
+		rep-type string
+		dec-type string
+		flags is_param
+		comparability 1
+	variable return
+		var-kind variable
+		rep-type string
+		dec-type string
+		comparability 1
+
+ppt ../user_input_eventually(string):::ENTER
+	ppt-type enter
+	variable topic_preceding
+		var-kind variable
+		rep-type string
+		dec-type string
+		flags is_param
+		comparability 1
+
+ppt ../user_input_eventually(string):::EXIT0
+	ppt-type subexit
+	variable topic_preceding
+		var-kind variable
+		rep-type string
+		dec-type string
+		flags is_param
+		comparability 1
+	variable return
+		var-kind variable
+		rep-type string
+		dec-type string
+		comparability 1
+
+ppt ../vicon/TELLO/TELLO_eventually(string):::ENTER
+	ppt-type enter
+	variable topic_preceding
+		var-kind variable
+		rep-type string
+		dec-type string
+		flags is_param
+		comparability 1
+
+ppt ../vicon/TELLO/TELLO_eventually(string):::EXIT0
+	ppt-type subexit
+	variable topic_preceding
+		var-kind variable
+		rep-type string
+		dec-type string
+		flags is_param
+		comparability 1
+	variable return
+		var-kind variable
+		rep-type string
+		dec-type string
+		comparability 1
+
+ppt ../obstacle_detector_eventually(string):::ENTER
+	ppt-type enter
+	variable topic_preceding
+		var-kind variable
+		rep-type string
+		dec-type string
+		flags is_param
+		comparability 1
+
+ppt ../obstacle_detector_eventually(string):::EXIT0
+	ppt-type subexit
+	variable topic_preceding
+		var-kind variable
+		rep-type string
+		dec-type string
+		flags is_param
+		comparability 1
+	variable return
+		var-kind variable
+		rep-type string
+		dec-type string
+		comparability 1
+
+ppt ../vicon/OBSTACLE/OBSTACLE_eventually(string):::ENTER
+	ppt-type enter
+	variable topic_preceding
+		var-kind variable
+		rep-type string
+		dec-type string
+		flags is_param
+		comparability 1
+
+ppt ../vicon/OBSTACLE/OBSTACLE_eventually(string):::EXIT0
+	ppt-type subexit
+	variable topic_preceding
+		var-kind variable
+		rep-type string
+		dec-type string
+		flags is_param
+		comparability 1
+	variable return
+		var-kind variable
+		rep-type string
+		dec-type string
+		comparability 1
+
+ppt ../velocity_eventually(string):::ENTER
+	ppt-type enter
+	variable topic_preceding
+		var-kind variable
+		rep-type string
+		dec-type string
+		flags is_param
+		comparability 1
+
+ppt ../velocity_eventually(string):::EXIT0
+	ppt-type subexit
+	variable topic_preceding
+		var-kind variable
+		rep-type string
+		dec-type string
+		flags is_param
+		comparability 1
+	variable return
+		var-kind variable
+		rep-type string
+		dec-type string
+		comparability 1
+
+ppt ../state_eventually(string):::ENTER
+	ppt-type enter
+	variable topic_preceding
+		var-kind variable
+		rep-type string
+		dec-type string
+		flags is_param
+		comparability 1
+
+ppt ../state_eventually(string):::EXIT0
+	ppt-type subexit
+	variable topic_preceding
+		var-kind variable
+		rep-type string
+		dec-type string
+		flags is_param
+		comparability 1
+	variable return
+		var-kind variable
+		rep-type string
+		dec-type string
+		comparability 1
+
+ppt ../user_input_until(string):::ENTER
+	ppt-type enter
+	variable topic_preceding
+		var-kind variable
+		rep-type string
+		dec-type string
+		flags is_param
+		comparability 1
+
+ppt ../user_input_until(string):::EXIT0
+	ppt-type subexit
+	variable topic_preceding
+		var-kind variable
+		rep-type string
+		dec-type string
+		flags is_param
+		comparability 1
+	variable return
+		var-kind variable
+		rep-type string
+		dec-type string
+		comparability 1
+
+ppt ../vicon/TELLO/TELLO_until(string):::ENTER
+	ppt-type enter
+	variable topic_preceding
+		var-kind variable
+		rep-type string
+		dec-type string
+		flags is_param
+		comparability 1
+
+ppt ../vicon/TELLO/TELLO_until(string):::EXIT0
+	ppt-type subexit
+	variable topic_preceding
+		var-kind variable
+		rep-type string
+		dec-type string
+		flags is_param
+		comparability 1
+	variable return
+		var-kind variable
+		rep-type string
+		dec-type string
+		comparability 1
+
+ppt ../obstacle_detector_until(string):::ENTER
+	ppt-type enter
+	variable topic_preceding
+		var-kind variable
+		rep-type string
+		dec-type string
+		flags is_param
+		comparability 1
+
+ppt ../obstacle_detector_until(string):::EXIT0
+	ppt-type subexit
+	variable topic_preceding
+		var-kind variable
+		rep-type string
+		dec-type string
+		flags is_param
+		comparability 1
+	variable return
+		var-kind variable
+		rep-type string
+		dec-type string
+		comparability 1
+
+ppt ../vicon/OBSTACLE/OBSTACLE_until(string):::ENTER
+	ppt-type enter
+	variable topic_preceding
+		var-kind variable
+		rep-type string
+		dec-type string
+		flags is_param
+		comparability 1
+
+ppt ../vicon/OBSTACLE/OBSTACLE_until(string):::EXIT0
+	ppt-type subexit
+	variable topic_preceding
+		var-kind variable
+		rep-type string
+		dec-type string
+		flags is_param
+		comparability 1
+	variable return
+		var-kind variable
+		rep-type string
+		dec-type string
+		comparability 1
+
+ppt ../velocity_until(string):::ENTER
+	ppt-type enter
+	variable topic_preceding
+		var-kind variable
+		rep-type string
+		dec-type string
+		flags is_param
+		comparability 1
+
+ppt ../velocity_until(string):::EXIT0
+	ppt-type subexit
+	variable topic_preceding
+		var-kind variable
+		rep-type string
+		dec-type string
+		flags is_param
+		comparability 1
+	variable return
+		var-kind variable
+		rep-type string
+		dec-type string
+		comparability 1
+
+ppt ../state_until(string):::ENTER
+	ppt-type enter
+	variable topic_preceding
+		var-kind variable
+		rep-type string
+		dec-type string
+		flags is_param
+		comparability 1
+
+ppt ../state_until(string):::EXIT0
+	ppt-type subexit
+	variable topic_preceding
+		var-kind variable
+		rep-type string
+		dec-type string
+		flags is_param
+		comparability 1
+	variable return
+		var-kind variable
+		rep-type string
+		dec-type string
+		comparability 1

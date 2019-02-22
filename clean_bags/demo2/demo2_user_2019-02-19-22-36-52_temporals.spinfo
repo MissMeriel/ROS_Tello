@@ -1,0 +1,118 @@
+PPT_NAME ../state_next
+param0.data  ==   "AVOIDING"
+param0.data  ==  "Finished behavior"
+param0.data  ==  "GO TO GOAL"
+param0.data  ==  "GOAL REACHED"
+param0.data  ==  "HOVERING AT OBSTACLE; WAITING FOR USER INPUT"
+param0.data  ==  "NO VICON DATA; LANDING" 
+
+PPT_NAME ../state_next
+param0.data  ==   "AVOIDING"
+param0.data  ==  "Finished behavior"
+param0.data  ==  "GO TO GOAL"
+param0.data  ==  "GOAL REACHED"
+param0.data  ==  "HOVERING AT OBSTACLE; WAITING FOR USER INPUT"
+param0.data  ==  "NO VICON DATA; LANDING" 
+
+PPT_NAME ../state_next
+return.data  ==   "AVOIDING"
+return.data  ==  "Finished behavior"
+return.data  ==  "GO TO GOAL"
+return.data  ==  "GOAL REACHED"
+return.data  ==  "HOVERING AT OBSTACLE; WAITING FOR USER INPUT"
+return.data  ==  "NO VICON DATA; LANDING" 
+
+PPT_NAME ../state_until
+param0.data  ==   "AVOIDING"
+param0.data  ==  "Finished behavior"
+param0.data  ==  "GO TO GOAL"
+param0.data  ==  "HOVERING AT OBSTACLE; WAITING FOR USER INPUT"
+param0.data  ==  "NO VICON DATA; LANDING" 
+
+PPT_NAME ../state_until
+param0.data  ==   "AVOIDING"
+param0.data  ==  "Finished behavior"
+param0.data  ==  "GO TO GOAL"
+param0.data  ==  "HOVERING AT OBSTACLE; WAITING FOR USER INPUT"
+param0.data  ==  "NO VICON DATA; LANDING" 
+
+PPT_NAME ../state_until
+return.data  ==   "AVOIDING"
+return.data  ==  "Finished behavior"
+return.data  ==  "GO TO GOAL"
+return.data  ==  "GOAL REACHED"
+return.data  ==  "HOVERING AT OBSTACLE; WAITING FOR USER INPUT"
+return.data  ==  "NO VICON DATA; LANDING" 
+
+PPT_NAME ../velocity_next
+param0.linear.z  ==   -500.0
+param0.linear.z  ==  -200.0
+param0.linear.z  ==  0.0 
+
+PPT_NAME ../velocity_next
+param0.linear.z  ==   -500.0
+param0.linear.z  ==  -200.0
+param0.linear.z  ==  0.0 
+
+PPT_NAME ../velocity_next
+param0.linear.z  ==   -500.0
+param0.linear.z  ==  -200.0
+param0.linear.z  ==  0.0 
+
+PPT_NAME ../velocity_next
+param0.linear.z  ==   -500.0
+param0.linear.z  ==  -200.0
+param0.linear.z  ==  0.0 
+
+PPT_NAME ../velocity_next
+return.linear.z  ==   -500.0
+return.linear.z  ==  -200.0
+return.linear.z  ==  0.0 
+
+PPT_NAME ../velocity_next
+return.linear.z  ==   -500.0
+return.linear.z  ==  -200.0
+return.linear.z  ==  0.0 
+
+PPT_NAME ../velocity_until
+param0.linear.z  ==   -500.0
+param0.linear.z  ==  -200.0
+param0.linear.z  ==  0.0 
+
+PPT_NAME ../velocity_until
+param0.linear.z  ==   -500.0
+param0.linear.z  ==  -200.0
+param0.linear.z  ==  0.0 
+
+PPT_NAME ../velocity_until
+param0.linear.z  ==   -500.0
+param0.linear.z  ==  -200.0
+param0.linear.z  ==  0.0 
+
+PPT_NAME ../velocity_until
+param0.linear.z  ==   -500.0
+param0.linear.z  ==  -200.0
+param0.linear.z  ==  0.0 
+
+PPT_NAME ../velocity_until
+return.linear.z  ==   -500.0
+return.linear.z  ==  -200.0
+return.linear.z  ==  0.0 
+
+PPT_NAME ../velocity_until
+return.linear.z  ==   -500.0
+return.linear.z  ==  -200.0
+return.linear.z  ==  0.0 
+
+PPT_NAME ../vicon/OBSTACLE/OBSTACLE_next
+param0.transform.translation.x  ==   0.0621190733053
+param0.transform.translation.x  ==  0.0635759116858 
+
+PPT_NAME ../vicon/OBSTACLE/OBSTACLE_next
+param0.transform.translation.x  ==   0.0621190733053
+param0.transform.translation.x  ==  0.0635759116858 
+
+PPT_NAME ../vicon/OBSTACLE/OBSTACLE_next
+return.transform.translation.x  ==   0.062494938404
+return.transform.translation.x  ==  0.0635759116858 
+

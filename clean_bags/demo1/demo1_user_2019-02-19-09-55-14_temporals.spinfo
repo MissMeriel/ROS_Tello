@@ -1,0 +1,32 @@
+PPT_NAME ../state_until
+param0.data  ==   "GO TO GOAL"
+param0.data  ==  "GOAL REACHED" 
+
+PPT_NAME ../state_until
+param0.data  ==   "GO TO GOAL"
+param0.data  ==  "GOAL REACHED" 
+
+PPT_NAME ../velocity_next
+param0.linear.z  ==   -200.0
+param0.linear.z  ==  0.0 
+
+PPT_NAME ../velocity_next
+param0.linear.z  ==   -200.0
+param0.linear.z  ==  0.0 
+
+PPT_NAME ../velocity_next
+return.linear.z  ==   -200.0
+return.linear.z  ==  0.0 
+
+PPT_NAME ../velocity_until
+param0.linear.z  ==   -200.0
+param0.linear.z  ==  0.0 
+
+PPT_NAME ../velocity_until
+param0.linear.z  ==   -200.0
+param0.linear.z  ==  0.0 
+
+PPT_NAME ../velocity_until
+return.linear.z  ==   -200.0
+return.linear.z  ==  0.0 
+
