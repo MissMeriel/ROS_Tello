@@ -131,6 +131,7 @@ def main():
 	avoid_count = 0.0
 	control_count = 0.0
 	keys_enabled=False
+
 	while not rospy.is_shutdown():
 
 		#check for lapse in vicon data
@@ -143,9 +144,9 @@ def main():
 		if(publishing_count > 5):
 			vel.linear.x = 0
 			vel.linear.y = 0
-			vel.linear.z = -500
-			print("NO VICON DATA; LANDING")
+			vel.linear.z = -200
 			str_msg = "NO VICON DATA; LANDING"
+			print(str_msg)
 			velocity_publisher.publish(vel)
 			process_killer.publish(True)
 			continue
@@ -173,9 +174,8 @@ def main():
 			#print("\tdistance to curr goal: "+ str(distance_to_goal))
 			#print("\tdistance to obstacle: "+ str(distance_drone_to_obstacle))
 			#print("\tdistance from obstacle to goal: "+ str(distance_obs_to_goal))
-		str_msg = "GO TO GOAL"
 
-		if(obstacle_dyn and obstacle_in_path):
+		if(obstacle_in_path and obstacle_dyn):
 			print("GO TO GOAL; DYNAMIC OBSTACLE IN PATH")
 			str_msg="DYNAMIC OBSTACLE IN PATH; TRANSFERRING CONTROL TO USER 1"
 			obstacle_dyn_publisher.publish(True)
@@ -199,19 +199,38 @@ def main():
 
 		if (distance_to_final_goal < threshold):
 			if(hover_count < 5):
-				print("GOAL REACHED")
 				str_msg = "GOAL REACHED"
+				print("GOAL REACHED with threshold "+str(distance_to_final_goal))
+				vel.linear.x = 0
+				vel.linear.y = 0
+				hover_count += 1
+
+			'''if(goal_count == len(goal_array_x)-1 and exit_count < 5):
+				str_msg = "Finished behavior"
 				vel.linear.x = 0
 				vel.linear.y = 0
 				vel.linear.z = -200
-				hover_count += 1
+				exit_count += 1
+				process_killer.publish(True)
+				if(exit_count >= 5):
+					exit()'''
 			else:
 				process_killer.publish(True)
 				exit()
+				'''hover_count = 0
+				goal_count +=1
+				goal_x = goal_array_x[goal_count]
+				goal_y = goal_array_y[goal_count]
+				final_goal_x = goal_x
+				final_goal_y = goal_y
+				integral = 0
+				previous_error = 0'''
 			state_publisher.publish(str_msg)
 			velocity_publisher.publish(vel)
+			publishing = False
 			rate.sleep()
 			continue
+
 		elif(avoid):
 			print("OBSTACLE_IN_PATH; AVOID")
 			print("OBSTACLE_IN_PATH; AVOID")
@@ -222,9 +241,9 @@ def main():
 
 			#interpolated goal offset from obstacle radius	
 			angle_drone_to_obs = math.atan2(obs_y-curr_y, obs_x-curr_x)		
-			avoid_angle = angle_drone_to_obs - curr_angle - math.pi / 2.0
-			vel.linear.x = math.cos(avoid_angle) * (0.22)
-			vel.linear.y = math.sin(avoid_angle) * (0.22)
+			avoid_angle = angle_drone_to_obs - curr_angle - math.radians(90)
+			vel.linear.x = math.cos(avoid_angle) * (0.3)
+			vel.linear.y = -math.sin(avoid_angle) * (0.3)
 
 			if(testing):
 				print("Following avoid angle: "+str(math.degrees(avoid_angle)))
@@ -274,6 +293,7 @@ def main():
 			goal_x = final_goal_x
 			goal_y = final_goal_y
 			print("OBSTACLE NOT IN_PATH; GO TOWARDS GOAL")
+			str_msg = "GO TO GOAL"
 
 			error = distance_to_goal
 			derivative = (error - previous_error) / dt

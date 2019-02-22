@@ -65,7 +65,7 @@ def sign(value):
 
 def main():
     rospy.init_node("key_vel", anonymous=True)
-    velocity_publisher = rospy.Publisher("velocity", Twist, queue_size=10)
+    velocity_publisher = rospy.Publisher("user_velocity", Twist, queue_size=10)
     linear_vel_x = 0.0
     linear_vel_y = 0.0
     linear_vel_z = 0.0
