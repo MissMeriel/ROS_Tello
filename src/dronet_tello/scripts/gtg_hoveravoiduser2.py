@@ -249,25 +249,29 @@ def main():
 				integral = 0
 				previous_error = 0
 				angle_drone_to_hoverpt = math.atan2(goal_y-curr_y, goal_x-curr_x)
-				vel.linear.x = 2 * math.cos(angle_drone_to_hoverpt)
-				vel.linear.y = 2 * -math.sin(angle_drone_to_hoverpt)
+				vel.linear.x = 10 * math.cos(angle_drone_to_hoverpt)
+				vel.linear.y = 10 * -math.sin(angle_drone_to_hoverpt)
 				distance_to_goal = math.sqrt((goal_x - curr_x)**2 + (goal_y - curr_y)**2)
 			if(math.sqrt((goal_x - curr_x)**2 + (goal_y - curr_y)**2) <= obstacle_threshold):
-				vel.linear.x = 0
-				vel.linear.y = 0
-				#while(sent < 4):
-				obstacle_publisher.publish(Bool(True))
-					#sent += 1
-				str_msg = "HOVERING AT OBSTACLE; WAITING FOR USER INPUT"
-				print("HOVERED "+str(hover_count)+" seconds")
-				if(hover_count > 5):
-					vel.linear.z=-200
-					hover_count = 0
-					str_msg = "USER INPUT TIMEOUT; LANDING"
+				if hover_count < 10:
+					vel.linear.x = 0
+					vel.linear.y = 0
+					#while(sent < 4):
+					obstacle_publisher.publish(Bool(True))
+						#sent += 1
+					str_msg = "HOVERING AT OBSTACLE; WAITING FOR USER INPUT"
+					print("HOVERED "+str(hover_count)+" seconds")
 				if(hover_count > 10):
+					vel.linear.z=-200
+					#hover_count = 0
+					str_msg = "USER INPUT TIMEOUT; LANDING"
+					print(str_msg)
+				if(hover_count > 12):
 					exit()
 				hover_count += dt
-				sent = 0
+				#sent = 0
+			print("vel.x: "+str(vel.linear.x))
+			print("vel.y: "+str(vel.linear.y))
 			state_publisher.publish(str_msg)
 			velocity_publisher.publish(vel)
 			rate.sleep()

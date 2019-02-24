@@ -96,7 +96,7 @@ def main():
 			print("GOAL REACHED within threshold: " + str(distance_to_goal))
 			state_publisher.publish("GOAL REACHED")
 			hover_count += dt
-			if(hover_count > 5 and goal_counter == len(goal_x)-1):
+			if(hover_count > 2 and goal_counter == len(goal_x)-1):
 				vel.linear.x = 0
 				vel.linear.y = 0
 				vel.linear.z = -200
@@ -106,9 +106,9 @@ def main():
 				velocity_publisher.publish(vel)
 				velocity_publisher.publish(vel)
 				state_publisher.publish("Finished behavior")
-			elif(hover_count > 7 and goal_counter == len(goal_x)-1):
+			elif(hover_count > 2 and goal_counter == len(goal_x)-1):
 				exit()
-			elif(hover_count > 5 and goal_counter < len(goal_x)-1):
+			elif(hover_count > 2 and goal_counter < len(goal_x)-1):
 				#exit_count = 0
 				hover_count = 0
 				integral = 0

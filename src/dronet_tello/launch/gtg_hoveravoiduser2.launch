@@ -12,8 +12,8 @@
 		user_input.py
 		-->
 
-	<node pkg="rqt_graph" type="rqt_graph" name="test"/>
-	<node pkg="rosbag" type="record" name="rosbag_record" args="record -o $(find dronet_tello)/../../demo2_user /rosout /velocity /flight_data /state /user_input /obstacle_detector /vicon/TELLO/TELLO /vicon/OBSTACLE/OBSTACLE /vicon/markers /vicon/PLAYER1/PLAYER1 /is_user_watching_drone /distance_to_user  /distance_to_obstacle" />
+	<node pkg="rqt_graph" type="rqt_graph" name="rqt_graph"/>
+	<node pkg="rosbag" type="record" name="rosbag_record" args="record -o $(find dronet_tello)/../../demo2_user /rosout /velocity /flight_data /state /user_input /obstacle_detector /vicon/TELLO/TELLO /vicon/OBSTACLE/OBSTACLE /vicon/PLAYER1/PLAYER1 /is_user_watching_drone /distance_to_user  /distance_to_obstacle" />
 
 </launch>
 

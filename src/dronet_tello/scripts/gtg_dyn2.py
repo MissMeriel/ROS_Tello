@@ -120,8 +120,8 @@ def main():
 	final_goal_x = goal_x
 	final_goal_y = goal_y
 	threshold = 0.075
-	obstacle_threshold = 1
-	angle_threshold = math.radians(15)
+	obstacle_threshold = 1.25
+	angle_threshold = math.radians(20)
 	detection_distance = 1
 	count = 0.0
 	sent = 0
@@ -181,6 +181,7 @@ def main():
 			str_msg="DYNAMIC OBSTACLE IN PATH; TRANSFERRING CONTROL TO USER 1"
 			obstacle_dyn_publisher.publish(True)
 			key_enabler.publish(True)
+			control_count += dt
 			if(control_count < 4):
 				vel.linear.x = 0
 				vel.linear.y = 0
@@ -206,15 +207,15 @@ def main():
 				vel.linear.y = 0
 				hover_count += 1
 
-			'''if(goal_count == len(goal_array_x)-1 and exit_count < 5):
-				str_msg = "Finished behavior"
-				vel.linear.x = 0
-				vel.linear.y = 0
-				vel.linear.z = -200
-				exit_count += 1
-				process_killer.publish(True)
-				if(exit_count >= 5):
-					exit()'''
+			#if(goal_count == len(goal_array_x)-1 and exit_count < 5):
+			#	str_msg = "Finished behavior"
+			#	vel.linear.x = 0
+			#	vel.linear.y = 0
+			#	vel.linear.z = -200
+			#	exit_count += 1
+			#	process_killer.publish(True)
+			#	if(exit_count >= 5):
+			#		exit()'''
 			else:
 				process_killer.publish(True)
 				exit()
@@ -243,8 +244,8 @@ def main():
 			#interpolated goal offset from obstacle radius	
 			angle_drone_to_obs = math.atan2(obs_y-curr_y, obs_x-curr_x)		
 			avoid_angle = angle_drone_to_obs - curr_angle - math.radians(90)
-			vel.linear.x = math.cos(avoid_angle) * (0.3)
-			vel.linear.y = -math.sin(avoid_angle) * (0.3)
+			vel.linear.x = math.cos(avoid_angle) * (10)
+			vel.linear.y = -math.sin(avoid_angle) * (10)
 
 			if(testing):
 				print("Following avoid angle: "+str(math.degrees(avoid_angle)))
@@ -260,7 +261,7 @@ def main():
 			continue
 		elif(obstacle_in_path):
 			print("NOT @ FINAL GOAL AND OBS IIN PATH")
-			if(abs(distance_drone_to_obstacle - detection_distance) < threshold):
+			if(distance_drone_to_obstacle < detection_distance):
 				#angle_obs_to_drone = math.pi + angle_drone_to_obs
 				angle_obs_to_drone = math.atan2(curr_y-obs_y, curr_x-obs_x)
 				hover_point_x = obs_x + obstacle_threshold * math.cos(math.pi + angle_obs_to_goal)
@@ -271,25 +272,34 @@ def main():
 				error = 0
 				integral = 0
 				previous_error = 0
-
+				angle_drone_to_hoverpt = math.atan2(goal_y-curr_y, goal_x-curr_x)
+				vel.linear.x = 10 * math.cos(angle_drone_to_hoverpt)
+				vel.linear.y = 10 * -math.sin(angle_drone_to_hoverpt)
 			distance_to_goal = math.sqrt((goal_x - curr_x)**2 + (goal_y - curr_y)**2)
-			if(distance_to_goal <= 0.5 and not keys_enabled):
-				vel.linear.x = 0
-				vel.linear.y = 0
-				while(sent < 4):
+			if(distance_to_goal <= obstacle_threshold and not keys_enabled):
+				if hover_count < 10:
+					vel.linear.x = 0
+					vel.linear.y = 0
+					#while(sent < 4):
 					obstacle_publisher.publish(Bool(True))
-					sent += 1
-				if(hover_count > 5):
-					vel.linear.z=-200
-					hover_count = 0
+						#sent += 1
+					str_msg = "HOVERING AT OBSTACLE; WAITING FOR USER INPUT"
+					print("HOVERED "+str(hover_count)+" seconds")
 				if(hover_count > 10):
+					vel.linear.z=-200
+					#hover_count = 0
+					str_msg = "USER INPUT TIMEOUT; LANDING"
+					print(str_msg)
+				if(hover_count > 12):
 					exit()
-				print("HOVERED "+str(hover_count)+" seconds")
 				hover_count += dt
-				state_publisher.publish("HOVERING")
-				velocity_publisher.publish(vel)
-				rate.sleep()
-				continue
+				#sent = 0
+			print("vel.x: "+str(vel.linear.x))
+			print("vel.y: "+str(vel.linear.y))
+			state_publisher.publish(str_msg)
+			velocity_publisher.publish(vel)
+			rate.sleep()
+			continue
 		else:
 			goal_x = final_goal_x
 			goal_y = final_goal_y
