@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+
+<nodes>
+        <node name="vicon" topics_in="" topics_out="/vicon/TELLO/TELLO /vicon/OBSTACLE/OBSTACLE"/>
+        <node name="gotogoal" topics_in="/vicon/TELLO/TELLO /vicon/OBSTACLE/OBSTACLE /user_input /velocity /state /obstacle_detector /is_user_watching_drone /distance_to_obstacle /distance_to_user" topics_out="/velocity /state /obstacle_detector /is_user_watching_drone /distance_to_obstacle /distance_to_user"/>
+        <node name="user_input" topics_in="/obstacle_detector" topics_out="/user_input /is_user_watching_drone"/>
+        <!--<node name="key_vel" topics_in="/obstacle_detector /keys_enabled /killswitch /obstacle_dyn" topics_out="/state /velocity"/>
+        <node name="" topics_in="" topics_out=""/>-->
+</nodes>
+

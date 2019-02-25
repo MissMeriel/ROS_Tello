@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<root>
+
+<topics>
+	<topic name="/vicon/TELLO/TELLO" type="system_state"/>
+	<topic name="/vicon/OBSTACLE/OBSTACLE" type="system_state"/>
+	<topic name="/user_input" type="user_input"/>
+	<topic name="/velocity" type="system_output"/>
+	<topic name="/state" type="system_state"/>
+	<topic name="/obstacle_detector" type="system_state"/>
+	<topic name="/is_user_watching_drone" type="user_state"/>
+	<topic name="/distance_to_user" type="system_state"/>
+	<topic name="/distance_to_obstacle" type="system_state"/>
+	<!--<topic name="" type=""/>-->
+</topics>
+
+<relations>
+	<relate types="system_state user_state">
+	<relate types="system_state system_output">
+	<relate types="user_input user_state">
+	<relate types="user_input system_output">
+	<relate types="user_input system_state">
+	<!--<relate types="">-->
+</relations>
+
+<nodes>
+	<node name="vicon" topics_in="" topics_out="/vicon/TELLO/TELLO /vicon/OBSTACLE/OBSTACLE"/>
+	<node name="gotogoal" topics_in="/vicon/TELLO/TELLO /vicon/OBSTACLE/OBSTACLE /user_input /velocity /state /obstacle_detector /is_user_watching_drone /distance_to_user /distance_to_obstacle" topics_out="/velocity /state /obstacle_detector /user_input /is_user_watching_drone /distance_to_user /distance_to_obstacle"/>
+	<node name="user_input" topics_in="/obstacle_detector /velocity /state /is_user_watching_drone /distance_to_user /distance_to_obstacle" topics_out="/user_input /velocity /state /is_user_watching_drone /distance_to_user /distance_to_obstacle"/>
+
+</nodes>
+</root>

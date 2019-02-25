@@ -63,9 +63,10 @@ def display_bag_info(bag_name):
 				message_types.append(topic['type'])
 				test_print("topic:"+str(topic["topic"])+" message type:"+str(topic['type']))
 		if(not found):
+			get_fields_and_type_for_missing_topic(t)
 			remove_topics.append(t)
-	for t in remove_topics:
-		topics.remove(t)
+	#for t in remove_topics:
+	#	topics.remove(t)
 	test_print("BAG TOPICS: "+str(bag_topics))
 	test_print("TOPICS: "+str(topics))
 	test_print("MESSAGE TYPES: "+str(message_types))
@@ -85,6 +86,16 @@ def display_bag_info(bag_name):
 			elif(topics_copy == []):
 				break
 	bag.close()
+
+
+def get_fields_and_type_for_missing_topic(topic):
+	global message_fields, message_types
+	topic_type = ""
+	if(topic == "/user_input"):
+		topic_type = 'std_msgs/String'
+	message_fields.update({topic_type: {}})
+	print_missing_topic_fields(topic)
+	message_types.append(topic_type)
 
 
 def print_topic_fields(field_name, path, msg, depth, index, msg_type):
@@ -116,21 +127,39 @@ def print_topic_fields(field_name, path, msg, depth, index, msg_type):
 		message_fields[msg_type][path] = {'name': field_name, 'type': type(msg), 'addr': hex(id(msg))}
 
 
+def print_missing_topic_fields(topic):
+	global message_fields
+	if(topic == "/user_input"):
+		msg_type = 'std_msgs/String'
+		path = "data"
+		addr = hex(id(""))
+		field_name = "bool"
+		message_fields[msg_type][path] = {'name': field_name, 'type': msg_type, 'addr': hex(id(""))}
+	#elif():
+	else:
+		#throw error -- unknown topic
+		raise Exception('Unknown topic: {}'.format(topic))
+
 def python_to_daikon_type(python_type):
 	field_type = str(python_type).split("\'")[1]
 	if(field_type == "str"):
 		field_type = "string"
 	if(field_type == "bool"):
-		field_type = "boolean"
+		#field_type = "boolean"
+		field_type = "string"
 	return field_type;
 
 
 def python_to_daikon_literal(python_lit):
 	python_lit = str(python_lit)
 	if(python_lit == "True"):
-		daikon_lit = "0"
-	elif(python_lit == "False"):
+		#daikon_lit = "0"
 		daikon_lit = "1"
+		daikon_lit = "\"True\""
+	elif(python_lit == "False"):
+		#daikon_lit = "1"
+		daikon_lit = "0"
+		daikon_lit = "\"False\""
 	else:
 		daikon_lit = python_lit
 	return daikon_lit
@@ -197,10 +226,11 @@ def enumerate_param_msg_fields(topic, msg, msg_type, i):
 	for key in keys:
 		val = ""
 		field = message_fields[msg_type][key]
-		field_string += "\nparam"+str(i)+"."+key
-		#field_string += "\n"+topic+str(i)+"."+key
+		#field_string += "\nparam"+str(i)+"."+key
+		trep = topic.replace("/", "")
+		field_string += "\n"+trep+str(i)+"."+key
 		levels = key.split(".")
-		test_print("RETRIEVING key: "+key)
+		#test_print("RETRIEVING key: "+key)
 		#test_print("levels: "+str(levels))
 		if msg != None:
 			val = traverse_msg_tree(msg, levels, msg_type, key)
@@ -415,8 +445,9 @@ def main():
 		param_string = ""
 		for t in topics_in:
 			topic_index = topics.index(t)
-			param_string += "\n\tvariable param"+str(i)
-			#param_string += "\n\tvariable "+t+str(i)
+			#param_string += "\n\tvariable param"+str(i)
+			trep = t.replace('/', "")
+			param_string += "\n\tvariable "+trep+str(i)
 			param_string += "\n\t\tvar-kind variable"
 			param_string += "\n\t\trep-type hashcode"
 			msg_type = message_types[topic_index]
@@ -425,10 +456,12 @@ def main():
 			keys = message_fields[msg_type].keys()
 			for key in keys:
 				field = message_fields[msg_type][key]
-				param_string += "\n\tvariable param"+str(i)+"."+key
-				#param_string += "\n\tvariable "+t+str(i)+"."+key
+				#param_string += "\n\tvariable param"+str(i)+"."+key
+				trep = t.replace("/", "")
+				param_string += "\n\tvariable "+trep+str(i)+"."+key
 				param_string += "\n\t\tvar-kind field "+key
-				param_string += "\n\t\tenclosing-var "+t+str(i)
+				#param_string += "\n\t\tenclosing-var "+"param"+str(i)
+				param_string += "\n\t\tenclosing-var "+trep+str(i)
 				field_type = python_to_daikon_type(field['type'])
 				comparability_int = get_comparability_int(key, field['type'])
 				param_string += "\n\t\trep-type "+field_type
@@ -533,8 +566,8 @@ def main():
 		#test_print("signature_param_string: "+signature_param_string)
 
 		#build ENTER and EXIT strings
-		enter_string = "\n.."+topic+"("+signature_param_string+"):::ENTER\nthis_invocation_nonce\n"+str(call_counts[index])
-		exit_string = exit_string = "\n.."+topic+"("+signature_param_string+"):::EXIT0\nthis_invocation_nonce\n"+str(call_counts[index])
+		enter_string = "\n.."+topic.replace("/", "")+"("+signature_param_string+"):::ENTER\nthis_invocation_nonce\n"+str(call_counts[index])
+		exit_string = exit_string = "\n.."+topic.replace("/", "")+"("+signature_param_string+"):::EXIT0\nthis_invocation_nonce\n"+str(call_counts[index])
 		i = 0
 		param_string = ""
 		enter_param_string = ""
@@ -547,25 +580,28 @@ def main():
 			#test_print("\nENTER MESSAGE "+str(i)+" FOR TOPIC "+slashed_topic+": "+str(enter_msg))
 			#test_print("EXIT MESSAGE "+str(i)+" FOR TOPIC "+slashed_topic+": "+str(exit_msg))
 			if enter_msg != {} or not enter_msg['msg']==None:
-				enter_param_string +="\nparam"+str(i)+"\n"+enter_msg['hash']+"\n1"
-				#enter_param_string +="\n"+t+str(i)+"\n"+enter_msg['hash']+"\n1"
+				#enter_param_string +="\nparam"+str(i)+"\n"+enter_msg['hash']+"\n1"
+				trep = t.replace("/", "")
+				enter_param_string +="\n"+trep+str(i)+"\n"+enter_msg['hash']+"\n1"
 				enter_message = enter_msg['msg']
 				enter_param_string += enumerate_param_msg_fields(t, enter_message, msg_type, i)
 			else:
 				#exit()
 				#print("Enter message is None")
-				enter_param_string += "\nparam"+str(i) + "\n"+hex(id("")) + "\n1"
-				#enter_param_string += "\n"+t+str(i) + "\n"+hex(id("")) + "\n1"
+				#enter_param_string += "\nparam"+str(i) + "\n"+hex(id("")) + "\n1"
+				trep = t.replace("/", "")
+				enter_param_string += "\n"+trep+str(i) + "\n"+hex(id("")) + "\n1"
 				enter_message = None
 			if exit_msg != {} or exit_msg['msg'] != None:
-				exit_param_string += "\nparam"+str(i) + "\n"+exit_msg['hash'] + "\n1"
-				#exit_param_string += "\n"+t+str(i) + "\n"+exit_msg['hash'] + "\n1"
+				#exit_param_string += "\nparam"+str(i) + "\n"+exit_msg['hash'] + "\n1"
+				trep = t.replace("/", "")
+				exit_param_string += "\n"+trep+str(i) + "\n"+exit_msg['hash'] + "\n1"
 				exit_message = exit_msg['msg']
 				exit_param_string += enumerate_param_msg_fields(t, exit_message, msg_type, i)
 			else:
-				#exit()
-				exit_param_string += "\nparam"+str(i) + "\n"+hex(id("")) + "\n1"
-				#exit_param_string += "\n"+t+str(i) + "\n"+hex(id("")) + "\n1"
+				trep = t.replace("/", "")
+				#exit_param_string += "\nparam"+str(i) + "\n"+hex(id("")) + "\n1"
+				exit_param_string += "\n"+trep+str(i) + "\n"+hex(id("")) + "\n1"
 				exit_message = None
 			i += 1
 		enter_string += enter_param_string + "\n"
@@ -589,9 +625,9 @@ def main():
 	print("Processed "+str(msg_count)+" out of "+str(bag_info['messages'])+" messages")
 	print("Output: "+decls_filename+" "+dtrace_filename)
 	print("----- %s seconds runtime -----" % (time.time() - start_time))
-	os.system('java -cp $DAIKONDIR/daikon.jar:${DAIKONDIR}/java/lib/*:${DAIKONDIR}/java daikon.Daikon '+ decls_filename+" "+dtrace_filename)
-	os.system('gunzip '+output_filename[0]+'.inv.gz')
-	os.system('java -cp $DAIKONDIR/daikon.jar daikon.PrintInvariants --wrap_xml '+output_filename[0]+'.inv > '+output_filename[0]+'.xml')
+	#os.system('java -cp $DAIKONDIR/daikon.jar:${DAIKONDIR}/java/lib/*:${DAIKONDIR}/java daikon.Daikon '+ decls_filename+" "+dtrace_filename)
+	#os.system('gunzip '+output_filename[0]+'.inv.gz')
+	#os.system('java -cp $DAIKONDIR/daikon.jar daikon.PrintInvariants --wrap_xml '+output_filename[0]+'.inv > '+output_filename[0]+'.xml')
 	print("Printed invariants to "+output_filename[0]+'.xml')
 
 if __name__ == "__main__":

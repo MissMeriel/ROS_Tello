@@ -91,7 +91,7 @@ def parse_inv_xml(xml_tree):
 	test_print(str(root.tag)+"="+str(root.attrib)+str(root.text))
 	for child in root.iter("PPT"):
 		for invinfo in child.iter("INVINFO"):
-			if(("OneOf" in invinfo.find("DAIKONCLASS").text or "Probabilistic" in invinfo.find("DAIKONCLASS").text) and "one of" in invinfo.find("INV").text and "rotation" not in invinfo.find("INV").text and "stamp" not in invinfo.find("INV").text):
+			if(("OneOf" in invinfo.find("DAIKONCLASS").text or "Probabilistic" in invinfo.find("DAIKONCLASS").text) and "one of" in invinfo.find("INV").text and "rotation" not in invinfo.find("INV").text and "stamp" not in invinfo.find("INV").text and "header.seq" not in invinfo.find("INV").text):
 				test_print(child.find("PPTNAME").text)
 				test_print("\t"*1 + str(invinfo.tag)+"="+str(invinfo.attrib))
 				test_print("\t"*2+"PARENT="+invinfo.find("PARENT").text)
@@ -171,5 +171,5 @@ def main():
 	
 
 if __name__ == "__main__":
-    # execute only if run as a script
+    # execute only if run as a script 
     main()

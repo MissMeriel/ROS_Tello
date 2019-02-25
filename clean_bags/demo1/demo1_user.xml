@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 
 <nodes>
-	<node name="gotogoal" topics_in="/vicon/TELLO/TELLO /is_user_watching_drone /distance_to_user" topics_out="/velocity /state"/>
-	<node name="user" topics_in="/vicon/TELLO/TELLO /is_user_watching_drone /distance_to_user /velocity /state" topics_out="/is_user_watching_drone /distance_to_user"/>
+	<node name="gotogoal" topics_in="/vicon/TELLO/TELLO /velocity /state /is_user_watching_drone /distance_to_user" topics_out="/velocity /state"/>
+	<node name="user" topics_in="/vicon/TELLO/TELLO /is_user_watching_drone /distance_to_user /velocity /state" topics_out="/is_user_watching_drone /distance_to_user /velocity /state"/>
 	<!-- <node name="" topics_in="" topics_out=""/>
 	<node name="" topics_in="" topics_out=""/>-->
 </nodes>
