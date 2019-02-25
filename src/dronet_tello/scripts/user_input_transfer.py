@@ -82,13 +82,13 @@ def readInputBehavior():
 			s = sys.stdin.readline()
 		else:
 			s="invalid"
-	elif("go" in s):
-		print("Enter goal coordinates: x,y")
-		rlist, _, _ = select([sys.stdin], [], [], timeout)
-		if rlist:
-			s = sys.stdin.readline()
-		else:
-			s="invalid"
+	#elif("go" in s):
+	print("Enter goal coordinates: x,y")
+	rlist, _, _ = select([sys.stdin], [], [], timeout)
+	if rlist:
+		s += sys.stdin.readline()
+	else:
+		s="invalid"
 	return s
 
 

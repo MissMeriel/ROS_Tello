@@ -10,11 +10,17 @@ import tty
 
 from geometry_msgs.msg import Twist
 
-velocity_message = None
+velocity_message = Twist()
 
 def user_velocity_callback(data):
 	global velocity_message
-	velocity_message = data
+	velocity_message = Twist()
+	velocity_message.linear.x = data.linear.x
+	velocity_message.linear.y = data.linear.y
+	velocity_message.linear.z = data.linear.z
+	velocity_message.angular.x = data.angular.x
+	velocity_message.angular.y = data.angular.y
+	velocity_message.angular.z = data.angular.z
 
 def main():
     global velocity_message
@@ -25,7 +31,8 @@ def main():
     rate = rospy.Rate(20)
 
     while not rospy.is_shutdown():
-        velocity_publisher.publish(velocity_message)
+	#if velocity_message != None:
+	velocity_publisher.publish(velocity_message)
         rate.sleep()
 
 
@@ -34,5 +41,4 @@ if __name__ == "__main__":
         main()
     except Exception as e:
         traceback.print_exc()
-    termios.tcsetattr(sys.stdin, termios.TCSADRAIN, ORIG_SETTINGS)
 

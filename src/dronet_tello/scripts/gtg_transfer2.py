@@ -239,7 +239,7 @@ def main():
 		if (distance_to_final_goal < threshold):
 			if(hover_count < 5):
 				print("GO TO GOAL; GOAL REACHED with threshold "+str(distance_to_final_goal))
-				str_msg = "GO TO GOAL")
+				str_msg = "GO TO GOAL"
 				print("Waiting for user input")
 				vel.linear.x = 0
 				vel.linear.y = 0
