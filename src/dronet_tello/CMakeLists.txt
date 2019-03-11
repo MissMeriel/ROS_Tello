@@ -52,6 +52,8 @@ add_message_files(
   FILES
   CNN_out.msg
   FlightData.msg
+  HeadedString.msg
+  HeadedBool.msg
 )
 
 ## Generate services in the 'srv' folder
