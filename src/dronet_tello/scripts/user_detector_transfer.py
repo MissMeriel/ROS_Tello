@@ -8,7 +8,7 @@ import time
 
 from geometry_msgs.msg import Twist
 from geometry_msgs.msg import TransformStamped
-from std_msgs.msg import Bool
+from std_msgs.msg import HeadedBool
 from std_msgs.msg import String
 
 
@@ -74,8 +74,8 @@ def is_user2_watching_drone():
 def main():
 
 	rospy.init_node("user_detector", anonymous=True)
-	user1_publisher = rospy.Publisher("/is_user1_watching_drone", Bool, queue_size=1)
-	user2_publisher = rospy.Publisher("/is_user2_watching_drone", Bool, queue_size=1)
+	user1_publisher = rospy.Publisher("/is_user1_watching_drone", HeadedBool, queue_size=1)
+	user2_publisher = rospy.Publisher("/is_user2_watching_drone", HeadedBool, queue_size=1)
 	position_subscriber = rospy.Subscriber("/vicon/TELLO/TELLO", TransformStamped, vicon_drone, queue_size=10)
 	user1_subscriber = rospy.Subscriber("/vicon/PLAYER1/PLAYER1", TransformStamped, vicon_user1, queue_size=10)
 	user2_subscriber = rospy.Subscriber("/vicon/PLAYER2/PLAYER2", TransformStamped, vicon_user2, queue_size=10)

@@ -69,54 +69,8 @@ if want_fields:
 def print_fields(field_output):
 	exec FIELD_MACRO in globals(),locals()
 
-
 def test_print(test_output):
 	exec MY_MACRO in globals(), locals()
-
-
-def parse_inv_xml(xml_tree):
-	root = xml_tree.getroot()
-	spinfo_string = ""
-	test_print(str(root.tag)+"="+str(root.attrib)+str(root.text))
-	for child in root.iter("PPT"):
-		for invinfo in child.iter("INVINFO"):
-			if(("OneOf" in invinfo.find("DAIKONCLASS").text or "Probabilistic" in invinfo.find("DAIKONCLASS").text) and "one of" in invinfo.find("INV").text and "rotation" not in invinfo.find("INV").text and "stamp" not in invinfo.find("INV").text and "header.seq" not in invinfo.find("INV").text):
-				test_print(child.find("PPTNAME").text)
-				test_print("\t"*1 + str(invinfo.tag)+"="+str(invinfo.attrib))
-				test_print("\t"*2+"PARENT="+invinfo.find("PARENT").text)
-				test_print("\t"*2+"INV="+invinfo.find("INV").text)
-				test_print("\t"*2+"SAMPLES="+invinfo.find("SAMPLES").text)
-				test_print("\t"*2+"DAIKON="+invinfo.find("DAIKON").text)
-				test_print("\t"*2+"DAIKONCLASS="+invinfo.find("DAIKONCLASS").text)
-				test_print("\t"*2+"METHOD="+invinfo.find("METHOD").text)
-				if("Probabilistic" in invinfo.find("DAIKONCLASS").text):
-					ppt = child.find("PPTNAME").text.split(":")[0].split("(")[0]
-					test_print("ppt "+str(ppt))
-					spinfo_string += "PPT_NAME "+ ppt
-					infosplit = invinfo.find("INV").text.split("one of")
-					varname = infosplit[0]
-					valsplit = infosplit[1].replace("{", "").split("}")
-					test_print(valsplit)
-					vals = valsplit[0].split(",")
-					for val in vals:
-						spinfo_string += "\n"+varname+" == "+val
-					spinfo_string += "\n\n"
-				elif("OneOf" in invinfo.find("DAIKONCLASS").text and "one of" in invinfo.find("INV").text):
-					ppt = child.find("PPTNAME").text.split(":")[0].split("(")[0]
-					test_print("ppt "+str(ppt))
-					spinfo_string += "PPT_NAME "+ ppt
-					infosplit = invinfo.find("INV").text.split("one of")
-					varname = infosplit[0]
-					valsplit = infosplit[1].replace("{", "").strip("}")
-					test_print(valsplit)
-					vals = valsplit.split(",")
-					for val in vals:
-						spinfo_string += "\n"+varname+" == "+val
-					spinfo_string += "\n\n"
-	test_print("SPINFO_STRING:")
-	test_print(spinfo_string)
-	return spinfo_string
-
 
 def parse_typespace_xml(xml_tree):
 	global typedict
@@ -147,83 +101,7 @@ def parse_typespace_xml(xml_tree):
 				#test_print(var.tag+": "+str(var.get("name")))
 				relations = var.get("types").replace(" ", "_")
 				typedict["relations"].add(relations)
-	print(str(typedict))
-
-
-def regroup_inv_xml(xml_tree):
-	global typedict
-	comment_div = "<!-- ================= %s ================= -->" % "other"
-	
-	new_root = ET.Element("root")
-	h_elem = ET.SubElement(new_root, "h")
-	m_elem = ET.SubElement(new_root, "m")
-	h2m_elem = ET.SubElement(new_root, "h2m")
-	m2h_elem = ET.SubElement(new_root, "m2h")
-	other_elem = ET.SubElement(new_root, "other")
-	root = xml_tree.getroot()
-	for child in root.iter("PPT"):
-		for invinfo in child.iter("INVINFO"):
-			#if(("OneOf" in invinfo.find("DAIKONCLASS").text or "Probabilistic" in invinfo.find("DAIKONCLASS").text) and "one of" in invinfo.find("INV").text and "rotation" not in invinfo.find("INV").text and "stamp" not in invinfo.find("INV").text and "header.seq" not in invinfo.find("INV").text):
-			for var in typedict["h"]:
-				if(var in child.find("PPTNAME").text):
-					#print(var + " in " +child.find("PPTNAME").text)
-					h_elem.append(child)
-			for var in typedict["m"]:
-				if(var in child.find("PPTNAME").text):
-					#print(var + " in " +child.find("PPTNAME").text)
-					m_elem.append(child)
-			for var in typedict["h2m"]:
-				if(var in child.find("PPTNAME").text):
-					#print(var + " in " +child.find("PPTNAME").text)
-					h2m_elem.append(child)
-			for var in typedict["m2h"]:
-				if(var in child.find("PPTNAME").text):
-					#print(var + " in " +child.find("PPTNAME").text)
-					m2h_elem.append(child)
-			for var in typedict["other"]:
-				if(var in child.find("PPTNAME").text):
-					#print(var + " in " +child.find("PPTNAME").text)
-					other_elem.append(child)
-			#ET.dump(new_root)
-			break;
-
-
-			test_print(child.find("PPTNAME").text)
-			test_print("\t"*1 + str(invinfo.tag)+"="+str(invinfo.attrib))
-			test_print("\t"*2+"PARENT="+invinfo.find("PARENT").text)
-			test_print("\t"*2+"INV="+invinfo.find("INV").text)
-			test_print("\t"*2+"SAMPLES="+invinfo.find("SAMPLES").text)
-			test_print("\t"*2+"DAIKON="+invinfo.find("DAIKON").text)
-			test_print("\t"*2+"DAIKONCLASS="+invinfo.find("DAIKONCLASS").text)
-			test_print("\t"*2+"METHOD="+invinfo.find("METHOD").text)
-
-			if("Probabilistic" in invinfo.find("DAIKONCLASS").text):
-				ppt = child.find("PPTNAME").text.split(":")[0].split("(")[0]
-				test_print("ppt "+str(ppt))
-				spinfo_string += "PPT_NAME "+ ppt
-				infosplit = invinfo.find("INV").text.split("one of")
-				varname = infosplit[0]
-				valsplit = infosplit[1].replace("{", "").split("}")
-				test_print(valsplit)
-				vals = valsplit[0].split(",")
-				for val in vals:
-					spinfo_string += "\n"+varname+" == "+val
-				spinfo_string += "\n\n"
-			elif("OneOf" in invinfo.find("DAIKONCLASS").text and "one of" in invinfo.find("INV").text):
-				ppt = child.find("PPTNAME").text.split(":")[0].split("(")[0]
-				test_print("ppt "+str(ppt))
-				spinfo_string += "PPT_NAME "+ ppt
-				infosplit = invinfo.find("INV").text.split("one of")
-				varname = infosplit[0]
-				valsplit = infosplit[1].replace("{", "").strip("}")
-				test_print(valsplit)
-				vals = valsplit.split(",")
-				for val in vals:
-					spinfo_string += "\n"+varname+" == "+val
-				spinfo_string += "\n\n"
-
-	regrouped_xml = h + "\n" + m + "\n" + h2m + "\n" + m2h + "\n" + h_m + "\n" + h_h2m + "\n" + h_m2h + "\n" + m_h2m + "\n" + m_m2h + "\n" + m2h_h2m + "\n" + other
-	return regrouped_xml
+	test_print(str(typedict))
 
 
 def restruct_xml(xml_tree):
@@ -231,130 +109,110 @@ def restruct_xml(xml_tree):
 	comment_div = "<!-- ================= %s ================= -->" % "other"
 	new_tree = ET.ElementTree()
 	new_root = ET.Element('root')
-	h_elem = ET.SubElement(new_root, "h")
-	m_elem = ET.SubElement(new_root, "m")
-	h2m_elem = ET.SubElement(new_root, "h2m")
-	m2h_elem = ET.SubElement(new_root, "m2h")
-	other_elem = ET.SubElement(new_root, "other")
-	print(ET.tostring(new_root))
-	print(type(new_root))
 	new_tree._setroot(new_root)
 	root = xml_tree.getroot()
 	for child in root.iter("PPT"):
-		ppt_name_h_elem = ET.SubElement(h_elem, "PPT_NAME")
-		ppt_name_m_elem = ET.SubElement(m_elem, "PPT_NAME")
-		ppt_name_h_elem.text = child.find("PPTNAME").text
-		ppt_name_m_elem.text = child.find("PPTNAME").text
+		ppt_name_elem = ET.SubElement(new_root, "PPT_NAME")
+		ppt_name_elem.text = child.find("PPTNAME").text
+		h_elem = ET.SubElement(ppt_name_elem, "h")
+		m_elem = ET.SubElement(ppt_name_elem, "m")
+		h2m_elem = ET.SubElement(ppt_name_elem, "h2m")
+		m2h_elem = ET.SubElement(ppt_name_elem, "m2h")
+		other_elem = ET.SubElement(ppt_name_elem, "other")
 		for invinfo in child.iter("INVINFO"):
-			if("Probabilistic" in invinfo.find("DAIKONCLASS").text and "one of" in invinfo.find("INV").text):
-				for var in typedict["h"]:
-					if(var in invinfo.find("INV").text):
-						#print("inv of type h")
-						inv_elem = invinfo.find("INV")
-						#ppt_name_h_elem.append(inv_elem)
-						#print(ET.tostring(inv_elem, encoding="us-ascii", method="xml"))
-						#print(ET.tostring(h_elem))
-						#print(var + " in " +child.find("PPTNAME").text)
-						invtext = invinfo.find("INV").text
-						inv_text_split = invtext.split("}")
-						#print("inv_text_split: "+str(inv_text_split))
-						oneof_elem = ET.SubElement(inv_elem, "ONEOF")
-						oneof_elem.text = inv_text_split[0]+"}"
-						print(ET.tostring(inv_elem))
-
-						inv_text_split1 = inv_text_split[1].split("\n\t")
-
-						vals = inv_text_split[1].split("\n\t")
-						print(vals)
-						for val in vals[1:len(vals)]:
-							val_split = val.split("probability: ")
-							print("val_split: "+ str(val_split))
-							val0 = val_split[0].strip()
-							prob = val_split[1].split("\tcount:")
-							prob0 = prob[0].replace(" probability: ", "")
-							count = prob[1].split(" total:")
-							count0 = count[0]
-							total0 = count[1].replace("\t", "")
-							#total0 = total
-							print("val:"+val0+" prob:"+prob0+" count:"+count0+" total:"+total0)
-							val_elem = ET.SubElement(inv_elem, "VAL")
-							val_elem.text = val0
-							#print(ET.tostring(inv_elem))
-							prob_elem = ET.SubElement(inv_elem, "PROBABILITY")
-							prob_elem.text = prob0
-							#print(ET.tostring(inv_elem))
-							count_elem = ET.SubElement(val_elem, "COUNT")
-							count_elem.text = count0
-							#val_elem.append(count_elem)
-							total_elem = ET.SubElement(val_elem, "TOTAL")
-							total_elem.text = total0
-							#val_elem.append(total_elem)
-						ppt_name_h_elem.append(inv_elem)
-				for var in typedict["m"]:
-					if(var in child.find("PPTNAME").text):
-						#print(var + " in " +child.find("PPTNAME").text)
-						
-						#print("inv of type h")
-						inv_elem = invinfo.find("INV")
-						ppt_name_h_elem.append(inv_elem)
-						#print(ET.tostring(inv_elem, encoding="us-ascii", method="xml"))
-						#print(ET.tostring(h_elem))
-						#print(var + " in " +child.find("PPTNAME").text)
-						invtext = invinfo.find("INV").text
-						inv_text_split = invtext.split("}")
-						#print("inv_text_split: "+str(inv_text_split))
-						oneof_elem = ET.SubElement(inv_elem, "ONEOF")
-						oneof_elem.text = inv_text_split[0]+"}"
-						print(ET.tostring(inv_elem))
-
-						inv_text_split1 = inv_text_split[1].split("\n\t")
-
-						vals = inv_text_split[1].split("\n\t")
-						print(vals)
-						for val in vals[1:len(vals)]:
-							val_split = val.split("probability: ")
-							print("val_split: "+ str(val_split))
-							val0 = val_split[0].strip()
-							prob = val_split[1].split("\tcount:")
-							prob0 = prob[0].replace(" probability: ", "")
-							count = prob[1].split(" total:")
-							count0 = count[0]
-							total0 = count[1].replace("\t", "")
-							#total0 = total
-							print("val:"+val0+" prob:"+prob0+" count:"+count0+" total:"+total0)
-							val_elem = ET.SubElement(inv_elem, "VAL")
-							val_elem.text = val0
-							#print(ET.tostring(inv_elem))
-							prob_elem = ET.SubElement(inv_elem, "PROBABILITY")
-							prob_elem.text = prob0
-							#print(ET.tostring(inv_elem))
-							count_elem = ET.SubElement(val_elem, "COUNT")
-							count_elem.text = count0
-							#val_elem.append(count_elem)
-							total_elem = ET.SubElement(val_elem, "TOTAL")
-							total_elem.text = total0
-							#val_elem.append(total_elem)
-						ppt_name_h_elem.append(inv_elem)
-				for var in typedict["h2m"]:
-					if(var in child.find("PPTNAME").text):
-						#print(var + " in " +child.find("PPTNAME").text)
-						h2m_elem.append(child)
-				for var in typedict["m2h"]:
-					if(var in child.find("PPTNAME").text):
-						#print(var + " in " +child.find("PPTNAME").text)
-						m2h_elem.append(child)
-				for var in typedict["other"]:
-					if(var in child.find("PPTNAME").text):
-						#print(var + " in " +child.find("PPTNAME").text)
-						other_elem.append(child)
-		#h_elem.append(ppt_name_h_elem)
-		#h_elem.append(ppt_name_m_elem)
-		break
-			
-	regrouped_xml = h + "\n" + m + "\n" + h2m + "\n" + m2h + "\n" + h_m + "\n" + h_h2m + "\n" + h_m2h + "\n" + m_h2m + "\n" + m_m2h + "\n" + m2h_h2m + "\n" + other
+			if("Probabilistic" in invinfo.find("DAIKONCLASS").text and "one of" in invinfo.find("INV").text and "condition" in child.find("PPTNAME").text):
+				inv_elem = invinfo.find("INV")
+				#print(ET.tostring(inv_elem, encoding="us-ascii", method="xml"))
+				#print(ET.tostring(h_elem))
+				#print(var + " in " +child.find("PPTNAME").text)
+				invtext = invinfo.find("INV").text
+				inv_text_split = invtext.split("}")
+				oneof_elem = ET.SubElement(inv_elem, "ONEOF")
+				oneof_elem.text = inv_text_split[0]+"}"
+				#test_print(ET.tostring(inv_elem))
+				#print(inv_text_split)
+				inv_text_split1 = inv_text_split[1].split("\n\t")
+				vals = inv_text_split[1].split("\n\t")
+				#print(vals)
+				for val in vals[1:len(vals)]:
+					val_split = val.split("probability: ")
+					#test_print("val_split: "+ str(val_split))
+					val0 = val_split[0].strip()
+					prob = val_split[1].split("\tcount:")
+					prob0 = prob[0].replace(" probability: ", "")
+					count = prob[1].split(" total:")
+					count0 = count[0]
+					total0 = count[1].replace("\t", "")
+					#test_print("val:"+val0+" prob:"+prob0+" count:"+count0+" total:"+total0)
+					val_elem = ET.SubElement(inv_elem, "VAL")
+					val_elem.text = val0
+					prob_elem = ET.SubElement(val_elem, "PROBABILITY")
+					prob_elem.text = prob0
+					count_elem = ET.SubElement(val_elem, "COUNT")
+					count_elem.text = count0
+					total_elem = ET.SubElement(val_elem, "TOTAL")
+					total_elem.text = total0
+				if("return" in invinfo.find("INV").text):
+					# check PPTNAME for topic and how it aligns
+					topic = child.find("PPTNAME").text.split("(")
+					topic = topic[0].replace("..", "")
+					#print("topic: "+topic)
+					for var in typedict["h"]:
+						if(topic in var):
+							test_print(var + " in " +child.find("PPTNAME").text)
+							test_print("inv of type h")
+							h_elem.append(inv_elem)
+							#break
+					for var in typedict["m"]:
+						if(topic in var):
+							test_print(var + " in " +child.find("PPTNAME").text)
+							test_print("inv of type m")
+							m_elem.append(inv_elem)
+					for var in typedict["h2m"]:
+						if(topic in var):
+							test_print(var + " in " +child.find("PPTNAME").text)
+							test_print("inv of type h2m")
+							h2m_elem.append(inv_elem)
+					for var in typedict["m2h"]:
+						if(topic in var):
+							test_print(var + " in " +child.find("PPTNAME").text)
+							test_print("inv of type m2h")
+							m2h_elem.append(inv_elem)
+					for var in typedict["other"]:
+						if(topic in var):
+							test_print(var + " in " +child.find("PPTNAME").text)
+							test_print("inv of type other")
+							other_elem.append(inv_elem)
+				else:	
+					for var in typedict["h"]:
+						if(var in invinfo.find("INV").text):
+							test_print(var + " in " +child.find("PPTNAME").text)
+							test_print("inv of type h")
+							h_elem.append(inv_elem)
+							#break
+					for var in typedict["m"]:
+						if(var in invinfo.find("INV").text):
+							test_print(var + " in " +child.find("PPTNAME").text)
+							test_print("inv of type m")
+							m_elem.append(inv_elem)
+					for var in typedict["h2m"]:
+						if(var in invinfo.find("INV").text):
+							test_print(var + " in " +child.find("PPTNAME").text)
+							test_print("inv of type h2m")
+							h2m_elem.append(inv_elem)
+					for var in typedict["m2h"]:
+						if(var in invinfo.find("INV").text):
+							test_print(var + " in " +child.find("PPTNAME").text)
+							test_print("inv of type m2h")
+							m2h_elem.append(inv_elem)
+					for var in typedict["other"]:
+						if(var in invinfo.find("INV").text):
+							test_print(var + " in " +child.find("PPTNAME").text)
+							test_print("inv of type other")
+							other_elem.append(inv_elem)
 	#ET.dump(new_root)
-	print(ET.tostring(new_root))
-	print(type(new_root))
+	#test_print(ET.tostring(new_root))
+	#test_print(type(new_root))
 	return new_tree
 
 
@@ -363,7 +221,9 @@ def main():
 	global comparability_map, comparability_count
 	start_time = time.time()
 
-	output_filename=sys.argv[1].split(".")
+	#first arg: property file
+	# second arg: 
+	output_filename=sys.argv[2].split(".")
 	xml_filehead=output_filename[0]
 
 	#handle CL args
@@ -378,8 +238,8 @@ def main():
 	xml_tree = ET.parse(sys.argv[2])
 	regrouped_xml_string = restruct_xml(xml_tree)
 	root = regrouped_xml_string.getroot()
-	print(type(regrouped_xml_string.getroot()))
-	print(type(regrouped_xml_string))
+	test_print(type(regrouped_xml_string.getroot()))
+	test_print(type(regrouped_xml_string))
 	'''regrouped_xml_file = file(regrouped_filename, "w")
 	regrouped_xml_file.write(regrouped_xml_string)
 	regrouped_xml_file.close()'''

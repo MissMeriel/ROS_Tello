@@ -83,7 +83,7 @@ def main():
 	#loc_publisher = rospy.Publisher("/drone_location", Pose, queue_size=10)
 	velocity_publisher = rospy.Publisher("/velocity", Twist, queue_size=10)
 	state_publisher = rospy.Publisher("/state", String, queue_size=10)
-	obstacle_publisher = rospy.Publisher("/obstacle_detector", Bool, queue_size=1)
+	obstacle_publisher = rospy.Publisher("/obstacle_detector", HeadedBool, queue_size=1)
 	position_subscriber = rospy.Subscriber("/vicon/TELLO/TELLO", TransformStamped, vicon_data, queue_size=10)
 	obstacle_subscriber = rospy.Subscriber("vicon/OBSTACLE/OBSTACLE", TransformStamped, vicon_obstacle, queue_size=10)
 	input_subscriber = rospy.Subscriber("/user_input", String, user_input, queue_size=10)
@@ -165,7 +165,7 @@ def main():
 			print("\t\tdistance obstacle to goal: "+ str(distance_obs_to_goal))
 			print("\tangle_drone_to_goal: "+str(math.degrees(angle_drone_to_goal)))
 
-		obstacle_publisher.publish(Bool(obstacle_in_path))
+		obstacle_publisher.publish(HeadedBool(obstacle_in_path))
 
 		if (distance_to_final_goal < threshold):
 			if(hover_count < 5):
@@ -245,7 +245,7 @@ def main():
 					vel.linear.x = 0
 					vel.linear.y = 0
 					#while(sent < 4):
-					obstacle_publisher.publish(Bool(True))
+					obstacle_publisher.publish(HeadedBool(True))
 						#sent += 1
 					str_msg = "HOVERING AT OBSTACLE; WAITING FOR USER INPUT"
 					if(hover_count > 10):

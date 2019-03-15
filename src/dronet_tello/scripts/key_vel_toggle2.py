@@ -9,7 +9,7 @@ import traceback
 import tty
 
 from geometry_msgs.msg import Twist
-from std_msgs.msg import Bool
+from std_msgs.msg import HeadedBool
 from std_msgs.msg import String
 
 ORIG_SETTINGS = termios.tcgetattr(sys.stdin)
@@ -88,10 +88,10 @@ def main():
     global enabled, obstacle_dyn
     rospy.init_node("key_vel", anonymous=True)
     #input_subscriber = rospy.Subscriber("/user_input", String, process_user_input, queue_size=5)
-    input_subscriber = rospy.Subscriber("/obstacle_detector", Bool, obstacle_detected, queue_size=5)
-    input_subscriber = rospy.Subscriber("/keys_enabled", Bool, process_key_enable, queue_size=5)
-    process_killer = rospy.Subscriber("/killswitch", Bool, killswitch, queue_size=5)
-    obstacle_dyn_subscriber = rospy.Subscriber("/obstacle_dyn", Bool, process_obstacle_dyn, queue_size=1)
+    input_subscriber = rospy.Subscriber("/obstacle_detector", HeadedBool, obstacle_detected, queue_size=5)
+    input_subscriber = rospy.Subscriber("/keys_enabled", HeadedBool, process_key_enable, queue_size=5)
+    process_killer = rospy.Subscriber("/killswitch", HeadedBool, killswitch, queue_size=5)
+    obstacle_dyn_subscriber = rospy.Subscriber("/obstacle_dyn", HeadedBool, process_obstacle_dyn, queue_size=1)
     state_publisher = rospy.Publisher("/state", String, queue_size=5)
     velocity_publisher = rospy.Publisher("/user_velocity", Twist, queue_size=1)
     linear_vel_x = 0.0

@@ -93,6 +93,14 @@ def get_fields_and_type_for_missing_topic(topic):
 	topic_type = ""
 	if(topic == "/user_input"):
 		topic_type = 'std_msgs/String'
+	elif(topic == '/keys_enabled' or topic == '/obstacle_detector' or topic == '/obstacle_dyn' or topic == '/killswitch'):
+		topic_type = 'std_msgs/Bool'
+	elif(topic == "/user_velocity"):
+		topic_type = 'geometry_msgs/Twist'
+	elif(topic == '/distance_to_obstacle'):
+		topic_type = 'std_msgs/Float64'
+	elif(topic == '/vicon/OBSTACLE/OBSTACLE'):
+		topic_type = 'geometry_msgs/TransformStamped'
 	message_fields.update({topic_type: {}})
 	print_missing_topic_fields(topic)
 	message_types.append(topic_type)
@@ -133,12 +141,51 @@ def print_missing_topic_fields(topic):
 		msg_type = 'std_msgs/String'
 		path = "data"
 		addr = hex(id(""))
+		field_name = "string"
+		message_fields[msg_type][path] = {'name': field_name, 'type': type(str), 'addr': hex(id(""))}
+	elif(topic == "/user_velocity"):
+		msg_type = 'geometry_msgs/Twist'
+		addr = hex(id(""))
+		message_fields.update({msg_type:{'linear.x':{}, 'linear.y':{}, 'linear.z':{}, 'angular.x':{}, 'angular.y':{}, 'angular.z':{}}})
+		message_fields[msg_type]['linear.x'] = {'name': 'x', 'type': type(float), 'addr': hex(id(""))}
+		message_fields[msg_type]['linear.y'] = {'name': 'y', 'type': type(float), 'addr': hex(id(""))}
+		message_fields[msg_type]['linear.z'] = {'name': 'z', 'type': type(float), 'addr': hex(id(""))}
+		message_fields[msg_type]['angular.x'] = {'name': 'x', 'type': type(float), 'addr': hex(id(""))}
+		message_fields[msg_type]['angular.y'] = {'name': 'y', 'type': type(float), 'addr': hex(id(""))}
+		message_fields[msg_type]['angular.z'] = {'name': 'z', 'type': type(float), 'addr': hex(id(""))}
+	elif(topic == "/killswitch" or topic == '/obstacle_dyn' or topic == '/obstacle_detector' or topic == '/keys_enabled'):
+		msg_type = 'std_msgs/Bool'
+		path = "data"
+		addr = hex(id(""))
 		field_name = "bool"
-		message_fields[msg_type][path] = {'name': field_name, 'type': msg_type, 'addr': hex(id(""))}
-	#elif():
+		message_fields.update({msg_type:{path:{}}})
+		message_fields[msg_type][path] = {'name': field_name, 'type': type(bool), 'addr': hex(id(""))}
+	elif(topic == '/distance_to_obstacle'):
+		msg_type = 'std_msgs/Float64'
+		path = "data"
+		addr = hex(id(""))
+		field_name = "float64"
+		message_fields[msg_type][path] = {'name': field_name, 'type': type(float), 'addr': hex(id(""))}
+	elif(topic == '/vicon/OBSTACLE/OBSTACLE' or topic == '/vicon/PLAYER1/PLAYER1'):
+		msg_type = 'geometry_msgs/TransformStamped'
+		addr = hex(id(""))
+		message_fields.update({msg_type:{'header.stamp.secs':{}, 'header.stamp.nsecs':{}, 'transform.rotation.x':{}, 'header.seq':{}, 'transform.translation.y':{}, 'child_frame_id':{}, 'transform.rotation.z':{}, 'header.frame_id':{}, 'transform.rotation.w':{}, 'transform.translation.z':{}, 'transform.translation.x':{}, 'transform.rotation.y':{}}})
+		message_fields[msg_type]['header.seq'] = {'name': 'seq', 'type': type(int), 'addr': hex(id(""))}
+		message_fields[msg_type]['header.stamp.secs'] = {'name': 'stamp', 'type': type(int), 'addr': hex(id(""))}
+		message_fields[msg_type]['header.stamp.nsecs'] = {'name': 'stamp', 'type': type(int), 'addr': hex(id(""))}
+		message_fields[msg_type]['header.frame_id'] = {'name': 'frame_id', 'type': type(str), 'addr': hex(id(""))}
+		message_fields[msg_type]['child_frame_id'] = {'name': 'child_frame_id', 'type': type(str), 'addr': hex(id(""))}
+		message_fields[msg_type]['transform.translation.x'] = {'name': 'x', 'type': type(float), 'addr': hex(id(""))}
+		message_fields[msg_type]['transform.translation.y'] = {'name': 'y', 'type': type(float), 'addr': hex(id(""))}
+		message_fields[msg_type]['transform.translation.z'] = {'name': 'z', 'type': type(float), 'addr': hex(id(""))}
+		message_fields[msg_type]['transform.rotation.x'] = {'name': 'x', 'type': type(float), 'addr': hex(id(""))}
+		message_fields[msg_type]['transform.rotation.y'] = {'name': 'y', 'type': type(float), 'addr': hex(id(""))}
+		message_fields[msg_type]['transform.rotation.z'] = {'name': 'z', 'type': type(float), 'addr': hex(id(""))}
+		message_fields[msg_type]['transform.rotation.w'] = {'name': 'w', 'type': type(float), 'addr': hex(id(""))}
+
 	else:
 		#throw error -- unknown topic
-		raise Exception('Unknown topic: {}'.format(topic))
+		raise Exception('Unknown topic: '+topic)
 
 def python_to_daikon_type(python_type):
 	field_type = str(python_type).split("\'")[1]

@@ -9,7 +9,7 @@ import traceback
 import tty
 
 from geometry_msgs.msg import Twist
-from std_msgs.msg import Bool
+from std_msgs.msg import HeadedBool
 from std_msgs.msg import String
 
 ORIG_SETTINGS = termios.tcgetattr(sys.stdin)
@@ -110,10 +110,10 @@ def main():
     rospy.init_node("key_vel", anonymous=True)
     velocity_publisher = rospy.Publisher("/velocity", Twist, queue_size=10)
     key_state_publisher = rospy.Publisher("/key_state", Twist, queue_size=10)
-    obstacle_subscriber = rospy.Subscriber("/obstacle_detector", Bool, obstacle_detected, queue_size=5)
-    input_subscriber = rospy.Subscriber("/keys_enabled", Bool, process_user_input, queue_size=5)
+    obstacle_subscriber = rospy.Subscriber("/obstacle_detector", HeadedBool, obstacle_detected, queue_size=5)
+    input_subscriber = rospy.Subscriber("/keys_enabled", HeadedBool, process_user_input, queue_size=5)
     state_subscriber = rospy.Subscriber("/state", String, process_state, queue_size=5)
-    process_killer = rospy.Subscriber("/killswitch", Bool, killswitch, queue_size=5)
+    process_killer = rospy.Subscriber("/killswitch", HeadedBool, killswitch, queue_size=5)
     user_input_subscriber = rospy.Subscriber("/user_input", String, process_user_input, queue_size=10)
 
     linear_vel_x = 0.0

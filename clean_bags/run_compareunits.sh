@@ -1,9 +1,10 @@
 #!/bin/bash
 rootdir='cleanbags_2_22'
-demo='demo2'
+demo='demo1'
 for filename in $rootdir/*.bag; do
 	echo "bag2daikon for "$filename
-	python bag2daikon_compareunits.py $filename $demo/$demo'_user.xml'
+	#python bag2daikon_compareunits.py $filename $demo/$demo'_user.xml'
+	python bag2daikon_compareunits.py $filename 'alldemos_user.xml'
 	dtracefile="${filename//bag/dtrace}"
 	declsfile="${filename//bag/decls}"
 done
