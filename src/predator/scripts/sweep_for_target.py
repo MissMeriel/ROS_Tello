@@ -26,8 +26,8 @@ curr_x = 0
 curr_y = 0
 curr_z = 0
 curr_angle = 0
-home_x = 0
-home_y = 0
+home_x = -200
+home_y = -200
 threshold = 0.1
 publishing = True
 kill = False
@@ -79,14 +79,14 @@ def interpolate(increment_z):
 			interpolation_x.append(goal_x[0])
 			interpolation_y.append(goal_y[0])
 		index += 1
-	if(interpolation_z[len(interpolation_z)-1] == goal_z[1]):
+	if(interpolation_x[len(interpolation_x)-1] != goal_x[1]):
 		# need one more traverse
 		interpolation_x.append(goal_x[1])
-		interpolation_y.append(goal_y[0])
-		interpolation_z.append(goal_z[0])
-	interpolation_x.append(goal_x[1])
-	interpolation_y.append(goal_y[1])
-	interpolation_z.append(goal_z[1])
+		interpolation_y.append(goal_y[1])
+		interpolation_z.append(goal_z[1])
+	#interpolation_x.append(goal_x[1])
+	#interpolation_y.append(goal_y[1])
+	#interpolation_z.append(goal_z[1])
 
 
 def frange(start, stop, step):
@@ -114,7 +114,7 @@ def vicon_data(data):
 	cosy_cosp = +1.0 - 2.0 * (data.transform.rotation.y * data.transform.rotation.y + data.transform.rotation.z * data.transform.rotation.z);  
 	curr_angle = math.atan2(siny_cosp, cosy_cosp);
 	publishing = True
-	if(curr_z < 0.01):
+	if(curr_z < 0.05):
 		home_x = data.transform.translation.x
 		home_y = data.transform.translation.y
 
@@ -145,7 +145,7 @@ def percent_mission_completed(goal_counter):
 
 
 def main():
-	global goal_x, goal_y, interpolation_x, interpolation_y
+	global goal_x, goal_y, interpolation_x, interpolation_y, interpolation_z, home_x, home_y
 	global threshold
 	global curr_x, curr_y, curr_angle
 	global publishing, kill, sweeping
@@ -185,23 +185,34 @@ def main():
 	publishing_count = 0
 	hover_count = 0
 	goal_counter = 0
-
-	#if(interpolation_x(len(interpolation_x)-1) ~= home_x and interpolation_y(len(interpolation_y)-1) ~= home_y)
-		#interpolation_x.append(home_x)
-		#interpolation_y.append(home_y)
-		#interpolation_z.append(1)
+	home_not_set = True
+	angle_facing_sweep_area = math.atan2(goal_y[0]-goal_y[1], goal_x[0]-goal_x[1]) + math.pi/2.0
 
 	while not rospy.is_shutdown():
 
 		#3D Euclidean distance
 		distance_to_goal = math.sqrt((interpolation_x[goal_counter] - curr_x)**2 + (interpolation_y[goal_counter] - curr_y)**2)
 		z_distance_to_goal = interpolation_z[goal_counter] - curr_z
+		if(home_x != -200 and home_not_set):
+			interpolation_x.append(home_x)
+			interpolation_y.append(home_y)
+			interpolation_z.append(0)
+			home_not_set = False
 		print("")
 		percent_mission = percent_mission_completed(goal_counter)
 		print("% mission completed: "+ percent_mission)
-		angle_to_goal = math.atan2(goal_y[goal_counter]-curr_y, goal_x[goal_counter]-curr_x) - curr_angle
-		raw_angle_to_goal = math.atan2(goal_y[goal_counter]-curr_y, goal_x[goal_counter]-curr_x)
-
+		print("goal_counter: "+str(goal_counter))
+		print("goals to visit: "+str(len(interpolation_x)))
+		print("interpolation_x: "+str(interpolation_x))
+		print("interpolation_y: "+str(interpolation_y))
+		print("interpolation_z: "+str(interpolation_z))
+		print("home: "+str(home_x)+","+str(home_y))
+		print("goal_x: "+str(goal_x))
+		print("goal_y: "+str(goal_y))
+		print(""+str(math.degrees(angle_facing_sweep_area)))
+		angle_to_goal = math.atan2(interpolation_y[goal_counter]-curr_y, interpolation_x[goal_counter]-curr_x) - curr_angle
+		raw_angle_to_goal = math.atan2(interpolation_y[goal_counter]-curr_y, interpolation_x[goal_counter]-curr_x)
+		
 		# check for lapse in vicon data
 		if(not publishing):
 			publishing_count += 1
@@ -220,22 +231,33 @@ def main():
 		#finished sweeping
 		if (distance_to_goal < sweep_threshold and z_distance_to_goal < sweep_threshold and interpolation_x[goal_counter] == goal_x[1] and interpolation_x[goal_counter] == goal_y[1] and interpolation_z[goal_counter] == goal_z[1]):
 			#query user for options: Sweep again? Inspect specific point? Go home?
+			strmsg = "Finished sweeping"
+			if(hover_count > 2 and goal_counter < len(goal_x)-1):
+				hover_count = 0
+				integral = 0
+				previous_error = 0
+				goal_counter +=1
+			print(strmsg)
+			velocity_publisher.publish(vel)
+			machine_state_publisher.publish(strmsg)
+			hover_count += dt
+
+		#arrived back to home base
+		elif(distance_to_goal < sweep_threshold and z_distance_to_goal < sweep_threshold and interpolation_x[goal_counter] == home_x and interpolation_y[goal_counter] == home_y):
+			vel.linear.x = 0
+			vel.linear.y = 0
 			if(hover_count > 2):
-				vel.linear.x = 0
-				vel.linear.y = 0
 				vel.linear.z = -200
 				velocity_publisher.publish(vel)
 				strmsg = "Finished behavior"
 				machine_state_publisher.publish(strmsg)
 			elif(hover_count > 2 and goal_counter == len(goal_x)-1):
 				exit()
-			elif(hover_count > 2 and goal_counter < len(goal_x)-1):
-				#exit_count = 0
-				hover_count = 0
-				integral = 0
-				previous_error = 0
-				goal_counter +=1
-
+			print(strmsg)
+			velocity_publisher.publish(vel)
+			machine_state_publisher.publish(strmsg)
+			hover_count += dt
+			
 		#reached sweeping area
 		elif (distance_to_goal < sweep_threshold and z_distance_to_goal < sweep_threshold and interpolation_x[goal_counter] == goal_x[0] and interpolation_x[goal_counter] == goal_y[0] and interpolation_z[goal_counter] == goal_z[0]):
 			vel.linear.x = 0
@@ -246,10 +268,8 @@ def main():
 				vel.linear.y = 0
 				vel.linear.z = -200
 				strmsg = "Finished sweep"
-				#interpolation_x.append(home_x)
-				#interpolation_y.append(home_y)
-				#interpolation_z.append(1)
-				#goal_counter += 1
+			elif(hover_count > 2 and goal_counter == 0):
+				goal_counter += 1
 			print(strmsg)
 			velocity_publisher.publish(vel)
 			machine_state_publisher.publish(strmsg)
@@ -303,19 +323,20 @@ def main():
 			z_previous_error = z_error
 
 			ang_error = math.atan2(math.cos(raw_angle_to_goal - curr_angle), math.sin(raw_angle_to_goal - curr_angle))
+			ang_error = math.atan2(math.sin(angle_facing_sweep_area- curr_angle), math.cos(angle_facing_sweep_area- curr_angle))
 			ang_w = ang_error
 			if(ang_w > 1):
 				ang_w = 1
 			elif(ang_w < -1):
 				ang_w = -1
+			elif(abs(ang_w - angle_facing_sweep_area) < 0.1):
+				ang_w = 0
 
 			vel.linear.x = math.cos(angle_to_goal) * w
 			#negative sin due to how Tello interprets roll (right = pos)
 			vel.linear.y = -math.sin(angle_to_goal) * w
-			vel.linear.z = z_w
-			vel.angular.x = ang_w
-
-			print("curr_x, curr_y, curr_z: "+str(curr_x)+", "+str(curr_y)+", "+str(curr_z))
+			vel.linear.z = z_w * 2.3
+			vel.angular.z = ang_w
 			
 			# max tello speed is +-1
 			if(vel.linear.y > 1):
@@ -336,6 +357,7 @@ def main():
 			else:
 				strmsg = "APPROACHING/LEAVING SWEEP AREA"
 
+		print("curr_x, curr_y, curr_z: "+str(curr_x)+", "+str(curr_y)+", "+str(curr_z))
 		print("vel.x, vel.y, vel.z: "+ str(vel.linear.x)+", "+ str(vel.linear.y)+", "+ str(vel.linear.z))
 		machine_state_publisher.publish(strmsg)
 		velocity_publisher.publish(vel)	
