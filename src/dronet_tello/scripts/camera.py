@@ -93,7 +93,7 @@ def stream_video(output_stream, shutdown_signal):
 
 def decode_bmp_image(input_stream, shutdown_signal):
     print("in decode_bmp_image")
-    camera_raw = rospy.Publisher("image_raw", Image, queue_size=10)
+    camera_raw = rospy.Publisher("/image_raw", Image, queue_size=10)
     cnt = 0
     rootpath = os.path.dirname(sys.argv[0]) + "/../capture"
     if not os.path.exists(rootpath):
