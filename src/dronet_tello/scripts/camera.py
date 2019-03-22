@@ -98,6 +98,7 @@ def decode_bmp_image(input_stream, shutdown_signal):
     rootpath = os.path.dirname(sys.argv[0]) + "/../capture"
     if not os.path.exists(rootpath):
         os.makedirs(rootpath)
+    file_size_bytes = bytes([])
     while not shutdown_signal.is_set():
 	print("reading from input stream...")
         file_size_bytes = bytearray(input_stream.read(6))
@@ -125,9 +126,9 @@ def main():
         "ffmpeg",
         "-i",
         "-",
-        "-f",
+        #"-f",
         # "rawvideo",
-        "h264",
+        #"h264",
         "-vcodec",
         "bmp",
         # "png",
@@ -140,7 +141,9 @@ def main():
     print(sys.version)
     print(" ".join(ffmpegCmd))
     with open("ffmpeg.err", "w+") as ffmpeg_err:
-        ffmpeg = sp.Popen(ffmpegCmd, stdin=sp.PIPE, stdout=sp.PIPE, stderr=ffmpeg_err)
+        #ffmpeg = sp.Popen(ffmpegCmd, stdin=sp.PIPE, stdout=sp.PIPE, stderr=ffmpeg_err)
+        ffmpeg = sp.Popen(ffmpegCmd, shell=True, stdin=sp.PIPE, stdout=sp.PIPE, stderr=ffmpeg_err)
+        #ffmpeg = sp.Popen(sp.Popen.communicate)
 
     shutdown_signal = threading.Event()
 
@@ -154,7 +157,7 @@ def main():
 
     # stream_thread receives images from tello and feeds to ffmpeg
     stream_thread = threading.Thread(
-        target=stream_video, args=(ffmpeg.stdin, shutdown_signal)
+        target=stream_video, args=(ffmpeg.stdout, shutdown_signal)
     )
     stream_thread.start()
 

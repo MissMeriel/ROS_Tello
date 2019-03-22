@@ -182,6 +182,8 @@ def main():
 	Kp = 0.41
 	Ki = 0.003
 	Kd = 0.01
+	Kp_reg = 0.41; Ki_reg = 0.003; Kd_reg = 0.01;
+	Kp_slow = 0.03; Ki_slow = 0.003; Kd_slow = 0.006;
 	publishing_count = 0
 	hover_count = 0
 	goal_counter = 0
@@ -241,6 +243,7 @@ def main():
 			velocity_publisher.publish(vel)
 			machine_state_publisher.publish(strmsg)
 			hover_count += dt
+			Kp = Kp_reg; Ki = Ki_reg; Kd = Kd_reg
 
 		#arrived back to home base
 		elif(distance_to_goal < sweep_threshold and z_distance_to_goal < sweep_threshold and interpolation_x[goal_counter] == home_x and interpolation_y[goal_counter] == home_y):
@@ -263,17 +266,13 @@ def main():
 			vel.linear.x = 0
 			vel.linear.y = 0
 			strmsg = "SWEEP AREA REACHED"
-			if(hover_count > 2 and goal_counter == len(interpolation_x)-1):
-				vel.linear.x = 0
-				vel.linear.y = 0
-				vel.linear.z = -200
-				strmsg = "Finished sweep"
-			elif(hover_count > 2 and goal_counter == 0):
+			if(hover_count > 2 and goal_counter == 0):
 				goal_counter += 1
 			print(strmsg)
 			velocity_publisher.publish(vel)
 			machine_state_publisher.publish(strmsg)
 			hover_count += dt
+			Kp = Kp_slow; Ki = Ki_slow; Kd = Kd_slow;
 
 		#reached an interpolated goal
 		elif (distance_to_goal < sweep_threshold and z_distance_to_goal < sweep_threshold):
@@ -322,14 +321,13 @@ def main():
 			z_w = Kp * z_error + Ki * z_integral + Kd * z_derivative
 			z_previous_error = z_error
 
-			ang_error = math.atan2(math.cos(raw_angle_to_goal - curr_angle), math.sin(raw_angle_to_goal - curr_angle))
-			ang_error = math.atan2(math.sin(angle_facing_sweep_area- curr_angle), math.cos(angle_facing_sweep_area- curr_angle))
+			ang_error = angle_to_goal # math.atan2(math.sin(raw_angle_to_goal - curr_angle), math.cos(raw_angle_to_goal - curr_angle))
 			ang_w = ang_error
 			if(ang_w > 1):
 				ang_w = 1
 			elif(ang_w < -1):
 				ang_w = -1
-			elif(abs(ang_w - angle_facing_sweep_area) < 0.1):
+			elif(abs(angle_to_goal) < math.radians(15)):
 				ang_w = 0
 
 			vel.linear.x = math.cos(angle_to_goal) * w

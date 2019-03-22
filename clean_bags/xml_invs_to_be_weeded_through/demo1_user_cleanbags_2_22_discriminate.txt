@@ -1,19 +1,12 @@
 ===========================================================================
 ..distance_to_user(geometry_msgs/TransformStamped, std_msgs/Bool, std_msgs/Float64, geometry_msgs/Twist, std_msgs/String):::ENTER
 is_user_watching_drone1.data one of { "False", "True" }
-is_user_watching_drone1.data one of { "False", "True" }
 	"False" probability: 90.64%	count:13912.0 total:15349.0
 	"True" probability: 9.36%	count:1437.0 total:15349.0
-velocity3.linear.z one of { -200.0, 0.0 }
 velocity3.linear.z one of { -200.0, 0.0 }
 	"-200.0" probability: 5.70%	count:1736.0 total:30457.0
 	"0.0" probability: 94.30%	count:28721.0 total:30457.0
 velocity3.angular.y == 0.0
-viconTELLOTELLO0.transform.translation.z != viconTELLOTELLO0.transform.translation.y
-viconTELLOTELLO0.transform.translation.x != viconTELLOTELLO0.transform.translation.y
-distance_to_user2.data != velocity3.linear.y
-distance_to_user2.data != velocity3.linear.x
-distance_to_user2.data > velocity3.linear.z
 ===========================================================================
 ..distance_to_user(geometry_msgs/TransformStamped, std_msgs/Bool, std_msgs/Float64, geometry_msgs/Twist, std_msgs/String):::EXIT
 (is_user_watching_drone1.data == "False")  ==>  (is_user_watching_drone1.data <= orig(is_user_watching_drone1.data))
@@ -83,8 +76,6 @@ distance_to_user2.data > velocity3.linear.z
 (velocity3.linear.z == -200.0)  ==>  (is_user_watching_drone1.data one of { "False", "True" }
 	"False" probability: 60.82%	count:1360.0 total:2236.0
 	"True" probability: 39.18%	count:876.0 total:2236.0)
-(velocity3.linear.z == -200.0)  ==>  (orig(distance_to_user2.data) > orig(velocity3.linear.x))
-(velocity3.linear.z == -200.0)  ==>  (orig(distance_to_user2.data) > orig(velocity3.linear.y))
 (velocity3.linear.z == -200.0)  ==>  (orig(is_user_watching_drone1.data) one of { "False", "True" }
 	"False" probability: 69.00%	count:1467.0 total:2126.0
 	"True" probability: 31.00%	count:659.0 total:2126.0)
@@ -1229,27 +1220,6 @@ orig(state4.data) one of { "Finished behavior", "GO TO GOAL", "GOAL REACHED", "H
 	"NO VICON DATA; LANDING" probability: 9.90%	count:228.0 total:2303.0
 	"USER INPUT TIMEOUT; LANDING" probability: 7.56%	count:174.0 total:2303.0
 ===========================================================================
-..is_user_watching_drone(geometry_msgs/TransformStamped, std_msgs/Bool, std_msgs/Float64, geometry_msgs/Twist, std_msgs/String):::EXIT;condition="not(velocity3.linear.z  ==   -200.0)"
-return.data one of { "False", "True" }
-return.data one of { "False", "True" }
-	"False" probability: 50.42%	count:14019.0 total:27802.0
-	"True" probability: 49.58%	count:13783.0 total:27802.0
-orig(is_user_watching_drone1.data) one of { "False", "True" }
-orig(is_user_watching_drone1.data) one of { "False", "True" }
-	"False" probability: 61.68%	count:17055.0 total:27649.0
-	"True" probability: 38.32%	count:10594.0 total:27649.0
-orig(velocity3.linear.z) == 0.0
-orig(velocity3.linear.z) == 0.0
-orig(velocity3.angular.y) == 0.0
-orig(velocity3.angular.y) == 0.0
-orig(state4.data) one of { "AVOIDING", "DYNAMIC OBSTACLE IN PATH; TRANSFERRING CONTROL TO USER 1", "GO TO GOAL", "GOAL REACHED", "HOVERING AT OBSTACLE; WAITING FOR USER INPUT" }
-	"AVOIDING" probability: 7.94%	count:4190.0 total:52777.0
-	"DYNAMIC OBSTACLE IN PATH; TRANSFERRING CONTROL TO USER 1" probability: 0.03%	count:18.0 total:52777.0
-	"GO TO GOAL" probability: 78.42%	count:41389.0 total:52777.0
-	"GOAL REACHED" probability: 7.42%	count:3914.0 total:52777.0
-	"HOVERING AT OBSTACLE; WAITING FOR USER INPUT" probability: 6.19%	count:3266.0 total:52777.0
-orig(distance_to_user2.data) != orig(velocity3.linear.y)
-===========================================================================
 ..is_user_watching_drone(geometry_msgs/TransformStamped, std_msgs/Bool, std_msgs/Float64, geometry_msgs/Twist, std_msgs/String):::EXIT;condition="velocity3.linear.z  ==  0.0"
 return.data one of { "False", "True" }
 return.data one of { "False", "True" }
@@ -1269,111 +1239,17 @@ orig(state4.data) one of { "AVOIDING", "DYNAMIC OBSTACLE IN PATH; TRANSFERRING C
 	"GO TO GOAL" probability: 78.42%	count:41389.0 total:52777.0
 	"GOAL REACHED" probability: 7.42%	count:3914.0 total:52777.0
 	"HOVERING AT OBSTACLE; WAITING FOR USER INPUT" probability: 6.19%	count:3266.0 total:52777.0
-orig(distance_to_user2.data) != orig(velocity3.linear.y)
-===========================================================================
-..is_user_watching_drone(geometry_msgs/TransformStamped, std_msgs/Bool, std_msgs/Float64, geometry_msgs/Twist, std_msgs/String):::EXIT;condition="not(velocity3.linear.z  ==  0.0)"
-return.data one of { "False", "True" }
-return.data one of { "False", "True" }
-	"False" probability: 60.76%	count:1358.0 total:2235.0
-	"True" probability: 39.24%	count:877.0 total:2235.0
-orig(is_user_watching_drone1.data) one of { "False", "True" }
-orig(is_user_watching_drone1.data) one of { "False", "True" }
-	"False" probability: 33.76%	count:878.0 total:2601.0
-	"True" probability: 66.24%	count:1723.0 total:2601.0
-orig(velocity3.linear.z) one of { -200.0, 0.0 }
-orig(velocity3.linear.z) one of { -200.0, 0.0 }
-	"-200.0" probability: 41.90%	count:1081.0 total:2580.0
-	"0.0" probability: 58.10%	count:1499.0 total:2580.0
-orig(velocity3.angular.y) == 0.0
-orig(velocity3.angular.y) == 0.0
-orig(state4.data) one of { "Finished behavior", "GO TO GOAL", "GOAL REACHED", "HOVERING AT OBSTACLE; WAITING FOR USER INPUT", "NO VICON DATA; LANDING", "USER INPUT TIMEOUT; LANDING" }
-	"Finished behavior" probability: 4.95%	count:114.0 total:2303.0
-	"GO TO GOAL" probability: 47.81%	count:1101.0 total:2303.0
-	"GOAL REACHED" probability: 16.85%	count:388.0 total:2303.0
-	"HOVERING AT OBSTACLE; WAITING FOR USER INPUT" probability: 12.94%	count:298.0 total:2303.0
-	"NO VICON DATA; LANDING" probability: 9.90%	count:228.0 total:2303.0
-	"USER INPUT TIMEOUT; LANDING" probability: 7.56%	count:174.0 total:2303.0
 ===========================================================================
 ..is_user_watching_drone(geometry_msgs/TransformStamped, std_msgs/Bool, std_msgs/Float64, geometry_msgs/Twist, std_msgs/String):::EXIT;condition="velocity3.linear.z  ==   -200.0"
 return.data one of { "False", "True" }
-return.data one of { "False", "True" }
 	"False" probability: 60.76%	count:1358.0 total:2235.0
 	"True" probability: 39.24%	count:877.0 total:2235.0
-orig(is_user_watching_drone1.data) one of { "False", "True" }
 orig(is_user_watching_drone1.data) one of { "False", "True" }
 	"False" probability: 33.76%	count:878.0 total:2601.0
 	"True" probability: 66.24%	count:1723.0 total:2601.0
 orig(velocity3.linear.z) one of { -200.0, 0.0 }
-orig(velocity3.linear.z) one of { -200.0, 0.0 }
 	"-200.0" probability: 41.90%	count:1081.0 total:2580.0
 	"0.0" probability: 58.10%	count:1499.0 total:2580.0
-orig(velocity3.angular.y) == 0.0
-orig(velocity3.angular.y) == 0.0
-orig(state4.data) one of { "Finished behavior", "GO TO GOAL", "GOAL REACHED", "HOVERING AT OBSTACLE; WAITING FOR USER INPUT", "NO VICON DATA; LANDING", "USER INPUT TIMEOUT; LANDING" }
-	"Finished behavior" probability: 4.95%	count:114.0 total:2303.0
-	"GO TO GOAL" probability: 47.81%	count:1101.0 total:2303.0
-	"GOAL REACHED" probability: 16.85%	count:388.0 total:2303.0
-	"HOVERING AT OBSTACLE; WAITING FOR USER INPUT" probability: 12.94%	count:298.0 total:2303.0
-	"NO VICON DATA; LANDING" probability: 9.90%	count:228.0 total:2303.0
-	"USER INPUT TIMEOUT; LANDING" probability: 7.56%	count:174.0 total:2303.0
-===========================================================================
-..is_user_watching_drone(geometry_msgs/TransformStamped, std_msgs/Bool, std_msgs/Float64, geometry_msgs/Twist, std_msgs/String):::EXIT;condition="not(velocity3.linear.z  ==   -200.0)"
-return.data one of { "False", "True" }
-return.data one of { "False", "True" }
-	"False" probability: 50.42%	count:14019.0 total:27802.0
-	"True" probability: 49.58%	count:13783.0 total:27802.0
-orig(is_user_watching_drone1.data) one of { "False", "True" }
-orig(is_user_watching_drone1.data) one of { "False", "True" }
-	"False" probability: 61.68%	count:17055.0 total:27649.0
-	"True" probability: 38.32%	count:10594.0 total:27649.0
-orig(velocity3.linear.z) == 0.0
-orig(velocity3.linear.z) == 0.0
-orig(velocity3.angular.y) == 0.0
-orig(velocity3.angular.y) == 0.0
-orig(state4.data) one of { "AVOIDING", "DYNAMIC OBSTACLE IN PATH; TRANSFERRING CONTROL TO USER 1", "GO TO GOAL", "GOAL REACHED", "HOVERING AT OBSTACLE; WAITING FOR USER INPUT" }
-	"AVOIDING" probability: 7.94%	count:4190.0 total:52777.0
-	"DYNAMIC OBSTACLE IN PATH; TRANSFERRING CONTROL TO USER 1" probability: 0.03%	count:18.0 total:52777.0
-	"GO TO GOAL" probability: 78.42%	count:41389.0 total:52777.0
-	"GOAL REACHED" probability: 7.42%	count:3914.0 total:52777.0
-	"HOVERING AT OBSTACLE; WAITING FOR USER INPUT" probability: 6.19%	count:3266.0 total:52777.0
-orig(distance_to_user2.data) != orig(velocity3.linear.y)
-===========================================================================
-..is_user_watching_drone(geometry_msgs/TransformStamped, std_msgs/Bool, std_msgs/Float64, geometry_msgs/Twist, std_msgs/String):::EXIT;condition="velocity3.linear.z  ==  0.0"
-return.data one of { "False", "True" }
-return.data one of { "False", "True" }
-	"False" probability: 50.42%	count:14019.0 total:27802.0
-	"True" probability: 49.58%	count:13783.0 total:27802.0
-orig(is_user_watching_drone1.data) one of { "False", "True" }
-orig(is_user_watching_drone1.data) one of { "False", "True" }
-	"False" probability: 61.68%	count:17055.0 total:27649.0
-	"True" probability: 38.32%	count:10594.0 total:27649.0
-orig(velocity3.linear.z) == 0.0
-orig(velocity3.linear.z) == 0.0
-orig(velocity3.angular.y) == 0.0
-orig(velocity3.angular.y) == 0.0
-orig(state4.data) one of { "AVOIDING", "DYNAMIC OBSTACLE IN PATH; TRANSFERRING CONTROL TO USER 1", "GO TO GOAL", "GOAL REACHED", "HOVERING AT OBSTACLE; WAITING FOR USER INPUT" }
-	"AVOIDING" probability: 7.94%	count:4190.0 total:52777.0
-	"DYNAMIC OBSTACLE IN PATH; TRANSFERRING CONTROL TO USER 1" probability: 0.03%	count:18.0 total:52777.0
-	"GO TO GOAL" probability: 78.42%	count:41389.0 total:52777.0
-	"GOAL REACHED" probability: 7.42%	count:3914.0 total:52777.0
-	"HOVERING AT OBSTACLE; WAITING FOR USER INPUT" probability: 6.19%	count:3266.0 total:52777.0
-orig(distance_to_user2.data) != orig(velocity3.linear.y)
-===========================================================================
-..is_user_watching_drone(geometry_msgs/TransformStamped, std_msgs/Bool, std_msgs/Float64, geometry_msgs/Twist, std_msgs/String):::EXIT;condition="not(velocity3.linear.z  ==  0.0)"
-return.data one of { "False", "True" }
-return.data one of { "False", "True" }
-	"False" probability: 60.76%	count:1358.0 total:2235.0
-	"True" probability: 39.24%	count:877.0 total:2235.0
-orig(is_user_watching_drone1.data) one of { "False", "True" }
-orig(is_user_watching_drone1.data) one of { "False", "True" }
-	"False" probability: 33.76%	count:878.0 total:2601.0
-	"True" probability: 66.24%	count:1723.0 total:2601.0
-orig(velocity3.linear.z) one of { -200.0, 0.0 }
-orig(velocity3.linear.z) one of { -200.0, 0.0 }
-	"-200.0" probability: 41.90%	count:1081.0 total:2580.0
-	"0.0" probability: 58.10%	count:1499.0 total:2580.0
-orig(velocity3.angular.y) == 0.0
-orig(velocity3.angular.y) == 0.0
 orig(state4.data) one of { "Finished behavior", "GO TO GOAL", "GOAL REACHED", "HOVERING AT OBSTACLE; WAITING FOR USER INPUT", "NO VICON DATA; LANDING", "USER INPUT TIMEOUT; LANDING" }
 	"Finished behavior" probability: 4.95%	count:114.0 total:2303.0
 	"GO TO GOAL" probability: 47.81%	count:1101.0 total:2303.0
@@ -1384,10 +1260,8 @@ orig(state4.data) one of { "Finished behavior", "GO TO GOAL", "GOAL REACHED", "H
 ===========================================================================
 ..is_user_watching_drone(geometry_msgs/TransformStamped, std_msgs/Bool, std_msgs/Float64, geometry_msgs/Twist, std_msgs/String):::EXIT;condition="state4.data  ==   "Finished behavior""
 return.data one of { "False", "True" }
-return.data one of { "False", "True" }
 	"False" probability: 84.67%	count:773.0 total:913.0
 	"True" probability: 15.33%	count:140.0 total:913.0
-orig(is_user_watching_drone1.data) one of { "False", "True" }
 orig(is_user_watching_drone1.data) one of { "False", "True" }
 	"False" probability: 25.03%	count:213.0 total:851.0
 	"True" probability: 74.97%	count:638.0 total:851.0
@@ -1426,7 +1300,6 @@ orig(is_user_watching_drone1.data) one of { "False", "True" }
 orig(velocity3.linear.z) one of { -200.0, 0.0 }
 	"-200.0" probability: 4.43%	count:2607.0 total:58785.0
 	"0.0" probability: 95.57%	count:56178.0 total:58785.0
-orig(velocity3.angular.y) == 0.0
 orig(state4.data) one of { "AVOIDING", "DYNAMIC OBSTACLE IN PATH; TRANSFERRING CONTROL TO USER 1", "Finished behavior", "GO TO GOAL", "GOAL REACHED", "HOVERING AT OBSTACLE; WAITING FOR USER INPUT", "NO VICON DATA; LANDING", "USER INPUT TIMEOUT; LANDING" }
 	"AVOIDING" probability: 7.21%	count:4190.0 total:58098.0
 	"DYNAMIC OBSTACLE IN PATH; TRANSFERRING CONTROL TO USER 1" probability: 0.03%	count:18.0 total:58098.0
@@ -1488,9 +1361,6 @@ orig(is_user_watching_drone1.data) one of { "False", "True" }
 	"False" probability: 73.24%	count:1423.0 total:1943.0
 	"True" probability: 26.76%	count:520.0 total:1943.0
 orig(velocity3.linear.z) == 0.0
-orig(velocity3.linear.z) == 0.0
-orig(velocity3.angular.y) == 0.0
-orig(velocity3.angular.y) == 0.0
 orig(state4.data) one of { "GO TO GOAL", "GOAL REACHED" }
 orig(state4.data) one of { "GO TO GOAL", "GOAL REACHED" }
 	"GO TO GOAL" probability: 75.91%	count:1705.0 total:2246.0
@@ -1509,8 +1379,6 @@ orig(velocity3.linear.z) one of { -200.0, 0.0 }
 orig(velocity3.linear.z) one of { -200.0, 0.0 }
 	"-200.0" probability: 6.57%	count:3654.0 total:55653.0
 	"0.0" probability: 93.43%	count:51999.0 total:55653.0
-orig(velocity3.angular.y) == 0.0
-orig(velocity3.angular.y) == 0.0
 orig(state4.data) one of { "AVOIDING", "DYNAMIC OBSTACLE IN PATH; TRANSFERRING CONTROL TO USER 1", "Finished behavior", "GO TO GOAL", "GOAL REACHED", "HOVERING AT OBSTACLE; WAITING FOR USER INPUT", "NO VICON DATA; LANDING", "USER INPUT TIMEOUT; LANDING" }
 	"AVOIDING" probability: 7.62%	count:4190.0 total:54966.0
 	"DYNAMIC OBSTACLE IN PATH; TRANSFERRING CONTROL TO USER 1" probability: 0.03%	count:18.0 total:54966.0
@@ -1549,7 +1417,6 @@ orig(viconTELLOTELLO0.transform.translation.x) one of { -2.6420523041, -2.342717
 	"-1.02348006304" probability: 0.25%	count:1.0 total:399.0
 	"-0.346767012226" probability: 0.25%	count:1.0 total:399.0
 	"2.08523843658" probability: 10.28%	count:41.0 total:399.0
-orig(is_user_watching_drone1.data) one of { "False", "True" }
 orig(is_user_watching_drone1.data) one of { "False", "True" }
 	"False" probability: 50.63%	count:202.0 total:399.0
 	"True" probability: 49.37%	count:197.0 total:399.0
@@ -1635,30 +1502,6 @@ orig(state4.data) one of { "AVOIDING", "DYNAMIC OBSTACLE IN PATH; TRANSFERRING C
 return.data <= orig(is_user_watching_drone1.data)
 orig(distance_to_user2.data) != orig(velocity3.linear.y)
 ===========================================================================
-..is_user_watching_drone(geometry_msgs/TransformStamped, std_msgs/Bool, std_msgs/Float64, geometry_msgs/Twist, std_msgs/String):::EXIT;condition="not(return.data  ==   "False")"
-return.data == "True"
-return.data == "True"
-orig(is_user_watching_drone1.data) one of { "False", "True" }
-orig(is_user_watching_drone1.data) one of { "False", "True" }
-	"False" probability: 52.27%	count:7815.0 total:14950.0
-	"True" probability: 47.73%	count:7135.0 total:14950.0
-orig(velocity3.linear.z) one of { -200.0, 0.0 }
-orig(velocity3.linear.z) one of { -200.0, 0.0 }
-	"-200.0" probability: 3.83%	count:571.0 total:14921.0
-	"0.0" probability: 96.17%	count:14350.0 total:14921.0
-orig(velocity3.angular.y) == 0.0
-orig(velocity3.angular.y) == 0.0
-orig(state4.data) one of { "AVOIDING", "Finished behavior", "GO TO GOAL", "GOAL REACHED", "HOVERING AT OBSTACLE; WAITING FOR USER INPUT", "NO VICON DATA; LANDING", "USER INPUT TIMEOUT; LANDING" }
-	"AVOIDING" probability: 8.03%	count:1198.0 total:14917.0
-	"Finished behavior" probability: 0.09%	count:14.0 total:14917.0
-	"GO TO GOAL" probability: 79.49%	count:11858.0 total:14917.0
-	"GOAL REACHED" probability: 6.44%	count:960.0 total:14917.0
-	"HOVERING AT OBSTACLE; WAITING FOR USER INPUT" probability: 3.97%	count:592.0 total:14917.0
-	"NO VICON DATA; LANDING" probability: 0.81%	count:121.0 total:14917.0
-	"USER INPUT TIMEOUT; LANDING" probability: 1.17%	count:174.0 total:14917.0
-return.data >= orig(is_user_watching_drone1.data)
-orig(distance_to_user2.data) != orig(velocity3.linear.y)
-===========================================================================
 ..is_user_watching_drone(geometry_msgs/TransformStamped, std_msgs/Bool, std_msgs/Float64, geometry_msgs/Twist, std_msgs/String):::EXIT;condition="return.data  ==  "True""
 return.data == "True"
 return.data == "True"
@@ -1680,32 +1523,6 @@ orig(state4.data) one of { "AVOIDING", "Finished behavior", "GO TO GOAL", "GOAL 
 	"HOVERING AT OBSTACLE; WAITING FOR USER INPUT" probability: 3.97%	count:592.0 total:14917.0
 	"NO VICON DATA; LANDING" probability: 0.81%	count:121.0 total:14917.0
 	"USER INPUT TIMEOUT; LANDING" probability: 1.17%	count:174.0 total:14917.0
-return.data >= orig(is_user_watching_drone1.data)
-orig(distance_to_user2.data) != orig(velocity3.linear.y)
-===========================================================================
-..is_user_watching_drone(geometry_msgs/TransformStamped, std_msgs/Bool, std_msgs/Float64, geometry_msgs/Twist, std_msgs/String):::EXIT;condition="not(return.data  ==  "True")"
-return.data == "False"
-return.data == "False"
-orig(is_user_watching_drone1.data) one of { "False", "True" }
-orig(is_user_watching_drone1.data) one of { "False", "True" }
-	"False" probability: 66.05%	count:10147.0 total:15363.0
-	"True" probability: 33.95%	count:5216.0 total:15363.0
-orig(velocity3.linear.z) one of { -200.0, 0.0 }
-orig(velocity3.linear.z) one of { -200.0, 0.0 }
-	"-200.0" probability: 6.15%	count:1853.0 total:30144.0
-	"0.0" probability: 93.85%	count:28291.0 total:30144.0
-orig(velocity3.angular.y) == 0.0
-orig(velocity3.angular.y) == 0.0
-orig(state4.data) one of { "AVOIDING", "DYNAMIC OBSTACLE IN PATH; TRANSFERRING CONTROL TO USER 1", "Finished behavior", "GO TO GOAL", "GOAL REACHED", "HOVERING AT OBSTACLE; WAITING FOR USER INPUT", "NO VICON DATA; LANDING" }
-	"AVOIDING" probability: 8.49%	count:2529.0 total:29775.0
-	"DYNAMIC OBSTACLE IN PATH; TRANSFERRING CONTROL TO USER 1" probability: 0.06%	count:17.0 total:29775.0
-	"Finished behavior" probability: 2.93%	count:873.0 total:29775.0
-	"GO TO GOAL" probability: 71.07%	count:21162.0 total:29775.0
-	"GOAL REACHED" probability: 7.31%	count:2176.0 total:29775.0
-	"HOVERING AT OBSTACLE; WAITING FOR USER INPUT" probability: 8.88%	count:2643.0 total:29775.0
-	"NO VICON DATA; LANDING" probability: 1.26%	count:375.0 total:29775.0
-return.data <= orig(is_user_watching_drone1.data)
-orig(distance_to_user2.data) != orig(velocity3.linear.y)
 ===========================================================================
 ..is_user_watching_drone(geometry_msgs/TransformStamped, std_msgs/Bool, std_msgs/Float64, geometry_msgs/Twist, std_msgs/String):::EXIT;condition="return.data  ==   "False""
 return.data == "False"
@@ -1728,113 +1545,18 @@ orig(state4.data) one of { "AVOIDING", "DYNAMIC OBSTACLE IN PATH; TRANSFERRING C
 	"GOAL REACHED" probability: 7.31%	count:2176.0 total:29775.0
 	"HOVERING AT OBSTACLE; WAITING FOR USER INPUT" probability: 8.88%	count:2643.0 total:29775.0
 	"NO VICON DATA; LANDING" probability: 1.26%	count:375.0 total:29775.0
-return.data <= orig(is_user_watching_drone1.data)
-orig(distance_to_user2.data) != orig(velocity3.linear.y)
-===========================================================================
-..is_user_watching_drone(geometry_msgs/TransformStamped, std_msgs/Bool, std_msgs/Float64, geometry_msgs/Twist, std_msgs/String):::EXIT;condition="not(return.data  ==   "False")"
-return.data == "True"
-return.data == "True"
-orig(is_user_watching_drone1.data) one of { "False", "True" }
-orig(is_user_watching_drone1.data) one of { "False", "True" }
-	"False" probability: 52.27%	count:7815.0 total:14950.0
-	"True" probability: 47.73%	count:7135.0 total:14950.0
-orig(velocity3.linear.z) one of { -200.0, 0.0 }
-orig(velocity3.linear.z) one of { -200.0, 0.0 }
-	"-200.0" probability: 3.83%	count:571.0 total:14921.0
-	"0.0" probability: 96.17%	count:14350.0 total:14921.0
-orig(velocity3.angular.y) == 0.0
-orig(velocity3.angular.y) == 0.0
-orig(state4.data) one of { "AVOIDING", "Finished behavior", "GO TO GOAL", "GOAL REACHED", "HOVERING AT OBSTACLE; WAITING FOR USER INPUT", "NO VICON DATA; LANDING", "USER INPUT TIMEOUT; LANDING" }
-	"AVOIDING" probability: 8.03%	count:1198.0 total:14917.0
-	"Finished behavior" probability: 0.09%	count:14.0 total:14917.0
-	"GO TO GOAL" probability: 79.49%	count:11858.0 total:14917.0
-	"GOAL REACHED" probability: 6.44%	count:960.0 total:14917.0
-	"HOVERING AT OBSTACLE; WAITING FOR USER INPUT" probability: 3.97%	count:592.0 total:14917.0
-	"NO VICON DATA; LANDING" probability: 0.81%	count:121.0 total:14917.0
-	"USER INPUT TIMEOUT; LANDING" probability: 1.17%	count:174.0 total:14917.0
-return.data >= orig(is_user_watching_drone1.data)
-orig(distance_to_user2.data) != orig(velocity3.linear.y)
-===========================================================================
-..is_user_watching_drone(geometry_msgs/TransformStamped, std_msgs/Bool, std_msgs/Float64, geometry_msgs/Twist, std_msgs/String):::EXIT;condition="return.data  ==  "True""
-return.data == "True"
-return.data == "True"
-orig(is_user_watching_drone1.data) one of { "False", "True" }
-orig(is_user_watching_drone1.data) one of { "False", "True" }
-	"False" probability: 52.27%	count:7815.0 total:14950.0
-	"True" probability: 47.73%	count:7135.0 total:14950.0
-orig(velocity3.linear.z) one of { -200.0, 0.0 }
-orig(velocity3.linear.z) one of { -200.0, 0.0 }
-	"-200.0" probability: 3.83%	count:571.0 total:14921.0
-	"0.0" probability: 96.17%	count:14350.0 total:14921.0
-orig(velocity3.angular.y) == 0.0
-orig(velocity3.angular.y) == 0.0
-orig(state4.data) one of { "AVOIDING", "Finished behavior", "GO TO GOAL", "GOAL REACHED", "HOVERING AT OBSTACLE; WAITING FOR USER INPUT", "NO VICON DATA; LANDING", "USER INPUT TIMEOUT; LANDING" }
-	"AVOIDING" probability: 8.03%	count:1198.0 total:14917.0
-	"Finished behavior" probability: 0.09%	count:14.0 total:14917.0
-	"GO TO GOAL" probability: 79.49%	count:11858.0 total:14917.0
-	"GOAL REACHED" probability: 6.44%	count:960.0 total:14917.0
-	"HOVERING AT OBSTACLE; WAITING FOR USER INPUT" probability: 3.97%	count:592.0 total:14917.0
-	"NO VICON DATA; LANDING" probability: 0.81%	count:121.0 total:14917.0
-	"USER INPUT TIMEOUT; LANDING" probability: 1.17%	count:174.0 total:14917.0
-return.data >= orig(is_user_watching_drone1.data)
-orig(distance_to_user2.data) != orig(velocity3.linear.y)
-===========================================================================
-..is_user_watching_drone(geometry_msgs/TransformStamped, std_msgs/Bool, std_msgs/Float64, geometry_msgs/Twist, std_msgs/String):::EXIT;condition="not(return.data  ==  "True")"
-return.data == "False"
-return.data == "False"
-orig(is_user_watching_drone1.data) one of { "False", "True" }
-orig(is_user_watching_drone1.data) one of { "False", "True" }
-	"False" probability: 66.05%	count:10147.0 total:15363.0
-	"True" probability: 33.95%	count:5216.0 total:15363.0
-orig(velocity3.linear.z) one of { -200.0, 0.0 }
-orig(velocity3.linear.z) one of { -200.0, 0.0 }
-	"-200.0" probability: 6.15%	count:1853.0 total:30144.0
-	"0.0" probability: 93.85%	count:28291.0 total:30144.0
-orig(velocity3.angular.y) == 0.0
-orig(velocity3.angular.y) == 0.0
-orig(state4.data) one of { "AVOIDING", "DYNAMIC OBSTACLE IN PATH; TRANSFERRING CONTROL TO USER 1", "Finished behavior", "GO TO GOAL", "GOAL REACHED", "HOVERING AT OBSTACLE; WAITING FOR USER INPUT", "NO VICON DATA; LANDING" }
-	"AVOIDING" probability: 8.49%	count:2529.0 total:29775.0
-	"DYNAMIC OBSTACLE IN PATH; TRANSFERRING CONTROL TO USER 1" probability: 0.06%	count:17.0 total:29775.0
-	"Finished behavior" probability: 2.93%	count:873.0 total:29775.0
-	"GO TO GOAL" probability: 71.07%	count:21162.0 total:29775.0
-	"GOAL REACHED" probability: 7.31%	count:2176.0 total:29775.0
-	"HOVERING AT OBSTACLE; WAITING FOR USER INPUT" probability: 8.88%	count:2643.0 total:29775.0
-	"NO VICON DATA; LANDING" probability: 1.26%	count:375.0 total:29775.0
-return.data <= orig(is_user_watching_drone1.data)
-orig(distance_to_user2.data) != orig(velocity3.linear.y)
-===========================================================================
-..main():::EXIT
-return == 0
-return == 0
 ===========================================================================
 ..state(geometry_msgs/TransformStamped, std_msgs/Bool, std_msgs/Float64, geometry_msgs/Twist, std_msgs/String):::ENTER
-is_user_watching_drone1.data one of { "False", "True" }
 is_user_watching_drone1.data one of { "False", "True" }
 	"False" probability: 87.86%	count:14710.0 total:16742.0
 	"True" probability: 12.14%	count:2032.0 total:16742.0
 velocity3.linear.z one of { -200.0, 0.0 }
-velocity3.linear.z one of { -200.0, 0.0 }
 	"-200.0" probability: 22.51%	count:6711.0 total:29809.0
 	"0.0" probability: 77.49%	count:23098.0 total:29809.0
-velocity3.angular.y == 0.0
-velocity3.angular.y == 0.0
-state4.data one of { "GO TO GOAL", "HOVERING AT OBSTACLE; WAITING FOR USER INPUT", "USER1 CONTROL" }
 state4.data one of { "GO TO GOAL", "HOVERING AT OBSTACLE; WAITING FOR USER INPUT", "USER1 CONTROL" }
 	"GO TO GOAL" probability: 79.46%	count:9592.0 total:12071.0
 	"HOVERING AT OBSTACLE; WAITING FOR USER INPUT" probability: 13.83%	count:1670.0 total:12071.0
 	"USER1 CONTROL" probability: 6.70%	count:809.0 total:12071.0
-viconTELLOTELLO0.transform.rotation.y != viconTELLOTELLO0.transform.rotation.x
-viconTELLOTELLO0.transform.rotation.y != viconTELLOTELLO0.transform.rotation.w
-viconTELLOTELLO0.child_frame_id > viconTELLOTELLO0.header.frame_id
-viconTELLOTELLO0.transform.rotation.z != viconTELLOTELLO0.transform.rotation.x
-viconTELLOTELLO0.transform.rotation.z != viconTELLOTELLO0.transform.rotation.w
-viconTELLOTELLO0.transform.translation.z != viconTELLOTELLO0.transform.translation.x
-viconTELLOTELLO0.transform.translation.z != viconTELLOTELLO0.transform.translation.y
-viconTELLOTELLO0.transform.translation.x != viconTELLOTELLO0.transform.translation.y
-viconTELLOTELLO0.transform.rotation.x != viconTELLOTELLO0.transform.rotation.w
-distance_to_user2.data != velocity3.linear.y
-distance_to_user2.data != velocity3.linear.x
-distance_to_user2.data > velocity3.linear.z
 ===========================================================================
 ..state(geometry_msgs/TransformStamped, std_msgs/Bool, std_msgs/Float64, geometry_msgs/Twist, std_msgs/String):::EXIT
 (is_user_watching_drone1.data == "False")  ==>  (is_user_watching_drone1.data <= orig(is_user_watching_drone1.data))
@@ -1852,12 +1574,6 @@ distance_to_user2.data > velocity3.linear.z
 (is_user_watching_drone1.data == "False")  ==>  (orig(velocity3.linear.z) one of { -200.0, 0.0 }
 	"-200.0" probability: 22.41%	count:6709.0 total:29937.0
 	"0.0" probability: 77.59%	count:23228.0 total:29937.0)
-(is_user_watching_drone1.data == "False")  ==>  (orig(velocity3.linear.z) one of { -200.0, 0.0 }
-	"-200.0" probability: 22.51%	count:6709.0 total:29805.0
-	"0.0" probability: 77.49%	count:23096.0 total:29805.0)
-(is_user_watching_drone1.data == "False")  ==>  (orig(velocity3.linear.z) one of { -200.0, 0.0 }
-	"-200.0" probability: 22.51%	count:6711.0 total:29809.0
-	"0.0" probability: 77.49%	count:23098.0 total:29809.0)
 (is_user_watching_drone1.data == "False")  ==>  (return.data one of { "AVOIDING", "DYNAMIC OBSTACLE IN PATH; TRANSFERRING CONTROL TO USER 1", "Finished behavior", "GO TO GOAL", "GOAL REACHED", "HOVERING AT OBSTACLE; WAITING FOR USER INPUT", "NO VICON DATA; LANDING", "USER INPUT TIMEOUT; LANDING", "USER1 CONTROL" }
 	"AVOIDING" probability: 6.09%	count:1019.0 total:16723.0
 	"DYNAMIC OBSTACLE IN PATH; TRANSFERRING CONTROL TO USER 1" probability: 0.10%	count:17.0 total:16723.0
@@ -1868,16 +1584,6 @@ distance_to_user2.data > velocity3.linear.z
 	"NO VICON DATA; LANDING" probability: 17.32%	count:2897.0 total:16723.0
 	"USER INPUT TIMEOUT; LANDING" probability: 0.13%	count:22.0 total:16723.0
 	"USER1 CONTROL" probability: 1.88%	count:315.0 total:16723.0)
-(is_user_watching_drone1.data == "False")  ==>  (return.data one of { "AVOIDING", "DYNAMIC OBSTACLE IN PATH; TRANSFERRING CONTROL TO USER 1", "Finished behavior", "GO TO GOAL", "GOAL REACHED", "HOVERING AT OBSTACLE; WAITING FOR USER INPUT", "NO VICON DATA; LANDING", "USER INPUT TIMEOUT; LANDING", "USER1 CONTROL" }
-	"AVOIDING" probability: 6.12%	count:1019.0 total:16656.0
-	"DYNAMIC OBSTACLE IN PATH; TRANSFERRING CONTROL TO USER 1" probability: 0.10%	count:17.0 total:16656.0
-	"Finished behavior" probability: 1.66%	count:276.0 total:16656.0
-	"GO TO GOAL" probability: 60.40%	count:10061.0 total:16656.0
-	"GOAL REACHED" probability: 4.43%	count:738.0 total:16656.0
-	"HOVERING AT OBSTACLE; WAITING FOR USER INPUT" probability: 7.88%	count:1312.0 total:16656.0
-	"NO VICON DATA; LANDING" probability: 17.39%	count:2897.0 total:16656.0
-	"USER INPUT TIMEOUT; LANDING" probability: 0.13%	count:22.0 total:16656.0
-	"USER1 CONTROL" probability: 1.89%	count:314.0 total:16656.0)
 (is_user_watching_drone1.data == "False")  ==>  (velocity3.linear.z one of { -200.0, 0.0 }
 	"-200.0" probability: 22.41%	count:6709.0 total:29937.0
 	"0.0" probability: 77.59%	count:23228.0 total:29937.0)
@@ -1887,9 +1593,6 @@ distance_to_user2.data > velocity3.linear.z
 (is_user_watching_drone1.data == "False")  ==>  (velocity3.linear.z one of { -200.0, 0.0 }
 	"-200.0" probability: 22.51%	count:6711.0 total:29809.0
 	"0.0" probability: 77.49%	count:23098.0 total:29809.0)
-(is_user_watching_drone1.data == "False")  ==>  (viconTELLOTELLO0.transform.rotation.y != viconTELLOTELLO0.transform.rotation.w)
-(is_user_watching_drone1.data == "False")  ==>  (viconTELLOTELLO0.transform.translation.z != viconTELLOTELLO0.transform.translation.y)
-(is_user_watching_drone1.data == "True")  ==>  (is_user_watching_drone1.data >= orig(is_user_watching_drone1.data))
 (is_user_watching_drone1.data == "True")  ==>  (orig(is_user_watching_drone1.data) one of { "False", "True" }
 	"False" probability: 14.90%	count:2240.0 total:15032.0
 	"True" probability: 85.10%	count:12792.0 total:15032.0)
@@ -1933,13 +1636,6 @@ distance_to_user2.data > velocity3.linear.z
 (is_user_watching_drone1.data == "True")  ==>  (velocity3.linear.z one of { -200.0, 0.0 }
 	"-200.0" probability: 9.59%	count:2420.0 total:25229.0
 	"0.0" probability: 90.41%	count:22809.0 total:25229.0)
-(is_user_watching_drone1.data == "True")  ==>  (viconTELLOTELLO0.transform.translation.x != orig(viconTELLOTELLO0.transform.translation.y))
-(is_user_watching_drone1.data == "True")  ==>  (viconTELLOTELLO0.transform.translation.x != viconTELLOTELLO0.transform.translation.y)
-(velocity3.linear.z == -200.0)  <==>  (velocity3.linear.z == -200.0)
-(velocity3.linear.z == -200.0)  ==>  (distance_to_user2.data > orig(velocity3.linear.x))
-(velocity3.linear.z == -200.0)  ==>  (distance_to_user2.data > orig(velocity3.linear.y))
-(velocity3.linear.z == -200.0)  ==>  (distance_to_user2.data > velocity3.linear.x)
-(velocity3.linear.z == -200.0)  ==>  (distance_to_user2.data > velocity3.linear.y)
 (velocity3.linear.z == -200.0)  ==>  (is_user_watching_drone1.data one of { "False", "True" }
 	"False" probability: 77.54%	count:3745.0 total:4830.0
 	"True" probability: 22.46%	count:1085.0 total:4830.0)
@@ -1968,30 +1664,10 @@ distance_to_user2.data > velocity3.linear.z
 	"HOVERING AT OBSTACLE; WAITING FOR USER INPUT" probability: 4.39%	count:236.0 total:5371.0
 	"NO VICON DATA; LANDING" probability: 56.73%	count:3047.0 total:5371.0
 	"USER INPUT TIMEOUT; LANDING" probability: 3.69%	count:198.0 total:5371.0)
-(velocity3.linear.z == -200.0)  ==>  (velocity3.linear.x < orig(distance_to_user2.data))
-(velocity3.linear.z == -200.0)  ==>  (velocity3.linear.x > velocity3.linear.z)
-(velocity3.linear.z == -200.0)  ==>  (velocity3.linear.x >= orig(velocity3.linear.z))
-(velocity3.linear.z == -200.0)  ==>  (velocity3.linear.y < orig(distance_to_user2.data))
-(velocity3.linear.z == -200.0)  ==>  (velocity3.linear.y > velocity3.linear.z)
-(velocity3.linear.z == -200.0)  ==>  (velocity3.linear.z < orig(velocity3.linear.x))
-(velocity3.linear.z == -200.0)  ==>  (velocity3.linear.z < orig(velocity3.linear.y))
-(velocity3.linear.z == -200.0)  ==>  (viconTELLOTELLO0.transform.rotation.y != viconTELLOTELLO0.transform.rotation.w)
-(velocity3.linear.z == -200.0)  ==>  (viconTELLOTELLO0.transform.rotation.z >= -0.765665692602)
-(velocity3.linear.z == -200.0)  ==>  (viconTELLOTELLO0.transform.translation.x != orig(viconTELLOTELLO0.transform.translation.y))
-(velocity3.linear.z == -200.0)  ==>  (viconTELLOTELLO0.transform.translation.x != viconTELLOTELLO0.transform.translation.y)
-(velocity3.linear.z == -200.0)  ==>  (viconTELLOTELLO0.transform.translation.z != viconTELLOTELLO0.transform.translation.y)
 (velocity3.linear.z == 0.0)  <==>  (velocity3.linear.z == 0.0)
 (velocity3.linear.z == 0.0)  ==>  (is_user_watching_drone1.data one of { "False", "True" }
 	"False" probability: 48.95%	count:13042.0 total:26645.0
 	"True" probability: 51.05%	count:13603.0 total:26645.0)
-(velocity3.linear.z == 0.0)  ==>  (orig(is_user_watching_drone1.data) one of { "False", "True" }
-	"False" probability: 49.18%	count:13027.0 total:26491.0
-	"True" probability: 50.82%	count:13464.0 total:26491.0)
-(velocity3.linear.z == 0.0)  ==>  (orig(state4.data) one of { "GO TO GOAL", "HOVERING AT OBSTACLE; WAITING FOR USER INPUT", "USER1 CONTROL" }
-	"GO TO GOAL" probability: 67.96%	count:10144.0 total:14927.0
-	"HOVERING AT OBSTACLE; WAITING FOR USER INPUT" probability: 24.61%	count:3673.0 total:14927.0
-	"USER1 CONTROL" probability: 7.44%	count:1110.0 total:14927.0)
-(velocity3.linear.z == 0.0)  ==>  (orig(state4.data) one of { "GO TO GOAL", "HOVERING AT OBSTACLE; WAITING FOR USER INPUT", "USER1 CONTROL" })
 (velocity3.linear.z == 0.0)  ==>  (orig(velocity3.linear.z) == 0.0)
 (velocity3.linear.z == 0.0)  ==>  (return.data one of { "AVOIDING", "DYNAMIC OBSTACLE IN PATH; TRANSFERRING CONTROL TO USER 1", "Finished behavior", "GO TO GOAL", "GOAL REACHED", "HOVERING AT OBSTACLE; WAITING FOR USER INPUT", "NO VICON DATA; LANDING", "USER INPUT TIMEOUT; LANDING", "USER1 CONTROL" }
 	"AVOIDING" probability: 5.57%	count:1480.0 total:26558.0
@@ -2031,49 +1707,11 @@ return.data one of { "AVOIDING", "DYNAMIC OBSTACLE IN PATH; TRANSFERRING CONTROL
 	"USER INPUT TIMEOUT; LANDING" probability: 1.18%	count:179.0 total:15126.0
 	"USER1 CONTROL" probability: 0.12%	count:18.0 total:15126.0
 orig(is_user_watching_drone1.data) one of { "False", "True" }
-orig(is_user_watching_drone1.data) one of { "False", "True" }
 	"False" probability: 14.90%	count:2240.0 total:15032.0
 	"True" probability: 85.10%	count:12792.0 total:15032.0
 orig(velocity3.linear.z) one of { -200.0, 0.0 }
-orig(velocity3.linear.z) one of { -200.0, 0.0 }
 	"-200.0" probability: 9.59%	count:2420.0 total:25229.0
 	"0.0" probability: 90.41%	count:22809.0 total:25229.0
-orig(velocity3.angular.y) == 0.0
-orig(velocity3.angular.y) == 0.0
-orig(state4.data) one of { "GO TO GOAL", "HOVERING AT OBSTACLE; WAITING FOR USER INPUT", "USER1 CONTROL" }
-orig(state4.data) one of { "GO TO GOAL", "HOVERING AT OBSTACLE; WAITING FOR USER INPUT", "USER1 CONTROL" }
-	"GO TO GOAL" probability: 59.73%	count:3553.0 total:5948.0
-	"HOVERING AT OBSTACLE; WAITING FOR USER INPUT" probability: 35.24%	count:2096.0 total:5948.0
-	"USER1 CONTROL" probability: 5.03%	count:299.0 total:5948.0
-orig(distance_to_user2.data) != orig(velocity3.linear.y)
-===========================================================================
-..state(geometry_msgs/TransformStamped, std_msgs/Bool, std_msgs/Float64, geometry_msgs/Twist, std_msgs/String):::EXIT;condition="not(is_user_watching_drone1.data  ==  "True")"
-return.data one of { "AVOIDING", "DYNAMIC OBSTACLE IN PATH; TRANSFERRING CONTROL TO USER 1", "Finished behavior", "GO TO GOAL", "GOAL REACHED", "HOVERING AT OBSTACLE; WAITING FOR USER INPUT", "NO VICON DATA; LANDING", "USER INPUT TIMEOUT; LANDING", "USER1 CONTROL" }
-	"AVOIDING" probability: 6.09%	count:1019.0 total:16723.0
-	"DYNAMIC OBSTACLE IN PATH; TRANSFERRING CONTROL TO USER 1" probability: 0.10%	count:17.0 total:16723.0
-	"Finished behavior" probability: 1.65%	count:276.0 total:16723.0
-	"GO TO GOAL" probability: 60.48%	count:10114.0 total:16723.0
-	"GOAL REACHED" probability: 4.41%	count:738.0 total:16723.0
-	"HOVERING AT OBSTACLE; WAITING FOR USER INPUT" probability: 7.92%	count:1325.0 total:16723.0
-	"NO VICON DATA; LANDING" probability: 17.32%	count:2897.0 total:16723.0
-	"USER INPUT TIMEOUT; LANDING" probability: 0.13%	count:22.0 total:16723.0
-	"USER1 CONTROL" probability: 1.88%	count:315.0 total:16723.0
-orig(is_user_watching_drone1.data) one of { "False", "True" }
-orig(is_user_watching_drone1.data) one of { "False", "True" }
-	"False" probability: 87.86%	count:14710.0 total:16742.0
-	"True" probability: 12.14%	count:2032.0 total:16742.0
-orig(velocity3.linear.z) one of { -200.0, 0.0 }
-orig(velocity3.linear.z) one of { -200.0, 0.0 }
-	"-200.0" probability: 22.41%	count:6709.0 total:29937.0
-	"0.0" probability: 77.59%	count:23228.0 total:29937.0
-orig(velocity3.angular.y) == 0.0
-orig(velocity3.angular.y) == 0.0
-orig(state4.data) one of { "GO TO GOAL", "HOVERING AT OBSTACLE; WAITING FOR USER INPUT", "USER1 CONTROL" }
-orig(state4.data) one of { "GO TO GOAL", "HOVERING AT OBSTACLE; WAITING FOR USER INPUT", "USER1 CONTROL" }
-	"GO TO GOAL" probability: 79.45%	count:9636.0 total:12129.0
-	"HOVERING AT OBSTACLE; WAITING FOR USER INPUT" probability: 13.86%	count:1681.0 total:12129.0
-	"USER1 CONTROL" probability: 6.69%	count:812.0 total:12129.0
-orig(distance_to_user2.data) != orig(velocity3.linear.y)
 ===========================================================================
 ..state(geometry_msgs/TransformStamped, std_msgs/Bool, std_msgs/Float64, geometry_msgs/Twist, std_msgs/String):::EXIT;condition="is_user_watching_drone1.data  ==   "False""
 return.data one of { "AVOIDING", "DYNAMIC OBSTACLE IN PATH; TRANSFERRING CONTROL TO USER 1", "Finished behavior", "GO TO GOAL", "GOAL REACHED", "HOVERING AT OBSTACLE; WAITING FOR USER INPUT", "NO VICON DATA; LANDING", "USER INPUT TIMEOUT; LANDING", "USER1 CONTROL" }
@@ -2087,49 +1725,15 @@ return.data one of { "AVOIDING", "DYNAMIC OBSTACLE IN PATH; TRANSFERRING CONTROL
 	"USER INPUT TIMEOUT; LANDING" probability: 0.13%	count:22.0 total:16656.0
 	"USER1 CONTROL" probability: 1.89%	count:314.0 total:16656.0
 orig(is_user_watching_drone1.data) one of { "False", "True" }
-orig(is_user_watching_drone1.data) one of { "False", "True" }
 	"False" probability: 87.86%	count:14710.0 total:16742.0
 	"True" probability: 12.14%	count:2032.0 total:16742.0
 orig(velocity3.linear.z) one of { -200.0, 0.0 }
-orig(velocity3.linear.z) one of { -200.0, 0.0 }
 	"-200.0" probability: 22.51%	count:6709.0 total:29805.0
 	"0.0" probability: 77.49%	count:23096.0 total:29805.0
-orig(velocity3.angular.y) == 0.0
-orig(velocity3.angular.y) == 0.0
-orig(state4.data) one of { "GO TO GOAL", "HOVERING AT OBSTACLE; WAITING FOR USER INPUT", "USER1 CONTROL" }
 orig(state4.data) one of { "GO TO GOAL", "HOVERING AT OBSTACLE; WAITING FOR USER INPUT", "USER1 CONTROL" }
 	"GO TO GOAL" probability: 79.46%	count:9592.0 total:12071.0
 	"HOVERING AT OBSTACLE; WAITING FOR USER INPUT" probability: 13.83%	count:1670.0 total:12071.0
 	"USER1 CONTROL" probability: 6.70%	count:809.0 total:12071.0
-orig(distance_to_user2.data) != orig(velocity3.linear.y)
-===========================================================================
-..state(geometry_msgs/TransformStamped, std_msgs/Bool, std_msgs/Float64, geometry_msgs/Twist, std_msgs/String):::EXIT;condition="not(is_user_watching_drone1.data  ==   "False")"
-return.data one of { "AVOIDING", "DYNAMIC OBSTACLE IN PATH; TRANSFERRING CONTROL TO USER 1", "Finished behavior", "GO TO GOAL", "GOAL REACHED", "HOVERING AT OBSTACLE; WAITING FOR USER INPUT", "NO VICON DATA; LANDING", "USER INPUT TIMEOUT; LANDING", "USER1 CONTROL" }
-	"AVOIDING" probability: 3.03%	count:461.0 total:15193.0
-	"DYNAMIC OBSTACLE IN PATH; TRANSFERRING CONTROL TO USER 1" probability: 0.01%	count:1.0 total:15193.0
-	"Finished behavior" probability: 1.39%	count:211.0 total:15193.0
-	"GO TO GOAL" probability: 81.45%	count:12375.0 total:15193.0
-	"GOAL REACHED" probability: 7.87%	count:1196.0 total:15193.0
-	"HOVERING AT OBSTACLE; WAITING FOR USER INPUT" probability: 3.78%	count:575.0 total:15193.0
-	"NO VICON DATA; LANDING" probability: 1.16%	count:176.0 total:15193.0
-	"USER INPUT TIMEOUT; LANDING" probability: 1.18%	count:179.0 total:15193.0
-	"USER1 CONTROL" probability: 0.13%	count:19.0 total:15193.0
-orig(is_user_watching_drone1.data) one of { "False", "True" }
-orig(is_user_watching_drone1.data) one of { "False", "True" }
-	"False" probability: 14.90%	count:2240.0 total:15032.0
-	"True" probability: 85.10%	count:12792.0 total:15032.0
-orig(velocity3.linear.z) one of { -200.0, 0.0 }
-orig(velocity3.linear.z) one of { -200.0, 0.0 }
-	"-200.0" probability: 9.54%	count:2420.0 total:25361.0
-	"0.0" probability: 90.46%	count:22941.0 total:25361.0
-orig(velocity3.angular.y) == 0.0
-orig(velocity3.angular.y) == 0.0
-orig(state4.data) one of { "GO TO GOAL", "HOVERING AT OBSTACLE; WAITING FOR USER INPUT", "USER1 CONTROL" }
-orig(state4.data) one of { "GO TO GOAL", "HOVERING AT OBSTACLE; WAITING FOR USER INPUT", "USER1 CONTROL" }
-	"GO TO GOAL" probability: 59.89%	count:3597.0 total:6006.0
-	"HOVERING AT OBSTACLE; WAITING FOR USER INPUT" probability: 35.08%	count:2107.0 total:6006.0
-	"USER1 CONTROL" probability: 5.03%	count:302.0 total:6006.0
-orig(distance_to_user2.data) != orig(velocity3.linear.y)
 ===========================================================================
 ..state(geometry_msgs/TransformStamped, std_msgs/Bool, std_msgs/Float64, geometry_msgs/Twist, std_msgs/String):::EXIT;condition="is_user_watching_drone1.data  ==  "True""
 return.data one of { "AVOIDING", "DYNAMIC OBSTACLE IN PATH; TRANSFERRING CONTROL TO USER 1", "Finished behavior", "GO TO GOAL", "GOAL REACHED", "HOVERING AT OBSTACLE; WAITING FOR USER INPUT", "NO VICON DATA; LANDING", "USER INPUT TIMEOUT; LANDING", "USER1 CONTROL" }
@@ -2150,9 +1754,6 @@ orig(velocity3.linear.z) one of { -200.0, 0.0 }
 orig(velocity3.linear.z) one of { -200.0, 0.0 }
 	"-200.0" probability: 9.59%	count:2420.0 total:25229.0
 	"0.0" probability: 90.41%	count:22809.0 total:25229.0
-orig(velocity3.angular.y) == 0.0
-orig(velocity3.angular.y) == 0.0
-orig(state4.data) one of { "GO TO GOAL", "HOVERING AT OBSTACLE; WAITING FOR USER INPUT", "USER1 CONTROL" }
 orig(state4.data) one of { "GO TO GOAL", "HOVERING AT OBSTACLE; WAITING FOR USER INPUT", "USER1 CONTROL" }
 	"GO TO GOAL" probability: 59.73%	count:3553.0 total:5948.0
 	"HOVERING AT OBSTACLE; WAITING FOR USER INPUT" probability: 35.24%	count:2096.0 total:5948.0
@@ -2555,48 +2156,6 @@ orig(distance_to_user2.data) != orig(velocity3.linear.y)
 ===========================================================================
 ..state(geometry_msgs/TransformStamped, std_msgs/Bool, std_msgs/Float64, geometry_msgs/Twist, std_msgs/String):::EXIT;condition="return.data  ==  "NO VICON DATA; LANDING""
 return.data == "NO VICON DATA; LANDING"
-return.data == "NO VICON DATA; LANDING"
-orig(viconTELLOTELLO0.header.seq) one of { 11776, 14916, 52088, 67257, 141591, 149322, 151732, 353133, 373171 }
-	"11776" probability: 0.00%
-	"14916" probability: 0.01%
-	"52088" probability: 0.03%
-	"67257" probability: 0.01%
-	"141591" probability: 0.00%
-	"149322" probability: 0.00%
-	"151732" probability: 0.05%
-	"353133" probability: 0.01%
-	"373171" probability: 0.89%
-orig(viconTELLOTELLO0.transform.rotation.y) one of { -0.0439410564542, -0.025097898909, -0.0203710617367, -0.0139862967093, 0.00945934110889, 0.027217526315, 0.0564077360774, 0.0813841420159, 0.882336315823 }
-	"-0.0439410564542" probability: 3.11%	count:95.0 total:3057.0
-	"-0.025097898909" probability: 0.36%	count:11.0 total:3057.0
-	"-0.0203710617367" probability: 0.59%	count:18.0 total:3057.0
-	"-0.0139862967093" probability: 89.34%	count:2731.0 total:3057.0
-	"0.00945934110889" probability: 0.10%	count:3.0 total:3057.0
-	"0.027217526315" probability: 4.58%	count:140.0 total:3057.0
-	"0.0564077360774" probability: 1.37%	count:42.0 total:3057.0
-	"0.0813841420159" probability: 0.52%	count:16.0 total:3057.0
-	"0.882336315823" probability: 0.03%	count:1.0 total:3057.0
-orig(viconTELLOTELLO0.transform.rotation.z) one of { -0.76591266574, -0.736299677415, -0.697631725133, -0.553973027044, -0.293509147381, -0.223976508618, 0.358460921223, 0.745887868507, 0.998007108806 }
-	"-0.76591266574" probability: 89.34%	count:2731.0 total:3057.0
-	"-0.736299677415" probability: 0.59%	count:18.0 total:3057.0
-	"-0.697631725133" probability: 3.11%	count:95.0 total:3057.0
-	"-0.553973027044" probability: 0.36%	count:11.0 total:3057.0
-	"-0.293509147381" probability: 4.58%	count:140.0 total:3057.0
-	"-0.223976508618" probability: 0.10%	count:3.0 total:3057.0
-	"0.358460921223" probability: 0.03%	count:1.0 total:3057.0
-	"0.745887868507" probability: 0.52%	count:16.0 total:3057.0
-	"0.998007108806" probability: 1.37%	count:42.0 total:3057.0
-orig(viconTELLOTELLO0.transform.rotation.z) >= -0.76591266574
-orig(viconTELLOTELLO0.header.stamp.secs) one of { 1550885705, 1550885738, 1550886145, 1550886415, 1550887243, 1550887348, 1550890923, 1550891197, 1550900836 }
-	"1550885705" probability: 0.00%
-	"1550885738" probability: 0.01%
-	"1550886145" probability: 0.03%
-	"1550886415" probability: 0.01%
-	"1550887243" probability: 0.00%
-	"1550887348" probability: 0.05%
-	"1550890923" probability: 0.01%
-	"1550891197" probability: 0.89%
-	"1550900836" probability: 0.00%
 orig(viconTELLOTELLO0.transform.translation.z) one of { 0.0520874151139, 0.29636985492, 0.473322034649, 0.523609076706, 0.565681370926, 0.619722509516, 0.710889680974, 0.793042889748, 0.960097647692 }
 	"0.0520874151139" probability: 0.52%	count:16.0 total:3057.0
 	"0.29636985492" probability: 0.59%	count:18.0 total:3057.0
@@ -2607,16 +2166,6 @@ orig(viconTELLOTELLO0.transform.translation.z) one of { 0.0520874151139, 0.29636
 	"0.710889680974" probability: 0.36%	count:11.0 total:3057.0
 	"0.793042889748" probability: 3.11%	count:95.0 total:3057.0
 	"0.960097647692" probability: 0.03%	count:1.0 total:3057.0
-orig(viconTELLOTELLO0.header.stamp.nsecs) one of { 148998257, 310804540, 380487144, 460728914, 511084374, 598485412, 729327107, 741604042, 870400777 }
-	"148998257" probability: 0.00%
-	"310804540" probability: 0.01%
-	"380487144" probability: 0.03%
-	"460728914" probability: 0.01%
-	"511084374" probability: 0.01%
-	"598485412" probability: 0.05%
-	"729327107" probability: 0.89%
-	"741604042" probability: 0.00%
-	"870400777" probability: 0.00%
 orig(viconTELLOTELLO0.transform.translation.x) one of { -2.64187614191, -2.33123913344, -1.57211542251, -1.56346159183, -1.48105136703, -1.23501066531, -1.02409128782, -0.344079773497, 2.06420157103 }
 	"-2.64187614191" probability: 0.03%	count:1.0 total:3057.0
 	"-2.33123913344" probability: 0.52%	count:16.0 total:3057.0
@@ -2637,26 +2186,6 @@ orig(viconTELLOTELLO0.transform.translation.y) one of { -1.86477779515, -1.61785
 	"0.964780051649" probability: 0.59%	count:18.0 total:3057.0
 	"1.38716099377" probability: 89.34%	count:2731.0 total:3057.0
 	"1.52588339658" probability: 4.58%	count:140.0 total:3057.0
-orig(viconTELLOTELLO0.transform.rotation.x) one of { -0.0282221581961, -0.0177453117136, 0.0120326945251, 0.0144306395356, 0.0383331432281, 0.043505521548, 0.0523536036993, 0.0548496226621, 0.105673831668 }
-	"-0.0282221581961" probability: 1.37%	count:42.0 total:3057.0
-	"-0.0177453117136" probability: 0.03%	count:1.0 total:3057.0
-	"0.0120326945251" probability: 3.11%	count:95.0 total:3057.0
-	"0.0144306395356" probability: 0.52%	count:16.0 total:3057.0
-	"0.0383331432281" probability: 0.36%	count:11.0 total:3057.0
-	"0.043505521548" probability: 0.59%	count:18.0 total:3057.0
-	"0.0523536036993" probability: 89.34%	count:2731.0 total:3057.0
-	"0.0548496226621" probability: 0.10%	count:3.0 total:3057.0
-	"0.105673831668" probability: 4.58%	count:140.0 total:3057.0
-orig(viconTELLOTELLO0.transform.rotation.w) one of { 0.00186758387577, 0.304423221269, 0.640656906732, 0.660923343275, 0.674948201329, 0.715006555151, 0.831272849856, 0.949707653947, 0.973003886604 }
-	"0.00186758387577" probability: 1.37%	count:42.0 total:3057.0
-	"0.304423221269" probability: 0.03%	count:1.0 total:3057.0
-	"0.640656906732" probability: 89.34%	count:2731.0 total:3057.0
-	"0.660923343275" probability: 0.52%	count:16.0 total:3057.0
-	"0.674948201329" probability: 0.59%	count:18.0 total:3057.0
-	"0.715006555151" probability: 3.11%	count:95.0 total:3057.0
-	"0.831272849856" probability: 0.36%	count:11.0 total:3057.0
-	"0.949707653947" probability: 4.58%	count:140.0 total:3057.0
-	"0.973003886604" probability: 0.10%	count:3.0 total:3057.0
 orig(is_user_watching_drone1.data) one of { "False", "True" }
 orig(is_user_watching_drone1.data) one of { "False", "True" }
 	"False" probability: 97.15%	count:2970.0 total:3057.0
@@ -2723,36 +2252,17 @@ orig(distance_to_user2.data) != orig(velocity3.linear.y)
 ===========================================================================
 ..velocity(geometry_msgs/TransformStamped, std_msgs/Bool, std_msgs/Float64, geometry_msgs/Twist, std_msgs/String):::ENTER
 is_user_watching_drone1.data one of { "False", "True" }
-is_user_watching_drone1.data one of { "False", "True" }
 	"False" probability: 88.13%	count:14993.0 total:17013.0
 	"True" probability: 11.87%	count:2020.0 total:17013.0
 velocity3.linear.x <= 1.0
 velocity3.linear.x >= -0.631624653051
 velocity3.linear.z == 0.0
 velocity3.linear.z == 0.0
-velocity3.angular.y == 0.0
-velocity3.angular.y == 0.0
-viconTELLOTELLO0.transform.translation.z != viconTELLOTELLO0.transform.translation.x
-viconTELLOTELLO0.transform.translation.z != viconTELLOTELLO0.transform.translation.y
-viconTELLOTELLO0.transform.translation.x != viconTELLOTELLO0.transform.translation.y
 ===========================================================================
 ..velocity(geometry_msgs/TransformStamped, std_msgs/Bool, std_msgs/Float64, geometry_msgs/Twist, std_msgs/String):::EXIT
-return.angular.y == orig(velocity3.angular.y)
-return.angular.y == orig(velocity3.angular.x)
-return.angular.y == orig(velocity3.angular.z)
-(is_user_watching_drone1.data == "False")  ==>  (is_user_watching_drone1.data <= orig(is_user_watching_drone1.data))
 (is_user_watching_drone1.data == "False")  ==>  (orig(is_user_watching_drone1.data) one of { "False", "True" }
 	"False" probability: 88.13%	count:14993.0 total:17013.0
 	"True" probability: 11.87%	count:2020.0 total:17013.0)
-(is_user_watching_drone1.data == "False")  ==>  (orig(state4.data) one of { "AVOIDING", "DYNAMIC OBSTACLE IN PATH; TRANSFERRING CONTROL TO USER 1", "Finished behavior", "GO TO GOAL", "GOAL REACHED", "HOVERING AT OBSTACLE; WAITING FOR USER INPUT", "NO VICON DATA; LANDING", "USER INPUT TIMEOUT; LANDING" }
-	"AVOIDING" probability: 3.75%	count:634.0 total:16896.0
-	"DYNAMIC OBSTACLE IN PATH; TRANSFERRING CONTROL TO USER 1" probability: 0.20%	count:33.0 total:16896.0
-	"Finished behavior" probability: 4.29%	count:725.0 total:16896.0
-	"GO TO GOAL" probability: 62.36%	count:10536.0 total:16896.0
-	"GOAL REACHED" probability: 3.24%	count:548.0 total:16896.0
-	"HOVERING AT OBSTACLE; WAITING FOR USER INPUT" probability: 8.13%	count:1374.0 total:16896.0
-	"NO VICON DATA; LANDING" probability: 18.02%	count:3045.0 total:16896.0
-	"USER INPUT TIMEOUT; LANDING" probability: 0.01%	count:1.0 total:16896.0)
 (is_user_watching_drone1.data == "False")  ==>  (orig(state4.data) one of { "AVOIDING", "DYNAMIC OBSTACLE IN PATH; TRANSFERRING CONTROL TO USER 1", "Finished behavior", "GO TO GOAL", "GOAL REACHED", "HOVERING AT OBSTACLE; WAITING FOR USER INPUT", "NO VICON DATA; LANDING", "USER INPUT TIMEOUT; LANDING", "USER1 CONTROL" }
 	"AVOIDING" probability: 3.74%	count:634.0 total:16949.0
 	"DYNAMIC OBSTACLE IN PATH; TRANSFERRING CONTROL TO USER 1" probability: 0.19%	count:33.0 total:16949.0
@@ -2767,12 +2277,6 @@ return.angular.y == orig(velocity3.angular.z)
 (is_user_watching_drone1.data == "False")  ==>  (return.linear.z one of { -200.0, 0.0 }
 	"-200.0" probability: 25.65%	count:4325.0 total:16860.0
 	"0.0" probability: 74.35%	count:12535.0 total:16860.0)
-(is_user_watching_drone1.data == "False")  ==>  (return.linear.z one of { -200.0, 0.0 }
-	"-200.0" probability: 25.76%	count:4325.0 total:16792.0
-	"0.0" probability: 74.24%	count:12467.0 total:16792.0)
-(is_user_watching_drone1.data == "False")  ==>  (return.linear.z one of { -200.0, 0.0 }
-	"-200.0" probability: 25.76%	count:4326.0 total:16794.0
-	"0.0" probability: 74.24%	count:12468.0 total:16794.0)
 (is_user_watching_drone1.data == "False")  ==>  (state4.data one of { "AVOIDING", "DYNAMIC OBSTACLE IN PATH; TRANSFERRING CONTROL TO USER 1", "Finished behavior", "GO TO GOAL", "GOAL REACHED", "HOVERING AT OBSTACLE; WAITING FOR USER INPUT", "NO VICON DATA; LANDING", "USER INPUT TIMEOUT; LANDING", "USER1 CONTROL" }
 	"AVOIDING" probability: 6.05%	count:1027.0 total:16966.0
 	"DYNAMIC OBSTACLE IN PATH; TRANSFERRING CONTROL TO USER 1" probability: 0.19%	count:33.0 total:16966.0
@@ -2783,31 +2287,11 @@ return.angular.y == orig(velocity3.angular.z)
 	"NO VICON DATA; LANDING" probability: 19.00%	count:3223.0 total:16966.0
 	"USER INPUT TIMEOUT; LANDING" probability: 0.13%	count:22.0 total:16966.0
 	"USER1 CONTROL" probability: 0.12%	count:21.0 total:16966.0)
-(is_user_watching_drone1.data == "False")  ==>  (state4.data one of { "AVOIDING", "DYNAMIC OBSTACLE IN PATH; TRANSFERRING CONTROL TO USER 1", "Finished behavior", "GO TO GOAL", "GOAL REACHED", "HOVERING AT OBSTACLE; WAITING FOR USER INPUT", "NO VICON DATA; LANDING", "USER INPUT TIMEOUT; LANDING", "USER1 CONTROL" }
-	"AVOIDING" probability: 6.07%	count:1027.0 total:16913.0
-	"DYNAMIC OBSTACLE IN PATH; TRANSFERRING CONTROL TO USER 1" probability: 0.20%	count:33.0 total:16913.0
-	"Finished behavior" probability: 2.32%	count:393.0 total:16913.0
-	"GO TO GOAL" probability: 59.26%	count:10022.0 total:16913.0
-	"GOAL REACHED" probability: 5.11%	count:865.0 total:16913.0
-	"HOVERING AT OBSTACLE; WAITING FOR USER INPUT" probability: 7.73%	count:1308.0 total:16913.0
-	"NO VICON DATA; LANDING" probability: 19.06%	count:3223.0 total:16913.0
-	"USER INPUT TIMEOUT; LANDING" probability: 0.13%	count:22.0 total:16913.0
-	"USER1 CONTROL" probability: 0.12%	count:20.0 total:16913.0)
-(is_user_watching_drone1.data == "False")  ==>  (viconTELLOTELLO0.transform.rotation.w != orig(viconTELLOTELLO0.transform.rotation.y))
-(is_user_watching_drone1.data == "False")  ==>  (viconTELLOTELLO0.transform.rotation.y != viconTELLOTELLO0.transform.rotation.w)
 (is_user_watching_drone1.data == "False")  ==>  (viconTELLOTELLO0.transform.translation.z != viconTELLOTELLO0.transform.translation.y)
 (is_user_watching_drone1.data == "True")  ==>  (is_user_watching_drone1.data >= orig(is_user_watching_drone1.data))
 (is_user_watching_drone1.data == "True")  ==>  (orig(is_user_watching_drone1.data) one of { "False", "True" }
 	"False" probability: 17.57%	count:2627.0 total:14951.0
 	"True" probability: 82.43%	count:12324.0 total:14951.0)
-(is_user_watching_drone1.data == "True")  ==>  (orig(state4.data) one of { "AVOIDING", "Finished behavior", "GO TO GOAL", "GOAL REACHED", "HOVERING AT OBSTACLE; WAITING FOR USER INPUT", "NO VICON DATA; LANDING", "USER INPUT TIMEOUT; LANDING" }
-	"AVOIDING" probability: 2.62%	count:392.0 total:14941.0
-	"Finished behavior" probability: 0.93%	count:139.0 total:14941.0
-	"GO TO GOAL" probability: 84.06%	count:12559.0 total:14941.0
-	"GOAL REACHED" probability: 8.17%	count:1220.0 total:14941.0
-	"HOVERING AT OBSTACLE; WAITING FOR USER INPUT" probability: 2.97%	count:444.0 total:14941.0
-	"NO VICON DATA; LANDING" probability: 0.28%	count:42.0 total:14941.0
-	"USER INPUT TIMEOUT; LANDING" probability: 0.97%	count:145.0 total:14941.0)
 (is_user_watching_drone1.data == "True")  ==>  (orig(state4.data) one of { "AVOIDING", "Finished behavior", "GO TO GOAL", "GOAL REACHED", "HOVERING AT OBSTACLE; WAITING FOR USER INPUT", "NO VICON DATA; LANDING", "USER INPUT TIMEOUT; LANDING", "USER1 CONTROL" }
 	"AVOIDING" probability: 2.61%	count:392.0 total:14994.0
 	"Finished behavior" probability: 0.93%	count:139.0 total:14994.0
@@ -2835,102 +2319,9 @@ return.angular.y == orig(velocity3.angular.z)
 	"NO VICON DATA; LANDING" probability: 1.57%	count:237.0 total:15072.0
 	"USER INPUT TIMEOUT; LANDING" probability: 1.19%	count:179.0 total:15072.0
 	"USER1 CONTROL" probability: 0.01%	count:2.0 total:15072.0)
-(is_user_watching_drone1.data == "True")  ==>  (state4.data one of { "AVOIDING", "DYNAMIC OBSTACLE IN PATH; TRANSFERRING CONTROL TO USER 1", "Finished behavior", "GO TO GOAL", "GOAL REACHED", "HOVERING AT OBSTACLE; WAITING FOR USER INPUT", "NO VICON DATA; LANDING", "USER INPUT TIMEOUT; LANDING", "USER1 CONTROL" }
-	"AVOIDING" probability: 3.08%	count:462.0 total:15019.0
-	"DYNAMIC OBSTACLE IN PATH; TRANSFERRING CONTROL TO USER 1" probability: 0.01%	count:1.0 total:15019.0
-	"Finished behavior" probability: 2.41%	count:362.0 total:15019.0
-	"GO TO GOAL" probability: 81.14%	count:12187.0 total:15019.0
-	"GOAL REACHED" probability: 6.82%	count:1025.0 total:15019.0
-	"HOVERING AT OBSTACLE; WAITING FOR USER INPUT" probability: 3.76%	count:565.0 total:15019.0
-	"NO VICON DATA; LANDING" probability: 1.58%	count:237.0 total:15019.0
-	"USER INPUT TIMEOUT; LANDING" probability: 1.19%	count:179.0 total:15019.0
-	"USER1 CONTROL" probability: 0.01%	count:1.0 total:15019.0)
 (is_user_watching_drone1.data == "True")  ==>  (viconTELLOTELLO0.transform.translation.x != orig(viconTELLOTELLO0.transform.translation.z))
 (is_user_watching_drone1.data == "True")  ==>  (viconTELLOTELLO0.transform.translation.x != viconTELLOTELLO0.transform.translation.y)
 (is_user_watching_drone1.data == "True")  ==>  (viconTELLOTELLO0.transform.translation.y != orig(viconTELLOTELLO0.transform.translation.x))
-(orig(viconTELLOTELLO0.header.stamp.secs) == 1550885695)  <==>  (orig(viconTELLOTELLO0.header.stamp.secs) == 1550885695)
-(orig(viconTELLOTELLO0.header.stamp.secs) == 1550885695)  ==>  (distance_to_user2 has only one value)
-(orig(viconTELLOTELLO0.header.stamp.secs) == 1550885695)  ==>  (distance_to_user2.data == 0.858013884564)
-(orig(viconTELLOTELLO0.header.stamp.secs) == 1550885695)  ==>  (distance_to_user2.data == orig(distance_to_user2.data))
-(orig(viconTELLOTELLO0.header.stamp.secs) == 1550885695)  ==>  (is_user_watching_drone1 has only one value)
-(orig(viconTELLOTELLO0.header.stamp.secs) == 1550885695)  ==>  (is_user_watching_drone1.data == "False")
-(orig(viconTELLOTELLO0.header.stamp.secs) == 1550885695)  ==>  (is_user_watching_drone1.data == orig(is_user_watching_drone1.data))
-(orig(viconTELLOTELLO0.header.stamp.secs) == 1550885695)  ==>  (orig(distance_to_user2) has only one value)
-(orig(viconTELLOTELLO0.header.stamp.secs) == 1550885695)  ==>  (orig(distance_to_user2.data) == 0.858015777627)
-(orig(viconTELLOTELLO0.header.stamp.secs) == 1550885695)  ==>  (orig(is_user_watching_drone1) has only one value)
-(orig(viconTELLOTELLO0.header.stamp.secs) == 1550885695)  ==>  (orig(is_user_watching_drone1.data) == "False")
-(orig(viconTELLOTELLO0.header.stamp.secs) == 1550885695)  ==>  (orig(state4) has only one value)
-(orig(viconTELLOTELLO0.header.stamp.secs) == 1550885695)  ==>  (orig(state4.data) == "GO TO GOAL")
-(orig(viconTELLOTELLO0.header.stamp.secs) == 1550885695)  ==>  (orig(velocity3) has only one value)
-(orig(viconTELLOTELLO0.header.stamp.secs) == 1550885695)  ==>  (orig(velocity3.linear.x) == 0.326063112696)
-(orig(viconTELLOTELLO0.header.stamp.secs) == 1550885695)  ==>  (orig(velocity3.linear.y) == -1.0)
-(orig(viconTELLOTELLO0.header.stamp.secs) == 1550885695)  ==>  (orig(viconTELLOTELLO0) has only one value)
-(orig(viconTELLOTELLO0.header.stamp.secs) == 1550885695)  ==>  (orig(viconTELLOTELLO0.header.seq) == 10760)
-(orig(viconTELLOTELLO0.header.stamp.secs) == 1550885695)  ==>  (orig(viconTELLOTELLO0.header.stamp.nsecs) == 180539699)
-(orig(viconTELLOTELLO0.header.stamp.secs) == 1550885695)  ==>  (orig(viconTELLOTELLO0.transform.rotation.w) == 0.731890039132)
-(orig(viconTELLOTELLO0.header.stamp.secs) == 1550885695)  ==>  (orig(viconTELLOTELLO0.transform.rotation.x) == 0.0377325721059)
-(orig(viconTELLOTELLO0.header.stamp.secs) == 1550885695)  ==>  (orig(viconTELLOTELLO0.transform.rotation.y) == 0.0411724920449)
-(orig(viconTELLOTELLO0.header.stamp.secs) == 1550885695)  ==>  (orig(viconTELLOTELLO0.transform.rotation.z) == 0.679130362685)
-(orig(viconTELLOTELLO0.header.stamp.secs) == 1550885695)  ==>  (orig(viconTELLOTELLO0.transform.translation.x) == 1.02041337908)
-(orig(viconTELLOTELLO0.header.stamp.secs) == 1550885695)  ==>  (orig(viconTELLOTELLO0.transform.translation.y) == -1.02460144692)
-(orig(viconTELLOTELLO0.header.stamp.secs) == 1550885695)  ==>  (orig(viconTELLOTELLO0.transform.translation.z) == 0.027064388715)
-(orig(viconTELLOTELLO0.header.stamp.secs) == 1550885695)  ==>  (return == orig(velocity3))
-(orig(viconTELLOTELLO0.header.stamp.secs) == 1550885695)  ==>  (return has only one value)
-(orig(viconTELLOTELLO0.header.stamp.secs) == 1550885695)  ==>  (return.linear.x == 0.326063112696)
-(orig(viconTELLOTELLO0.header.stamp.secs) == 1550885695)  ==>  (return.linear.y == -1.0)
-(orig(viconTELLOTELLO0.header.stamp.secs) == 1550885695)  ==>  (return.linear.z == 0.0)
-(orig(viconTELLOTELLO0.header.stamp.secs) == 1550885695)  ==>  (state4 == orig(state4))
-(orig(viconTELLOTELLO0.header.stamp.secs) == 1550885695)  ==>  (state4 has only one value)
-(orig(viconTELLOTELLO0.header.stamp.secs) == 1550885695)  ==>  (state4.data == "GO TO GOAL")
-(orig(viconTELLOTELLO0.header.stamp.secs) == 1550885695)  ==>  (state4.data == orig(state4.data))
-(orig(viconTELLOTELLO0.header.stamp.secs) == 1550885695)  ==>  (velocity3 == orig(velocity3))
-(orig(viconTELLOTELLO0.header.stamp.secs) == 1550885695)  ==>  (velocity3 has only one value)
-(orig(viconTELLOTELLO0.header.stamp.secs) == 1550885695)  ==>  (viconTELLOTELLO0 has only one value)
-(orig(viconTELLOTELLO0.header.stamp.secs) == 1550885695)  ==>  (viconTELLOTELLO0.header.seq == 10887)
-(orig(viconTELLOTELLO0.header.stamp.secs) == 1550885695)  ==>  (viconTELLOTELLO0.header.stamp.nsecs == 460552792)
-(orig(viconTELLOTELLO0.header.stamp.secs) == 1550885695)  ==>  (viconTELLOTELLO0.header.stamp.secs == 1550885696)
-(orig(viconTELLOTELLO0.header.stamp.secs) == 1550885695)  ==>  (viconTELLOTELLO0.transform.rotation.w == 0.732350468189)
-(orig(viconTELLOTELLO0.header.stamp.secs) == 1550885695)  ==>  (viconTELLOTELLO0.transform.rotation.x == 0.0376601977923)
-(orig(viconTELLOTELLO0.header.stamp.secs) == 1550885695)  ==>  (viconTELLOTELLO0.transform.rotation.y == 0.0413500715847)
-(orig(viconTELLOTELLO0.header.stamp.secs) == 1550885695)  ==>  (viconTELLOTELLO0.transform.rotation.z == 0.678627049878)
-(orig(viconTELLOTELLO0.header.stamp.secs) == 1550885695)  ==>  (viconTELLOTELLO0.transform.translation.x == 1.02039731039)
-(orig(viconTELLOTELLO0.header.stamp.secs) == 1550885695)  ==>  (viconTELLOTELLO0.transform.translation.x == orig(viconTELLOTELLO0.transform.translation.x))
-(orig(viconTELLOTELLO0.header.stamp.secs) == 1550885695)  ==>  (viconTELLOTELLO0.transform.translation.y == -1.02475996887)
-(orig(viconTELLOTELLO0.header.stamp.secs) == 1550885695)  ==>  (viconTELLOTELLO0.transform.translation.z == 0.0270454914369)
-(orig(viconTELLOTELLO0.header.stamp.secs) >= 1550885696)  ==>  (is_user_watching_drone1.data one of { "False", "True" }
-	"False" probability: 53.00%	count:17061.0 total:32193.0
-	"True" probability: 47.00%	count:15132.0 total:32193.0)
-(orig(viconTELLOTELLO0.header.stamp.secs) >= 1550885696)  ==>  (is_user_watching_drone1.data one of { "False", "True" })
-(orig(viconTELLOTELLO0.header.stamp.secs) >= 1550885696)  ==>  (orig(is_user_watching_drone1.data) one of { "False", "True" }
-	"False" probability: 55.12%	count:17619.0 total:31963.0
-	"True" probability: 44.88%	count:14344.0 total:31963.0)
-(orig(viconTELLOTELLO0.header.stamp.secs) >= 1550885696)  ==>  (orig(is_user_watching_drone1.data) one of { "False", "True" })
-(orig(viconTELLOTELLO0.header.stamp.secs) >= 1550885696)  ==>  (orig(state4.data) one of { "AVOIDING", "DYNAMIC OBSTACLE IN PATH; TRANSFERRING CONTROL TO USER 1", "Finished behavior", "GO TO GOAL", "GOAL REACHED", "HOVERING AT OBSTACLE; WAITING FOR USER INPUT", "NO VICON DATA; LANDING", "USER INPUT TIMEOUT; LANDING", "USER1 CONTROL" }
-	"AVOIDING" probability: 3.21%	count:1026.0 total:31993.0
-	"DYNAMIC OBSTACLE IN PATH; TRANSFERRING CONTROL TO USER 1" probability: 0.10%	count:33.0 total:31993.0
-	"Finished behavior" probability: 2.70%	count:864.0 total:31993.0
-	"GO TO GOAL" probability: 72.64%	count:23241.0 total:31993.0
-	"GOAL REACHED" probability: 5.53%	count:1768.0 total:31993.0
-	"HOVERING AT OBSTACLE; WAITING FOR USER INPUT" probability: 5.71%	count:1826.0 total:31993.0
-	"NO VICON DATA; LANDING" probability: 9.65%	count:3087.0 total:31993.0
-	"USER INPUT TIMEOUT; LANDING" probability: 0.46%	count:146.0 total:31993.0
-	"USER1 CONTROL" probability: 0.01%	count:2.0 total:31993.0)
-(orig(viconTELLOTELLO0.header.stamp.secs) >= 1550885696)  ==>  (orig(velocity3.linear.x) <= 1.0)
-(orig(viconTELLOTELLO0.header.stamp.secs) >= 1550885696)  ==>  (orig(velocity3.linear.x) >= -0.631624653051)
-(orig(viconTELLOTELLO0.header.stamp.secs) >= 1550885696)  ==>  (return.linear.z one of { -200.0, 0.0 }
-	"-200.0" probability: 18.37%	count:5897.0 total:32109.0
-	"0.0" probability: 81.63%	count:26212.0 total:32109.0)
-(orig(viconTELLOTELLO0.header.stamp.secs) >= 1550885696)  ==>  (return.linear.z one of { -200.0, 0.0 })
-(orig(viconTELLOTELLO0.header.stamp.secs) >= 1550885696)  ==>  (state4.data one of { "AVOIDING", "DYNAMIC OBSTACLE IN PATH; TRANSFERRING CONTROL TO USER 1", "Finished behavior", "GO TO GOAL", "GOAL REACHED", "HOVERING AT OBSTACLE; WAITING FOR USER INPUT", "NO VICON DATA; LANDING", "USER INPUT TIMEOUT; LANDING", "USER1 CONTROL" }
-	"AVOIDING" probability: 4.64%	count:1489.0 total:32071.0
-	"DYNAMIC OBSTACLE IN PATH; TRANSFERRING CONTROL TO USER 1" probability: 0.11%	count:34.0 total:32071.0
-	"Finished behavior" probability: 2.35%	count:755.0 total:32071.0
-	"GO TO GOAL" probability: 69.65%	count:22338.0 total:32071.0
-	"GOAL REACHED" probability: 5.89%	count:1890.0 total:32071.0
-	"HOVERING AT OBSTACLE; WAITING FOR USER INPUT" probability: 5.87%	count:1882.0 total:32071.0
-	"NO VICON DATA; LANDING" probability: 10.79%	count:3460.0 total:32071.0
-	"USER INPUT TIMEOUT; LANDING" probability: 0.63%	count:201.0 total:32071.0
-	"USER1 CONTROL" probability: 0.07%	count:22.0 total:32071.0)
 (return.linear.z == -200.0)  <==>  (return.linear.z < orig(velocity3.linear.z))
 (return.linear.z == -200.0)  <==>  (return.linear.z == -200.0)
 (return.linear.z == -200.0)  ==>  (distance_to_user2.data > orig(velocity3.linear.x))
@@ -2964,8 +2355,6 @@ return.angular.y == orig(velocity3.angular.z)
 	"HOVERING AT OBSTACLE; WAITING FOR USER INPUT" probability: 4.01%	count:236.0 total:5881.0
 	"NO VICON DATA; LANDING" probability: 58.56%	count:3444.0 total:5881.0
 	"USER INPUT TIMEOUT; LANDING" probability: 3.42%	count:201.0 total:5881.0)
-(return.linear.z == -200.0)  ==>  (viconTELLOTELLO0.transform.rotation.y != viconTELLOTELLO0.transform.rotation.w)
-(return.linear.z == -200.0)  ==>  (viconTELLOTELLO0.transform.rotation.z >= -0.765665692602)
 (return.linear.z == -200.0)  ==>  (viconTELLOTELLO0.transform.translation.x != orig(viconTELLOTELLO0.transform.translation.z))
 (return.linear.z == -200.0)  ==>  (viconTELLOTELLO0.transform.translation.x != viconTELLOTELLO0.transform.translation.y)
 (return.linear.z == -200.0)  ==>  (viconTELLOTELLO0.transform.translation.y != orig(viconTELLOTELLO0.transform.translation.x))
@@ -2995,13 +2384,9 @@ return.angular.y == orig(velocity3.angular.z)
 	"GOAL REACHED" probability: 5.30%	count:2736.0 total:51605.0
 	"HOVERING AT OBSTACLE; WAITING FOR USER INPUT" probability: 6.25%	count:3225.0 total:51605.0
 	"USER1 CONTROL" probability: 0.05%	count:24.0 total:51605.0)
-(return.linear.z == 0.0)  ==>  (viconTELLOTELLO0.transform.rotation.w != orig(viconTELLOTELLO0.transform.rotation.y))
-return.linear.z one of { -200.0, 0.0 }
 return.linear.z one of { -200.0, 0.0 }
 	"-200.0" probability: 25.76%	count:4326.0 total:16794.0
 	"0.0" probability: 74.24%	count:12468.0 total:16794.0
-return.angular.y == 0.0
-return.angular.y == 0.0
 return.linear.z <= orig(velocity3.linear.z)
 ===========================================================================
 ..velocity(geometry_msgs/TransformStamped, std_msgs/Bool, std_msgs/Float64, geometry_msgs/Twist, std_msgs/String):::EXIT;condition="is_user_watching_drone1.data  ==   "False""
@@ -3086,21 +2471,13 @@ orig(state4.data) one of { "AVOIDING", "DYNAMIC OBSTACLE IN PATH; TRANSFERRING C
 return.linear.z <= orig(velocity3.linear.z)
 ===========================================================================
 ..velocity(geometry_msgs/TransformStamped, std_msgs/Bool, std_msgs/Float64, geometry_msgs/Twist, std_msgs/String):::EXIT;condition="is_user_watching_drone1.data  ==   "False""
-return.angular.y == orig(velocity3.angular.y)
-return.angular.y == orig(velocity3.angular.x)
-return.angular.y == orig(velocity3.angular.z)
-return.linear.z one of { -200.0, 0.0 }
 return.linear.z one of { -200.0, 0.0 }
 	"-200.0" probability: 25.76%	count:4325.0 total:16792.0
 	"0.0" probability: 74.24%	count:12467.0 total:16792.0
-return.angular.y == 0.0
-return.angular.y == 0.0
-orig(is_user_watching_drone1.data) one of { "False", "True" }
 orig(is_user_watching_drone1.data) one of { "False", "True" }
 	"False" probability: 88.13%	count:14993.0 total:17013.0
 	"True" probability: 11.87%	count:2020.0 total:17013.0
 orig(velocity3.linear.x) >= -0.631624653051
-orig(velocity3.linear.z) == 0.0
 orig(velocity3.linear.z) == 0.0
 orig(state4.data) one of { "AVOIDING", "DYNAMIC OBSTACLE IN PATH; TRANSFERRING CONTROL TO USER 1", "Finished behavior", "GO TO GOAL", "GOAL REACHED", "HOVERING AT OBSTACLE; WAITING FOR USER INPUT", "NO VICON DATA; LANDING", "USER INPUT TIMEOUT; LANDING" }
 	"AVOIDING" probability: 3.75%	count:634.0 total:16896.0
@@ -3248,12 +2625,6 @@ return.linear.x != return.linear.z
 return.linear.x != orig(velocity3.linear.y)
 return.linear.x != orig(velocity3.linear.z)
 return.linear.z <= orig(velocity3.linear.z)
-orig(viconTELLOTELLO0.transform.rotation.y) != orig(viconTELLOTELLO0.transform.rotation.x)
-orig(viconTELLOTELLO0.transform.rotation.y) < orig(viconTELLOTELLO0.transform.rotation.w)
-orig(viconTELLOTELLO0.child_frame_id) > orig(viconTELLOTELLO0.header.frame_id)
-orig(viconTELLOTELLO0.transform.rotation.z) != orig(viconTELLOTELLO0.transform.rotation.x)
-orig(viconTELLOTELLO0.transform.rotation.z) != orig(viconTELLOTELLO0.transform.rotation.w)
-orig(viconTELLOTELLO0.transform.rotation.x) < orig(viconTELLOTELLO0.transform.rotation.w)
 ===========================================================================
 ..velocity(geometry_msgs/TransformStamped, std_msgs/Bool, std_msgs/Float64, geometry_msgs/Twist, std_msgs/String):::EXIT;condition="not(velocity3.linear.y  ==   -1.0)"
 return.angular.y == orig(velocity3.angular.y)
@@ -3283,1310 +2654,6 @@ orig(state4.data) one of { "AVOIDING", "DYNAMIC OBSTACLE IN PATH; TRANSFERRING C
 	"NO VICON DATA; LANDING" probability: 9.66%	count:3087.0 total:31946.0
 	"USER INPUT TIMEOUT; LANDING" probability: 0.46%	count:146.0 total:31946.0
 	"USER1 CONTROL" probability: 0.01%	count:2.0 total:31946.0
-return.linear.z <= orig(velocity3.linear.z)
-===========================================================================
-..velocity(geometry_msgs/TransformStamped, std_msgs/Bool, std_msgs/Float64, geometry_msgs/Twist, std_msgs/String):::EXIT;condition="velocity3.linear.y  ==  -0.866541660555"
-velocity3.linear.y == return.linear.y
-velocity3.linear.y == orig(velocity3.linear.y)
-velocity3.linear.x == return.linear.x
-velocity3.linear.x == orig(velocity3.linear.x)
-velocity3.linear.z == return.linear.z
-velocity3.linear.z == orig(velocity3.linear.z)
-velocity3.angular.y == return.angular.x
-velocity3.angular.y == return.angular.z
-velocity3.angular.y == orig(velocity3.angular.y)
-velocity3.angular.y == orig(velocity3.angular.x)
-velocity3.angular.y == orig(velocity3.angular.z)
-state4.data == orig(state4.data)
-return == orig(velocity3)
-velocity3.linear.y == -0.866541660555
-velocity3.linear.y == -0.866541660555
-velocity3.linear.x == 0.760117262842
-velocity3.linear.x == 0.760117262842
-velocity3.linear.z == 0.0
-velocity3.linear.z == 0.0
-velocity3.angular.y == 0.0
-velocity3.angular.y == 0.0
-state4.data == "GO TO GOAL"
-state4.data == "GO TO GOAL"
-return has only one value
-return has only one value
-orig(viconTELLOTELLO0) has only one value
-orig(viconTELLOTELLO0) has only one value
-orig(viconTELLOTELLO0.header.seq) == 104154
-orig(viconTELLOTELLO0.header.seq) == 104154
-orig(viconTELLOTELLO0.transform.rotation.y) == 0.0732817002608
-orig(viconTELLOTELLO0.transform.rotation.y) == 0.0732817002608
-orig(viconTELLOTELLO0.transform.rotation.z) == 0.994468266475
-orig(viconTELLOTELLO0.transform.rotation.z) == 0.994468266475
-orig(viconTELLOTELLO0.header.stamp.secs) == 1550886788
-orig(viconTELLOTELLO0.header.stamp.secs) == 1550886788
-orig(viconTELLOTELLO0.transform.translation.z) == 0.0437655523245
-orig(viconTELLOTELLO0.transform.translation.z) == 0.0437655523245
-orig(viconTELLOTELLO0.header.stamp.nsecs) == 940448576
-orig(viconTELLOTELLO0.header.stamp.nsecs) == 940448576
-orig(viconTELLOTELLO0.transform.translation.x) == 1.04227368652
-orig(viconTELLOTELLO0.transform.translation.x) == 1.04227368652
-orig(viconTELLOTELLO0.transform.translation.y) == 0.924681236529
-orig(viconTELLOTELLO0.transform.translation.y) == 0.924681236529
-orig(viconTELLOTELLO0.transform.rotation.x) == -0.055183980096
-orig(viconTELLOTELLO0.transform.rotation.x) == -0.055183980096
-orig(viconTELLOTELLO0.transform.rotation.w) == 0.0511604116617
-orig(viconTELLOTELLO0.transform.rotation.w) == 0.0511604116617
-orig(is_user_watching_drone1) has only one value
-orig(is_user_watching_drone1) has only one value
-orig(is_user_watching_drone1.data) == "False"
-orig(is_user_watching_drone1.data) == "False"
-orig(distance_to_user2) has only one value
-orig(distance_to_user2) has only one value
-orig(distance_to_user2.data) == 2.81241199881
-orig(distance_to_user2.data) == 2.81241199881
-orig(velocity3) has only one value
-orig(velocity3) has only one value
-orig(state4) has only one value
-orig(state4) has only one value
-===========================================================================
-..velocity(geometry_msgs/TransformStamped, std_msgs/Bool, std_msgs/Float64, geometry_msgs/Twist, std_msgs/String):::EXIT;condition="not(velocity3.linear.y  ==  -0.866541660555)"
-return.angular.y == orig(velocity3.angular.y)
-return.angular.y == orig(velocity3.angular.x)
-return.angular.y == orig(velocity3.angular.z)
-return.linear.z one of { -200.0, 0.0 }
-return.linear.z one of { -200.0, 0.0 }
-	"-200.0" probability: 18.37%	count:5897.0 total:32108.0
-	"0.0" probability: 81.63%	count:26211.0 total:32108.0
-return.angular.y == 0.0
-return.angular.y == 0.0
-orig(is_user_watching_drone1.data) one of { "False", "True" }
-orig(is_user_watching_drone1.data) one of { "False", "True" }
-	"False" probability: 55.12%	count:17618.0 total:31962.0
-	"True" probability: 44.88%	count:14344.0 total:31962.0
-orig(velocity3.linear.x) <= 1.0
-orig(velocity3.linear.x) >= -0.631624653051
-orig(velocity3.linear.z) == 0.0
-orig(velocity3.linear.z) == 0.0
-orig(state4.data) one of { "AVOIDING", "DYNAMIC OBSTACLE IN PATH; TRANSFERRING CONTROL TO USER 1", "Finished behavior", "GO TO GOAL", "GOAL REACHED", "HOVERING AT OBSTACLE; WAITING FOR USER INPUT", "NO VICON DATA; LANDING", "USER INPUT TIMEOUT; LANDING", "USER1 CONTROL" }
-	"AVOIDING" probability: 3.21%	count:1026.0 total:31992.0
-	"DYNAMIC OBSTACLE IN PATH; TRANSFERRING CONTROL TO USER 1" probability: 0.10%	count:33.0 total:31992.0
-	"Finished behavior" probability: 2.70%	count:864.0 total:31992.0
-	"GO TO GOAL" probability: 72.64%	count:23240.0 total:31992.0
-	"GOAL REACHED" probability: 5.53%	count:1768.0 total:31992.0
-	"HOVERING AT OBSTACLE; WAITING FOR USER INPUT" probability: 5.71%	count:1826.0 total:31992.0
-	"NO VICON DATA; LANDING" probability: 9.65%	count:3087.0 total:31992.0
-	"USER INPUT TIMEOUT; LANDING" probability: 0.46%	count:146.0 total:31992.0
-	"USER1 CONTROL" probability: 0.01%	count:2.0 total:31992.0
-return.linear.z <= orig(velocity3.linear.z)
-===========================================================================
-..velocity(geometry_msgs/TransformStamped, std_msgs/Bool, std_msgs/Float64, geometry_msgs/Twist, std_msgs/String):::EXIT;condition="velocity3.linear.y  ==  -0.684016888296"
-velocity3.linear.y == return.linear.y
-velocity3.linear.y == orig(velocity3.linear.y)
-velocity3.linear.x == return.linear.x
-velocity3.linear.x == orig(velocity3.linear.x)
-velocity3.linear.z == return.linear.z
-velocity3.linear.z == orig(velocity3.linear.z)
-velocity3.angular.y == return.angular.x
-velocity3.angular.y == return.angular.z
-velocity3.angular.y == orig(velocity3.angular.y)
-velocity3.angular.y == orig(velocity3.angular.x)
-velocity3.angular.y == orig(velocity3.angular.z)
-return == orig(velocity3)
-velocity3.linear.y == -0.684016888296
-velocity3.linear.y == -0.684016888296
-velocity3.linear.x == 1.0
-velocity3.linear.x == 1.0
-velocity3.linear.z == 0.0
-velocity3.linear.z == 0.0
-velocity3.angular.y == 0.0
-velocity3.angular.y == 0.0
-return has only one value
-return has only one value
-orig(viconTELLOTELLO0) has only one value
-orig(viconTELLOTELLO0) has only one value
-orig(viconTELLOTELLO0.header.seq) == 72009
-orig(viconTELLOTELLO0.header.seq) == 72009
-orig(viconTELLOTELLO0.transform.rotation.y) == 0.0430293067516
-orig(viconTELLOTELLO0.transform.rotation.y) == 0.0430293067516
-orig(viconTELLOTELLO0.transform.rotation.z) == 0.998913537663
-orig(viconTELLOTELLO0.transform.rotation.z) == 0.998913537663
-orig(viconTELLOTELLO0.header.stamp.secs) == 1550886466
-orig(viconTELLOTELLO0.header.stamp.secs) == 1550886466
-orig(viconTELLOTELLO0.transform.translation.z) == 0.0479346505736
-orig(viconTELLOTELLO0.transform.translation.z) == 0.0479346505736
-orig(viconTELLOTELLO0.header.stamp.nsecs) == 520736472
-orig(viconTELLOTELLO0.header.stamp.nsecs) == 520736472
-orig(viconTELLOTELLO0.transform.translation.x) == 2.10042539662
-orig(viconTELLOTELLO0.transform.translation.x) == 2.10042539662
-orig(viconTELLOTELLO0.transform.translation.y) == 0.567664789876
-orig(viconTELLOTELLO0.transform.translation.y) == 0.567664789876
-orig(viconTELLOTELLO0.transform.rotation.x) == -0.0056233603904
-orig(viconTELLOTELLO0.transform.rotation.x) == -0.0056233603904
-orig(viconTELLOTELLO0.transform.rotation.w) == 0.0169882562689
-orig(viconTELLOTELLO0.transform.rotation.w) == 0.0169882562689
-orig(is_user_watching_drone1) has only one value
-orig(is_user_watching_drone1) has only one value
-orig(is_user_watching_drone1.data) == "False"
-orig(is_user_watching_drone1.data) == "False"
-orig(distance_to_user2) has only one value
-orig(distance_to_user2) has only one value
-orig(distance_to_user2.data) == 2.54302677057
-orig(distance_to_user2.data) == 2.54302677057
-orig(velocity3) has only one value
-orig(velocity3) has only one value
-orig(state4) has only one value
-orig(state4) has only one value
-===========================================================================
-..velocity(geometry_msgs/TransformStamped, std_msgs/Bool, std_msgs/Float64, geometry_msgs/Twist, std_msgs/String):::EXIT;condition="not(velocity3.linear.y  ==  -0.684016888296)"
-return.angular.y == orig(velocity3.angular.y)
-return.angular.y == orig(velocity3.angular.x)
-return.angular.y == orig(velocity3.angular.z)
-return.linear.z one of { -200.0, 0.0 }
-return.linear.z one of { -200.0, 0.0 }
-	"-200.0" probability: 18.37%	count:5897.0 total:32108.0
-	"0.0" probability: 81.63%	count:26211.0 total:32108.0
-return.angular.y == 0.0
-return.angular.y == 0.0
-orig(is_user_watching_drone1.data) one of { "False", "True" }
-orig(is_user_watching_drone1.data) one of { "False", "True" }
-	"False" probability: 55.12%	count:17618.0 total:31962.0
-	"True" probability: 44.88%	count:14344.0 total:31962.0
-orig(velocity3.linear.x) <= 1.0
-orig(velocity3.linear.x) >= -0.631624653051
-orig(velocity3.linear.z) == 0.0
-orig(velocity3.linear.z) == 0.0
-orig(state4.data) one of { "AVOIDING", "DYNAMIC OBSTACLE IN PATH; TRANSFERRING CONTROL TO USER 1", "Finished behavior", "GO TO GOAL", "GOAL REACHED", "HOVERING AT OBSTACLE; WAITING FOR USER INPUT", "NO VICON DATA; LANDING", "USER INPUT TIMEOUT; LANDING", "USER1 CONTROL" }
-	"AVOIDING" probability: 3.21%	count:1026.0 total:31993.0
-	"DYNAMIC OBSTACLE IN PATH; TRANSFERRING CONTROL TO USER 1" probability: 0.10%	count:33.0 total:31993.0
-	"Finished behavior" probability: 2.70%	count:864.0 total:31993.0
-	"GO TO GOAL" probability: 72.64%	count:23241.0 total:31993.0
-	"GOAL REACHED" probability: 5.53%	count:1768.0 total:31993.0
-	"HOVERING AT OBSTACLE; WAITING FOR USER INPUT" probability: 5.71%	count:1826.0 total:31993.0
-	"NO VICON DATA; LANDING" probability: 9.65%	count:3087.0 total:31993.0
-	"USER INPUT TIMEOUT; LANDING" probability: 0.46%	count:146.0 total:31993.0
-	"USER1 CONTROL" probability: 0.01%	count:2.0 total:31993.0
-return.linear.z <= orig(velocity3.linear.z)
-===========================================================================
-..velocity(geometry_msgs/TransformStamped, std_msgs/Bool, std_msgs/Float64, geometry_msgs/Twist, std_msgs/String):::EXIT;condition="velocity3.linear.y  ==  -0.409691976713"
-velocity3.linear.y == return.linear.y
-velocity3.linear.y == orig(velocity3.linear.y)
-velocity3.linear.x == return.linear.x
-velocity3.linear.x == orig(velocity3.linear.x)
-velocity3.linear.z == return.linear.z
-velocity3.linear.z == orig(velocity3.linear.z)
-velocity3.angular.y == return.angular.x
-velocity3.angular.y == return.angular.z
-velocity3.angular.y == orig(velocity3.angular.y)
-velocity3.angular.y == orig(velocity3.angular.x)
-velocity3.angular.y == orig(velocity3.angular.z)
-return == orig(velocity3)
-velocity3.linear.y == -0.409691976713
-velocity3.linear.y == -0.409691976713
-velocity3.linear.x == 0.478612182501
-velocity3.linear.x == 0.478612182501
-velocity3.linear.z == 0.0
-velocity3.linear.z == 0.0
-velocity3.angular.y == 0.0
-velocity3.angular.y == 0.0
-return has only one value
-return has only one value
-orig(viconTELLOTELLO0) has only one value
-orig(viconTELLOTELLO0) has only one value
-orig(viconTELLOTELLO0.header.seq) == 144393
-orig(viconTELLOTELLO0.header.seq) == 144393
-orig(viconTELLOTELLO0.transform.rotation.y) == -0.00384651866399
-orig(viconTELLOTELLO0.transform.rotation.y) == -0.00384651866399
-orig(viconTELLOTELLO0.transform.rotation.z) == -0.269295198818
-orig(viconTELLOTELLO0.transform.rotation.z) == -0.269295198818
-orig(viconTELLOTELLO0.header.stamp.secs) == 1550887272
-orig(viconTELLOTELLO0.header.stamp.secs) == 1550887272
-orig(viconTELLOTELLO0.transform.translation.z) == 0.049904501532
-orig(viconTELLOTELLO0.transform.translation.z) == 0.049904501532
-orig(viconTELLOTELLO0.header.stamp.nsecs) == 58902435
-orig(viconTELLOTELLO0.header.stamp.nsecs) == 58902435
-orig(viconTELLOTELLO0.transform.translation.x) == -1.51483540165
-orig(viconTELLOTELLO0.transform.translation.x) == -1.51483540165
-orig(viconTELLOTELLO0.transform.translation.y) == -0.247248609176
-orig(viconTELLOTELLO0.transform.translation.y) == -0.247248609176
-orig(viconTELLOTELLO0.transform.rotation.x) == 0.0343398500748
-orig(viconTELLOTELLO0.transform.rotation.x) == 0.0343398500748
-orig(viconTELLOTELLO0.transform.rotation.w) == 0.962437569344
-orig(viconTELLOTELLO0.transform.rotation.w) == 0.962437569344
-orig(is_user_watching_drone1) has only one value
-orig(is_user_watching_drone1) has only one value
-orig(is_user_watching_drone1.data) == "True"
-orig(is_user_watching_drone1.data) == "True"
-orig(distance_to_user2) has only one value
-orig(distance_to_user2) has only one value
-orig(distance_to_user2.data) == 3.79299368957
-orig(distance_to_user2.data) == 3.79299368957
-orig(velocity3) has only one value
-orig(velocity3) has only one value
-orig(state4) has only one value
-orig(state4) has only one value
-===========================================================================
-..velocity(geometry_msgs/TransformStamped, std_msgs/Bool, std_msgs/Float64, geometry_msgs/Twist, std_msgs/String):::EXIT;condition="not(velocity3.linear.y  ==  -0.409691976713)"
-return.angular.y == orig(velocity3.angular.y)
-return.angular.y == orig(velocity3.angular.x)
-return.angular.y == orig(velocity3.angular.z)
-return.linear.z one of { -200.0, 0.0 }
-return.linear.z one of { -200.0, 0.0 }
-	"-200.0" probability: 18.37%	count:5897.0 total:32108.0
-	"0.0" probability: 81.63%	count:26211.0 total:32108.0
-return.angular.y == 0.0
-return.angular.y == 0.0
-orig(is_user_watching_drone1.data) one of { "False", "True" }
-orig(is_user_watching_drone1.data) one of { "False", "True" }
-	"False" probability: 55.12%	count:17619.0 total:31962.0
-	"True" probability: 44.88%	count:14343.0 total:31962.0
-orig(velocity3.linear.x) <= 1.0
-orig(velocity3.linear.x) >= -0.631624653051
-orig(velocity3.linear.z) == 0.0
-orig(velocity3.linear.z) == 0.0
-orig(state4.data) one of { "AVOIDING", "DYNAMIC OBSTACLE IN PATH; TRANSFERRING CONTROL TO USER 1", "Finished behavior", "GO TO GOAL", "GOAL REACHED", "HOVERING AT OBSTACLE; WAITING FOR USER INPUT", "NO VICON DATA; LANDING", "USER INPUT TIMEOUT; LANDING", "USER1 CONTROL" }
-	"AVOIDING" probability: 3.21%	count:1026.0 total:31993.0
-	"DYNAMIC OBSTACLE IN PATH; TRANSFERRING CONTROL TO USER 1" probability: 0.10%	count:33.0 total:31993.0
-	"Finished behavior" probability: 2.70%	count:864.0 total:31993.0
-	"GO TO GOAL" probability: 72.64%	count:23241.0 total:31993.0
-	"GOAL REACHED" probability: 5.53%	count:1768.0 total:31993.0
-	"HOVERING AT OBSTACLE; WAITING FOR USER INPUT" probability: 5.71%	count:1826.0 total:31993.0
-	"NO VICON DATA; LANDING" probability: 9.65%	count:3087.0 total:31993.0
-	"USER INPUT TIMEOUT; LANDING" probability: 0.46%	count:146.0 total:31993.0
-	"USER1 CONTROL" probability: 0.01%	count:2.0 total:31993.0
-return.linear.z <= orig(velocity3.linear.z)
-===========================================================================
-..velocity(geometry_msgs/TransformStamped, std_msgs/Bool, std_msgs/Float64, geometry_msgs/Twist, std_msgs/String):::EXIT;condition="velocity3.linear.y  ==  -0.389528795649"
-velocity3.linear.y == return.linear.y
-velocity3.linear.y == orig(velocity3.linear.y)
-velocity3.linear.x == return.linear.x
-velocity3.linear.x == orig(velocity3.linear.x)
-velocity3.linear.z == return.linear.z
-velocity3.linear.z == orig(velocity3.linear.z)
-velocity3.angular.y == return.angular.x
-velocity3.angular.y == return.angular.z
-velocity3.angular.y == orig(velocity3.angular.y)
-velocity3.angular.y == orig(velocity3.angular.x)
-velocity3.angular.y == orig(velocity3.angular.z)
-state4.data == orig(state4.data)
-return == orig(velocity3)
-velocity3.linear.y == -0.389528795649
-velocity3.linear.y == -0.389528795649
-velocity3.linear.x == 0.154400461221
-velocity3.linear.x == 0.154400461221
-velocity3.linear.z == 0.0
-velocity3.linear.z == 0.0
-velocity3.angular.y == 0.0
-velocity3.angular.y == 0.0
-state4.data == "GO TO GOAL"
-state4.data == "GO TO GOAL"
-return has only one value
-return has only one value
-orig(viconTELLOTELLO0) has only one value
-orig(viconTELLOTELLO0) has only one value
-orig(viconTELLOTELLO0.header.seq) == 58044
-orig(viconTELLOTELLO0.header.seq) == 58044
-orig(viconTELLOTELLO0.transform.rotation.y) == 0.0648541311483
-orig(viconTELLOTELLO0.transform.rotation.y) == 0.0648541311483
-orig(viconTELLOTELLO0.transform.rotation.z) == 0.997088547549
-orig(viconTELLOTELLO0.transform.rotation.z) == 0.997088547549
-orig(viconTELLOTELLO0.header.stamp.secs) == 1550886323
-orig(viconTELLOTELLO0.header.stamp.secs) == 1550886323
-orig(viconTELLOTELLO0.transform.translation.z) == 0.0401559967214
-orig(viconTELLOTELLO0.transform.translation.z) == 0.0401559967214
-orig(viconTELLOTELLO0.header.stamp.nsecs) == 30728952
-orig(viconTELLOTELLO0.header.stamp.nsecs) == 30728952
-orig(viconTELLOTELLO0.transform.translation.x) == -0.614186792943
-orig(viconTELLOTELLO0.transform.translation.x) == -0.614186792943
-orig(viconTELLOTELLO0.transform.translation.y) == -0.05664226603
-orig(viconTELLOTELLO0.transform.translation.y) == -0.05664226603
-orig(viconTELLOTELLO0.transform.rotation.x) == -0.0396042874392
-orig(viconTELLOTELLO0.transform.rotation.x) == -0.0396042874392
-orig(viconTELLOTELLO0.transform.rotation.w) == 0.00631430409286
-orig(viconTELLOTELLO0.transform.rotation.w) == 0.00631430409286
-orig(is_user_watching_drone1) has only one value
-orig(is_user_watching_drone1) has only one value
-orig(is_user_watching_drone1.data) == "True"
-orig(is_user_watching_drone1.data) == "True"
-orig(distance_to_user2) has only one value
-orig(distance_to_user2) has only one value
-orig(distance_to_user2.data) == 2.62145837909
-orig(distance_to_user2.data) == 2.62145837909
-orig(velocity3) has only one value
-orig(velocity3) has only one value
-orig(state4) has only one value
-orig(state4) has only one value
-===========================================================================
-..velocity(geometry_msgs/TransformStamped, std_msgs/Bool, std_msgs/Float64, geometry_msgs/Twist, std_msgs/String):::EXIT;condition="not(velocity3.linear.y  ==  -0.389528795649)"
-return.angular.y == orig(velocity3.angular.y)
-return.angular.y == orig(velocity3.angular.x)
-return.angular.y == orig(velocity3.angular.z)
-return.linear.z one of { -200.0, 0.0 }
-return.linear.z one of { -200.0, 0.0 }
-	"-200.0" probability: 18.37%	count:5897.0 total:32108.0
-	"0.0" probability: 81.63%	count:26211.0 total:32108.0
-return.angular.y == 0.0
-return.angular.y == 0.0
-orig(is_user_watching_drone1.data) one of { "False", "True" }
-orig(is_user_watching_drone1.data) one of { "False", "True" }
-	"False" probability: 55.12%	count:17619.0 total:31962.0
-	"True" probability: 44.88%	count:14343.0 total:31962.0
-orig(velocity3.linear.x) <= 1.0
-orig(velocity3.linear.x) >= -0.631624653051
-orig(velocity3.linear.z) == 0.0
-orig(velocity3.linear.z) == 0.0
-orig(state4.data) one of { "AVOIDING", "DYNAMIC OBSTACLE IN PATH; TRANSFERRING CONTROL TO USER 1", "Finished behavior", "GO TO GOAL", "GOAL REACHED", "HOVERING AT OBSTACLE; WAITING FOR USER INPUT", "NO VICON DATA; LANDING", "USER INPUT TIMEOUT; LANDING", "USER1 CONTROL" }
-	"AVOIDING" probability: 3.21%	count:1026.0 total:31992.0
-	"DYNAMIC OBSTACLE IN PATH; TRANSFERRING CONTROL TO USER 1" probability: 0.10%	count:33.0 total:31992.0
-	"Finished behavior" probability: 2.70%	count:864.0 total:31992.0
-	"GO TO GOAL" probability: 72.64%	count:23240.0 total:31992.0
-	"GOAL REACHED" probability: 5.53%	count:1768.0 total:31992.0
-	"HOVERING AT OBSTACLE; WAITING FOR USER INPUT" probability: 5.71%	count:1826.0 total:31992.0
-	"NO VICON DATA; LANDING" probability: 9.65%	count:3087.0 total:31992.0
-	"USER INPUT TIMEOUT; LANDING" probability: 0.46%	count:146.0 total:31992.0
-	"USER1 CONTROL" probability: 0.01%	count:2.0 total:31992.0
-return.linear.z <= orig(velocity3.linear.z)
-===========================================================================
-..velocity(geometry_msgs/TransformStamped, std_msgs/Bool, std_msgs/Float64, geometry_msgs/Twist, std_msgs/String):::EXIT;condition="velocity3.linear.y  ==  -0.225743454453"
-velocity3.linear.y == return.linear.y
-velocity3.linear.y == orig(velocity3.linear.y)
-velocity3.linear.x == return.linear.x
-velocity3.linear.x == orig(velocity3.linear.x)
-velocity3.linear.z == return.linear.z
-velocity3.linear.z == orig(velocity3.linear.z)
-velocity3.angular.y == return.angular.x
-velocity3.angular.y == return.angular.z
-velocity3.angular.y == orig(velocity3.angular.y)
-velocity3.angular.y == orig(velocity3.angular.x)
-velocity3.angular.y == orig(velocity3.angular.z)
-return == orig(velocity3)
-velocity3.linear.y == -0.225743454453
-velocity3.linear.y == -0.225743454453
-velocity3.linear.x == 0.571652234953
-velocity3.linear.x == 0.571652234953
-velocity3.linear.z == 0.0
-velocity3.linear.z == 0.0
-velocity3.angular.y == 0.0
-velocity3.angular.y == 0.0
-return has only one value
-return has only one value
-orig(viconTELLOTELLO0) has only one value
-orig(viconTELLOTELLO0) has only one value
-orig(viconTELLOTELLO0.header.seq) == 136033
-orig(viconTELLOTELLO0.header.seq) == 136033
-orig(viconTELLOTELLO0.transform.rotation.y) == -0.00482708590871
-orig(viconTELLOTELLO0.transform.rotation.y) == -0.00482708590871
-orig(viconTELLOTELLO0.transform.rotation.z) == -0.215696175449
-orig(viconTELLOTELLO0.transform.rotation.z) == -0.215696175449
-orig(viconTELLOTELLO0.header.stamp.secs) == 1550887185
-orig(viconTELLOTELLO0.header.stamp.secs) == 1550887185
-orig(viconTELLOTELLO0.transform.translation.z) == 0.0516620941282
-orig(viconTELLOTELLO0.transform.translation.z) == 0.0516620941282
-orig(viconTELLOTELLO0.header.stamp.nsecs) == 929492124
-orig(viconTELLOTELLO0.header.stamp.nsecs) == 929492124
-orig(viconTELLOTELLO0.transform.translation.x) == -1.49453530959
-orig(viconTELLOTELLO0.transform.translation.x) == -1.49453530959
-orig(viconTELLOTELLO0.transform.translation.y) == 0.0896546110759
-orig(viconTELLOTELLO0.transform.translation.y) == 0.0896546110759
-orig(viconTELLOTELLO0.transform.rotation.x) == 0.0364906005661
-orig(viconTELLOTELLO0.transform.rotation.x) == 0.0364906005661
-orig(viconTELLOTELLO0.transform.rotation.w) == 0.975766516749
-orig(viconTELLOTELLO0.transform.rotation.w) == 0.975766516749
-orig(is_user_watching_drone1) has only one value
-orig(is_user_watching_drone1) has only one value
-orig(is_user_watching_drone1.data) == "True"
-orig(is_user_watching_drone1.data) == "True"
-orig(distance_to_user2) has only one value
-orig(distance_to_user2) has only one value
-orig(distance_to_user2.data) == 3.18467804782
-orig(distance_to_user2.data) == 3.18467804782
-orig(velocity3) has only one value
-orig(velocity3) has only one value
-orig(state4) has only one value
-orig(state4) has only one value
-===========================================================================
-..velocity(geometry_msgs/TransformStamped, std_msgs/Bool, std_msgs/Float64, geometry_msgs/Twist, std_msgs/String):::EXIT;condition="not(velocity3.linear.y  ==  -0.225743454453)"
-return.angular.y == orig(velocity3.angular.y)
-return.angular.y == orig(velocity3.angular.x)
-return.angular.y == orig(velocity3.angular.z)
-return.linear.z one of { -200.0, 0.0 }
-return.linear.z one of { -200.0, 0.0 }
-	"-200.0" probability: 18.37%	count:5897.0 total:32108.0
-	"0.0" probability: 81.63%	count:26211.0 total:32108.0
-return.angular.y == 0.0
-return.angular.y == 0.0
-orig(is_user_watching_drone1.data) one of { "False", "True" }
-orig(is_user_watching_drone1.data) one of { "False", "True" }
-	"False" probability: 55.12%	count:17619.0 total:31962.0
-	"True" probability: 44.88%	count:14343.0 total:31962.0
-orig(velocity3.linear.x) <= 1.0
-orig(velocity3.linear.x) >= -0.631624653051
-orig(velocity3.linear.z) == 0.0
-orig(velocity3.linear.z) == 0.0
-orig(state4.data) one of { "AVOIDING", "DYNAMIC OBSTACLE IN PATH; TRANSFERRING CONTROL TO USER 1", "Finished behavior", "GO TO GOAL", "GOAL REACHED", "HOVERING AT OBSTACLE; WAITING FOR USER INPUT", "NO VICON DATA; LANDING", "USER INPUT TIMEOUT; LANDING", "USER1 CONTROL" }
-	"AVOIDING" probability: 3.21%	count:1026.0 total:31993.0
-	"DYNAMIC OBSTACLE IN PATH; TRANSFERRING CONTROL TO USER 1" probability: 0.10%	count:33.0 total:31993.0
-	"Finished behavior" probability: 2.70%	count:864.0 total:31993.0
-	"GO TO GOAL" probability: 72.64%	count:23241.0 total:31993.0
-	"GOAL REACHED" probability: 5.53%	count:1768.0 total:31993.0
-	"HOVERING AT OBSTACLE; WAITING FOR USER INPUT" probability: 5.71%	count:1826.0 total:31993.0
-	"NO VICON DATA; LANDING" probability: 9.65%	count:3087.0 total:31993.0
-	"USER INPUT TIMEOUT; LANDING" probability: 0.46%	count:146.0 total:31993.0
-	"USER1 CONTROL" probability: 0.01%	count:2.0 total:31993.0
-return.linear.z <= orig(velocity3.linear.z)
-===========================================================================
-..velocity(geometry_msgs/TransformStamped, std_msgs/Bool, std_msgs/Float64, geometry_msgs/Twist, std_msgs/String):::EXIT;condition="velocity3.linear.y  ==  0.240682880243"
-velocity3.linear.y == return.linear.y
-velocity3.linear.y == orig(velocity3.linear.y)
-velocity3.linear.x == return.linear.x
-velocity3.linear.x == orig(velocity3.linear.x)
-velocity3.linear.z == return.linear.z
-velocity3.linear.z == orig(velocity3.linear.z)
-velocity3.angular.y == return.angular.x
-velocity3.angular.y == return.angular.z
-velocity3.angular.y == orig(velocity3.angular.y)
-velocity3.angular.y == orig(velocity3.angular.x)
-velocity3.angular.y == orig(velocity3.angular.z)
-return == orig(velocity3)
-velocity3.linear.y == 0.240682880243
-velocity3.linear.y == 0.240682880243
-velocity3.linear.x == -0.0167650879852
-velocity3.linear.x == -0.0167650879852
-velocity3.linear.z == 0.0
-velocity3.linear.z == 0.0
-velocity3.angular.y == 0.0
-velocity3.angular.y == 0.0
-return has only one value
-return has only one value
-orig(viconTELLOTELLO0) has only one value
-orig(viconTELLOTELLO0) has only one value
-orig(viconTELLOTELLO0.header.seq) == 14749
-orig(viconTELLOTELLO0.header.seq) == 14749
-orig(viconTELLOTELLO0.transform.rotation.y) == 0.0896214293073
-orig(viconTELLOTELLO0.transform.rotation.y) == 0.0896214293073
-orig(viconTELLOTELLO0.transform.rotation.z) == 0.740581587213
-orig(viconTELLOTELLO0.transform.rotation.z) == 0.740581587213
-orig(viconTELLOTELLO0.header.stamp.secs) == 1550885736
-orig(viconTELLOTELLO0.header.stamp.secs) == 1550885736
-orig(viconTELLOTELLO0.transform.translation.z) == 0.0509476282645
-orig(viconTELLOTELLO0.transform.translation.z) == 0.0509476282645
-orig(viconTELLOTELLO0.header.stamp.nsecs) == 790517292
-orig(viconTELLOTELLO0.header.stamp.nsecs) == 790517292
-orig(viconTELLOTELLO0.transform.translation.x) == -2.33222570967
-orig(viconTELLOTELLO0.transform.translation.x) == -2.33222570967
-orig(viconTELLOTELLO0.transform.translation.y) == -0.0543322896101
-orig(viconTELLOTELLO0.transform.translation.y) == -0.0543322896101
-orig(viconTELLOTELLO0.transform.rotation.x) == 0.017658917545
-orig(viconTELLOTELLO0.transform.rotation.x) == 0.017658917545
-orig(viconTELLOTELLO0.transform.rotation.w) == 0.665728979931
-orig(viconTELLOTELLO0.transform.rotation.w) == 0.665728979931
-orig(is_user_watching_drone1) has only one value
-orig(is_user_watching_drone1) has only one value
-orig(is_user_watching_drone1.data) == "True"
-orig(is_user_watching_drone1.data) == "True"
-orig(distance_to_user2) has only one value
-orig(distance_to_user2) has only one value
-orig(distance_to_user2.data) == 4.06763938678
-orig(distance_to_user2.data) == 4.06763938678
-orig(velocity3) has only one value
-orig(velocity3) has only one value
-orig(state4) has only one value
-orig(state4) has only one value
-===========================================================================
-..velocity(geometry_msgs/TransformStamped, std_msgs/Bool, std_msgs/Float64, geometry_msgs/Twist, std_msgs/String):::EXIT;condition="not(velocity3.linear.y  ==  0.240682880243)"
-return.angular.y == orig(velocity3.angular.y)
-return.angular.y == orig(velocity3.angular.x)
-return.angular.y == orig(velocity3.angular.z)
-return.linear.z one of { -200.0, 0.0 }
-return.linear.z one of { -200.0, 0.0 }
-	"-200.0" probability: 18.37%	count:5897.0 total:32108.0
-	"0.0" probability: 81.63%	count:26211.0 total:32108.0
-return.angular.y == 0.0
-return.angular.y == 0.0
-orig(is_user_watching_drone1.data) one of { "False", "True" }
-orig(is_user_watching_drone1.data) one of { "False", "True" }
-	"False" probability: 55.12%	count:17619.0 total:31962.0
-	"True" probability: 44.88%	count:14343.0 total:31962.0
-orig(velocity3.linear.x) <= 1.0
-orig(velocity3.linear.x) >= -0.631624653051
-orig(velocity3.linear.z) == 0.0
-orig(velocity3.linear.z) == 0.0
-orig(state4.data) one of { "AVOIDING", "DYNAMIC OBSTACLE IN PATH; TRANSFERRING CONTROL TO USER 1", "Finished behavior", "GO TO GOAL", "GOAL REACHED", "HOVERING AT OBSTACLE; WAITING FOR USER INPUT", "NO VICON DATA; LANDING", "USER INPUT TIMEOUT; LANDING", "USER1 CONTROL" }
-	"AVOIDING" probability: 3.24%	count:1026.0 total:31632.0
-	"DYNAMIC OBSTACLE IN PATH; TRANSFERRING CONTROL TO USER 1" probability: 0.10%	count:33.0 total:31632.0
-	"Finished behavior" probability: 2.73%	count:864.0 total:31632.0
-	"GO TO GOAL" probability: 72.33%	count:22880.0 total:31632.0
-	"GOAL REACHED" probability: 5.59%	count:1768.0 total:31632.0
-	"HOVERING AT OBSTACLE; WAITING FOR USER INPUT" probability: 5.77%	count:1826.0 total:31632.0
-	"NO VICON DATA; LANDING" probability: 9.76%	count:3087.0 total:31632.0
-	"USER INPUT TIMEOUT; LANDING" probability: 0.46%	count:146.0 total:31632.0
-	"USER1 CONTROL" probability: 0.01%	count:2.0 total:31632.0
-return.linear.z <= orig(velocity3.linear.z)
-===========================================================================
-..velocity(geometry_msgs/TransformStamped, std_msgs/Bool, std_msgs/Float64, geometry_msgs/Twist, std_msgs/String):::EXIT;condition="velocity3.linear.y  ==  0.256678697797"
-velocity3.linear.y == return.linear.y
-velocity3.linear.y == orig(velocity3.linear.y)
-velocity3.linear.x == return.linear.x
-velocity3.linear.x == orig(velocity3.linear.x)
-velocity3.linear.z == return.linear.z
-velocity3.linear.z == orig(velocity3.linear.z)
-velocity3.angular.y == return.angular.x
-velocity3.angular.y == return.angular.z
-velocity3.angular.y == orig(velocity3.angular.y)
-velocity3.angular.y == orig(velocity3.angular.x)
-velocity3.angular.y == orig(velocity3.angular.z)
-return == orig(velocity3)
-velocity3.linear.y == 0.256678697797
-velocity3.linear.y == 0.256678697797
-velocity3.linear.x == -0.138936215579
-velocity3.linear.x == -0.138936215579
-velocity3.linear.z == 0.0
-velocity3.linear.z == 0.0
-velocity3.angular.y == 0.0
-velocity3.angular.y == 0.0
-return has only one value
-return has only one value
-orig(viconTELLOTELLO0) has only one value
-orig(viconTELLOTELLO0) has only one value
-orig(viconTELLOTELLO0.header.seq) == 19727
-orig(viconTELLOTELLO0.header.seq) == 19727
-orig(viconTELLOTELLO0.transform.rotation.y) == 0.39742835832
-orig(viconTELLOTELLO0.transform.rotation.y) == 0.39742835832
-orig(viconTELLOTELLO0.transform.rotation.z) == 0.702338392289
-orig(viconTELLOTELLO0.transform.rotation.z) == 0.702338392289
-orig(viconTELLOTELLO0.header.stamp.secs) == 1550885788
-orig(viconTELLOTELLO0.header.stamp.secs) == 1550885788
-orig(viconTELLOTELLO0.transform.translation.z) == 0.06154564884
-orig(viconTELLOTELLO0.transform.translation.z) == 0.06154564884
-orig(viconTELLOTELLO0.header.stamp.nsecs) == 280360050
-orig(viconTELLOTELLO0.header.stamp.nsecs) == 280360050
-orig(viconTELLOTELLO0.transform.translation.x) == -2.2000572775
-orig(viconTELLOTELLO0.transform.translation.x) == -2.2000572775
-orig(viconTELLOTELLO0.transform.translation.y) == 0.121252554486
-orig(viconTELLOTELLO0.transform.translation.y) == 0.121252554486
-orig(viconTELLOTELLO0.transform.rotation.x) == -0.131638693572
-orig(viconTELLOTELLO0.transform.rotation.x) == -0.131638693572
-orig(viconTELLOTELLO0.transform.rotation.w) == 0.575710636583
-orig(viconTELLOTELLO0.transform.rotation.w) == 0.575710636583
-orig(is_user_watching_drone1) has only one value
-orig(is_user_watching_drone1) has only one value
-orig(is_user_watching_drone1.data) == "True"
-orig(is_user_watching_drone1.data) == "True"
-orig(distance_to_user2) has only one value
-orig(distance_to_user2) has only one value
-orig(distance_to_user2.data) == 4.05446452341
-orig(distance_to_user2.data) == 4.05446452341
-orig(velocity3) has only one value
-orig(velocity3) has only one value
-orig(state4) has only one value
-orig(state4) has only one value
-===========================================================================
-..velocity(geometry_msgs/TransformStamped, std_msgs/Bool, std_msgs/Float64, geometry_msgs/Twist, std_msgs/String):::EXIT;condition="not(velocity3.linear.y  ==  0.256678697797)"
-return.angular.y == orig(velocity3.angular.y)
-return.angular.y == orig(velocity3.angular.x)
-return.angular.y == orig(velocity3.angular.z)
-return.linear.z one of { -200.0, 0.0 }
-return.linear.z one of { -200.0, 0.0 }
-	"-200.0" probability: 18.37%	count:5897.0 total:32108.0
-	"0.0" probability: 81.63%	count:26211.0 total:32108.0
-return.angular.y == 0.0
-return.angular.y == 0.0
-orig(is_user_watching_drone1.data) one of { "False", "True" }
-orig(is_user_watching_drone1.data) one of { "False", "True" }
-	"False" probability: 55.12%	count:17619.0 total:31962.0
-	"True" probability: 44.88%	count:14343.0 total:31962.0
-orig(velocity3.linear.x) <= 1.0
-orig(velocity3.linear.x) >= -0.631624653051
-orig(velocity3.linear.z) == 0.0
-orig(velocity3.linear.z) == 0.0
-orig(state4.data) one of { "AVOIDING", "DYNAMIC OBSTACLE IN PATH; TRANSFERRING CONTROL TO USER 1", "Finished behavior", "GO TO GOAL", "GOAL REACHED", "HOVERING AT OBSTACLE; WAITING FOR USER INPUT", "NO VICON DATA; LANDING", "USER INPUT TIMEOUT; LANDING", "USER1 CONTROL" }
-	"AVOIDING" probability: 3.21%	count:1026.0 total:31993.0
-	"DYNAMIC OBSTACLE IN PATH; TRANSFERRING CONTROL TO USER 1" probability: 0.10%	count:33.0 total:31993.0
-	"Finished behavior" probability: 2.70%	count:864.0 total:31993.0
-	"GO TO GOAL" probability: 72.64%	count:23241.0 total:31993.0
-	"GOAL REACHED" probability: 5.53%	count:1768.0 total:31993.0
-	"HOVERING AT OBSTACLE; WAITING FOR USER INPUT" probability: 5.71%	count:1826.0 total:31993.0
-	"NO VICON DATA; LANDING" probability: 9.65%	count:3087.0 total:31993.0
-	"USER INPUT TIMEOUT; LANDING" probability: 0.46%	count:146.0 total:31993.0
-	"USER1 CONTROL" probability: 0.01%	count:2.0 total:31993.0
-return.linear.z <= orig(velocity3.linear.z)
-===========================================================================
-..velocity(geometry_msgs/TransformStamped, std_msgs/Bool, std_msgs/Float64, geometry_msgs/Twist, std_msgs/String):::EXIT;condition="velocity3.linear.y  ==  0.369021402454"
-velocity3.linear.y == return.linear.y
-velocity3.linear.y == orig(velocity3.linear.y)
-velocity3.linear.x == return.linear.x
-velocity3.linear.x == orig(velocity3.linear.x)
-velocity3.linear.z == return.linear.z
-velocity3.linear.z == orig(velocity3.linear.z)
-velocity3.angular.y == return.angular.x
-velocity3.angular.y == return.angular.z
-velocity3.angular.y == orig(velocity3.angular.y)
-velocity3.angular.y == orig(velocity3.angular.x)
-velocity3.angular.y == orig(velocity3.angular.z)
-return == orig(velocity3)
-velocity3.linear.y == 0.369021402454
-velocity3.linear.y == 0.369021402454
-velocity3.linear.x == 1.0
-velocity3.linear.x == 1.0
-velocity3.linear.z == 0.0
-velocity3.linear.z == 0.0
-velocity3.angular.y == 0.0
-velocity3.angular.y == 0.0
-return has only one value
-return has only one value
-orig(viconTELLOTELLO0) has only one value
-orig(viconTELLOTELLO0) has only one value
-orig(viconTELLOTELLO0.header.seq) == 50961
-orig(viconTELLOTELLO0.header.seq) == 50961
-orig(viconTELLOTELLO0.transform.rotation.y) == -0.0205815128314
-orig(viconTELLOTELLO0.transform.rotation.y) == -0.0205815128314
-orig(viconTELLOTELLO0.transform.rotation.z) == -0.706943252958
-orig(viconTELLOTELLO0.transform.rotation.z) == -0.706943252958
-orig(viconTELLOTELLO0.header.stamp.secs) == 1550886133
-orig(viconTELLOTELLO0.header.stamp.secs) == 1550886133
-orig(viconTELLOTELLO0.transform.translation.z) == 0.0533542468958
-orig(viconTELLOTELLO0.transform.translation.z) == 0.0533542468958
-orig(viconTELLOTELLO0.header.stamp.nsecs) == 780393916
-orig(viconTELLOTELLO0.header.stamp.nsecs) == 780393916
-orig(viconTELLOTELLO0.transform.translation.x) == -0.600473881742
-orig(viconTELLOTELLO0.transform.translation.x) == -0.600473881742
-orig(viconTELLOTELLO0.transform.translation.y) == 2.05032891063
-orig(viconTELLOTELLO0.transform.translation.y) == 2.05032891063
-orig(viconTELLOTELLO0.transform.rotation.x) == 0.0437808113601
-orig(viconTELLOTELLO0.transform.rotation.x) == 0.0437808113601
-orig(viconTELLOTELLO0.transform.rotation.w) == 0.705613831344
-orig(viconTELLOTELLO0.transform.rotation.w) == 0.705613831344
-orig(is_user_watching_drone1) has only one value
-orig(is_user_watching_drone1) has only one value
-orig(is_user_watching_drone1.data) == "False"
-orig(is_user_watching_drone1.data) == "False"
-orig(distance_to_user2) has only one value
-orig(distance_to_user2) has only one value
-orig(distance_to_user2.data) == 4.52129441071
-orig(distance_to_user2.data) == 4.52129441071
-orig(velocity3) has only one value
-orig(velocity3) has only one value
-orig(state4) has only one value
-orig(state4) has only one value
-===========================================================================
-..velocity(geometry_msgs/TransformStamped, std_msgs/Bool, std_msgs/Float64, geometry_msgs/Twist, std_msgs/String):::EXIT;condition="not(velocity3.linear.y  ==  0.369021402454)"
-return.angular.y == orig(velocity3.angular.y)
-return.angular.y == orig(velocity3.angular.x)
-return.angular.y == orig(velocity3.angular.z)
-return.linear.z one of { -200.0, 0.0 }
-return.linear.z one of { -200.0, 0.0 }
-	"-200.0" probability: 18.37%	count:5897.0 total:32108.0
-	"0.0" probability: 81.63%	count:26211.0 total:32108.0
-return.angular.y == 0.0
-return.angular.y == 0.0
-orig(is_user_watching_drone1.data) one of { "False", "True" }
-orig(is_user_watching_drone1.data) one of { "False", "True" }
-	"False" probability: 55.12%	count:17618.0 total:31962.0
-	"True" probability: 44.88%	count:14344.0 total:31962.0
-orig(velocity3.linear.x) <= 1.0
-orig(velocity3.linear.x) >= -0.631624653051
-orig(velocity3.linear.z) == 0.0
-orig(velocity3.linear.z) == 0.0
-orig(state4.data) one of { "AVOIDING", "DYNAMIC OBSTACLE IN PATH; TRANSFERRING CONTROL TO USER 1", "Finished behavior", "GO TO GOAL", "GOAL REACHED", "HOVERING AT OBSTACLE; WAITING FOR USER INPUT", "NO VICON DATA; LANDING", "USER INPUT TIMEOUT; LANDING", "USER1 CONTROL" }
-	"AVOIDING" probability: 3.21%	count:1026.0 total:31993.0
-	"DYNAMIC OBSTACLE IN PATH; TRANSFERRING CONTROL TO USER 1" probability: 0.10%	count:33.0 total:31993.0
-	"Finished behavior" probability: 2.70%	count:864.0 total:31993.0
-	"GO TO GOAL" probability: 72.64%	count:23241.0 total:31993.0
-	"GOAL REACHED" probability: 5.53%	count:1768.0 total:31993.0
-	"HOVERING AT OBSTACLE; WAITING FOR USER INPUT" probability: 5.71%	count:1826.0 total:31993.0
-	"NO VICON DATA; LANDING" probability: 9.65%	count:3087.0 total:31993.0
-	"USER INPUT TIMEOUT; LANDING" probability: 0.46%	count:146.0 total:31993.0
-	"USER1 CONTROL" probability: 0.01%	count:2.0 total:31993.0
-return.linear.z <= orig(velocity3.linear.z)
-===========================================================================
-..velocity(geometry_msgs/TransformStamped, std_msgs/Bool, std_msgs/Float64, geometry_msgs/Twist, std_msgs/String):::EXIT;condition="velocity3.linear.x  ==   -0.138936215579"
-velocity3.linear.y == return.linear.y
-velocity3.linear.y == orig(velocity3.linear.y)
-velocity3.linear.x == return.linear.x
-velocity3.linear.x == orig(velocity3.linear.x)
-velocity3.linear.z == return.linear.z
-velocity3.linear.z == orig(velocity3.linear.z)
-velocity3.angular.y == return.angular.x
-velocity3.angular.y == return.angular.z
-velocity3.angular.y == orig(velocity3.angular.y)
-velocity3.angular.y == orig(velocity3.angular.x)
-velocity3.angular.y == orig(velocity3.angular.z)
-return == orig(velocity3)
-velocity3.linear.y == 0.256678697797
-velocity3.linear.y == 0.256678697797
-velocity3.linear.x == -0.138936215579
-velocity3.linear.x == -0.138936215579
-velocity3.linear.z == 0.0
-velocity3.linear.z == 0.0
-velocity3.angular.y == 0.0
-velocity3.angular.y == 0.0
-return has only one value
-return has only one value
-orig(viconTELLOTELLO0) has only one value
-orig(viconTELLOTELLO0) has only one value
-orig(viconTELLOTELLO0.header.seq) == 19727
-orig(viconTELLOTELLO0.header.seq) == 19727
-orig(viconTELLOTELLO0.transform.rotation.y) == 0.39742835832
-orig(viconTELLOTELLO0.transform.rotation.y) == 0.39742835832
-orig(viconTELLOTELLO0.transform.rotation.z) == 0.702338392289
-orig(viconTELLOTELLO0.transform.rotation.z) == 0.702338392289
-orig(viconTELLOTELLO0.header.stamp.secs) == 1550885788
-orig(viconTELLOTELLO0.header.stamp.secs) == 1550885788
-orig(viconTELLOTELLO0.transform.translation.z) == 0.06154564884
-orig(viconTELLOTELLO0.transform.translation.z) == 0.06154564884
-orig(viconTELLOTELLO0.header.stamp.nsecs) == 280360050
-orig(viconTELLOTELLO0.header.stamp.nsecs) == 280360050
-orig(viconTELLOTELLO0.transform.translation.x) == -2.2000572775
-orig(viconTELLOTELLO0.transform.translation.x) == -2.2000572775
-orig(viconTELLOTELLO0.transform.translation.y) == 0.121252554486
-orig(viconTELLOTELLO0.transform.translation.y) == 0.121252554486
-orig(viconTELLOTELLO0.transform.rotation.x) == -0.131638693572
-orig(viconTELLOTELLO0.transform.rotation.x) == -0.131638693572
-orig(viconTELLOTELLO0.transform.rotation.w) == 0.575710636583
-orig(viconTELLOTELLO0.transform.rotation.w) == 0.575710636583
-orig(is_user_watching_drone1) has only one value
-orig(is_user_watching_drone1) has only one value
-orig(is_user_watching_drone1.data) == "True"
-orig(is_user_watching_drone1.data) == "True"
-orig(distance_to_user2) has only one value
-orig(distance_to_user2) has only one value
-orig(distance_to_user2.data) == 4.05446452341
-orig(distance_to_user2.data) == 4.05446452341
-orig(velocity3) has only one value
-orig(velocity3) has only one value
-orig(state4) has only one value
-orig(state4) has only one value
-===========================================================================
-..velocity(geometry_msgs/TransformStamped, std_msgs/Bool, std_msgs/Float64, geometry_msgs/Twist, std_msgs/String):::EXIT;condition="not(velocity3.linear.x  ==   -0.138936215579)"
-return.angular.y == orig(velocity3.angular.y)
-return.angular.y == orig(velocity3.angular.x)
-return.angular.y == orig(velocity3.angular.z)
-return.linear.z one of { -200.0, 0.0 }
-return.linear.z one of { -200.0, 0.0 }
-	"-200.0" probability: 18.37%	count:5897.0 total:32108.0
-	"0.0" probability: 81.63%	count:26211.0 total:32108.0
-return.angular.y == 0.0
-return.angular.y == 0.0
-orig(is_user_watching_drone1.data) one of { "False", "True" }
-orig(is_user_watching_drone1.data) one of { "False", "True" }
-	"False" probability: 55.12%	count:17619.0 total:31962.0
-	"True" probability: 44.88%	count:14343.0 total:31962.0
-orig(velocity3.linear.x) <= 1.0
-orig(velocity3.linear.x) >= -0.631624653051
-orig(velocity3.linear.z) == 0.0
-orig(velocity3.linear.z) == 0.0
-orig(state4.data) one of { "AVOIDING", "DYNAMIC OBSTACLE IN PATH; TRANSFERRING CONTROL TO USER 1", "Finished behavior", "GO TO GOAL", "GOAL REACHED", "HOVERING AT OBSTACLE; WAITING FOR USER INPUT", "NO VICON DATA; LANDING", "USER INPUT TIMEOUT; LANDING", "USER1 CONTROL" }
-	"AVOIDING" probability: 3.21%	count:1026.0 total:31993.0
-	"DYNAMIC OBSTACLE IN PATH; TRANSFERRING CONTROL TO USER 1" probability: 0.10%	count:33.0 total:31993.0
-	"Finished behavior" probability: 2.70%	count:864.0 total:31993.0
-	"GO TO GOAL" probability: 72.64%	count:23241.0 total:31993.0
-	"GOAL REACHED" probability: 5.53%	count:1768.0 total:31993.0
-	"HOVERING AT OBSTACLE; WAITING FOR USER INPUT" probability: 5.71%	count:1826.0 total:31993.0
-	"NO VICON DATA; LANDING" probability: 9.65%	count:3087.0 total:31993.0
-	"USER INPUT TIMEOUT; LANDING" probability: 0.46%	count:146.0 total:31993.0
-	"USER1 CONTROL" probability: 0.01%	count:2.0 total:31993.0
-return.linear.z <= orig(velocity3.linear.z)
-===========================================================================
-..velocity(geometry_msgs/TransformStamped, std_msgs/Bool, std_msgs/Float64, geometry_msgs/Twist, std_msgs/String):::EXIT;condition="velocity3.linear.x  ==  -0.0167650879852"
-velocity3.linear.y == return.linear.y
-velocity3.linear.y == orig(velocity3.linear.y)
-velocity3.linear.x == return.linear.x
-velocity3.linear.x == orig(velocity3.linear.x)
-velocity3.linear.z == return.linear.z
-velocity3.linear.z == orig(velocity3.linear.z)
-velocity3.angular.y == return.angular.x
-velocity3.angular.y == return.angular.z
-velocity3.angular.y == orig(velocity3.angular.y)
-velocity3.angular.y == orig(velocity3.angular.x)
-velocity3.angular.y == orig(velocity3.angular.z)
-return == orig(velocity3)
-velocity3.linear.y == 0.240682880243
-velocity3.linear.y == 0.240682880243
-velocity3.linear.x == -0.0167650879852
-velocity3.linear.x == -0.0167650879852
-velocity3.linear.z == 0.0
-velocity3.linear.z == 0.0
-velocity3.angular.y == 0.0
-velocity3.angular.y == 0.0
-return has only one value
-return has only one value
-orig(viconTELLOTELLO0) has only one value
-orig(viconTELLOTELLO0) has only one value
-orig(viconTELLOTELLO0.header.seq) == 14749
-orig(viconTELLOTELLO0.header.seq) == 14749
-orig(viconTELLOTELLO0.transform.rotation.y) == 0.0896214293073
-orig(viconTELLOTELLO0.transform.rotation.y) == 0.0896214293073
-orig(viconTELLOTELLO0.transform.rotation.z) == 0.740581587213
-orig(viconTELLOTELLO0.transform.rotation.z) == 0.740581587213
-orig(viconTELLOTELLO0.header.stamp.secs) == 1550885736
-orig(viconTELLOTELLO0.header.stamp.secs) == 1550885736
-orig(viconTELLOTELLO0.transform.translation.z) == 0.0509476282645
-orig(viconTELLOTELLO0.transform.translation.z) == 0.0509476282645
-orig(viconTELLOTELLO0.header.stamp.nsecs) == 790517292
-orig(viconTELLOTELLO0.header.stamp.nsecs) == 790517292
-orig(viconTELLOTELLO0.transform.translation.x) == -2.33222570967
-orig(viconTELLOTELLO0.transform.translation.x) == -2.33222570967
-orig(viconTELLOTELLO0.transform.translation.y) == -0.0543322896101
-orig(viconTELLOTELLO0.transform.translation.y) == -0.0543322896101
-orig(viconTELLOTELLO0.transform.rotation.x) == 0.017658917545
-orig(viconTELLOTELLO0.transform.rotation.x) == 0.017658917545
-orig(viconTELLOTELLO0.transform.rotation.w) == 0.665728979931
-orig(viconTELLOTELLO0.transform.rotation.w) == 0.665728979931
-orig(is_user_watching_drone1) has only one value
-orig(is_user_watching_drone1) has only one value
-orig(is_user_watching_drone1.data) == "True"
-orig(is_user_watching_drone1.data) == "True"
-orig(distance_to_user2) has only one value
-orig(distance_to_user2) has only one value
-orig(distance_to_user2.data) == 4.06763938678
-orig(distance_to_user2.data) == 4.06763938678
-orig(velocity3) has only one value
-orig(velocity3) has only one value
-orig(state4) has only one value
-orig(state4) has only one value
-===========================================================================
-..velocity(geometry_msgs/TransformStamped, std_msgs/Bool, std_msgs/Float64, geometry_msgs/Twist, std_msgs/String):::EXIT;condition="not(velocity3.linear.x  ==  -0.0167650879852)"
-return.angular.y == orig(velocity3.angular.y)
-return.angular.y == orig(velocity3.angular.x)
-return.angular.y == orig(velocity3.angular.z)
-return.linear.z one of { -200.0, 0.0 }
-return.linear.z one of { -200.0, 0.0 }
-	"-200.0" probability: 18.37%	count:5897.0 total:32108.0
-	"0.0" probability: 81.63%	count:26211.0 total:32108.0
-return.angular.y == 0.0
-return.angular.y == 0.0
-orig(is_user_watching_drone1.data) one of { "False", "True" }
-orig(is_user_watching_drone1.data) one of { "False", "True" }
-	"False" probability: 55.12%	count:17619.0 total:31962.0
-	"True" probability: 44.88%	count:14343.0 total:31962.0
-orig(velocity3.linear.x) <= 1.0
-orig(velocity3.linear.x) >= -0.631624653051
-orig(velocity3.linear.z) == 0.0
-orig(velocity3.linear.z) == 0.0
-orig(state4.data) one of { "AVOIDING", "DYNAMIC OBSTACLE IN PATH; TRANSFERRING CONTROL TO USER 1", "Finished behavior", "GO TO GOAL", "GOAL REACHED", "HOVERING AT OBSTACLE; WAITING FOR USER INPUT", "NO VICON DATA; LANDING", "USER INPUT TIMEOUT; LANDING", "USER1 CONTROL" }
-	"AVOIDING" probability: 3.24%	count:1026.0 total:31632.0
-	"DYNAMIC OBSTACLE IN PATH; TRANSFERRING CONTROL TO USER 1" probability: 0.10%	count:33.0 total:31632.0
-	"Finished behavior" probability: 2.73%	count:864.0 total:31632.0
-	"GO TO GOAL" probability: 72.33%	count:22880.0 total:31632.0
-	"GOAL REACHED" probability: 5.59%	count:1768.0 total:31632.0
-	"HOVERING AT OBSTACLE; WAITING FOR USER INPUT" probability: 5.77%	count:1826.0 total:31632.0
-	"NO VICON DATA; LANDING" probability: 9.76%	count:3087.0 total:31632.0
-	"USER INPUT TIMEOUT; LANDING" probability: 0.46%	count:146.0 total:31632.0
-	"USER1 CONTROL" probability: 0.01%	count:2.0 total:31632.0
-return.linear.z <= orig(velocity3.linear.z)
-===========================================================================
-..velocity(geometry_msgs/TransformStamped, std_msgs/Bool, std_msgs/Float64, geometry_msgs/Twist, std_msgs/String):::EXIT;condition="velocity3.linear.x  ==  0.154400461221"
-velocity3.linear.y == return.linear.y
-velocity3.linear.y == orig(velocity3.linear.y)
-velocity3.linear.x == return.linear.x
-velocity3.linear.x == orig(velocity3.linear.x)
-velocity3.linear.z == return.linear.z
-velocity3.linear.z == orig(velocity3.linear.z)
-velocity3.angular.y == return.angular.x
-velocity3.angular.y == return.angular.z
-velocity3.angular.y == orig(velocity3.angular.y)
-velocity3.angular.y == orig(velocity3.angular.x)
-velocity3.angular.y == orig(velocity3.angular.z)
-state4.data == orig(state4.data)
-return == orig(velocity3)
-velocity3.linear.y == -0.389528795649
-velocity3.linear.y == -0.389528795649
-velocity3.linear.x == 0.154400461221
-velocity3.linear.x == 0.154400461221
-velocity3.linear.z == 0.0
-velocity3.linear.z == 0.0
-velocity3.angular.y == 0.0
-velocity3.angular.y == 0.0
-state4.data == "GO TO GOAL"
-state4.data == "GO TO GOAL"
-return has only one value
-return has only one value
-orig(viconTELLOTELLO0) has only one value
-orig(viconTELLOTELLO0) has only one value
-orig(viconTELLOTELLO0.header.seq) == 58044
-orig(viconTELLOTELLO0.header.seq) == 58044
-orig(viconTELLOTELLO0.transform.rotation.y) == 0.0648541311483
-orig(viconTELLOTELLO0.transform.rotation.y) == 0.0648541311483
-orig(viconTELLOTELLO0.transform.rotation.z) == 0.997088547549
-orig(viconTELLOTELLO0.transform.rotation.z) == 0.997088547549
-orig(viconTELLOTELLO0.header.stamp.secs) == 1550886323
-orig(viconTELLOTELLO0.header.stamp.secs) == 1550886323
-orig(viconTELLOTELLO0.transform.translation.z) == 0.0401559967214
-orig(viconTELLOTELLO0.transform.translation.z) == 0.0401559967214
-orig(viconTELLOTELLO0.header.stamp.nsecs) == 30728952
-orig(viconTELLOTELLO0.header.stamp.nsecs) == 30728952
-orig(viconTELLOTELLO0.transform.translation.x) == -0.614186792943
-orig(viconTELLOTELLO0.transform.translation.x) == -0.614186792943
-orig(viconTELLOTELLO0.transform.translation.y) == -0.05664226603
-orig(viconTELLOTELLO0.transform.translation.y) == -0.05664226603
-orig(viconTELLOTELLO0.transform.rotation.x) == -0.0396042874392
-orig(viconTELLOTELLO0.transform.rotation.x) == -0.0396042874392
-orig(viconTELLOTELLO0.transform.rotation.w) == 0.00631430409286
-orig(viconTELLOTELLO0.transform.rotation.w) == 0.00631430409286
-orig(is_user_watching_drone1) has only one value
-orig(is_user_watching_drone1) has only one value
-orig(is_user_watching_drone1.data) == "True"
-orig(is_user_watching_drone1.data) == "True"
-orig(distance_to_user2) has only one value
-orig(distance_to_user2) has only one value
-orig(distance_to_user2.data) == 2.62145837909
-orig(distance_to_user2.data) == 2.62145837909
-orig(velocity3) has only one value
-orig(velocity3) has only one value
-orig(state4) has only one value
-orig(state4) has only one value
-===========================================================================
-..velocity(geometry_msgs/TransformStamped, std_msgs/Bool, std_msgs/Float64, geometry_msgs/Twist, std_msgs/String):::EXIT;condition="not(velocity3.linear.x  ==  0.154400461221)"
-return.angular.y == orig(velocity3.angular.y)
-return.angular.y == orig(velocity3.angular.x)
-return.angular.y == orig(velocity3.angular.z)
-return.linear.z one of { -200.0, 0.0 }
-return.linear.z one of { -200.0, 0.0 }
-	"-200.0" probability: 18.37%	count:5897.0 total:32108.0
-	"0.0" probability: 81.63%	count:26211.0 total:32108.0
-return.angular.y == 0.0
-return.angular.y == 0.0
-orig(is_user_watching_drone1.data) one of { "False", "True" }
-orig(is_user_watching_drone1.data) one of { "False", "True" }
-	"False" probability: 55.12%	count:17619.0 total:31962.0
-	"True" probability: 44.88%	count:14343.0 total:31962.0
-orig(velocity3.linear.x) <= 1.0
-orig(velocity3.linear.x) >= -0.631624653051
-orig(velocity3.linear.z) == 0.0
-orig(velocity3.linear.z) == 0.0
-orig(state4.data) one of { "AVOIDING", "DYNAMIC OBSTACLE IN PATH; TRANSFERRING CONTROL TO USER 1", "Finished behavior", "GO TO GOAL", "GOAL REACHED", "HOVERING AT OBSTACLE; WAITING FOR USER INPUT", "NO VICON DATA; LANDING", "USER INPUT TIMEOUT; LANDING", "USER1 CONTROL" }
-	"AVOIDING" probability: 3.21%	count:1026.0 total:31992.0
-	"DYNAMIC OBSTACLE IN PATH; TRANSFERRING CONTROL TO USER 1" probability: 0.10%	count:33.0 total:31992.0
-	"Finished behavior" probability: 2.70%	count:864.0 total:31992.0
-	"GO TO GOAL" probability: 72.64%	count:23240.0 total:31992.0
-	"GOAL REACHED" probability: 5.53%	count:1768.0 total:31992.0
-	"HOVERING AT OBSTACLE; WAITING FOR USER INPUT" probability: 5.71%	count:1826.0 total:31992.0
-	"NO VICON DATA; LANDING" probability: 9.65%	count:3087.0 total:31992.0
-	"USER INPUT TIMEOUT; LANDING" probability: 0.46%	count:146.0 total:31992.0
-	"USER1 CONTROL" probability: 0.01%	count:2.0 total:31992.0
-return.linear.z <= orig(velocity3.linear.z)
-===========================================================================
-..velocity(geometry_msgs/TransformStamped, std_msgs/Bool, std_msgs/Float64, geometry_msgs/Twist, std_msgs/String):::EXIT;condition="velocity3.linear.x  ==  0.326063112696"
-velocity3.linear.y == return.linear.y
-velocity3.linear.y == orig(velocity3.linear.y)
-velocity3.linear.x == return.linear.x
-velocity3.linear.x == orig(velocity3.linear.x)
-velocity3.linear.z == return.linear.z
-velocity3.linear.z == orig(velocity3.linear.z)
-velocity3.angular.y == return.angular.x
-velocity3.angular.y == return.angular.z
-velocity3.angular.y == orig(velocity3.angular.y)
-velocity3.angular.y == orig(velocity3.angular.x)
-velocity3.angular.y == orig(velocity3.angular.z)
-state4.data == orig(state4.data)
-return == orig(velocity3)
-velocity3.linear.y == -1.0
-velocity3.linear.y == -1.0
-velocity3.linear.x == 0.326063112696
-velocity3.linear.x == 0.326063112696
-velocity3.linear.z == 0.0
-velocity3.linear.z == 0.0
-velocity3.angular.y == 0.0
-velocity3.angular.y == 0.0
-state4.data == "GO TO GOAL"
-state4.data == "GO TO GOAL"
-return has only one value
-return has only one value
-orig(viconTELLOTELLO0) has only one value
-orig(viconTELLOTELLO0) has only one value
-orig(viconTELLOTELLO0.header.seq) == 10760
-orig(viconTELLOTELLO0.header.seq) == 10760
-orig(viconTELLOTELLO0.transform.rotation.y) == 0.0411724920449
-orig(viconTELLOTELLO0.transform.rotation.y) == 0.0411724920449
-orig(viconTELLOTELLO0.transform.rotation.z) == 0.679130362685
-orig(viconTELLOTELLO0.transform.rotation.z) == 0.679130362685
-orig(viconTELLOTELLO0.header.stamp.secs) == 1550885695
-orig(viconTELLOTELLO0.header.stamp.secs) == 1550885695
-orig(viconTELLOTELLO0.transform.translation.z) == 0.027064388715
-orig(viconTELLOTELLO0.transform.translation.z) == 0.027064388715
-orig(viconTELLOTELLO0.header.stamp.nsecs) == 180539699
-orig(viconTELLOTELLO0.header.stamp.nsecs) == 180539699
-orig(viconTELLOTELLO0.transform.translation.x) == 1.02041337908
-orig(viconTELLOTELLO0.transform.translation.x) == 1.02041337908
-orig(viconTELLOTELLO0.transform.translation.y) == -1.02460144692
-orig(viconTELLOTELLO0.transform.translation.y) == -1.02460144692
-orig(viconTELLOTELLO0.transform.rotation.x) == 0.0377325721059
-orig(viconTELLOTELLO0.transform.rotation.x) == 0.0377325721059
-orig(viconTELLOTELLO0.transform.rotation.w) == 0.731890039132
-orig(viconTELLOTELLO0.transform.rotation.w) == 0.731890039132
-orig(is_user_watching_drone1) has only one value
-orig(is_user_watching_drone1) has only one value
-orig(is_user_watching_drone1.data) == "False"
-orig(is_user_watching_drone1.data) == "False"
-orig(distance_to_user2) has only one value
-orig(distance_to_user2) has only one value
-orig(distance_to_user2.data) == 0.858015777627
-orig(distance_to_user2.data) == 0.858015777627
-orig(velocity3) has only one value
-orig(velocity3) has only one value
-orig(state4) has only one value
-orig(state4) has only one value
-===========================================================================
-..velocity(geometry_msgs/TransformStamped, std_msgs/Bool, std_msgs/Float64, geometry_msgs/Twist, std_msgs/String):::EXIT;condition="not(velocity3.linear.x  ==  0.326063112696)"
-return.angular.y == orig(velocity3.angular.y)
-return.angular.y == orig(velocity3.angular.x)
-return.angular.y == orig(velocity3.angular.z)
-return.linear.z one of { -200.0, 0.0 }
-return.linear.z one of { -200.0, 0.0 }
-	"-200.0" probability: 18.37%	count:5897.0 total:32109.0
-	"0.0" probability: 81.63%	count:26212.0 total:32109.0
-return.angular.y == 0.0
-return.angular.y == 0.0
-orig(is_user_watching_drone1.data) one of { "False", "True" }
-orig(is_user_watching_drone1.data) one of { "False", "True" }
-	"False" probability: 55.12%	count:17619.0 total:31963.0
-	"True" probability: 44.88%	count:14344.0 total:31963.0
-orig(velocity3.linear.x) <= 1.0
-orig(velocity3.linear.x) >= -0.631624653051
-orig(velocity3.linear.z) == 0.0
-orig(velocity3.linear.z) == 0.0
-orig(state4.data) one of { "AVOIDING", "DYNAMIC OBSTACLE IN PATH; TRANSFERRING CONTROL TO USER 1", "Finished behavior", "GO TO GOAL", "GOAL REACHED", "HOVERING AT OBSTACLE; WAITING FOR USER INPUT", "NO VICON DATA; LANDING", "USER INPUT TIMEOUT; LANDING", "USER1 CONTROL" }
-	"AVOIDING" probability: 3.21%	count:1026.0 total:31993.0
-	"DYNAMIC OBSTACLE IN PATH; TRANSFERRING CONTROL TO USER 1" probability: 0.10%	count:33.0 total:31993.0
-	"Finished behavior" probability: 2.70%	count:864.0 total:31993.0
-	"GO TO GOAL" probability: 72.64%	count:23241.0 total:31993.0
-	"GOAL REACHED" probability: 5.53%	count:1768.0 total:31993.0
-	"HOVERING AT OBSTACLE; WAITING FOR USER INPUT" probability: 5.71%	count:1826.0 total:31993.0
-	"NO VICON DATA; LANDING" probability: 9.65%	count:3087.0 total:31993.0
-	"USER INPUT TIMEOUT; LANDING" probability: 0.46%	count:146.0 total:31993.0
-	"USER1 CONTROL" probability: 0.01%	count:2.0 total:31993.0
-return.linear.z <= orig(velocity3.linear.z)
-===========================================================================
-..velocity(geometry_msgs/TransformStamped, std_msgs/Bool, std_msgs/Float64, geometry_msgs/Twist, std_msgs/String):::EXIT;condition="velocity3.linear.x  ==  0.478612182501"
-velocity3.linear.y == return.linear.y
-velocity3.linear.y == orig(velocity3.linear.y)
-velocity3.linear.x == return.linear.x
-velocity3.linear.x == orig(velocity3.linear.x)
-velocity3.linear.z == return.linear.z
-velocity3.linear.z == orig(velocity3.linear.z)
-velocity3.angular.y == return.angular.x
-velocity3.angular.y == return.angular.z
-velocity3.angular.y == orig(velocity3.angular.y)
-velocity3.angular.y == orig(velocity3.angular.x)
-velocity3.angular.y == orig(velocity3.angular.z)
-return == orig(velocity3)
-velocity3.linear.y == -0.409691976713
-velocity3.linear.y == -0.409691976713
-velocity3.linear.x == 0.478612182501
-velocity3.linear.x == 0.478612182501
-velocity3.linear.z == 0.0
-velocity3.linear.z == 0.0
-velocity3.angular.y == 0.0
-velocity3.angular.y == 0.0
-return has only one value
-return has only one value
-orig(viconTELLOTELLO0) has only one value
-orig(viconTELLOTELLO0) has only one value
-orig(viconTELLOTELLO0.header.seq) == 144393
-orig(viconTELLOTELLO0.header.seq) == 144393
-orig(viconTELLOTELLO0.transform.rotation.y) == -0.00384651866399
-orig(viconTELLOTELLO0.transform.rotation.y) == -0.00384651866399
-orig(viconTELLOTELLO0.transform.rotation.z) == -0.269295198818
-orig(viconTELLOTELLO0.transform.rotation.z) == -0.269295198818
-orig(viconTELLOTELLO0.header.stamp.secs) == 1550887272
-orig(viconTELLOTELLO0.header.stamp.secs) == 1550887272
-orig(viconTELLOTELLO0.transform.translation.z) == 0.049904501532
-orig(viconTELLOTELLO0.transform.translation.z) == 0.049904501532
-orig(viconTELLOTELLO0.header.stamp.nsecs) == 58902435
-orig(viconTELLOTELLO0.header.stamp.nsecs) == 58902435
-orig(viconTELLOTELLO0.transform.translation.x) == -1.51483540165
-orig(viconTELLOTELLO0.transform.translation.x) == -1.51483540165
-orig(viconTELLOTELLO0.transform.translation.y) == -0.247248609176
-orig(viconTELLOTELLO0.transform.translation.y) == -0.247248609176
-orig(viconTELLOTELLO0.transform.rotation.x) == 0.0343398500748
-orig(viconTELLOTELLO0.transform.rotation.x) == 0.0343398500748
-orig(viconTELLOTELLO0.transform.rotation.w) == 0.962437569344
-orig(viconTELLOTELLO0.transform.rotation.w) == 0.962437569344
-orig(is_user_watching_drone1) has only one value
-orig(is_user_watching_drone1) has only one value
-orig(is_user_watching_drone1.data) == "True"
-orig(is_user_watching_drone1.data) == "True"
-orig(distance_to_user2) has only one value
-orig(distance_to_user2) has only one value
-orig(distance_to_user2.data) == 3.79299368957
-orig(distance_to_user2.data) == 3.79299368957
-orig(velocity3) has only one value
-orig(velocity3) has only one value
-orig(state4) has only one value
-orig(state4) has only one value
-===========================================================================
-..velocity(geometry_msgs/TransformStamped, std_msgs/Bool, std_msgs/Float64, geometry_msgs/Twist, std_msgs/String):::EXIT;condition="not(velocity3.linear.x  ==  0.478612182501)"
-return.angular.y == orig(velocity3.angular.y)
-return.angular.y == orig(velocity3.angular.x)
-return.angular.y == orig(velocity3.angular.z)
-return.linear.z one of { -200.0, 0.0 }
-return.linear.z one of { -200.0, 0.0 }
-	"-200.0" probability: 18.37%	count:5897.0 total:32108.0
-	"0.0" probability: 81.63%	count:26211.0 total:32108.0
-return.angular.y == 0.0
-return.angular.y == 0.0
-orig(is_user_watching_drone1.data) one of { "False", "True" }
-orig(is_user_watching_drone1.data) one of { "False", "True" }
-	"False" probability: 55.12%	count:17619.0 total:31962.0
-	"True" probability: 44.88%	count:14343.0 total:31962.0
-orig(velocity3.linear.x) <= 1.0
-orig(velocity3.linear.x) >= -0.631624653051
-orig(velocity3.linear.z) == 0.0
-orig(velocity3.linear.z) == 0.0
-orig(state4.data) one of { "AVOIDING", "DYNAMIC OBSTACLE IN PATH; TRANSFERRING CONTROL TO USER 1", "Finished behavior", "GO TO GOAL", "GOAL REACHED", "HOVERING AT OBSTACLE; WAITING FOR USER INPUT", "NO VICON DATA; LANDING", "USER INPUT TIMEOUT; LANDING", "USER1 CONTROL" }
-	"AVOIDING" probability: 3.21%	count:1026.0 total:31993.0
-	"DYNAMIC OBSTACLE IN PATH; TRANSFERRING CONTROL TO USER 1" probability: 0.10%	count:33.0 total:31993.0
-	"Finished behavior" probability: 2.70%	count:864.0 total:31993.0
-	"GO TO GOAL" probability: 72.64%	count:23241.0 total:31993.0
-	"GOAL REACHED" probability: 5.53%	count:1768.0 total:31993.0
-	"HOVERING AT OBSTACLE; WAITING FOR USER INPUT" probability: 5.71%	count:1826.0 total:31993.0
-	"NO VICON DATA; LANDING" probability: 9.65%	count:3087.0 total:31993.0
-	"USER INPUT TIMEOUT; LANDING" probability: 0.46%	count:146.0 total:31993.0
-	"USER1 CONTROL" probability: 0.01%	count:2.0 total:31993.0
-return.linear.z <= orig(velocity3.linear.z)
-===========================================================================
-..velocity(geometry_msgs/TransformStamped, std_msgs/Bool, std_msgs/Float64, geometry_msgs/Twist, std_msgs/String):::EXIT;condition="velocity3.linear.x  ==  0.571652234953"
-velocity3.linear.y == return.linear.y
-velocity3.linear.y == orig(velocity3.linear.y)
-velocity3.linear.x == return.linear.x
-velocity3.linear.x == orig(velocity3.linear.x)
-velocity3.linear.z == return.linear.z
-velocity3.linear.z == orig(velocity3.linear.z)
-velocity3.angular.y == return.angular.x
-velocity3.angular.y == return.angular.z
-velocity3.angular.y == orig(velocity3.angular.y)
-velocity3.angular.y == orig(velocity3.angular.x)
-velocity3.angular.y == orig(velocity3.angular.z)
-return == orig(velocity3)
-velocity3.linear.y == -0.225743454453
-velocity3.linear.y == -0.225743454453
-velocity3.linear.x == 0.571652234953
-velocity3.linear.x == 0.571652234953
-velocity3.linear.z == 0.0
-velocity3.linear.z == 0.0
-velocity3.angular.y == 0.0
-velocity3.angular.y == 0.0
-return has only one value
-return has only one value
-orig(viconTELLOTELLO0) has only one value
-orig(viconTELLOTELLO0) has only one value
-orig(viconTELLOTELLO0.header.seq) == 136033
-orig(viconTELLOTELLO0.header.seq) == 136033
-orig(viconTELLOTELLO0.transform.rotation.y) == -0.00482708590871
-orig(viconTELLOTELLO0.transform.rotation.y) == -0.00482708590871
-orig(viconTELLOTELLO0.transform.rotation.z) == -0.215696175449
-orig(viconTELLOTELLO0.transform.rotation.z) == -0.215696175449
-orig(viconTELLOTELLO0.header.stamp.secs) == 1550887185
-orig(viconTELLOTELLO0.header.stamp.secs) == 1550887185
-orig(viconTELLOTELLO0.transform.translation.z) == 0.0516620941282
-orig(viconTELLOTELLO0.transform.translation.z) == 0.0516620941282
-orig(viconTELLOTELLO0.header.stamp.nsecs) == 929492124
-orig(viconTELLOTELLO0.header.stamp.nsecs) == 929492124
-orig(viconTELLOTELLO0.transform.translation.x) == -1.49453530959
-orig(viconTELLOTELLO0.transform.translation.x) == -1.49453530959
-orig(viconTELLOTELLO0.transform.translation.y) == 0.0896546110759
-orig(viconTELLOTELLO0.transform.translation.y) == 0.0896546110759
-orig(viconTELLOTELLO0.transform.rotation.x) == 0.0364906005661
-orig(viconTELLOTELLO0.transform.rotation.x) == 0.0364906005661
-orig(viconTELLOTELLO0.transform.rotation.w) == 0.975766516749
-orig(viconTELLOTELLO0.transform.rotation.w) == 0.975766516749
-orig(is_user_watching_drone1) has only one value
-orig(is_user_watching_drone1) has only one value
-orig(is_user_watching_drone1.data) == "True"
-orig(is_user_watching_drone1.data) == "True"
-orig(distance_to_user2) has only one value
-orig(distance_to_user2) has only one value
-orig(distance_to_user2.data) == 3.18467804782
-orig(distance_to_user2.data) == 3.18467804782
-orig(velocity3) has only one value
-orig(velocity3) has only one value
-orig(state4) has only one value
-orig(state4) has only one value
-===========================================================================
-..velocity(geometry_msgs/TransformStamped, std_msgs/Bool, std_msgs/Float64, geometry_msgs/Twist, std_msgs/String):::EXIT;condition="not(velocity3.linear.x  ==  0.571652234953)"
-return.angular.y == orig(velocity3.angular.y)
-return.angular.y == orig(velocity3.angular.x)
-return.angular.y == orig(velocity3.angular.z)
-return.linear.z one of { -200.0, 0.0 }
-return.linear.z one of { -200.0, 0.0 }
-	"-200.0" probability: 18.37%	count:5897.0 total:32108.0
-	"0.0" probability: 81.63%	count:26211.0 total:32108.0
-return.angular.y == 0.0
-return.angular.y == 0.0
-orig(is_user_watching_drone1.data) one of { "False", "True" }
-orig(is_user_watching_drone1.data) one of { "False", "True" }
-	"False" probability: 55.12%	count:17619.0 total:31962.0
-	"True" probability: 44.88%	count:14343.0 total:31962.0
-orig(velocity3.linear.x) <= 1.0
-orig(velocity3.linear.x) >= -0.631624653051
-orig(velocity3.linear.z) == 0.0
-orig(velocity3.linear.z) == 0.0
-orig(state4.data) one of { "AVOIDING", "DYNAMIC OBSTACLE IN PATH; TRANSFERRING CONTROL TO USER 1", "Finished behavior", "GO TO GOAL", "GOAL REACHED", "HOVERING AT OBSTACLE; WAITING FOR USER INPUT", "NO VICON DATA; LANDING", "USER INPUT TIMEOUT; LANDING", "USER1 CONTROL" }
-	"AVOIDING" probability: 3.21%	count:1026.0 total:31993.0
-	"DYNAMIC OBSTACLE IN PATH; TRANSFERRING CONTROL TO USER 1" probability: 0.10%	count:33.0 total:31993.0
-	"Finished behavior" probability: 2.70%	count:864.0 total:31993.0
-	"GO TO GOAL" probability: 72.64%	count:23241.0 total:31993.0
-	"GOAL REACHED" probability: 5.53%	count:1768.0 total:31993.0
-	"HOVERING AT OBSTACLE; WAITING FOR USER INPUT" probability: 5.71%	count:1826.0 total:31993.0
-	"NO VICON DATA; LANDING" probability: 9.65%	count:3087.0 total:31993.0
-	"USER INPUT TIMEOUT; LANDING" probability: 0.46%	count:146.0 total:31993.0
-	"USER1 CONTROL" probability: 0.01%	count:2.0 total:31993.0
-return.linear.z <= orig(velocity3.linear.z)
-===========================================================================
-..velocity(geometry_msgs/TransformStamped, std_msgs/Bool, std_msgs/Float64, geometry_msgs/Twist, std_msgs/String):::EXIT;condition="velocity3.linear.x  ==  0.760117262842"
-velocity3.linear.y == return.linear.y
-velocity3.linear.y == orig(velocity3.linear.y)
-velocity3.linear.x == return.linear.x
-velocity3.linear.x == orig(velocity3.linear.x)
-velocity3.linear.z == return.linear.z
-velocity3.linear.z == orig(velocity3.linear.z)
-velocity3.angular.y == return.angular.x
-velocity3.angular.y == return.angular.z
-velocity3.angular.y == orig(velocity3.angular.y)
-velocity3.angular.y == orig(velocity3.angular.x)
-velocity3.angular.y == orig(velocity3.angular.z)
-state4.data == orig(state4.data)
-return == orig(velocity3)
-velocity3.linear.y == -0.866541660555
-velocity3.linear.x == 0.760117262842
-velocity3.linear.z == 0.0
-velocity3.angular.y == 0.0
-state4.data == "GO TO GOAL"
-return has only one value
-orig(viconTELLOTELLO0.transform.translation.x) == 1.04227368652
-orig(viconTELLOTELLO0.transform.translation.x) == 1.04227368652
-orig(viconTELLOTELLO0.transform.translation.y) == 0.924681236529
-orig(viconTELLOTELLO0.transform.translation.y) == 0.924681236529
-orig(is_user_watching_drone1.data) == "False"
-orig(distance_to_user2) has only one value
-orig(distance_to_user2.data) == 2.81241199881
-orig(velocity3) has only one value
-orig(state4) has only one value
-===========================================================================
-..velocity(geometry_msgs/TransformStamped, std_msgs/Bool, std_msgs/Float64, geometry_msgs/Twist, std_msgs/String):::EXIT;condition="not(velocity3.linear.x  ==  0.760117262842)"
-return.angular.y == orig(velocity3.angular.y)
-return.angular.y == orig(velocity3.angular.x)
-return.angular.y == orig(velocity3.angular.z)
-return.linear.z one of { -200.0, 0.0 }
-return.linear.z one of { -200.0, 0.0 }
-	"-200.0" probability: 18.37%	count:5897.0 total:32108.0
-	"0.0" probability: 81.63%	count:26211.0 total:32108.0
-return.angular.y == 0.0
-return.angular.y == 0.0
-orig(is_user_watching_drone1.data) one of { "False", "True" }
-orig(is_user_watching_drone1.data) one of { "False", "True" }
-	"False" probability: 55.12%	count:17618.0 total:31962.0
-	"True" probability: 44.88%	count:14344.0 total:31962.0
-orig(velocity3.linear.x) <= 1.0
-orig(velocity3.linear.x) >= -0.631624653051
-orig(velocity3.linear.z) == 0.0
-orig(velocity3.linear.z) == 0.0
-orig(state4.data) one of { "AVOIDING", "DYNAMIC OBSTACLE IN PATH; TRANSFERRING CONTROL TO USER 1", "Finished behavior", "GO TO GOAL", "GOAL REACHED", "HOVERING AT OBSTACLE; WAITING FOR USER INPUT", "NO VICON DATA; LANDING", "USER INPUT TIMEOUT; LANDING", "USER1 CONTROL" }
-	"AVOIDING" probability: 3.21%	count:1026.0 total:31992.0
-	"DYNAMIC OBSTACLE IN PATH; TRANSFERRING CONTROL TO USER 1" probability: 0.10%	count:33.0 total:31992.0
-	"Finished behavior" probability: 2.70%	count:864.0 total:31992.0
-	"GO TO GOAL" probability: 72.64%	count:23240.0 total:31992.0
-	"GOAL REACHED" probability: 5.53%	count:1768.0 total:31992.0
-	"HOVERING AT OBSTACLE; WAITING FOR USER INPUT" probability: 5.71%	count:1826.0 total:31992.0
-	"NO VICON DATA; LANDING" probability: 9.65%	count:3087.0 total:31992.0
-	"USER INPUT TIMEOUT; LANDING" probability: 0.46%	count:146.0 total:31992.0
-	"USER1 CONTROL" probability: 0.01%	count:2.0 total:31992.0
 return.linear.z <= orig(velocity3.linear.z)
 ===========================================================================
 ..velocity(geometry_msgs/TransformStamped, std_msgs/Bool, std_msgs/Float64, geometry_msgs/Twist, std_msgs/String):::EXIT;condition="velocity3.linear.x  ==  1.0"
@@ -4665,18 +2732,11 @@ return.linear.z <= orig(velocity3.linear.z)
 ..velocity(geometry_msgs/TransformStamped, std_msgs/Bool, std_msgs/Float64, geometry_msgs/Twist, std_msgs/String):::EXIT;condition="state4.data  ==   "Finished behavior""
 return.linear.y == return.linear.x
 return.linear.y == orig(velocity3.linear.z)
-return.angular.y == orig(velocity3.angular.y)
-return.angular.y == orig(velocity3.angular.x)
-return.angular.y == orig(velocity3.angular.z)
 return.linear.y == 0.0
-return.linear.y == 0.0
-return.linear.z one of { -200.0, 0.0 }
 return.linear.z one of { -200.0, 0.0 }
 	"-200.0" probability: 99.81%	count:526.0 total:527.0
 	"0.0" probability: 0.19%	count:1.0 total:527.0
 return.angular.y == 0.0
-return.angular.y == 0.0
-orig(is_user_watching_drone1.data) one of { "False", "True" }
 orig(is_user_watching_drone1.data) one of { "False", "True" }
 	"False" probability: 53.44%	count:334.0 total:625.0
 	"True" probability: 46.56%	count:291.0 total:625.0
@@ -4702,8 +2762,6 @@ orig(state4.data) one of { "Finished behavior", "GO TO GOAL", "GOAL REACHED", "N
 return.linear.y >= return.linear.z
 return.linear.z != orig(velocity3.linear.y)
 return.linear.z < orig(velocity3.linear.x)
-orig(viconTELLOTELLO0.transform.rotation.x) < orig(viconTELLOTELLO0.transform.rotation.w)
-orig(distance_to_user2.data) > orig(velocity3.linear.x)
 ===========================================================================
 ..velocity(geometry_msgs/TransformStamped, std_msgs/Bool, std_msgs/Float64, geometry_msgs/Twist, std_msgs/String):::EXIT;condition="not(state4.data  ==   "Finished behavior")"
 return.angular.y == orig(velocity3.angular.y)
@@ -4736,22 +2794,14 @@ orig(state4.data) one of { "AVOIDING", "DYNAMIC OBSTACLE IN PATH; TRANSFERRING C
 return.linear.z <= orig(velocity3.linear.z)
 ===========================================================================
 ..velocity(geometry_msgs/TransformStamped, std_msgs/Bool, std_msgs/Float64, geometry_msgs/Twist, std_msgs/String):::EXIT;condition="state4.data  ==  "GO TO GOAL""
-return.angular.y == orig(velocity3.angular.y)
-return.angular.y == orig(velocity3.angular.x)
-return.angular.y == orig(velocity3.angular.z)
-return.linear.z one of { -200.0, 0.0 }
 return.linear.z one of { -200.0, 0.0 }
 	"-200.0" probability: 3.63%	count:810.0 total:22338.0
 	"0.0" probability: 96.37%	count:21528.0 total:22338.0
-return.angular.y == 0.0
-return.angular.y == 0.0
-orig(is_user_watching_drone1.data) one of { "False", "True" }
 orig(is_user_watching_drone1.data) one of { "False", "True" }
 	"False" probability: 49.12%	count:10922.0 total:22234.0
 	"True" probability: 50.88%	count:11312.0 total:22234.0
 orig(velocity3.linear.x) <= 1.0
 orig(velocity3.linear.x) >= -0.631624653051
-orig(velocity3.linear.z) == 0.0
 orig(velocity3.linear.z) == 0.0
 orig(state4.data) one of { "AVOIDING", "GO TO GOAL", "GOAL REACHED", "HOVERING AT OBSTACLE; WAITING FOR USER INPUT" }
 	"AVOIDING" probability: 0.05%	count:11.0 total:21186.0
@@ -4761,21 +2811,13 @@ orig(state4.data) one of { "AVOIDING", "GO TO GOAL", "GOAL REACHED", "HOVERING A
 return.linear.z <= orig(velocity3.linear.z)
 ===========================================================================
 ..velocity(geometry_msgs/TransformStamped, std_msgs/Bool, std_msgs/Float64, geometry_msgs/Twist, std_msgs/String):::EXIT;condition="not(state4.data  ==  "GO TO GOAL")"
-return.angular.y == orig(velocity3.angular.y)
-return.angular.y == orig(velocity3.angular.x)
-return.angular.y == orig(velocity3.angular.z)
-return.linear.z one of { -200.0, 0.0 }
 return.linear.z one of { -200.0, 0.0 }
 	"-200.0" probability: 51.98%	count:5071.0 total:9755.0
 	"0.0" probability: 48.02%	count:4684.0 total:9755.0
-return.angular.y == 0.0
-return.angular.y == 0.0
-orig(is_user_watching_drone1.data) one of { "False", "True" }
 orig(is_user_watching_drone1.data) one of { "False", "True" }
 	"False" probability: 68.84%	count:6698.0 total:9730.0
 	"True" probability: 31.16%	count:3032.0 total:9730.0
 orig(velocity3.linear.x) <= 1.0
-orig(velocity3.linear.z) == 0.0
 orig(velocity3.linear.z) == 0.0
 orig(state4.data) one of { "AVOIDING", "DYNAMIC OBSTACLE IN PATH; TRANSFERRING CONTROL TO USER 1", "Finished behavior", "GO TO GOAL", "GOAL REACHED", "HOVERING AT OBSTACLE; WAITING FOR USER INPUT", "NO VICON DATA; LANDING", "USER INPUT TIMEOUT; LANDING", "USER1 CONTROL" }
 	"AVOIDING" probability: 10.45%	count:1015.0 total:9717.0
@@ -4790,9 +2832,6 @@ orig(state4.data) one of { "AVOIDING", "DYNAMIC OBSTACLE IN PATH; TRANSFERRING C
 return.linear.z <= orig(velocity3.linear.z)
 ===========================================================================
 ..velocity(geometry_msgs/TransformStamped, std_msgs/Bool, std_msgs/Float64, geometry_msgs/Twist, std_msgs/String):::EXIT;condition="state4.data  ==  "GOAL REACHED""
-return.angular.y == orig(velocity3.angular.y)
-return.angular.y == orig(velocity3.angular.x)
-return.angular.y == orig(velocity3.angular.z)
 return.linear.y one of { -0.035044300099, -0.0190512129016, -0.0178834729251, 0.0 }
 	"-0.035044300099" probability: 0.07%	count:1.0 total:1364.0
 	"-0.0190512129016" probability: 0.51%	count:7.0 total:1364.0
@@ -4807,17 +2846,12 @@ return.linear.x one of { -0.0570650632207, 0.0, 0.0560366511589, 0.0573743176434
 	"0.0599469888914" probability: 0.29%	count:4.0 total:1364.0
 	"0.0619828758104" probability: 0.07%	count:1.0 total:1364.0
 return.linear.z one of { -200.0, 0.0 }
-return.linear.z one of { -200.0, 0.0 }
 	"-200.0" probability: 27.44%	count:436.0 total:1589.0
 	"0.0" probability: 72.56%	count:1153.0 total:1589.0
-return.angular.y == 0.0
-return.angular.y == 0.0
-orig(is_user_watching_drone1.data) one of { "False", "True" }
 orig(is_user_watching_drone1.data) one of { "False", "True" }
 	"False" probability: 45.34%	count:1527.0 total:3368.0
 	"True" probability: 54.66%	count:1841.0 total:3368.0
 orig(velocity3.linear.x) != 0
-orig(velocity3.linear.z) == 0.0
 orig(velocity3.linear.z) == 0.0
 orig(state4.data) one of { "Finished behavior", "GO TO GOAL", "GOAL REACHED", "NO VICON DATA; LANDING" }
 	"Finished behavior" probability: 14.82%	count:280.0 total:1889.0
@@ -4825,16 +2859,8 @@ orig(state4.data) one of { "Finished behavior", "GO TO GOAL", "GOAL REACHED", "N
 	"GOAL REACHED" probability: 36.16%	count:683.0 total:1889.0
 	"NO VICON DATA; LANDING" probability: 5.82%	count:110.0 total:1889.0
 return.linear.y != orig(velocity3.linear.y)
-return.linear.y != orig(velocity3.linear.x)
-return.linear.y <= orig(velocity3.linear.z)
-return.linear.x != orig(velocity3.linear.y)
 return.linear.x != orig(velocity3.linear.x)
-return.linear.z != orig(velocity3.linear.y)
-return.linear.z != orig(velocity3.linear.x)
 return.linear.z <= orig(velocity3.linear.z)
-orig(velocity3.linear.y) != orig(velocity3.linear.x)
-orig(velocity3.linear.y) != orig(velocity3.linear.z)
-orig(velocity3.linear.x) != orig(velocity3.linear.z)
 ===========================================================================
 ..velocity(geometry_msgs/TransformStamped, std_msgs/Bool, std_msgs/Float64, geometry_msgs/Twist, std_msgs/String):::EXIT;condition="not(state4.data  ==  "GOAL REACHED")"
 return.angular.y == orig(velocity3.angular.y)
@@ -4844,9 +2870,6 @@ return.linear.z one of { -200.0, 0.0 }
 return.linear.z one of { -200.0, 0.0 }
 	"-200.0" probability: 18.07%	count:5461.0 total:30219.0
 	"0.0" probability: 81.93%	count:24758.0 total:30219.0
-return.angular.y == 0.0
-return.angular.y == 0.0
-orig(is_user_watching_drone1.data) one of { "False", "True" }
 orig(is_user_watching_drone1.data) one of { "False", "True" }
 	"False" probability: 56.05%	count:16856.0 total:30073.0
 	"True" probability: 43.95%	count:13217.0 total:30073.0
@@ -4867,23 +2890,14 @@ orig(state4.data) one of { "AVOIDING", "DYNAMIC OBSTACLE IN PATH; TRANSFERRING C
 return.linear.z <= orig(velocity3.linear.z)
 ===========================================================================
 ..velocity(geometry_msgs/TransformStamped, std_msgs/Bool, std_msgs/Float64, geometry_msgs/Twist, std_msgs/String):::EXIT;condition="state4.data  ==  "NO VICON DATA; LANDING""
-return.angular.y == orig(velocity3.angular.y)
-return.angular.y == orig(velocity3.angular.x)
-return.angular.y == orig(velocity3.angular.z)
-return.linear.y one of { 0.0, 0.125244742799 }
 return.linear.y one of { 0.0, 0.125244742799 }
 	"0.0" probability: 99.96%	count:2750.0 total:2751.0
 	"0.125244742799" probability: 0.04%	count:1.0 total:2751.0
 return.linear.x one of { 0.0, 0.156561381874 }
-return.linear.x one of { 0.0, 0.156561381874 }
 	"0.0" probability: 99.96%	count:2750.0 total:2751.0
 	"0.156561381874" probability: 0.04%	count:1.0 total:2751.0
 return.linear.z == -200.0
-return.linear.z == -200.0
-return.angular.y == 0.0
-return.angular.y == 0.0
 orig(viconTELLOTELLO0.transform.rotation.z) >= -0.768284108435
-orig(is_user_watching_drone1.data) one of { "False", "True" }
 orig(is_user_watching_drone1.data) one of { "False", "True" }
 	"False" probability: 96.37%	count:3319.0 total:3444.0
 	"True" probability: 3.63%	count:125.0 total:3444.0
@@ -4910,27 +2924,14 @@ orig(velocity3.linear.x) one of { -0.13045, -0.0167650879852, 0.135098069453, 0.
 orig(velocity3.linear.x) != 0
 orig(velocity3.linear.x) >= -0.13045
 orig(velocity3.linear.z) == 0.0
-orig(velocity3.linear.z) == 0.0
 orig(state4.data) one of { "Finished behavior", "GO TO GOAL", "GOAL REACHED", "NO VICON DATA; LANDING" }
 	"Finished behavior" probability: 10.11%	count:337.0 total:3333.0
 	"GO TO GOAL" probability: 0.90%	count:30.0 total:3333.0
 	"GOAL REACHED" probability: 2.28%	count:76.0 total:3333.0
 	"NO VICON DATA; LANDING" probability: 86.71%	count:2890.0 total:3333.0
 return.linear.y <= return.linear.x
-return.linear.y > return.linear.z
 return.linear.y != orig(velocity3.linear.y)
 return.linear.y != orig(velocity3.linear.x)
-return.linear.y >= orig(velocity3.linear.z)
-return.linear.x > return.linear.z
-return.linear.x != orig(velocity3.linear.y)
-return.linear.x != orig(velocity3.linear.x)
-return.linear.x >= orig(velocity3.linear.z)
-return.linear.z < orig(velocity3.linear.y)
-return.linear.z < orig(velocity3.linear.x)
-orig(viconTELLOTELLO0.transform.rotation.x) < orig(viconTELLOTELLO0.transform.rotation.w)
-orig(velocity3.linear.y) != orig(velocity3.linear.x)
-orig(velocity3.linear.y) != orig(velocity3.linear.z)
-orig(velocity3.linear.x) != orig(velocity3.linear.z)
 ===========================================================================
 ..velocity(geometry_msgs/TransformStamped, std_msgs/Bool, std_msgs/Float64, geometry_msgs/Twist, std_msgs/String):::EXIT;condition="not(state4.data  ==  "NO VICON DATA; LANDING")"
 return.angular.y == orig(velocity3.angular.y)

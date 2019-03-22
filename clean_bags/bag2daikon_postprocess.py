@@ -46,45 +46,6 @@ def test_print(test_output):
 	exec MY_MACRO in globals(), locals()
 
 
-def parse_xml(tree):
-	global xml_topics
-	root = tree.getroot()
-	test_print("XML INFO")
-	topics_in = []
-	topics_out = []
-	for child in root:
-		#print(child.tag+"="+child.attrib)
-		io_topics[child.attrib['name']] = child.attrib
-		topics_in = filter(None, child.attrib['topics_in'].split(" "))
-		xml_topics.update(topics_in)
-		topics_out = filter(None, child.attrib['topics_out'].split(" "))
-		xml_topics.update(topics_out)
-		io_topics[child.attrib['name']]['topics_in'] = topics_in
-		io_topics[child.attrib['name']]['topics_out'] = topics_out
-	for t in xml_topics:
-		node_lookup[t] = {'in': "", 'out': ""}
-	test_print("BUILDING NODE LOOKUP")
-	for node in io_topics:
-		for ti in io_topics[node]['topics_in']:
-			test_print("node: "+str(node)+"; ti: "+str(ti))
-			node_lookup[ti]['in']=node
-		for to in io_topics[node]['topics_out']:
-			test_print("node: "+str(node)+"; to: "+str(to))
-			node_lookup[to]['out']=node
-		test_print(node_lookup)
-	test_print("XML TOPICS: \n"+str(xml_topics))
-	test_print("IO_TOPICS:")
-	for t in io_topics:
-		test_print(t+": "+str(io_topics[t]))
-	test_print("NODE_LOOKUP:")
-	for t in node_lookup:
-		test_print(t+": "+str(node_lookup[t]))
-	topics = []
-	for t in xml_topics:
-		if t != '':
-			topics.append(t)
-
-
 def parse_inv_xml(xml_tree):
 	root = xml_tree.getroot()
 	spinfo_string = ""
