@@ -22,35 +22,35 @@ from tellopy import build_packet, TelloCommand
 #decoder = libh264decoder.H264Decoder()
 
 def stream_video(output_stream, shutdown_signal):
-    # setup listening socket
     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-    sock.settimeout(.3)
-    # new SDK scripts use port 11111 but forums specify 6037
+    sock.settimeout(.5)
     addrVideo = ('', 6037)
+    #addrVideo = ('', 11111)
     sock.bind(addrVideo)
 
-    # setup outgoing socket
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
     #s.settimeout(1)
     addr = ("192.168.10.1", 8889)
-
-    # connect to camera
+    if(sock is None):
+	print("Could not connect to local video socket")
+    if(s is None):
+	print("Could not connect to Tello video socket")
     print("CONNECTING TO CAMERA...")
-    s.sendto(bytearray(b"conn_req:" + struct.pack("<H", 6037)), addr)
-    s.sendto(bytearray(b"conn_req:" + struct.pack("<H", 6037)), addr)
-    s.sendto(bytearray(b"conn_req:" + struct.pack("<H", 6037)), addr)
-    # check for ack response
-    print(s.recv(32))
+    bytes_sent = s.sendto(bytearray(b"conn_req:" + struct.pack("<H", 6037)), addr)
+    print("bytes sent: "+str(bytes_sent))
+    #s.sendto(bytearray(b"conn_req:" + struct.pack("<H", 11111)), addr)
     #time.sleep(2.0)
     #print("TAKING OFF...")
     #s.sendto(build_packet(TelloCommand.TAKEOFF, sequence_id=1), addr)
-    #s.sendto(build_packet(TelloCommand.VIDEO_ENCODER_RATE, sequence_id=1), addr)
     print("REQUESTING VIDEO...")
-    s.sendto(build_packet(TelloCommand.REQ_VIDEO_SPS_PPS, sequence_id=1), addr)
-    # check for ack response
-    print(s.recv(32))
+    bytes_sent = s.sendto(build_packet(TelloCommand.REQ_VIDEO_SPS_PPS, sequence_id=1), addr)
+    print("bytes sent: "+str(bytes_sent))
+    #s.sendto(b'command', addr)
+    #print ('sent: command')
+    #s.sendto(b'streamon', addr)
+    #print ('sent: streamon')
     #s.close()
 
     # with open("debug.h264", "w+") as capture_file:
@@ -68,7 +68,7 @@ def stream_video(output_stream, shutdown_signal):
             print(e)
 	    if(timeout_count > 5):
 	    	print("REQUESTING VIDEO...")
-	    	s.sendto(build_packet(TelloCommand.REQ_VIDEO_SPS_PPS, sequence_id=1), addr)
+	    	bytes_sent = s.sendto(build_packet(TelloCommand.REQ_VIDEO_SPS_PPS, sequence_id=1), addr)
             continue
         except socket.error as e:
             print(e)
@@ -90,19 +90,18 @@ def stream_video(output_stream, shutdown_signal):
     sock.close()
     s.close()
 
-
 def decode_bmp_image(input_stream, shutdown_signal):
     print("in decode_bmp_image")
-    camera_raw = rospy.Publisher("/image_raw", Image, queue_size=10)
+    camera_raw = rospy.Publisher("image_raw", Image, queue_size=10)
     cnt = 0
-    rootpath = os.path.dirname(sys.argv[0]) + "/../capture"
+    rootpath = "capture"
     if not os.path.exists(rootpath):
         os.makedirs(rootpath)
-    file_size_bytes = bytes([])
     while not shutdown_signal.is_set():
 	print("reading from input stream...")
         file_size_bytes = bytearray(input_stream.read(6))
-        print("IMAGE PROCESSED! size: %s" % file_size_bytes)
+        print("IMAGE PROCESSED!")
+        print(" size: %s" % file_size_bytes)
         file_size = 0
         for i in range(4):
             file_size += file_size_bytes[i + 2] * 256 ** i
@@ -126,14 +125,13 @@ def main():
         "ffmpeg",
         "-i",
         "-",
-        #"-f",
+        "-f",
         # "rawvideo",
-        #"h264",
+        "h264",
         "-vcodec",
         "bmp",
         # "png",
         "-vf",
-        # "fps=30",
         "fps=5",
         # "fps=2",
         "-",
@@ -141,13 +139,10 @@ def main():
     print(sys.version)
     print(" ".join(ffmpegCmd))
     with open("ffmpeg.err", "w+") as ffmpeg_err:
-        #ffmpeg = sp.Popen(ffmpegCmd, stdin=sp.PIPE, stdout=sp.PIPE, stderr=ffmpeg_err)
-        ffmpeg = sp.Popen(ffmpegCmd, shell=True, stdin=sp.PIPE, stdout=sp.PIPE, stderr=ffmpeg_err)
-        #ffmpeg = sp.Popen(sp.Popen.communicate)
+        ffmpeg = sp.Popen(ffmpegCmd, stdin=sp.PIPE, stdout=sp.PIPE, stderr=ffmpeg_err)
 
     shutdown_signal = threading.Event()
 
-    # decode_thread decodes, publishes ffmpeg-processed output to /image_raw
     decode_thread = threading.Thread(
         target=decode_bmp_image, args=(ffmpeg.stdout, shutdown_signal)
     )
@@ -155,9 +150,8 @@ def main():
 
     time.sleep(0.5)
 
-    # stream_thread receives images from tello and feeds to ffmpeg
     stream_thread = threading.Thread(
-        target=stream_video, args=(ffmpeg.stdout, shutdown_signal)
+        target=stream_video, args=(ffmpeg.stdin, shutdown_signal)
     )
     stream_thread.start()
 

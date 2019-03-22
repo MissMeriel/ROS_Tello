@@ -181,7 +181,7 @@ def main():
 	# Defaults: Kp = 0.045; Ki = 0.08; Kd = 0.075
 	# Super-slow debug mode: Kp = 0.03; Ki = 0.003; Kd = 0.006
 	Kp = 0.27 # 0.41 not good for goal near wall -- overshoot 0.41
-	Ki = 0.00075
+	Ki = 0.00175
 	Kd = 0.01
 	Kp_fast = 0.41; Ki_fast = 0.003; Kd_fast = 0.01
 	Kp_reg = 0.41; Ki_reg = 0.003; Kd_reg = 0.01;
@@ -327,14 +327,14 @@ def main():
 			z_w = Kp * z_error + Ki * z_integral + Kd * z_derivative
 			z_previous_error = z_error
 
-			ang_error = math.atan2(math.sin(curr_angle-desired_angle), math.cos(curr_angle-desired_angle)) # math.atan2(math.sin(raw_angle_to_goal - curr_angle), math.cos(raw_angle_to_goal - curr_angle))
-			#ang_derivative = (ang_error - ang_previous_error) / dt
-			#ang_integral = z_integral + (ang_error * dt)
-			#ang_w = Kp * ang_error + Ki * ang_integral + Kd * ang_derivative
-			#ang_w = math.atan2(math.sin(ang_w), math.cos(ang_w))
-			#ang_previous_error = ang_error
+			ang_error = desired_angle-curr_angle #math.atan2(math.sin(desired_angle-curr_angle), math.cos(desired_angle-curr_angle)) # math.atan2(math.sin(raw_angle_to_goal - curr_angle), math.cos(raw_angle_to_goal - curr_angle))
+			ang_derivative = (ang_error - ang_previous_error) / dt
+			ang_integral = z_integral + (ang_error * dt)
+			ang_w = Kp * ang_error + Ki * ang_integral + Kd * ang_derivative
+			ang_w = math.atan2(math.sin(ang_w), math.cos(ang_w))
+			ang_previous_error = ang_error
 
-			ang_w = ang_error #* 0.25
+			#ang_w = ang_error * 0.25
 			if(ang_w > 1):
 				ang_w = 1
 			elif(ang_w < -1):
