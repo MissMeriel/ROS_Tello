@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<launch>
+	<node name="camera" pkg="dronet_tello" type="camera.py">
+		<remap from="/image_raw" to="/image"/>
+		<param name="camera_info_url" value="package://visp_auto_tracker/models/calibration.ini" />
+		<param name="frame_id" value="/map" />
+	</node>
+	<node name="cameracalibrator" pkg="camera_calibration" type="cameracalibrator.py" args="$(arg image) $(arg camera)" output="screen">
+		<param name="size" value=""/>
+		<param name="square" value="0.02"/>
+		<param name="" value=""/>
+	</node>
+</launch>

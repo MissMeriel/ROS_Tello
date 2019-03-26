@@ -34,6 +34,7 @@ kill = False
 sweeping = False
 possible_target_detected = False
 old_height = 0
+battery_life = 100
 
 def process_sysargs():
 	global goal_x, goal_y, goal_z, interpolation_x, interpolation_y, interpolation_z, curr_x, curr_y, curr_z
@@ -63,7 +64,7 @@ def process_sysargs():
 		goal_x[0] = interpolation_x[0]
 		goal_y[0] = interpolation_y[0]
 		goal_z[0] = interpolation_z[0]
-	interpolate(0.2)
+	interpolate(0.1)
 
 
 # Traverses between xy coordinates starting at nearest point
@@ -126,11 +127,15 @@ def process_user_input(data):
 
 
 def process_flight_data(data):
-	global sweeping, possible_target_detected, old_height
+	global sweeping, battery_life
 	# height == VPS data
-	if(sweeping and old_height - data.height > 1):
-		possible_target_detected = True
+	battery_life = data.battery_percentage
 
+
+def process_visp_auto_tracker_status(data):
+	global possible_target_detected
+	if (data >= 3):
+		possible_target_detected = True
 
 def percent_mission_completed(goal_counter):
 	global goal_x, goal_y, interpolation_x, interpolation_y, interpolation_z
@@ -147,7 +152,7 @@ def main():
 	global goal_x, goal_y, interpolation_x, interpolation_y, interpolation_z, home_x, home_y
 	global threshold
 	global curr_x, curr_y, curr_angle
-	global publishing, kill, sweeping
+	global publishing, kill, sweeping, possible_target_detected
 
 	process_sysargs()
 
@@ -158,6 +163,7 @@ def main():
 	position_subscriber = rospy.Subscriber("/vicon/TELLO/TELLO", TransformStamped, vicon_data, queue_size=10)
 	input_subscriber = rospy.Subscriber("/user_input", String, process_user_input, queue_size=5)
 	flight_data_subscriber = rospy.Subscriber("/flight_data", String, process_flight_data, queue_size=5)
+	visp_auto_tracker_status_subscriber = rospy.Subscriber("/visp_auto_tracker/status", Int8, process_visp_auto_tracker_status, queue_size=5)
 
 	#nodemap_file = open(os.path.basename(__file__), "w")
 	#nodemap_file.write(rig.topic_node('/velocity'))
@@ -266,11 +272,11 @@ def main():
 			hover_count += dt
 			
 		#reached sweeping area
-		elif (distance_to_goal < sweep_threshold and z_distance_to_goal < sweep_threshold and interpolation_x[goal_counter] == goal_x[0] and interpolation_x[goal_counter] == goal_y[0] and interpolation_z[goal_counter] == goal_z[0]):
+		elif (distance_to_goal < sweep_threshold and z_distance_to_goal < sweep_threshold and interpolation_x[goal_counter] == goal_x[0] and interpolation_x[goal_counter] == goal_y[0] and interpolation_z[goal_counter] == goal_z[0] and goal_counter == 0):
 			vel.linear.x = 0
 			vel.linear.y = 0
 			strmsg = "SWEEP AREA REACHED"
-			if(hover_count > 2 and goal_counter == 0):
+			if(hover_count > 30 and goal_counter == 0):
 				goal_counter += 1
 			print(strmsg)
 			velocity_publisher.publish(vel)
@@ -315,59 +321,67 @@ def main():
 			if(exit_count > 5):
 				exit()
 		else:
-			error = distance_to_goal
-			derivative = (error - previous_error) / dt
-			integral = integral + (error * dt)
-			w = Kp*error + Ki*integral + Kd*derivative
-			previous_error = error
-
-			z_error = z_distance_to_goal
-			z_derivative = (z_error - z_previous_error) / dt
-			z_integral = z_integral + (z_error * dt)
-			z_w = Kp * z_error + Ki * z_integral + Kd * z_derivative
-			z_previous_error = z_error
-
-			ang_error = math.atan2(math.sin(curr_angle-desired_angle), math.cos(curr_angle-desired_angle)) # math.atan2(math.sin(raw_angle_to_goal - curr_angle), math.cos(raw_angle_to_goal - curr_angle))
-			#ang_derivative = (ang_error - ang_previous_error) / dt
-			#ang_integral = z_integral + (ang_error * dt)
-			#ang_w = Kp * ang_error + Ki * ang_integral + Kd * ang_derivative
-			#ang_w = math.atan2(math.sin(ang_w), math.cos(ang_w))
-			#ang_previous_error = ang_error
-
-			ang_w = ang_error #* 0.25
-			if(ang_w > 1):
-				ang_w = 1
-			elif(ang_w < -1):
-				ang_w = -1
-			#elif(abs(math.atan2(math.sin(desired_angle-curr_angle), math.cos(desired_angle-curr_angle))) < math.radians(15)):
-			#	ang_w = 0
-
-			vel.linear.x = math.cos(angle_to_goal) * w
-			#negative sin due to how Tello interprets roll (right = pos)
-			vel.linear.y = -math.sin(angle_to_goal) * w
-			vel.linear.z = z_w * 5
-			vel.angular.z = ang_w
-			
-			# max tello speed is +-1
-			if(vel.linear.y > 1):
-				vel.linear.y = 1
-			if(vel.linear.y < -1):
-				vel.linear.y = -1
-			if(vel.linear.x > 1):
-				vel.linear.x = 1
-			if(vel.linear.x < -1):
-				vel.linear.x = -1
-			if(vel.linear.z > 1):
-				vel.linear.z = 1
-			if(vel.linear.z < -1):
-				vel.linear.z = -1
-
-			if(goal_counter == 0):
-				strmsg = "APPROACHING SWEEP AREA"
-			elif(goal_counter == len(interpolation_x)-1):
-				strmsg = "LEAVING SWEEP AREA"
+			if(possible_target_detected):
+				vel.x = 0
+				vel.y = 0
+				vel.z = 0
+				previous_error = 0
+				previous_error = 
+				strmsg = "POSSIBLE TARGET DETECTED"
 			else:
-				strmsg = "SWEEPING"
+				error = distance_to_goal
+				derivative = (error - previous_error) / dt
+				integral = integral + (error * dt)
+				w = Kp*error + Ki*integral + Kd*derivative
+				previous_error = error
+
+				z_error = z_distance_to_goal
+				z_derivative = (z_error - z_previous_error) / dt
+				z_integral = z_integral + (z_error * dt)
+				z_w = Kp * z_error + Ki * z_integral + Kd * z_derivative
+				z_previous_error = z_error
+
+				#ang_error = math.atan2(math.sin(curr_angle-desired_angle), math.cos(curr_angle-desired_angle)) # math.atan2(math.sin(raw_angle_to_goal - curr_angle), math.cos(raw_angle_to_goal - curr_angle))
+				#ang_derivative = (ang_error - ang_previous_error) / dt
+				#ang_integral = z_integral + (ang_error * dt)
+				#ang_w = Kp * ang_error + Ki * ang_integral + Kd * ang_derivative
+				#ang_w = math.atan2(math.sin(ang_w), math.cos(ang_w))
+				#ang_previous_error = ang_error
+
+				#ang_w = ang_error #* 0.25
+				#if(ang_w > 1):
+				#	ang_w = 1
+				#elif(ang_w < -1):
+				#	ang_w = -1
+				#elif(abs(math.atan2(math.sin(desired_angle-curr_angle), math.cos(desired_angle-curr_angle))) < math.radians(15)):
+				#	ang_w = 0
+
+				vel.linear.x = math.cos(angle_to_goal) * w
+				#negative sin due to how Tello interprets roll (right = pos)
+				vel.linear.y = -math.sin(angle_to_goal) * w
+				vel.linear.z = z_w * 5
+				vel.angular.z = 0 # ang_w
+			
+				# max tello speed is +-1
+				if(vel.linear.y > 1):
+					vel.linear.y = 1
+				if(vel.linear.y < -1):
+					vel.linear.y = -1
+				if(vel.linear.x > 1):
+					vel.linear.x = 1
+				if(vel.linear.x < -1):
+					vel.linear.x = -1
+				if(vel.linear.z > 1):
+					vel.linear.z = 1
+				if(vel.linear.z < -1):
+					vel.linear.z = -1
+
+				if(goal_counter == 0):
+					strmsg = "APPROACHING SWEEP AREA"
+				elif(goal_counter == len(interpolation_x)-1):
+					strmsg = "LEAVING SWEEP AREA"
+				else:
+					strmsg = "SWEEPING"
 
 		print("curr_x, curr_y, curr_z: "+str(curr_x)+", "+str(curr_y)+", "+str(curr_z))
 		print("vel.x, vel.y, vel.z: "+ str(vel.linear.x)+", "+ str(vel.linear.y)+", "+ str(vel.linear.z))
