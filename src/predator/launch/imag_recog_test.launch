@@ -9,7 +9,7 @@
 	<!-- Load CameraInfo yaml file -->
 	<rosparam command="load" file="$(find predator)/calibrationdata/ost.yaml"/>
 
-	<!--<node name="tello" pkg="dronet_tello" type="tello.py" output="screen"/>-->
+	<!-- <node name="tello" pkg="dronet_tello" type="tello.py" output="screen"/> -->
 	<node name="camera" pkg="dronet_tello" type="camera.py" output="screen">
 		<env name="ROS_NAMESPACE" value="/camera"/>
 		<!-- <remap from="/image_raw" to="/image_mono"/> -->
@@ -35,7 +35,6 @@
 		<param name="model_name" value="pattern" />
 		<param name="debug_display" value="True" />
 		<!-- param name="code_message" value="Ver1" / -->
-
 		<remap from="/visp_auto_tracker/camera_info" to="/camera/camera_info"/>
 		<remap from="/visp_auto_tracker/image_raw" to="/camera/image_raw"/>
 	</node>

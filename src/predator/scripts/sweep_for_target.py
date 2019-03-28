@@ -7,6 +7,7 @@ import math
 import time
 import numpy as np
 from std_msgs.msg import String
+from std_msgs.msg import Int8
 from geometry_msgs.msg import Twist
 from geometry_msgs.msg import TransformStamped
 from dronet_tello.msg import FlightData
@@ -34,7 +35,11 @@ kill = False
 sweeping = False
 possible_target_detected = False
 old_height = 0
-battery_life = 100
+battery_percentage = 100
+user_input = ""
+ignore_map = {'x':[], 'y':[], 'z':[]}
+baseline_hover_threshold = 10
+hover_threshold = baseline_hover_threshold
 
 def process_sysargs():
 	global goal_x, goal_y, goal_z, interpolation_x, interpolation_y, interpolation_z, curr_x, curr_y, curr_z
@@ -85,9 +90,6 @@ def interpolate(increment_z):
 		interpolation_x.append(goal_x[1])
 		interpolation_y.append(goal_y[1])
 		interpolation_z.append(goal_z[1])
-	#interpolation_x.append(goal_x[1])
-	#interpolation_y.append(goal_y[1])
-	#interpolation_z.append(goal_z[1])
 
 
 def frange(start, stop, step):
@@ -120,22 +122,28 @@ def vicon_data(data):
 		home_y = data.transform.translation.y
 
 
-def process_user_input(data):
-	global kill
-	if("cancel" in str(data).lower()):
-		kill=True
-
-
 def process_flight_data(data):
-	global sweeping, battery_life
+	global sweeping, battery_percentage
 	# height == VPS data
-	battery_life = data.battery_percentage
+	battery_percentage = data.battery_percentage
 
 
 def process_visp_auto_tracker_status(data):
 	global possible_target_detected
-	if (data >= 3):
+	if (data.data >= 3):
 		possible_target_detected = True
+
+
+def process_user_input(data):
+	global user_input, hover_threshold, kill
+	user_input = str(data.data)
+	if("Land" in user_input):
+		kill=True
+	elif("KeepHovering" in user_input):
+		hover_threshold += 5
+	#elif("KeepSweeping" in user_input):
+		
+
 
 def percent_mission_completed(goal_counter):
 	global goal_x, goal_y, interpolation_x, interpolation_y, interpolation_z
@@ -148,11 +156,17 @@ def percent_mission_completed(goal_counter):
 	return "{0:.0%}".format(travelled_distance/total_distance)
 
 
+def sliding_window(arr, elem):
+	new_arr = arr[1:len(arr)]
+	new_arr.append(elem)
+	return new_arr
+
 def main():
 	global goal_x, goal_y, interpolation_x, interpolation_y, interpolation_z, home_x, home_y
-	global threshold
-	global curr_x, curr_y, curr_angle
+	global threshold, hover_threshold
+	global curr_x, curr_y, curr_z, curr_angle
 	global publishing, kill, sweeping, possible_target_detected
+	global user_input, ignore_map
 
 	process_sysargs()
 
@@ -164,7 +178,8 @@ def main():
 	input_subscriber = rospy.Subscriber("/user_input", String, process_user_input, queue_size=5)
 	flight_data_subscriber = rospy.Subscriber("/flight_data", String, process_flight_data, queue_size=5)
 	visp_auto_tracker_status_subscriber = rospy.Subscriber("/visp_auto_tracker/status", Int8, process_visp_auto_tracker_status, queue_size=5)
-
+	user_input_subscriber = rospy.Subscriber("/user_input", String, process_user_input, queue_size=10)
+	error_state_publisher("/machine_error", String, queue_size=5)
 	#nodemap_file = open(os.path.basename(__file__), "w")
 	#nodemap_file.write(rig.topic_node('/velocity'))
 
@@ -191,13 +206,19 @@ def main():
 	Kd = 0.01
 	Kp_fast = 0.41; Ki_fast = 0.003; Kd_fast = 0.01
 	Kp_reg = 0.41; Ki_reg = 0.003; Kd_reg = 0.01;
-	Kp_slow = 0.07; Ki_slow = 0.003; Kd_slow = 0.006;
+#	Kp_slow = 0.07; Ki_slow = 0.003; Kd_slow = 0.006;
+	Kp_slow = 0.0025; Ki_slow = 0.003; Kd_slow = 0.001;
 	publishing_count = 0
 	hover_count = 0
 	goal_counter = 0
 	home_not_set = True
+	# ignore_threshold:	0.65 for QR codes of approx. 18cm width (standard letter paper)
+	#			??? for QR codes of approx. (10x17" A4 paper)
+	ignore_threshold = 0.065 # 0.1
 	angle_facing_sweep_area = math.atan2(goal_y[0]-goal_y[1], goal_x[0]-goal_x[1]) + math.pi/2.0
-
+	machine_state = MachineState.Default
+	ignore = False
+	publishing_record = np.ones(100, dtype=bool)
 	while not rospy.is_shutdown():
 
 		#3D Euclidean distance
@@ -210,20 +231,22 @@ def main():
 			home_not_set = False
 		print("")
 		percent_mission = percent_mission_completed(goal_counter)
+		print("ignore: "+str(ignore))
+		print("kill: "+str(kill))
 		print("% mission completed: "+ percent_mission)
-		print("goal_counter: "+str(goal_counter))
-		print("goals to visit: "+str(len(interpolation_x)))
+		print("goals visited: "+str(goal_counter)+"/"+str(len(interpolation_x)-1))
 		print("interpolation_x: "+str(interpolation_x))
 		print("interpolation_y: "+str(interpolation_y))
 		print("interpolation_z: "+str(interpolation_z))
 		print("home: "+str(home_x)+","+str(home_y))
-		print("goal_x: "+str(goal_x))
-		print("goal_y: "+str(goal_y))
+		#print("goal_x: "+str(goal_x))
+		#print("goal_y: "+str(goal_y))
 		#print(""+str(math.degrees(angle_facing_sweep_area)))
 		angle_to_goal = math.atan2(interpolation_y[goal_counter]-curr_y, interpolation_x[goal_counter]-curr_x) - curr_angle
 		raw_angle_to_goal = math.atan2(interpolation_y[goal_counter]-curr_y, interpolation_x[goal_counter]-curr_x)
 		desired_angle = math.atan2(goal_y[1]-goal_y[0], goal_x[1]-goal_x[0]) + math.radians(90)
 		# check for lapse in vicon data
+		publishing_record = sliding_window(publishing_record, publishing)
 		if(not publishing):
 			publishing_count += 1
 		else:
@@ -231,18 +254,53 @@ def main():
 		if(publishing_count > 5):
 			vel.linear.x = 0
 			vel.linear.y = 0
-			vel.linear.z = -200
+			#vel.linear.z = -200
 			str_msg = str(MachineState.NoVicon)
 			print(str_msg)
 			machine_state_publisher.publish(str_msg)
 			velocity_publisher.publish(vel)
 			continue
+		elif(publishing_record.tolist().count(False) > len(publishing_record)/3.0):
+			str_msg = str(MachineState.LosingVicon)
+			print(str_msg)
+			machine_state_publisher.publish(str_msg)
 
-		#finished sweeping
-		if (distance_to_goal < sweep_threshold and z_distance_to_goal < sweep_threshold and interpolation_x[goal_counter] == goal_x[1] and interpolation_x[goal_counter] == goal_y[1] and interpolation_z[goal_counter] == goal_z[1]):
+		#check if current spot has been seen & adjudicated
+		for i in range(0,len(ignore_map['x'])):
+			if math.sqrt((curr_x - ignore_map['x'][i])**2+(curr_y - ignore_map['y'][i])**2+(curr_z - ignore_map['z'][i])**2) < ignore_threshold:
+				ignore = True
+			else:
+				ignore = False
+
+		#finished sweeping or user-requested land
+		if(kill):
+			#send land cmd then exit
+			if("Land" in user_input):
+				strmsg = "User requested land"
+			else:
+				strmsg = "Returned to base; landing"
+			machine_state = MachineState.Landing
+			print(strmsg)
+			vel.linear.x = 0
+			vel.linear.y = 0
+			vel.linear.z = -200
+			velocity_publisher.publish(vel)
+			velocity_publisher.publish(vel)
+			velocity_publisher.publish(vel)
+			velocity_publisher.publish(vel)
+			velocity_publisher.publish(vel)
+			machine_state_publisher.publish(str(machine_state))
+			exit_count+= 1
+			if(exit_count > 5):
+				exit()
+#			continue
+
+		elif (distance_to_goal < sweep_threshold and z_distance_to_goal < sweep_threshold and interpolation_x[goal_counter] == goal_x[1] and interpolation_x[goal_counter] == goal_y[1] and interpolation_z[goal_counter] == goal_z[1]):
 			#query user for options: Sweep again? Inspect specific point? Go home?
 			strmsg = "Finished sweeping"
-			if(hover_count > 2 and goal_counter < len(goal_x)-1):
+			machine_state = MachineState.FinishedBehavior
+			mission_state = MissionState.Complete
+			if(hover_count > 10 and goal_counter < len(goal_x)-1):
 				hover_count = 0
 				integral = 0
 				previous_error = 0
@@ -251,7 +309,8 @@ def main():
 				goal_counter +=1
 			print(strmsg)
 			velocity_publisher.publish(vel)
-			machine_state_publisher.publish(strmsg)
+			machine_state_publisher.publish(str(machine_state))
+			mission_state_publisher.publish(str(mission_state))
 			hover_count += dt
 			Kp = Kp_reg; Ki = Ki_reg; Kd = Kd_reg
 
@@ -263,7 +322,8 @@ def main():
 				vel.linear.z = -200
 				velocity_publisher.publish(vel)
 				strmsg = "Finished behavior"
-				machine_state_publisher.publish(strmsg)
+				machine_state = MachineState.Landing
+				machine_state_publisher.publish(str(machine_state))
 			elif(hover_count > 2 and goal_counter == len(goal_x)-1):
 				exit()
 			print(strmsg)
@@ -276,12 +336,19 @@ def main():
 			vel.linear.x = 0
 			vel.linear.y = 0
 			strmsg = "SWEEP AREA REACHED"
+			machine_state = MachineState.Sweeping
 			if(hover_count > 30 and goal_counter == 0):
 				goal_counter += 1
 			print(strmsg)
 			velocity_publisher.publish(vel)
-			machine_state_publisher.publish(strmsg)
+			machine_state_publisher.publish(str(machine_state))
 			hover_count += dt
+			integral = 0
+			previous_error = 0
+			z_integral = 0
+			z_previous_error = 0
+			ang_previous_error = 0
+			ang_integral = 0
 			Kp = Kp_slow; Ki = Ki_slow; Kd = Kd_slow;
 
 		#reached an interpolated goal
@@ -304,31 +371,51 @@ def main():
 				ang_integral = 0
 				goal_counter += 1
 			print(strmsg)
+			machine_state = MachineState.Sweeping
 			velocity_publisher.publish(vel)
-			machine_state_publisher.publish(strmsg)
+			machine_state_publisher.publish(str(machine_state))
 			hover_count += dt
 
-		elif(kill):
-			#send land cmd then exit
-			strmsg = "User requested land"
-			print(strmsg)
-			vel.linear.x = 0
-			vel.linear.y = 0
-			vel.linear.z = -200
-			velocity_publisher.publish(vel)
-			machine_state_publisher.publish(strmsg)
-			exit_count+= 1
-			if(exit_count > 5):
-				exit()
 		else:
-			if(possible_target_detected):
-				vel.x = 0
-				vel.y = 0
-				vel.z = 0
+			if(possible_target_detected and goal_counter < len(interpolation_x)-1 and not ignore):
+				#query user for options: Sweep again? Inspect specific point? Go home?
+				vel.linear.x = 0
+				vel.linear.y = 0
+				vel.linear.z = 0
 				previous_error = 0
-				previous_error = 
+				integral = 0
+				z_previous_error = 0
+				z_integral = 0
 				strmsg = "POSSIBLE TARGET DETECTED"
+				machine_state = MachineState.PossibleTargetDetected
+				hover_count += dt
+				#print("hover_count: "+str(hover_count))
+				if(hover_count > hover_threshold or "KeepSweeping" in user_input):
+					#goal_counter = len(interpolation_x)-1
+					#possible_target_detected = False
+					ignore = True
+					ignore_map['x'].append(curr_x)
+					ignore_map['y'].append(curr_y)
+					ignore_map['z'].append(curr_z)
+				elif('ReturnHome' in user_input):
+					hover_count = 0
+					hover_threshold = baseline_hover_threshold
+					goal_counter = len(interpolation_x)-1
+					 
+				else:
+					hover_count = 0
+					hover_threshold = baseline_hover_threshold
+					possible_target_detected = False
 			else:
+				if(goal_counter == 0):
+					strmsg = "APPROACHING SWEEP AREA"
+				elif(goal_counter == len(interpolation_x)-1):
+					strmsg = "LEAVING SWEEP AREA"
+					Kp = Kp_reg; Ki = Ki_reg; Kd = Kd_reg;
+				else:
+					strmsg = "SWEEPING"
+					Kp = Kp_slow; Ki = Ki_slow; Kd = Kd_slow;
+					machine_state = MachineState.Sweeping
 				error = distance_to_goal
 				derivative = (error - previous_error) / dt
 				integral = integral + (error * dt)
@@ -359,7 +446,7 @@ def main():
 				vel.linear.x = math.cos(angle_to_goal) * w
 				#negative sin due to how Tello interprets roll (right = pos)
 				vel.linear.y = -math.sin(angle_to_goal) * w
-				vel.linear.z = z_w * 5
+				vel.linear.z = z_w * 5.5
 				vel.angular.z = 0 # ang_w
 			
 				# max tello speed is +-1
@@ -376,21 +463,17 @@ def main():
 				if(vel.linear.z < -1):
 					vel.linear.z = -1
 
-				if(goal_counter == 0):
-					strmsg = "APPROACHING SWEEP AREA"
-				elif(goal_counter == len(interpolation_x)-1):
-					strmsg = "LEAVING SWEEP AREA"
-				else:
-					strmsg = "SWEEPING"
+
 
 		print("curr_x, curr_y, curr_z: "+str(curr_x)+", "+str(curr_y)+", "+str(curr_z))
 		print("vel.x, vel.y, vel.z: "+ str(vel.linear.x)+", "+ str(vel.linear.y)+", "+ str(vel.linear.z))
-		print("vel.ang.z: "+str(vel.angular.z))
+		#print("vel.ang.z: "+str(vel.angular.z))
 		print("curr_angle: "+str(math.degrees(curr_angle)))
-		print("desired_angle: "+str(math.degrees(desired_angle)))
-		print("angle_error: "+str(math.atan2(math.sin(desired_angle-curr_angle), math.cos(desired_angle-curr_angle))))
+		print("Kp, Ki, Kd: "+str(Kp)+" "+str(Ki)+" "+str(Kd))
+		#print("desired_angle: "+str(math.degrees(desired_angle)))
+		#print("angle_error: "+str(math.atan2(math.sin(desired_angle-curr_angle), math.cos(desired_angle-curr_angle))))
 		print(strmsg)
-		machine_state_publisher.publish(strmsg)
+		machine_state_publisher.publish(str(machine_state))
 		velocity_publisher.publish(vel)	
 		publishing = False
 		rate.sleep()

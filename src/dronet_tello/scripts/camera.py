@@ -111,7 +111,7 @@ def decode_bmp_image(input_stream, shutdown_signal):
         for i in range(4):
             file_size += file_size_bytes[i + 2] * 256 ** i
         data = file_size_bytes + input_stream.read(file_size - 6)
-	print("camera input stream data: "+str(type(data)))
+	#print("camera input stream data: "+str(type(data)))
         image = cv2.imdecode(np.fromstring(bytes(data), dtype=np.uint8), 1)
         temp = rospy.Time.now()
         cv2.imwrite("{}/{}.jpg".format(rootpath, temp), image)
