@@ -21,7 +21,9 @@ obstacle_detected = False
 obstacle_dyn = False
 machine_state = MachineState.Default
 mission_state = MissionState.Default
-
+user_cmd = UserCommand.Default
+warning_state = WarningState.Default
+timeout = 7
 
 #For reading input on Windows
 def readInput( caption, default, timeout = 5):
@@ -68,12 +70,22 @@ def process_machine_state(msg):
 		machine_state = MachineState.Hovering
 	elif(strdata == str(MachineState.Sweeping)):
 		machine_state = MachineState.Sweeping
-	#elif(strdata == str(MachineState.GoToGoal)):
-	#	machine_state = MachineState.GoToGoal
+	elif(strdata == str(MachineState.OutsideSweepArea)):
+		machine_state = MachineState.OutsideSweepArea
+	elif(strdata == str(MachineState.LosingVicon)):
+		machine_state = MachineState.LosingVicon
 	elif(strdata == str(MachineState.NoVicon)):
 		machine_state = MachineState.NoVicon
 	elif(strdata == str(MachineState.PossibleTargetDetected)):
 		machine_state = MachineState.PossibleTargetDetected
+	elif(strdata == str(MachineState.FinishedBehavior)):
+		machine_state = MachineState.FinishedBehavior
+	elif(strdata == str(MachineState.Landing)):
+		machine_state = MachineState.Landing
+	elif(strdata == str(MachineState.Manual)):
+		machine_state = MachineState.Manual
+	elif(strdata == str(MachineState.TransferringControl)):
+		machine_state = MachineState.TransferringControl
 	else:
 		machine_state=MachineState.Default
 	#print("machine_state = "+strdata)
@@ -90,23 +102,23 @@ def process_mission_state(msg):
 		mission_state = MissionState.WaitingForUser
 	else:
 		mission_state = MissionState.Default
-	print("mission_state = "+strdata)
+	#print("mission_state = "+strdata)
 
 
 def process_warning_state(msg):
 	global warning_state
 	strdata = str(msg.data)
 	if(strdata == str(WarningState.NoVicon)):
-		error_state = WarningState.NoVicon
+		warning_state = WarningState.NoVicon
 	if(strdata == str(WarningState.LosingVicon)):
-		error_state = WarningState.LosingVicon
+		warning_state = WarningState.LosingVicon
 	if(strdata == str(WarningState.LowBattery)):
-		error_state = WarningState.LowBattery
-	print("warning_state: "+str(strdata))
+		warning_state = WarningState.LowBattery
+	#print("warning_state: "+str(strdata))
 
 
 def readInputEmergencyLand():
-	timeout = 5
+	global timeout
 	s = ""
 	enum = UserCommand.Default
 	print("Emergency land? y/n")
@@ -119,6 +131,7 @@ def readInputEmergencyLand():
 
 
 def readInputPossibleTargetDetected():
+	global timeout
 	enum = UserCommand.Default
 	print("Possible target detected. Options are:\n\tLook closer: 1\n\tAdd 5 seconds to hover: 2\n\tTarget is correct, return home: 3\n\tTarget is incorrect, keep sweeping: 4\nInput your response: ")
 	rlist, _, _ = select([sys.stdin], [], [], timeout)
@@ -147,7 +160,8 @@ def readInputPossibleTargetDetected():
 		enum = UserCommand.Land
 	return enum
 
-def readInputFinishedBehavior()
+
+def readInputFinishedBehavior():
 	enum = UserCommand.Default
 	print("Finished behavior. Options are:\n\tReturn to base: 1\n\tSweep again: 2\nInput your response:")
 	rlist, _, _ = select([sys.stdin], [], [], timeout)
@@ -170,10 +184,70 @@ def readInputFinishedBehavior()
 			enum = UserCommand.Land
 	except:
 		enum = UserCommand.Land
+	return enum
+
+
+def readInputNoVicon():
+	#global 
+	enum = UserCommand.Default
+	print("Losing vicon connection. Options are:\n\tSwitch to manual mode: 1\n\tStay in auto control: 2\n\tEmergency land: 3\nInput your response:")
+	rlist, _, _ = select([sys.stdin], [], [], timeout)
+	if rlist:
+		s = sys.stdin.readline().lower()
+	else:
+		print("Unreadable; try again:")
+		rlist, _, _ = select([sys.stdin], [], [], timeout)
+		if rlist:
+			s = sys.stdin.readline()
+		else:
+			s = "invalid"
+	try:
+		choice = int(s)
+		if(choice == 1):
+			enum = UserCommand.RequestManualControl
+		elif(choice == 2):
+			enum = UserCommand.RequestAutoControl
+		else:
+			enum = UserCommand.Land
+	except:
+		enum = UserCommand.Land
+	return enum
+
+
+def readInputRequestAutoControl():
+	#global 
+	enum = UserCommand.Default
+	if(machine_state != MachineState.NoVicon):
+		print("Request for auto control. Options are:\n\tSwitch to manual mode: 1\n\tStay in auto control: 2\n\tEmergency land: 3\nInput your response:")
+		rlist, _, _ = select([sys.stdin], [], [], timeout)
+		if rlist:
+			s = sys.stdin.readline().lower()
+		else:
+			print("Unreadable; try again:")
+			rlist, _, _ = select([sys.stdin], [], [], timeout)
+			if rlist:
+				s = sys.stdin.readline()
+			else:
+				s = "invalid"
+		try:
+			choice = int(s)
+			if(choice == 1):
+				enum = UserCommand.ReturnHome
+			elif(choice == 2):
+				enum = UserCommand.SweepAgain
+			else:
+				enum = UserCommand.Land
+		except:
+			enum = UserCommand.Land
+	else:
+		print("No Vicon connectivity -- cannot return to autonomous control.")
+		print("Still in manual mode.")
+		enum = UserCommand.Default
+	return enum
 
 
 def readInputBehavior():
-	global obstacle_detected, obstacle_dyn, machine_state, mission_state, warning_state
+	global obstacle_detected, obstacle_dyn, machine_state, mission_state, warning_state, user_cmd
 	timeout = 5
 	s = ""
 	enum = UserCommand.Default
@@ -181,15 +255,24 @@ def readInputBehavior():
 	if rlist:
 		s = sys.stdin.readline().lower()
 	if('land' in s):
+		user_cmd = UserCommand.Land
 		return UserCommand.Land
 	if('auto' in s):
-		return UserCommand.RequestAutoControl
-	if(machine_state == MachineState.PossibleTargetDetected):
+		user_cmd = UserCommand.RequestAutoControl
+		#return UserCommand.RequestAutoControl
+	if("Vicon" in str(warning_state) and user_cmd != UserCommand.RequestManualControl):
+		enum = readInputNoVicon()
+	if(warning_state == WarningState.LosingVicon and user_cmd != UserCommand.RequestManualControl):
+		enum = readInputNoVicon()
+	elif(machine_state == MachineState.PossibleTargetDetected):
 		enum = readInputPossibleTargetDetected()
 	elif(machine_state == MachineState.FinishedBehavior):
-		enum = readInputFinishedBehavior
-	elif(machine_state == MachineState.NoVicon or warning_state == WarningState.NoVicon):
-		enum = readInpuyNoVicon
+		enum = readInputFinishedBehavior()
+	#elif(user_cmd == UserCommand.LookCloser):
+	#	enum = readInputLookCloser()
+	elif(user_cmd == UserCommand.RequestAutoControl and machine_state == MachineState.Manual):
+		enum = readInputRequestAutoControl()
+	user_cmd = enum
 	return enum
 
 
@@ -199,9 +282,9 @@ def main():
 	dt = 0.200
 	rate = rospy.Rate(dt)
 	user_input_publisher = rospy.Publisher("/user_input", String, queue_size=10)
-	machine_state_subscriber = rospy.Subscriber("/machine_state", String, process_machine_state, queue_size=2)
-	mission_state_subscriber = rospy.Subscriber("/mission_state", String, process_mission_state, queue_size=2)
-	error_state_subscriber = rospy.Subscriber("/error_state", String, process_error_state, queue_size=2)
+	machine_state_subscriber = rospy.Subscriber("/machine_state", String, process_machine_state, queue_size=1)
+	mission_state_subscriber = rospy.Subscriber("/mission_state", String, process_mission_state, queue_size=1)
+	error_state_subscriber = rospy.Subscriber("/warning_state", String, process_warning_state, queue_size=2)
 	vel = Twist()
 	print("To request emergency land at any time, input \"land\".")
 	while not rospy.is_shutdown():

@@ -13,7 +13,6 @@ class MachineState(Enum):
 	FinishedBehavior = 7
 	Landing = 8
 	Manual = 9
-	LowBattery = 10
 	TransferringControl = 11
 
 class WarningState(Enum):
@@ -24,15 +23,19 @@ class WarningState(Enum):
 
 class MissionState(Enum):
 	Default = 0
-	Complete = 1
-	WaitingForUser = 2
-	InProgress = 3
+	FinishedBehavior = 1
+	Complete = 2
+	WaitingForUser = 3
+	InProgress = 4
+	InsideSweepArea = 5
+	OutsideSweepArea = 6
+	Suspended = 7
+	PossibleTargetDetected = 8
 
 class UserState(Enum):
 	Default = 0
 	WatchingDrone = 1
 	WatchingScreen = 2
-	#Fatigued = 3
 
 class UserCommand(Enum):
 	Default = 0
