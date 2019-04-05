@@ -9,12 +9,12 @@ import time
 #import signal #only on Lnux
 from select import select
 from threading import Thread
-
+import std_msgs.msg
 from geometry_msgs.msg import Twist
 from std_msgs.msg import String
 from std_msgs.msg import Bool
 from std_msgs.msg import Int64
-
+from dronet_tello.msg import HeadedString
 from PredatorEnum import MachineState, MissionState, UserState, UserCommand, WarningState
 
 obstacle_detected = False
@@ -24,6 +24,7 @@ mission_state = MissionState.Default
 user_cmd = UserCommand.Default
 warning_state = WarningState.Default
 timeout = 7
+vicon_restored = False
 
 #For reading input on Windows
 def readInput( caption, default, timeout = 5):
@@ -102,18 +103,23 @@ def process_mission_state(msg):
 		mission_state = MissionState.WaitingForUser
 	else:
 		mission_state = MissionState.Default
-	#print("mission_state = "+strdata)
+	#print("mission_state: "+strdata)
 
 
 def process_warning_state(msg):
-	global warning_state
+	global warning_state, vicon_restored
+	vicon_restored = False
 	strdata = str(msg.data)
+	if("Vicon" in warning_state and strdata == str(WarningState.Default)):
+		vicon_restored = True
 	if(strdata == str(WarningState.NoVicon)):
 		warning_state = WarningState.NoVicon
-	if(strdata == str(WarningState.LosingVicon)):
+	elif(strdata == str(WarningState.LosingVicon)):
 		warning_state = WarningState.LosingVicon
-	if(strdata == str(WarningState.LowBattery)):
+	elif(strdata == str(WarningState.LowBattery)):
 		warning_state = WarningState.LowBattery
+	elif(strdata == str(WarningState.Default)):
+		warning_state = WarningState.Default
 	#print("warning_state: "+str(strdata))
 
 
@@ -149,7 +155,7 @@ def readInputPossibleTargetDetected():
 		if(choice == 1):
 			enum = UserCommand.LookCloser
 		elif(choice == 2):
-			enum = UserCommand.Hover
+			enum = UserCommand.KeepHovering
 		elif(choice == 3):
 			enum = UserCommand.ReturnHome
 		elif(choice == 4):
@@ -157,6 +163,7 @@ def readInputPossibleTargetDetected():
 		#else:
 		#	enum = UserCommand.Land
 	except:
+		print("Exception on parsing input")
 		enum = UserCommand.Land
 	return enum
 
@@ -190,7 +197,7 @@ def readInputFinishedBehavior():
 def readInputNoVicon():
 	#global 
 	enum = UserCommand.Default
-	print("Losing vicon connection. Options are:\n\tSwitch to manual mode: 1\n\tStay in auto control: 2\n\tEmergency land: 3\nInput your response:")
+	print("Losing vicon connection. Options are:\n\tManual control: 1\n\tAuto control: 2\n\tEmergency land: 3\nInput your response:")
 	rlist, _, _ = select([sys.stdin], [], [], timeout)
 	if rlist:
 		s = sys.stdin.readline().lower()
@@ -247,7 +254,7 @@ def readInputRequestAutoControl():
 
 
 def readInputBehavior():
-	global obstacle_detected, obstacle_dyn, machine_state, mission_state, warning_state, user_cmd
+	global machine_state, mission_state, warning_state, user_cmd, vicon_restored
 	timeout = 5
 	s = ""
 	enum = UserCommand.Default
@@ -255,21 +262,17 @@ def readInputBehavior():
 	if rlist:
 		s = sys.stdin.readline().lower()
 	if('land' in s):
-		user_cmd = UserCommand.Land
-		return UserCommand.Land
-	if('auto' in s):
-		user_cmd = UserCommand.RequestAutoControl
+		enum = UserCommand.Land
+	elif('auto' in s):
+		enum = UserCommand.RequestAutoControl
 		#return UserCommand.RequestAutoControl
-	if("Vicon" in str(warning_state) and user_cmd != UserCommand.RequestManualControl):
-		enum = readInputNoVicon()
-	if(warning_state == WarningState.LosingVicon and user_cmd != UserCommand.RequestManualControl):
+	elif("Vicon" in str(warning_state) and user_cmd != UserCommand.RequestManualControl):
+		print("machine_state:"+str(machine_state)+"\nmission_state: "+str(mission_state)+"\nwarning_state: "+str(warning_state)+"\nuser_cmd: "+str(user_cmd))
 		enum = readInputNoVicon()
 	elif(machine_state == MachineState.PossibleTargetDetected):
 		enum = readInputPossibleTargetDetected()
 	elif(machine_state == MachineState.FinishedBehavior):
 		enum = readInputFinishedBehavior()
-	#elif(user_cmd == UserCommand.LookCloser):
-	#	enum = readInputLookCloser()
 	elif(user_cmd == UserCommand.RequestAutoControl and machine_state == MachineState.Manual):
 		enum = readInputRequestAutoControl()
 	user_cmd = enum
@@ -281,22 +284,29 @@ def main():
 	rospy.init_node("user_input", anonymous=True)
 	dt = 0.200
 	rate = rospy.Rate(dt)
-	user_input_publisher = rospy.Publisher("/user_input", String, queue_size=10)
-	machine_state_subscriber = rospy.Subscriber("/machine_state", String, process_machine_state, queue_size=1)
-	mission_state_subscriber = rospy.Subscriber("/mission_state", String, process_mission_state, queue_size=1)
-	error_state_subscriber = rospy.Subscriber("/warning_state", String, process_warning_state, queue_size=2)
+	user_input_publisher = rospy.Publisher("/user_input", HeadedString, queue_size=10)
+	machine_state_subscriber = rospy.Subscriber("/machine_state", HeadedString, process_machine_state, queue_size=1)
+	mission_state_subscriber = rospy.Subscriber("/mission_state", HeadedString, process_mission_state, queue_size=1)
+	error_state_subscriber = rospy.Subscriber("/warning_state", HeadedString, process_warning_state, queue_size=2)
 	vel = Twist()
 	print("To request emergency land at any time, input \"land\".")
+	print("To request auto control at any time, input \"auto\".")
 	while not rospy.is_shutdown():
 		#TODO: test threading + timeout
+		#print("machine_state:"+str(machine_state)+"\nmission_state: "+str(mission_state)+"\nwarning_state: "+str(warning_state)+"\nuser_cmd: "+str(user_cmd)) 
 		answer = str(readInputBehavior())
 		if("invalid" not in answer and "Default" not in answer):
 			print(answer)
-			user_input_publisher.publish(answer)
+			h = std_msgs.msg.Header()
+			h.stamp = rospy.Time.now()
+			headed_str_msg = HeadedString()
+			headed_str_msg.header = h
+			headed_str_msg.data = answer
+			user_input_publisher.publish(headed_str_msg)
 			sent = 1
-			while(sent < 1):
-				user_input_publisher.publish(answer)
-				sent += 1
+			#while(sent < 1):
+			#	user_input_publisher.publish(headed_str_msg)
+			#	sent += 1
 		#else:
 		#	print("Invalid user input; not publishing.")
 		rate.sleep()

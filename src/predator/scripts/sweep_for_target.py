@@ -6,14 +6,17 @@ import traceback
 import math
 import time
 import numpy as np
+import std_msgs.msg
 from std_msgs.msg import String
 from std_msgs.msg import Int8
 from geometry_msgs.msg import Twist
 from geometry_msgs.msg import TransformStamped
+from geometry_msgs.msg import PoseStamped
 from dronet_tello.msg import FlightData
 from dronet_tello.msg import HeadedBool 
+from dronet_tello.msg import HeadedString
 import rosgraph.impl.graph as rig
-from PredatorEnum import MachineState, MissionState, UserState, UserCommand, WarningState
+from PredatorEnum import MachineState, MissionState, UserState, UserCommand, WarningState, CommandState
 
 #take in form of x1,x2,x3,x4...
 goal_x = sys.argv[1]
@@ -41,6 +44,7 @@ baseline_hover_threshold = 10
 hover_threshold = baseline_hover_threshold
 machine_state = MachineState.Default
 ignore = False
+command_state = CommandState.Default
 
 def process_sysargs():
 	global goal_x, goal_y, goal_z, interpolation_x, interpolation_y, interpolation_z, curr_x, curr_y, curr_z
@@ -106,39 +110,39 @@ def frange(start, stop, step):
 			i = float(i + step)
 
 
-def vicon_data(data):
+def vicon_data(msg):
 	global curr_x, curr_y, curr_z, curr_angle
 	global home_x, home_y
 	global publishing
-	curr_x = data.transform.translation.x
-	curr_y = data.transform.translation.y
-	curr_z = data.transform.translation.z
+	curr_x = msg.transform.translation.x
+	curr_y = msg.transform.translation.y
+	curr_z = msg.transform.translation.z
 	# quaternions to radians
-	siny_cosp = +2.0 * (data.transform.rotation.w * data.transform.rotation.z + data.transform.rotation.x * data.transform.rotation.y);
-	cosy_cosp = +1.0 - 2.0 * (data.transform.rotation.y * data.transform.rotation.y + data.transform.rotation.z * data.transform.rotation.z);  
+	siny_cosp = +2.0 * (msg.transform.rotation.w * msg.transform.rotation.z + msg.transform.rotation.x * msg.transform.rotation.y);
+	cosy_cosp = +1.0 - 2.0 * (msg.transform.rotation.y * msg.transform.rotation.y + msg.transform.rotation.z * msg.transform.rotation.z);  
 	curr_angle = math.atan2(siny_cosp, cosy_cosp);
 	publishing = True
 	if(curr_z < 0.05):
-		home_x = data.transform.translation.x
-		home_y = data.transform.translation.y
+		home_x = msg.transform.translation.x
+		home_y = msg.transform.translation.y
 
 
-def process_flight_data(data):
+def process_flight_data(msg):
 	global sweeping, battery_percentage
 	# height == VPS data
-	battery_percentage = data.battery_percentage
+	battery_percentage = msg.battery_percentage
 
 
-def process_visp_auto_tracker_status(data):
-	global possible_target_detected, ignore
+def process_visp_auto_tracker_status(msg):
+	global possible_target_detected, ignore, machine_state
 	#if (data.data >= 3 and not ignore):
-	if (data.data == 3 or data.data == 5 and not ignore and machine_state != MachineState.Manual):
+	if (msg.data == 3 or msg.data == 5 and not ignore and machine_state != MachineState.Manual):
 		possible_target_detected = True
 
 
-def process_user_input(data):
-	global user_input, hover_threshold, kill
-	user_input = str(data.data)
+def process_user_input(msg):
+	global user_input, hover_threshold, kill, machine_state, command_state, warning_state
+	user_input = str(msg.data)
 	if("Land" in user_input):
 		kill=True
 	elif("KeepHovering" in user_input):
@@ -146,7 +150,16 @@ def process_user_input(data):
 	elif("Manual" in user_input):
 		print("Machine in manual mode.")
 		machine_state = MachineState.Manual
-	
+		command_state = CommandState.Manual
+	elif("Auto" in user_input):
+		if(warning_state == WarningState.NoVicon):
+			print("No Vicon connectivity: cannot assume autonomous control")
+			machine_state = MachineState.Manual
+			command_state = CommandState.Manual
+		else:
+			command_state = CommandState.Auto
+
+
 def process_visp_position(msg):
 	global target_position_x, target_position_y, target_position_z, target_position_angle
 	global curr_x, curr_y, curr_z
@@ -182,22 +195,23 @@ def main():
 	global curr_x, curr_y, curr_z, curr_angle
 	global publishing, kill, sweeping, possible_target_detected
 	global user_input, ignore_map, ignore
-	global machine_state
+	global machine_state, command_state
 	global target_position_x, target_position_y, target_position_z, target_position_angle
 
 	process_sysargs()
 
 	rospy.init_node("sweep", anonymous=True)
 	velocity_publisher = rospy.Publisher("/velocity", Twist, queue_size=1)
-	machine_state_publisher = rospy.Publisher("/machine_state", String, queue_size=1)
-	mission_state_publisher = rospy.Publisher("/mission_state", String, queue_size=1)
+	machine_state_publisher = rospy.Publisher("/machine_state", HeadedString, queue_size=1)
+	mission_state_publisher = rospy.Publisher("/mission_state", HeadedString, queue_size=1)
 	position_subscriber = rospy.Subscriber("/vicon/TELLO/TELLO", TransformStamped, vicon_data, queue_size=10)
-	input_subscriber = rospy.Subscriber("/user_input", String, process_user_input, queue_size=1)
-	flight_data_subscriber = rospy.Subscriber("/flight_data", String, process_flight_data, queue_size=5)
+	input_subscriber = rospy.Subscriber("/user_input", HeadedString, process_user_input, queue_size=1)
+	flight_data_subscriber = rospy.Subscriber("/flight_data", FlightData, process_flight_data, queue_size=5)
 	visp_auto_tracker_status_subscriber = rospy.Subscriber("/visp_auto_tracker/status", Int8, process_visp_auto_tracker_status, queue_size=5)
-	user_input_subscriber = rospy.Subscriber("/user_input", String, process_user_input, queue_size=1)
-	visp_position_subscriber = rospy.Subscriber("/visp_auto_tracker", String, process_visp_position, queue_size=1)
-	warning_state_publisher = rospy.Publisher("/warning_state", String, queue_size=1)
+	user_input_subscriber = rospy.Subscriber("/user_input", HeadedString, process_user_input, queue_size=1)
+	visp_position_subscriber = rospy.Subscriber("/visp_auto_tracker/object_position", PoseStamped, process_visp_position, queue_size=1)
+	warning_state_publisher = rospy.Publisher("/warning_state", HeadedString, queue_size=1)
+	command_state_publisher = rospy.Publisher("/command_state", HeadedString, queue_size=1)
 	#nodemap_file = open(os.path.basename(__file__), "w")
 	#nodemap_file.write(rig.topic_node('/velocity'))
 
@@ -259,7 +273,7 @@ def main():
 		print("ignore: "+str(ignore))
 		print("kill: "+str(kill))
 		print("% mission completed: "+ percent_mission)
-		print("goals visited: "+str(goal_counter)+"/"+str(len(interpolation_x)-1))
+		print("waypoints visited: "+str(goal_counter)+"/"+str(len(interpolation_x)-1))
 		print("interpolation_x: "+str(interpolation_x))
 		print("interpolation_y: "+str(interpolation_y))
 		print("interpolation_z: "+str(interpolation_z))
@@ -279,8 +293,12 @@ def main():
 			# send land cmd then exit
 			if("Land" in user_input):
 				strmsg = "User requested land"
+				mission_state = MissionState.Abort
+				warning_state = WarningState.AbortingMission
 			else:
 				strmsg = "Returned to base; landing"
+				mission_state = MissionState.Complete
+				#warning_state = WarningState.Default
 			machine_state = MachineState.Landing
 			print(strmsg)
 			vel.linear.x = 0
@@ -291,7 +309,16 @@ def main():
 			velocity_publisher.publish(vel)
 			velocity_publisher.publish(vel)
 			velocity_publisher.publish(vel)
-			machine_state_publisher.publish(str(machine_state))
+			h = std_msgs.msg.Header()
+			h.stamp = rospy.Time.now()
+			headed_str_msg = HeadedString()
+			headed_str_msg.header = h
+			headed_str_msg.data = str(machine_state)
+			machine_state_publisher.publish(headed_str_msg)
+			headed_str_msg = str(mission_state)
+			mission_state_publisher.publish(headed_str_msg)
+			headed_str_msg = str(warning_state)
+			mission_state_publisher.publish(headed_str_msg)
 			exit_count+= 1
 			if(exit_count > 5):
 				exit()
@@ -299,9 +326,25 @@ def main():
 
 		# in manual control mode
 		if(machine_state == str(MachineState.Manual) and not kill):
-			machine_state_publisher.publish(machine_state)
-			mission_state_publisher.publish(str(MissionState.InProgress))
+			h = std_msgs.msg.Header()
+			h.stamp = rospy.Time.now()
+			headed_str_msg = HeadedString()
+			headed_str_msg.header = h
+			headed_str_msg.data = str(machine_state)
+			machine_state_publisher.publish(headed_str_msg)
+			headed_str_msg.data = str(MissionState.InProgress)
+			mission_state_publisher.publish(headed_str_msg)
+			headed_str_msg.data = str(CommandState.Manual)
+			command_state_publisher.publish(headed_str_msg)
 			continue
+		else:
+			command_state = CommandState.Auto
+			h = std_msgs.msg.Header()
+			h.stamp = rospy.Time.now()
+			headed_str_msg = HeadedString()
+			headed_str_msg.header = h
+			headed_str_msg.data = str(command_state)
+			command_state_publisher.publish(headed_str_msg)
 
 		# Check if current spot has been seen & adjudicated
 		for i in range(0,len(ignore_map['x'])):
@@ -312,6 +355,7 @@ def main():
 
 		# check for lapse in vicon data
 		publishing_record = sliding_window(publishing_record, publishing)
+		print("publishingrecord over 1/3 false: "+str(publishing_record.tolist().count(False) > len(publishing_record)/3.0))
 		if(not publishing and machine_state != MachineState.Manual):
 			publishing_count += 1
 		else:
@@ -324,24 +368,44 @@ def main():
 			machine_state = MachineState.Hovering
 			print(str(WarningState.NoVicon))
 			print(str(MachineState.Hovering))
-			machine_state_publisher.publish(str(MachineState.Hovering))
+			print(str(mission_state))
+			h = std_msgs.msg.Header()
+			h.stamp = rospy.Time.now()
+			headed_str_msg = HeadedString()
+			headed_str_msg.header = h
+			headed_str_msg.data = str(MachineState.Hovering)
+			machine_state_publisher.publish(headed_str_msg)
+			headed_str_msg.data = str(WarningState.NoVicon)
+			warning_state_publisher.publish(headed_str_msg)
+			headed_str_msg.data = str(mission_state)
+			machine_state_publisher.publish(headed_str_msg)
 			velocity_publisher.publish(vel)
-			warning_state_publisher.publish(str(WarningState.NoVicon))
 			continue
 		elif(publishing_record.tolist().count(False) > len(publishing_record)/3.0 and machine_state != MachineState.Manual):
 			warning_state = str(WarningState.LosingVicon)
 			machine_state = str(MachineState.LosingVicon)
-			print(machine_state)
-			print(str(WarningState.LosingVicon))
-			machine_state_publisher.publish(machine_state)
-			warning_state_publisher.publish(warning_state)
+			#print(machine_state)
+			#print(str(WarningState.LosingVicon))
+			h = std_msgs.msg.Header()
+			h.stamp = rospy.Time.now()
+			headed_str_msg = HeadedString()
+			headed_str_msg.header = h
+			headed_str_msg.data = machine_state
+			machine_state_publisher.publish(headed_str_msg)
+			headed_str_msg.data = warning_state
+			warning_state_publisher.publish(headed_str_msg)
 			if("Default" in user_input):
-				mission_state_publisher.publish(str(MissionState.WaitingForUser))
+				mission_state = MissionState.WaitingForUser
+				headed_str_msg.data = str(mission_state)
+				mission_state_publisher.publish(headed_str_msg)
 
 		#Finished sweep
 		elif (distance_to_goal < sweep_threshold and z_distance_to_goal < sweep_threshold and interpolation_x[goal_counter] == goal_x[1] and interpolation_x[goal_counter] == goal_y[1] and interpolation_z[goal_counter] == goal_z[1] and machine_state != MachineState.Manual):
+			vel.linear.x = 0
+			vel.linear.y = 0
+			hover_count += dt
 			#query user for options: Sweep again? Inspect specific point? Go home?
-			strmsg = "Finished sweeping"
+			strmsg = str(MachineState.FinishedBehavior)
 			machine_state = MachineState.FinishedBehavior
 			mission_state = MissionState.FinishedBehavior
 			if(hover_count > 10 and goal_counter < len(goal_x)-1):
@@ -351,11 +415,10 @@ def main():
 				ang_previous_error = 0
 				ang_integral = 0
 				goal_counter +=1
-			print(strmsg)
-			velocity_publisher.publish(vel)
-			machine_state_publisher.publish(str(machine_state))
-			mission_state_publisher.publish(str(mission_state))
-			hover_count += dt
+			#print(strmsg)
+			#velocity_publisher.publish(vel)
+			#machine_state_publisher.publish(str(machine_state))
+			#mission_state_publisher.publish(str(mission_state))
 			Kp = Kp_reg; Ki = Ki_reg; Kd = Kd_reg
 
 		#arrived back to home base
@@ -368,12 +431,12 @@ def main():
 				strmsg = "Returned to home base"
 				machine_state = MachineState.Landing
 				mission_state = MissionState.Complete
-				machine_state_publisher.publish(str(machine_state))
+				#machine_state_publisher.publish(str(machine_state))
 			elif(hover_count > 2 and goal_counter == len(goal_x)-1):
 				exit()
-			print(strmsg)
-			print(machine_state)
-			print(mission_state)
+			#print(strmsg)
+			#print(machine_state)
+			#print(mission_state)
 			#velocity_publisher.publish(vel)
 			#machine_state_publisher.publish(strmsg)
 			hover_count += dt
@@ -387,9 +450,10 @@ def main():
 			machine_state = MachineState.Sweeping
 			if(hover_count > 5 and goal_counter == 0):
 				goal_counter += 1
-			print(strmsg)
-			velocity_publisher.publish(vel)
-			machine_state_publisher.publish(str(machine_state))
+				hover_count = 0
+			#print(strmsg)
+			#velocity_publisher.publish(vel)
+			#machine_state_publisher.publish(str(machine_state))
 			hover_count += dt
 			integral = 0
 			previous_error = 0
@@ -420,7 +484,7 @@ def main():
 				ang_previous_error = 0
 				ang_integral = 0
 				goal_counter += 1
-			print(strmsg)
+			#print(strmsg)
 			machine_state = MachineState.Sweeping
 			mission_state = MissionState.InsideSweepArea
 			hover_count += dt
@@ -446,13 +510,10 @@ def main():
 				#print("hover_count: "+str(hover_count))
 				# look closer auto
 				if("LookCloser" in user_input):
-					if(look_closer_count < 3):
+					if(look_closer_count < 2.25):
 						hover_count = 0
 						vel.linear.x = 0.15
-						vel.linear.y = 0
-						#vel.linear.x = math.cos(target_position_angle) * 10
-						#vel.linear.y = -math.sin(target_position_angle) * 10
-						#velocity_publisher.publish(vel)
+						vel.linear.y = 0 
 						look_closer_count += dt
 					elif(hover_count < 5):
 						vel.linear.x = 0
@@ -462,15 +523,15 @@ def main():
 						vel.linear.y = 0
 						hover_count = 0
 						look_closer_count = 0
-				elif("RequestAutoControl" in user_input and "Vicon" in str(warning_state)):
-					if(backup_count < 3):
-						vel.linear.x = -0.15
-						vel.linear.y = 0
-						backup_count += dt
-					else:
-						hover_count = 0
-						look_closer_count = 0
-						backup_count = 0
+				#elif("RequestAutoControl" in user_input and "Vicon" in str(warning_state)):
+				#	if(backup_count < 3):
+				#		vel.linear.x = -0.15
+				#		vel.linear.y = 0
+				#		backup_count += dt
+				#	else:
+				#		hover_count = 0
+				#		look_closer_count = 0
+				#		backup_count = 0
 				elif(hover_count > hover_threshold or "KeepSweeping" in user_input):
 					#goal_counter = len(interpolation_x)-1
 					#possible_target_detected = False
@@ -482,7 +543,6 @@ def main():
 					hover_count = 0
 					hover_threshold = baseline_hover_threshold
 					goal_counter = len(interpolation_x)-1
-					 
 				else:
 					hover_count = 0
 					hover_threshold = baseline_hover_threshold
@@ -552,8 +612,23 @@ def main():
 		#print("desired_angle: "+str(math.degrees(desired_angle)))
 		#print("angle_error: "+str(math.atan2(math.sin(desired_angle-curr_angle), math.cos(desired_angle-curr_angle))))
 		print(strmsg)
-		machine_state_publisher.publish(str(machine_state))
-		mission_state_publisher.publish(str(mission_state))
+		print(str(machine_state))
+		print(str(mission_state))
+		print(str(warning_state))
+		print(str(user_input))
+		print(str(command_state))
+		h = std_msgs.msg.Header()
+		h.stamp = rospy.Time.now()
+		headed_str_msg = HeadedString()
+		headed_str_msg.header = h
+		headed_str_msg.data = str(machine_state)
+		machine_state_publisher.publish(headed_str_msg)
+		headed_str_msg.data = str(mission_state)
+		mission_state_publisher.publish(headed_str_msg)
+		headed_str_msg.data = str(warning_state)
+		warning_state_publisher.publish(headed_str_msg)
+		headed_str_msg.data = str(command_state)
+		command_state_publisher.publish(headed_str_msg)
 		velocity_publisher.publish(vel)	
 		publishing = False
 		rate.sleep()

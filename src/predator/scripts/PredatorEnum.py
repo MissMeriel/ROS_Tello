@@ -17,20 +17,22 @@ class MachineState(Enum):
 
 class WarningState(Enum):
 	Default = 0
-	LosingVicon = 4
-	NoVicon = 5
-	LowBattery = 10
+	LosingVicon = 1
+	NoVicon = 2
+	LowBattery = 3
+	AbortingMission = 4
 
 class MissionState(Enum):
 	Default = 0
-	FinishedBehavior = 1
-	Complete = 2
+	FinishedBehavior = 1	#done sweeping
+	Complete = 2	#back at home base
 	WaitingForUser = 3
-	InProgress = 4
+	InProgress = 4	#sweeping or in manual mode
 	InsideSweepArea = 5
 	OutsideSweepArea = 6
 	Suspended = 7
 	PossibleTargetDetected = 8
+	Abort = 9
 
 class UserState(Enum):
 	Default = 0
@@ -51,3 +53,8 @@ class UserCommand(Enum):
 	Down = 11
 	RequestAutoControl = 12
 	RequestManualControl = 13
+
+class CommandState(Enum):
+	Default = 0
+	Auto = 1
+	Manual = 2
