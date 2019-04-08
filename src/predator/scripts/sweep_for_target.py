@@ -38,13 +38,16 @@ sweeping = False
 possible_target_detected = False
 old_height = 0
 battery_percentage = 100
+battery_low = False
 user_input = str(UserCommand.Default)
 ignore_map = {'x':[], 'y':[], 'z':[]}
 baseline_hover_threshold = 10
 hover_threshold = baseline_hover_threshold
-machine_state = MachineState.Default
 ignore = False
+machine_state = MachineState.Default
 command_state = CommandState.Default
+mission_state = MissionState.Default
+warning_state = WarningState.Default
 
 def process_sysargs():
 	global goal_x, goal_y, goal_z, interpolation_x, interpolation_y, interpolation_z, curr_x, curr_y, curr_z
@@ -128,20 +131,23 @@ def vicon_data(msg):
 
 
 def process_flight_data(msg):
-	global sweeping, battery_percentage
+	global sweeping, battery_percentage, battery_low, warning_state
 	# height == VPS data
 	battery_percentage = msg.battery_percentage
-
+	battery_low = bool(msg.battery_low)
+	if(battery_low == True):
+		warning_state = WarningState.LowBattery
 
 def process_visp_auto_tracker_status(msg):
-	global possible_target_detected, ignore, machine_state
+	global possible_target_detected, ignore, machine_state, command_state
 	#if (data.data >= 3 and not ignore):
-	if (msg.data == 3 or msg.data == 5 and not ignore and machine_state != MachineState.Manual):
-		possible_target_detected = True
+	if(command_state != CommandState.Manual or machine_state != MachineState.Manual):
+		if (msg.data == 3 or msg.data == 5 and not ignore):
+			possible_target_detected = True
 
 
 def process_user_input(msg):
-	global user_input, hover_threshold, kill, machine_state, command_state, warning_state
+	global user_input, hover_threshold, kill, machine_state, command_state, warning_state, mission_state
 	user_input = str(msg.data)
 	if("Land" in user_input):
 		kill=True
@@ -157,7 +163,9 @@ def process_user_input(msg):
 			machine_state = MachineState.Manual
 			command_state = CommandState.Manual
 		else:
+			machine_state = MachineState.Default
 			command_state = CommandState.Auto
+			warning_state = WarningState.Default
 
 
 def process_visp_position(msg):
@@ -195,7 +203,7 @@ def main():
 	global curr_x, curr_y, curr_z, curr_angle
 	global publishing, kill, sweeping, possible_target_detected
 	global user_input, ignore_map, ignore
-	global machine_state, command_state
+	global machine_state, command_state, mission_state, warning_state
 	global target_position_x, target_position_y, target_position_z, target_position_angle
 
 	process_sysargs()
@@ -204,14 +212,15 @@ def main():
 	velocity_publisher = rospy.Publisher("/velocity", Twist, queue_size=1)
 	machine_state_publisher = rospy.Publisher("/machine_state", HeadedString, queue_size=1)
 	mission_state_publisher = rospy.Publisher("/mission_state", HeadedString, queue_size=1)
+	warning_state_publisher = rospy.Publisher("/warning_state", HeadedString, queue_size=1)
+	command_state_publisher = rospy.Publisher("/command_state", HeadedString, queue_size=1)
 	position_subscriber = rospy.Subscriber("/vicon/TELLO/TELLO", TransformStamped, vicon_data, queue_size=10)
 	input_subscriber = rospy.Subscriber("/user_input", HeadedString, process_user_input, queue_size=1)
 	flight_data_subscriber = rospy.Subscriber("/flight_data", FlightData, process_flight_data, queue_size=5)
 	visp_auto_tracker_status_subscriber = rospy.Subscriber("/visp_auto_tracker/status", Int8, process_visp_auto_tracker_status, queue_size=5)
 	user_input_subscriber = rospy.Subscriber("/user_input", HeadedString, process_user_input, queue_size=1)
 	visp_position_subscriber = rospy.Subscriber("/visp_auto_tracker/object_position", PoseStamped, process_visp_position, queue_size=1)
-	warning_state_publisher = rospy.Publisher("/warning_state", HeadedString, queue_size=1)
-	command_state_publisher = rospy.Publisher("/command_state", HeadedString, queue_size=1)
+
 	#nodemap_file = open(os.path.basename(__file__), "w")
 	#nodemap_file.write(rig.topic_node('/velocity'))
 
@@ -255,7 +264,8 @@ def main():
 	look_closer_count = 0
 	exit_count = 0
 	backup_count = 0
-	warning_state = str(WarningState.Default)
+	if("Vicon" in str(warning_state)):
+		warning_state = str(WarningState.Default)
 	mission_state = MissionState.Default
 
 	while not rospy.is_shutdown():
@@ -286,7 +296,6 @@ def main():
 		angle_to_goal = math.atan2(interpolation_y[goal_counter]-curr_y, interpolation_x[goal_counter]-curr_x) - curr_angle
 		raw_angle_to_goal = math.atan2(interpolation_y[goal_counter]-curr_y, interpolation_x[goal_counter]-curr_x)
 		desired_angle = math.atan2(goal_y[1]-goal_y[0], goal_x[1]-goal_x[0]) + math.radians(90)
-		warning_state = WarningState.Default
 
 		# Returned to base or user-requested land
 		if(kill):
@@ -315,9 +324,9 @@ def main():
 			headed_str_msg.header = h
 			headed_str_msg.data = str(machine_state)
 			machine_state_publisher.publish(headed_str_msg)
-			headed_str_msg = str(mission_state)
+			headed_str_msg.data = str(mission_state)
 			mission_state_publisher.publish(headed_str_msg)
-			headed_str_msg = str(warning_state)
+			headed_str_msg.data = str(warning_state)
 			mission_state_publisher.publish(headed_str_msg)
 			exit_count+= 1
 			if(exit_count > 5):
@@ -325,7 +334,7 @@ def main():
 			continue
 
 		# in manual control mode
-		if(machine_state == str(MachineState.Manual) and not kill):
+		if(machine_state == str(MachineState.Manual) and str(command_state) == CommandState.Auto and not kill):
 			h = std_msgs.msg.Header()
 			h.stamp = rospy.Time.now()
 			headed_str_msg = HeadedString()
@@ -355,7 +364,7 @@ def main():
 
 		# check for lapse in vicon data
 		publishing_record = sliding_window(publishing_record, publishing)
-		print("publishingrecord over 1/3 false: "+str(publishing_record.tolist().count(False) > len(publishing_record)/3.0))
+		print("publishingrecord over 1/2 false: "+str(publishing_record.tolist().count(False) > len(publishing_record)/3.0))
 		if(not publishing and machine_state != MachineState.Manual):
 			publishing_count += 1
 		else:
@@ -365,7 +374,7 @@ def main():
 			vel.linear.y = 0
 			vel.linear.z = 0
 			warning_state = str(WarningState.NoVicon)
-			machine_state = MachineState.Hovering
+			machine_state = str(MachineState.Hovering)
 			print(str(WarningState.NoVicon))
 			print(str(MachineState.Hovering))
 			print(str(mission_state))
@@ -381,7 +390,7 @@ def main():
 			machine_state_publisher.publish(headed_str_msg)
 			velocity_publisher.publish(vel)
 			continue
-		elif(publishing_record.tolist().count(False) > len(publishing_record)/3.0 and machine_state != MachineState.Manual):
+		elif(publishing_record.tolist().count(False) > len(publishing_record)/2.0 and machine_state != MachineState.Manual):
 			warning_state = str(WarningState.LosingVicon)
 			machine_state = str(MachineState.LosingVicon)
 			#print(machine_state)
@@ -392,12 +401,12 @@ def main():
 			headed_str_msg.header = h
 			headed_str_msg.data = machine_state
 			machine_state_publisher.publish(headed_str_msg)
-			headed_str_msg.data = warning_state
+			headed_str_msg.data = str(warning_state)
 			warning_state_publisher.publish(headed_str_msg)
-			if("Default" in user_input):
-				mission_state = MissionState.WaitingForUser
-				headed_str_msg.data = str(mission_state)
-				mission_state_publisher.publish(headed_str_msg)
+			#if("Default" in user_input):
+			#	mission_state = MissionState.WaitingForUser
+			#	headed_str_msg.data = str(mission_state)
+			#	mission_state_publisher.publish(headed_str_msg)
 
 		#Finished sweep
 		elif (distance_to_goal < sweep_threshold and z_distance_to_goal < sweep_threshold and interpolation_x[goal_counter] == goal_x[1] and interpolation_x[goal_counter] == goal_y[1] and interpolation_z[goal_counter] == goal_z[1] and machine_state != MachineState.Manual):
@@ -554,6 +563,7 @@ def main():
 					strmsg = "LEAVING SWEEP AREA"
 					Kp = Kp_reg; Ki = Ki_reg; Kd = Kd_reg;
 					mission_state = MissionState.OutsideSweepArea
+					machine_state = MachineState.FinishedBehavior
 				else:
 					strmsg = "SWEEPING"
 					Kp = Kp_slow; Ki = Ki_slow; Kd = Kd_slow;
@@ -631,6 +641,7 @@ def main():
 		command_state_publisher.publish(headed_str_msg)
 		velocity_publisher.publish(vel)	
 		publishing = False
+		warning_state = WarningState.Default
 		rate.sleep()
 
 if __name__ == "__main__":

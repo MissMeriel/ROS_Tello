@@ -26,13 +26,13 @@ class MissionState(Enum):
 	Default = 0
 	FinishedBehavior = 1	#done sweeping
 	Complete = 2	#back at home base
-	WaitingForUser = 3
+	WaitingForUser = 3 #can be handled by "Suspended"
 	InProgress = 4	#sweeping or in manual mode
-	InsideSweepArea = 5
-	OutsideSweepArea = 6
-	Suspended = 7
+	InsideSweepArea = 5 #reached sweep area
+	OutsideSweepArea = 6 #approaching sweep area
+	Suspended = 7 #loss of vicon
 	PossibleTargetDetected = 8
-	Abort = 9
+	Abort = 9 #emergency land
 
 class UserState(Enum):
 	Default = 0

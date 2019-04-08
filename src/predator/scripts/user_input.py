@@ -15,7 +15,7 @@ from std_msgs.msg import String
 from std_msgs.msg import Bool
 from std_msgs.msg import Int64
 from dronet_tello.msg import HeadedString
-from PredatorEnum import MachineState, MissionState, UserState, UserCommand, WarningState
+from PredatorEnum import MachineState, MissionState, UserState, UserCommand, WarningState, CommandState
 
 obstacle_detected = False
 obstacle_dyn = False
@@ -110,7 +110,7 @@ def process_warning_state(msg):
 	global warning_state, vicon_restored
 	vicon_restored = False
 	strdata = str(msg.data)
-	if("Vicon" in warning_state and strdata == str(WarningState.Default)):
+	if("Vicon" in str(warning_state) and strdata == str(WarningState.Default)):
 		vicon_restored = True
 	if(strdata == str(WarningState.NoVicon)):
 		warning_state = WarningState.NoVicon
@@ -121,6 +121,15 @@ def process_warning_state(msg):
 	elif(strdata == str(WarningState.Default)):
 		warning_state = WarningState.Default
 	#print("warning_state: "+str(strdata))
+
+
+def process_command_state(msg):
+	global command_state
+	strdata = str(msg.data)
+	if(strdata == str(CommandState.Auto)):
+		command_state = CommandState.Auto
+	if(strdata == str(CommandState.Manual)):
+		command_state = CommandState.Manual
 
 
 def readInputEmergencyLand():
@@ -287,8 +296,9 @@ def main():
 	user_input_publisher = rospy.Publisher("/user_input", HeadedString, queue_size=10)
 	machine_state_subscriber = rospy.Subscriber("/machine_state", HeadedString, process_machine_state, queue_size=1)
 	mission_state_subscriber = rospy.Subscriber("/mission_state", HeadedString, process_mission_state, queue_size=1)
-	error_state_subscriber = rospy.Subscriber("/warning_state", HeadedString, process_warning_state, queue_size=2)
+	warning_state_subscriber = rospy.Subscriber("/warning_state", HeadedString, process_warning_state, queue_size=2)
 	vel = Twist()
+	command_state_subscriber = rospy.Subscriber("/command_state", HeadedString, process_command_state, queue_size=2)
 	print("To request emergency land at any time, input \"land\".")
 	print("To request auto control at any time, input \"auto\".")
 	while not rospy.is_shutdown():

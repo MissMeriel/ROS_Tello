@@ -43,7 +43,7 @@
 	</node>
 
 	<!--<node pkg="rqt_graph" type="rqt_graph" name="rqt_graph"/>-->
-	<node pkg="rosbag" type="record" name="rosbag_record" args="record -o $(find dronet_tello)/../../sweep_for_target_ /rosout /velocity /flight_data /state /user_input /obstacle_detector /keys_enabled /obstacle_dyn /vicon/TELLO/TELLO /vicon/OBSTACLE/OBSTACLE /mission_state /machine_state /is_user1_watching_drone  /is_user2_watching_drone /vicon/PLAYER1/PLAYER1 /vicon/PLAYER2/PLAYER2 /distance_to_user1 /distance_to_user2 /distance_to_obstacle /key_state" />
+	<node pkg="rosbag" type="record" name="rosbag_record" args="record -o $(find dronet_tello)/../../sweep_for_target /rosout /velocity /flight_data /state /user_input /vicon/TELLO/TELLO /mission_state /machine_state /warning_state /command_state /visp_auto_tracker/status /visp_auto_tracker/object_position /kill" />
 
 </launch>
 
