@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+<root>
+
+        <h>
+                <var name="user_input8.data"/>
+        </h>
+
+        <m>
+                <var name="viconTELLOTELLO0.transform.translation.x"/>
+                <var name="viconTELLOTELLO0.transform.translation.y"/>
+                <var name="viconTELLOTELLO0.transform.translation.z"/>
+                <var name="viconTELLOTELLO0.transform.rotation.x"/>
+                <var name="viconTELLOTELLO0.transform.rotation.y"/>
+                <var name="viconTELLOTELLO0.transform.rotation.z"/>
+                <var name="viconTELLOTELLO0.transform.rotation.w"/>
+
+                <var name="velocity1.linear.x"/>
+                <var name="velocity1.linear.y"/>
+                <var name="velocity1.linear.z"/>
+
+                <var name="visp_auto_trackerobject_position3.pose.position.z"/>
+                <var name="visp_auto_trackerobject_position3.pose.position.y"/>
+                <var name="visp_auto_trackerobject_position3.pose.position.x"/>
+
+                <var name="command_state5.data"/>
+                <var name="machine_state6.data"/>
+                <var name="mission_state7.data"/>
+                <var name="warning_state4.data"/>
+
+                <var name="user_input8.data"/>
+        </m>
+
+        <h2m>
+                <var name="user_input8.data"/>
+        </h2m>
+
+        <m2h>
+                <var name="command_state5.data"/>
+                <var name="machine_state6.data"/>
+                <var name="mission_state7.data"/>
+                <var name="warning_state4.data"/>
+        </m2h>
+
+        <other>
+        </other>
+
+        <relations>
+                <relate types="h m"/>
+                <relate types="h m2h"/>
+                <relate types="h h2m"/>
+                <relate types="h2m m2h"/>
+                <relate types="m h2m"/>
+                <!--<relate types="">-->
+        </relations>
+
+</root>
+

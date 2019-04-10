@@ -38,6 +38,7 @@ class UserState(Enum):
 	Default = 0
 	WatchingDrone = 1
 	WatchingScreen = 2
+	Fatigued = 3
 
 class UserCommand(Enum):
 	Default = 0
@@ -58,3 +59,15 @@ class CommandState(Enum):
 	Default = 0
 	Auto = 1
 	Manual = 2
+
+class VelocityState(Enum):
+	Default = 0
+	Slow = 1
+	Medium = 2
+	Fast = 3
+
+class BatteryState(Enum):
+	Default = 0
+	Low = 1
+	Acceptable =  2
+	High = 3

@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+
+<nodes>
+	<node name="sweep_for_target" topics_in="/vicon/TELLO/TELLO /velocity /visp_auto_tracker/status /visp_auto_tracker/object_position /warning_state /command_state /machine_state /mission_state /user_input /flight_data" topics_out="/velocity /warning_state /command_state /machine_state /mission_state"/>
+	<node name="user_input" topics_in="/vicon/TELLO/TELLO /machine_state /mission_state /warning_state /flight_data" topics_out="/user_input"/>
+	<node name="key_vel" topics_in="/user_input /flight_data" topics_out="/velocity"/>
+	<!-- <node name="" topics_in="" topics_out=""/> -->
+</nodes>

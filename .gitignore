@@ -1,9 +1,10 @@
 *.jar
 *.class
-*/*.inv.gz
+*/*/*.inv.gz
 */*.zip
-*/*.dtrace
-*/*.decls
+*/*/*.dtrace
+*/demo*/*.bag
+*/*/*.decls
 clean_bags/demo1_2018-12-21-10-37-25.dtrace
 clean_bags/demo1_2018-12-21-10-37-25.inv.gz
 build

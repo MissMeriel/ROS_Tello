@@ -54,6 +54,7 @@ add_message_files(
   FlightData.msg
   HeadedString.msg
   HeadedBool.msg
+  UserInput.msg
 )
 
 ## Generate services in the 'srv' folder

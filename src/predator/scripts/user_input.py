@@ -15,6 +15,7 @@ from std_msgs.msg import String
 from std_msgs.msg import Bool
 from std_msgs.msg import Int64
 from dronet_tello.msg import HeadedString
+from dronet_tello.msg import UserInput
 from PredatorEnum import MachineState, MissionState, UserState, UserCommand, WarningState, CommandState
 
 obstacle_detected = False
@@ -293,7 +294,7 @@ def main():
 	rospy.init_node("user_input", anonymous=True)
 	dt = 0.200
 	rate = rospy.Rate(dt)
-	user_input_publisher = rospy.Publisher("/user_input", HeadedString, queue_size=10)
+	user_input_publisher = rospy.Publisher("/user_input", UserInput, queue_size=10)
 	machine_state_subscriber = rospy.Subscriber("/machine_state", HeadedString, process_machine_state, queue_size=1)
 	mission_state_subscriber = rospy.Subscriber("/mission_state", HeadedString, process_mission_state, queue_size=1)
 	warning_state_subscriber = rospy.Subscriber("/warning_state", HeadedString, process_warning_state, queue_size=2)
@@ -301,18 +302,38 @@ def main():
 	command_state_subscriber = rospy.Subscriber("/command_state", HeadedString, process_command_state, queue_size=2)
 	print("To request emergency land at any time, input \"land\".")
 	print("To request auto control at any time, input \"auto\".")
+	seq = 0
 	while not rospy.is_shutdown():
 		#TODO: test threading + timeout
-		#print("machine_state:"+str(machine_state)+"\nmission_state: "+str(mission_state)+"\nwarning_state: "+str(warning_state)+"\nuser_cmd: "+str(user_cmd)) 
+		#print("machine_state:"+str(machine_state)+"\nmission_state: "+str(mission_state)+"\nwarning_state: "+str(warning_state)+"\nuser_cmd: "+str(user_cmd))
+		prompt_time = rospy.Time.now()
 		answer = str(readInputBehavior())
 		if("invalid" not in answer and "Default" not in answer):
 			print(answer)
 			h = std_msgs.msg.Header()
 			h.stamp = rospy.Time.now()
+			seq += 1
+			h.seq = seq
 			headed_str_msg = HeadedString()
 			headed_str_msg.header = h
 			headed_str_msg.data = answer
-			user_input_publisher.publish(headed_str_msg)
+			reaction_time_secs = h.stamp.secs - prompt_time.secs
+			reaction_time_nsecs = h.stamp.nsecs - prompt_time.nsecs
+			if(h.stamp.nsecs < prompt_time.nsecs):
+				print("nsecs were negative")
+				reaction_time_float = reaction_time_secs - (reaction_time_nsecs * 10 **-9)
+				print(reaction_time_float)
+				reaction_time_secs = int(reaction_time_float)
+				reaction_time_nsecs = (reaction_time_float - reaction_time_secs) * 10 ** 9
+			print("reaction_time: %d %d" %(reaction_time_secs, reaction_time_nsecs))
+			user_input_msg = UserInput()
+			user_input_msg.header = h
+			user_input_msg.data = answer
+			user_input_msg.reaction_time.secs = reaction_time_secs
+			user_input_msg.reaction_time.nsecs = reaction_time_nsecs
+			print(user_input_msg)
+			print
+			user_input_publisher.publish(user_input_msg)
 			sent = 1
 			#while(sent < 1):
 			#	user_input_publisher.publish(headed_str_msg)

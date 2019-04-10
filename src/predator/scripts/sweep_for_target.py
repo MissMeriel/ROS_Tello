@@ -16,7 +16,7 @@ from dronet_tello.msg import FlightData
 from dronet_tello.msg import HeadedBool 
 from dronet_tello.msg import HeadedString
 import rosgraph.impl.graph as rig
-from PredatorEnum import MachineState, MissionState, UserState, UserCommand, WarningState, CommandState
+from PredatorEnum import MachineState, MissionState, UserState, UserCommand, WarningState, CommandState, VelocityState
 
 #take in form of x1,x2,x3,x4...
 goal_x = sys.argv[1]
@@ -180,6 +180,16 @@ def process_visp_position(msg):
 	target_position_angle = math.atan2(siny_cosp, cosy_cosp);
 
 
+def determine_velocity_enum(vel):
+	velocity = math.sqrt(vel.linear.x**2 + vel.linear.y**2 + vel.linear.z**2)
+	if(velocity < 0.3):
+		return VelocityState.Slow
+	elif(velocity < 0.67):
+		return VelocityState.Medium
+	else:
+		return VelocityState.Fast
+
+
 def percent_mission_completed(goal_counter):
 	global goal_x, goal_y, interpolation_x, interpolation_y, interpolation_z
 	total_distance = 0.0
@@ -214,6 +224,7 @@ def main():
 	mission_state_publisher = rospy.Publisher("/mission_state", HeadedString, queue_size=1)
 	warning_state_publisher = rospy.Publisher("/warning_state", HeadedString, queue_size=1)
 	command_state_publisher = rospy.Publisher("/command_state", HeadedString, queue_size=1)
+	velocity_state_publisher = rospy.Publisher("/velocity_state", HeadedString, queue_size=1)
 	position_subscriber = rospy.Subscriber("/vicon/TELLO/TELLO", TransformStamped, vicon_data, queue_size=10)
 	input_subscriber = rospy.Subscriber("/user_input", HeadedString, process_user_input, queue_size=1)
 	flight_data_subscriber = rospy.Subscriber("/flight_data", FlightData, process_flight_data, queue_size=5)
@@ -375,6 +386,7 @@ def main():
 			vel.linear.z = 0
 			warning_state = str(WarningState.NoVicon)
 			machine_state = str(MachineState.Hovering)
+			mission_state = str(MissionState.Suspended)
 			print(str(WarningState.NoVicon))
 			print(str(MachineState.Hovering))
 			print(str(mission_state))
@@ -434,6 +446,8 @@ def main():
 		elif(distance_to_goal < sweep_threshold and z_distance_to_goal < sweep_threshold and abs(interpolation_x[goal_counter] - home_x) < sweep_threshold and abs(interpolation_y[goal_counter] - home_y) < sweep_threshold and machine_state != MachineState.Manual):
 			vel.linear.x = 0
 			vel.linear.y = 0
+			machine_state = MachineState.Hovering
+			mission_state = MissionState.Complete
 			if(hover_count > 2):
 				vel.linear.z = -200
 				velocity_publisher.publish(vel)
@@ -559,16 +573,21 @@ def main():
 			else:
 				if(goal_counter == 0):
 					strmsg = "APPROACHING SWEEP AREA"
+					machine_state = MachineState.OutsideSweepArea
+					mission_state = MissionState.OutsideSweepArea
+
 				elif(goal_counter == len(interpolation_x)-1):
 					strmsg = "LEAVING SWEEP AREA"
 					Kp = Kp_reg; Ki = Ki_reg; Kd = Kd_reg;
-					mission_state = MissionState.OutsideSweepArea
 					machine_state = MachineState.FinishedBehavior
+					mission_state = MissionState.OutsideSweepArea
+
 				else:
 					strmsg = "SWEEPING"
 					Kp = Kp_slow; Ki = Ki_slow; Kd = Kd_slow;
 					machine_state = MachineState.Sweeping
 					mission_state = MissionState.InsideSweepArea
+
 				error = distance_to_goal
 				derivative = (error - previous_error) / dt
 				integral = integral + (error * dt)
@@ -627,6 +646,8 @@ def main():
 		print(str(warning_state))
 		print(str(user_input))
 		print(str(command_state))
+		vel_enum = determine_velocity_enum(vel)
+		print(str(vel_enum))
 		h = std_msgs.msg.Header()
 		h.stamp = rospy.Time.now()
 		headed_str_msg = HeadedString()
@@ -639,6 +660,10 @@ def main():
 		warning_state_publisher.publish(headed_str_msg)
 		headed_str_msg.data = str(command_state)
 		command_state_publisher.publish(headed_str_msg)
+		#determine velocity state
+
+		headed_str_msg.data = str(vel_enum)
+		velocity_state_publisher.publish()
 		velocity_publisher.publish(vel)	
 		publishing = False
 		warning_state = WarningState.Default
